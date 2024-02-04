@@ -15,6 +15,8 @@ import { AuthMessage } from '@core/common/resource/message/AuthMessage';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { User } from '@core/common/decorator/UserDecorator';
 import { TokenPayload } from '@core/common/util/jwt/JwtUtil';
+import { ForgetPasswordRequest } from './entity/request/ForgetPasswordRequest';
+import { ChangePasswordRequest } from './entity/request/ChangePasswordRequest';
 
 @Controller('auth')
 export class AuthController {
@@ -51,5 +53,21 @@ export class AuthController {
     await this.authService.handleSignOut(user.id);
 
     return AuthMessage.SIGN_OUT_SUCCESSFULLY;
+  }
+
+  @Post('forget-password')
+  @HttpCode(HttpStatus.OK)
+  async forgetPassword(@Body() body: ForgetPasswordRequest) {
+    await this.authService.handleForgetPassword(body.email);
+
+    return AuthMessage.SEND_MAIL_VERIFY_FORGET_PASSWORD_SUCCESSFULLY;
+  }
+
+  @Post('forget-password/change-password')
+  @HttpCode(HttpStatus.OK)
+  async changePassword(@Body() body: ChangePasswordRequest, @Param('token') token: string) {
+    await this.authService.handleChangePassword(token, body.password);
+
+    return AuthMessage.CHANGE_PASSWORD_SUCCESSFULLY;
   }
 }

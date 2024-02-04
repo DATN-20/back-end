@@ -43,4 +43,16 @@ export class UserRepository extends BaseRepository {
 
     return await this.getById(id);
   }
+
+  async updatePassword(id: number, new_password: string): Promise<User> {
+    await this.database
+      .update(users)
+      .set({
+        password: new_password,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, id));
+
+    return await this.getById(id);
+  }
 }

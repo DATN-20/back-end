@@ -71,4 +71,26 @@ export class AuthService {
   async handleSignOut(id: number): Promise<void> {
     await this.userRepository.updateToken(id);
   }
+
+  async handleForgetPassword(email: string): Promise<void> {
+    const matched_user = await this.userRepository.getByEmail(email);
+
+    if (!matched_user) {
+      throw new Exception(AuthError.MAIL_NOT_MATCHED_WITH_ANY_USER);
+    }
+
+    const token = this.jwtUtil.signToken<TokenPayload>(
+      {
+        id: matched_user.id,
+      },
+      JwtType.FORGET_PASSWORD,
+    );
+
+    // send mail
+  }
+
+  async handleChangePassword(token: string, new_password: string): Promise<void> {
+    const payload = this.jwtUtil.verify<TokenPayload>(token, JwtType.FORGET_PASSWORD);
+    await this.userRepository.updatePassword(payload.id, new_password);
+  }
 }
