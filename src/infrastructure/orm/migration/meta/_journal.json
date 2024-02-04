@@ -15,6 +15,20 @@
       "when": 1706930432467,
       "tag": "0001_slimy_hex",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1706946528463,
+      "tag": "0002_superb_taskmaster",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1706972097232,
+      "tag": "0003_lush_wolf_cub",
+      "breakpoints": true
     }
   ]
 }

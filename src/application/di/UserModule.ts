@@ -1,11 +1,10 @@
 import { UserController } from '@core/module/user/UserController';
 import { UserRepository } from '@core/module/user/UserRepository';
 import { UserService } from '@core/module/user/UserService';
-import { DrizzleModule } from '@infrastructure/orm/DrizzleModule';
 import { Module } from '@nestjs/common';
 
 @Module({
-  imports: [DrizzleModule],
+  imports: [],
   controllers: [UserController],
   providers: [UserService, UserRepository],
   exports: [UserService, UserRepository],

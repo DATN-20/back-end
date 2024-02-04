@@ -1,17 +1,46 @@
 import { BaseRepository } from '@core/common/repository/BaseRepository';
-import { User } from './entity/User';
 import { users } from '@infrastructure/orm/schema';
+import { User } from './entity/User';
+import { eq } from 'drizzle-orm';
 
 export class UserRepository extends BaseRepository {
-  async createUser(user: User) {
-    // const result = await this.db.transaction(async (tx) => {
-    //   const result = await tx.insert(users).values(user);
-    //   if (!result) {
-    //     tx.rollback();
-    //     return;
-    //   }
-    //   return result[0];
-    // });
-    // return result.insertId;
+  async create(user: {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+  }): Promise<User> {
+    const result = await this.database.insert(users).values(user);
+
+    return await this.getById(result[0].insertId);
+  }
+
+  async getById(id: number): Promise<User> {
+    return this.database.query.users.findFirst({
+      where: (users, { eq }) => eq(users.id, id),
+    });
+  }
+
+  async getByEmail(email: string): Promise<User> {
+    return this.database.query.users.findFirst({
+      where: (users, { eq }) => eq(users.email, email),
+    });
+  }
+
+  async updateToken(
+    id: number,
+    access_token: string = null,
+    refresh_token: string = null,
+  ): Promise<User> {
+    await this.database
+      .update(users)
+      .set({
+        accessToken: access_token,
+        refeshToken: refresh_token,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, id));
+
+    return await this.getById(id);
   }
 }
