@@ -93,4 +93,33 @@ export class AuthService {
     const payload = this.jwtUtil.verify<TokenPayload>(token, JwtType.FORGET_PASSWORD);
     await this.userRepository.updatePassword(payload.id, new_password);
   }
+
+  async handleRefreshToken(token: string): Promise<SignInResponse> {
+    const payload = this.jwtUtil.verify<TokenPayload>(token, JwtType.REFRESH);
+    let matched_user = await this.userRepository.getById(payload.id);
+
+    if (matched_user.refeshToken !== token) {
+      throw new Exception(AuthError.INVALID_TOKEN_USER);
+    }
+
+    const access_token = await this.jwtUtil.signToken<TokenPayload>(
+      {
+        id: matched_user.id,
+      },
+      JwtType.ACCESS,
+    );
+    const refresh_token = await this.jwtUtil.signToken<TokenPayload>(
+      {
+        id: matched_user.id,
+      },
+      JwtType.REFRESH,
+    );
+    matched_user = await this.userRepository.updateToken(
+      matched_user.id,
+      access_token,
+      refresh_token,
+    );
+
+    return SignInResponse.convertFromUser(matched_user);
+  }
 }
