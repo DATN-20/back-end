@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './AuthService';
 import { CreateNewUserRequest } from './entity/request/CreateNewUserRequest';
 import { LoginUserRequest } from './entity/request/LoginUserRequest';
@@ -17,6 +8,7 @@ import { User } from '@core/common/decorator/UserDecorator';
 import { TokenPayload } from '@core/common/util/jwt/JwtUtil';
 import { ForgetPasswordRequest } from './entity/request/ForgetPasswordRequest';
 import { ChangePasswordRequest } from './entity/request/ChangePasswordRequest';
+import { RefreshTokenRequest } from './entity/request/RefreshTokenRequest';
 
 @Controller('auth')
 export class AuthController {
@@ -69,5 +61,13 @@ export class AuthController {
     await this.authService.handleChangePassword(token, body.password);
 
     return AuthMessage.CHANGE_PASSWORD_SUCCESSFULLY;
+  }
+
+  @Post('refresh-token')
+  @HttpCode(HttpStatus.OK)
+  async refreshToken(@Body() body: RefreshTokenRequest) {
+    const result = await this.authService.handleRefreshToken(body.token);
+
+    return result.toJson();
   }
 }

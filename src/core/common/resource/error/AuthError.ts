@@ -14,7 +14,12 @@ export class AuthError {
   };
   public static MAIL_NOT_MATCHED_WITH_ANY_USER: ErrorBase = {
     error_code: '01003',
-    message: 'Mail is matched with any user!',
+    message: 'Mail is not matched with any user!',
     status_code: HttpStatus.BAD_REQUEST,
+  };
+  public static INVALID_TOKEN_USER: ErrorBase = {
+    error_code: '01004',
+    message: 'Invalid token!',
+    status_code: HttpStatus.FORBIDDEN,
   };
 }

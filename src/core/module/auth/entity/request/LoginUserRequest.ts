@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, Length } from 'class-validator';
+import { AuthConstant } from '../../AuthConstant';
 
 export class LoginUserRequest {
   @IsNotEmpty()
@@ -7,5 +8,6 @@ export class LoginUserRequest {
 
   @IsNotEmpty()
   @IsString()
+  @Length(AuthConstant.MIN_LENGTH_PASSWORD)
   password: string;
 }
