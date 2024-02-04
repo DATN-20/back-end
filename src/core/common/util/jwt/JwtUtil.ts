@@ -19,6 +19,7 @@ export enum JwtType {
   ACCESS = 'ACCESS',
   REFRESH = 'REFRESH',
   MAIL_SIGN_UP = 'MAIL_SIGN_UP',
+  FORGET_PASSWORD = 'FORGET_PASSWORD',
 }
 
 @Global()

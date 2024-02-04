@@ -12,4 +12,9 @@ export class AuthError {
     message: 'Email is used by another user!',
     status_code: HttpStatus.BAD_REQUEST,
   };
+  public static MAIL_NOT_MATCHED_WITH_ANY_USER: ErrorBase = {
+    error_code: '01003',
+    message: 'Mail is matched with any user!',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
 }
