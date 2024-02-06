@@ -8,6 +8,7 @@ import { AuthError } from '@core/common/resource/error/AuthError';
 import { CreateUserPayload, JwtType, JwtUtil, TokenPayload } from '@core/common/util/jwt/JwtUtil';
 import { SignInResponse } from './entity/response/SignInResponse';
 import { MailService } from '@infrastructure/external-services/mail/MailService';
+import { log } from 'console';
 
 @Injectable()
 export class AuthService {
@@ -24,10 +25,13 @@ export class AuthService {
     if (mail_matched_user) {
       throw new Exception(AuthError.MAIL_USED_BY_ANOTHER_USER);
     }
-    //  const user_payload = data.convertToPayloadJwt();
-
-    // send mail  (email, subject, template, username) , template in mail service
-    this.mailService.sendWelcomeMail(data.email, 'Welcome to Our Community', 'Welcome', data.firstName);
+    try {
+      // send mail  (email, subject, template, username) , template in mail service
+      this.mailService.sendMail(data.email, 'Welcome to Our Community', 'Welcome', data);
+    } catch (error) {
+      console.log(error);
+      throw new Exception(AuthError.SEND_MAIL_FAILED);
+    }
   }
 
   async handleSignIn(data: LoginUserRequest): Promise<SignInResponse> {

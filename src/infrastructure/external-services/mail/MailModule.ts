@@ -10,7 +10,9 @@ import { MailConfig } from '@infrastructure/config/MailConfig';
     imports: [
         MailerModule.forRoot({
             transport: {
+                requireTLS: true,
                 host: MailConfig.MAIL_HOST,
+                port: MailConfig.MAIL_PORT,
                 secure: true,
                 auth: {
                     user: MailConfig.MAIL_USER,
@@ -18,12 +20,10 @@ import { MailConfig } from '@infrastructure/config/MailConfig';
                 },
             },
             defaults: {
-                from: '"No Reply" <noreply@example.com>',
+                from: MailConfig.MAIL_FROM,
             },
             template: {
-                // dir: join(process.cwd(), '../templates'),
                 dir: join(process.cwd(), 'src/infrastructure/external-services/mail/templates'),
-
                 adapter: new HandlebarsAdapter(),
                 options: {
                     strict: true,
