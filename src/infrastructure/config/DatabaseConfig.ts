@@ -11,7 +11,7 @@ export class DatabaseConfig {
     .default(3306)
     .asPortNumber();
   public static readonly DATABASE_PASSWORD: string = get('DATABASE_PASSWORD')
-    .default('1234')
+    .default('root')
     .asString();
   public static readonly DATABASE_NAME: string = get('DATABASE_NAME')
     .default('artist')

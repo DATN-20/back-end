@@ -7,6 +7,7 @@ import { Exception } from '@core/common/exception/Exception';
 import { AuthError } from '@core/common/resource/error/AuthError';
 import { CreateUserPayload, JwtType, JwtUtil, TokenPayload } from '@core/common/util/jwt/JwtUtil';
 import { SignInResponse } from './entity/response/SignInResponse';
+import { MailService } from '@infrastructure/external-services/mail/MailService';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +15,8 @@ export class AuthService {
     private readonly userRepository: UserRepository,
     private readonly hashService: BcryptHash,
     private readonly jwtUtil: JwtUtil,
-  ) {}
+    private readonly mailService: MailService,
+  ) { }
 
   async handleSignUp(data: CreateNewUserRequest): Promise<void> {
     const mail_matched_user = await this.userRepository.getByEmail(data.email);
@@ -22,10 +24,10 @@ export class AuthService {
     if (mail_matched_user) {
       throw new Exception(AuthError.MAIL_USED_BY_ANOTHER_USER);
     }
+    //  const user_payload = data.convertToPayloadJwt();
 
-    const user_payload = data.convertToPayloadJwt();
-
-    // send mail
+    // send mail  (email, subject, template, username) , template in mail service
+    this.mailService.sendWelcomeMail(data.email, 'Welcome to Our Community', 'Welcome', data.firstName);
   }
 
   async handleSignIn(data: LoginUserRequest): Promise<SignInResponse> {
