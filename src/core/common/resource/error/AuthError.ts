@@ -22,9 +22,5 @@ export class AuthError {
     message: 'Invalid token!',
     status_code: HttpStatus.FORBIDDEN,
   };
-  public static SEND_MAIL_FAILED: ErrorBase = {
-    error_code: '01005',
-    message: 'Send mail failed!',
-    status_code: HttpStatus.INTERNAL_SERVER_ERROR,
-  };
+
 }

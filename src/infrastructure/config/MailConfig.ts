@@ -5,7 +5,7 @@ export class MailConfig {
         .default('smtp.gmail.com')
         .asString();
     public static readonly MAIL_PORT: string = get('MAIL_PORT')
-        .default('465')
+        .default('587')
         .asString();
     public static readonly MAIL_USER: string = get('MAIL_USER')
         .default('artisticaihubs@gmail.com')
@@ -13,7 +13,5 @@ export class MailConfig {
     public static readonly MAIL_PASSWORD: string = get('MAIL_PASSWORD')
         .default('ijfv ngjo dkre axdb')
         .asString();
-    public static readonly MAIL_FROM: string = get('MAIL_FROM')
-        .default('"No Reply" <noreply@example.com>')
-        .asString();
+    public static readonly MAIL_FROM: string = '"No Reply" <noreply@example.com>';
 }

@@ -25,13 +25,9 @@ export class AuthService {
     if (mail_matched_user) {
       throw new Exception(AuthError.MAIL_USED_BY_ANOTHER_USER);
     }
-    try {
-      // send mail  (email, subject, template, username) , template in mail service
-      this.mailService.sendMail(data.email, 'Welcome to Our Community', 'Welcome', data);
-    } catch (error) {
-      console.log(error);
-      throw new Exception(AuthError.SEND_MAIL_FAILED);
-    }
+
+    this.mailService.sendMail(data.email, 'Welcome to Our Community', 'Welcome', data);
+
   }
 
   async handleSignIn(data: LoginUserRequest): Promise<SignInResponse> {

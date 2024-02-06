@@ -10,10 +10,9 @@ import { MailConfig } from '@infrastructure/config/MailConfig';
     imports: [
         MailerModule.forRoot({
             transport: {
-                requireTLS: true,
                 host: MailConfig.MAIL_HOST,
                 port: MailConfig.MAIL_PORT,
-                secure: true,
+                secure: false,
                 auth: {
                     user: MailConfig.MAIL_USER,
                     pass: MailConfig.MAIL_PASSWORD,
