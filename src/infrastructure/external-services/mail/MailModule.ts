@@ -5,7 +5,6 @@ import { join } from 'path';
 import { MailService } from './MailService';
 import { MailConfig } from '@infrastructure/config/MailConfig';
 
-
 @Module({
     imports: [
         MailerModule.forRoot({

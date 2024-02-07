@@ -12,4 +12,4 @@ import { MailModule } from '@infrastructure/external-services/mail/MailModule';
   providers: [AuthService, BcryptHash, JwtUtil],
   exports: [AuthService],
 })
-export class AuthModule { }
+export class AuthModule {}

@@ -17,7 +17,7 @@ export class AuthService {
     private readonly hashService: BcryptHash,
     private readonly jwtUtil: JwtUtil,
     private readonly mailService: MailService,
-  ) { }
+  ) {}
 
   async handleSignUp(data: CreateNewUserRequest): Promise<void> {
     const mail_matched_user = await this.userRepository.getByEmail(data.email);
@@ -26,8 +26,7 @@ export class AuthService {
       throw new Exception(AuthError.MAIL_USED_BY_ANOTHER_USER);
     }
 
-    this.mailService.sendMail(data.email, 'Welcome to Our Community', 'Welcome', data);
-
+    await this.mailService.sendMail(data.email, 'Welcome to Our Community', 'Welcome', data);
   }
 
   async handleSignIn(data: LoginUserRequest): Promise<SignInResponse> {

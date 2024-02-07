@@ -22,5 +22,4 @@ export class AuthError {
     message: 'Invalid token!',
     status_code: HttpStatus.FORBIDDEN,
   };
-
 }
