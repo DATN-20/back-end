@@ -16,6 +16,7 @@ import { User } from '@core/common/decorator/UserDecorator';
 import { DeleteImageRequest } from './entity/Request/DeleteImageRequest';
 import { ImageResponse } from './entity/Response/ImageResponse';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
+import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 
 @UseGuards(AuthGuard)
 @Controller('images')
@@ -34,11 +35,12 @@ export class ImageController {
 
   @Delete()
   @HttpCode(HttpStatus.OK)
-  async deleteImages(@Body() images: DeleteImageRequest) {
-    return this.imageService.handleDeleteImages(images.ids);
+  async deleteImages(@Body() images: DeleteImageRequest): Promise<string> {
+    await this.imageService.handleDeleteImages(images.ids);
+    return ImageMessage.DELETE_SUCCESS;
   }
 
-  @Get('/all')
+  @Get()
   @HttpCode(HttpStatus.OK)
   async getUserImages(@User() user: number) {
     return this.imageService.handleGetImagesOfUser(user);

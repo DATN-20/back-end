@@ -39,11 +39,10 @@ export class ImageService {
     }
   }
 
-  async handleDeleteImages(imageIds: number[]): Promise<String> {
+  async handleDeleteImages(imageIds: number[]): Promise<void> {
     for (const id of imageIds) {
       this.DeleteImage(id);
     }
-    return ImageMessage.DELETE_SUCCESS;
   }
 
   async DeleteImage(id: number): Promise<void> {

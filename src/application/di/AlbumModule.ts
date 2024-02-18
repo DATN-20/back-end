@@ -5,7 +5,7 @@ import { DrizzleModule } from '@infrastructure/orm/DrizzleModule';
 import { Module } from '@nestjs/common';
 
 @Module({
-  imports: [DrizzleModule],
+  imports: [],
   controllers: [AlbumController],
   providers: [AlbumService, AlbumRepository],
   exports: [AlbumService, AlbumRepository],
