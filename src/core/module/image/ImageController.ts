@@ -11,7 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ImageService } from './ImageService';
-import { FileFieldsInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { User } from '@core/common/decorator/UserDecorator';
 import { DeleteImageRequest } from './entity/Request/DeleteImageRequest';
 import { ImageResponse } from './entity/Response/ImageResponse';
