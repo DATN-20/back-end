@@ -6,6 +6,7 @@ import { AlbumModule } from './AlbumModule';
 import { ImageModule } from './ImageModule';
 import { ImageAlbumModule } from './ImageAlbumModule';
 import { ImageStorageModule } from '@infrastructure/external-services/image-storage/ImageStorageModule';
+import { AIGenerateImageModule } from './AIGenerateImageModule';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ImageStorageModule } from '@infrastructure/external-services/image-stor
     ImageModule,
     ImageAlbumModule,
     ImageStorageModule,
+    AIGenerateImageModule,
   ],
   controllers: [],
   providers: [],
