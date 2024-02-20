@@ -1,4 +1,4 @@
-import { InputPromts } from '@infrastructure/external-services/type/InputPrompts';
+import { InputPromts } from '@infrastructure/external-services/ai-generate-image/type/InputPrompts';
 
 export interface IAIGenerateImageService {
   generateTextToImage(input_promts: InputPromts);

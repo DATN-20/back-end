@@ -1,19 +1,45 @@
 import { IAIGenerateImageService } from '@core/common/interface/IAIGenerateImageService';
-import { InputPromts } from '@infrastructure/external-services/type/InputPrompts';
+import { IImageStorageService } from '@core/common/interface/IImageStorageService';
+import { ComfyUISokcet } from '@core/module/ai-generate-image/socket/ComfyUISocket';
+import { ComfyUIConfig } from '@infrastructure/config/ComfyUIConfig';
+import { InputPromts } from '@infrastructure/external-services/ai-generate-image/type/InputPrompts';
+import { HttpService } from '@nestjs/axios';
+import { Inject, Injectable } from '@nestjs/common';
 
+@Injectable()
 export class ComfyUIService implements IAIGenerateImageService {
-  generateTextToImage(input_promts: InputPromts) {
-    throw new Error('Method not implemented.');
-  }
+  constructor(
+    private httpService: HttpService,
+    @Inject('ImageStorageService') private imageStorageService: IImageStorageService,
+  ) {}
+
+  async generateTextToImage(input_promts: InputPromts) {}
+
   generateImageToImage(input_promts: InputPromts) {
     throw new Error('Method not implemented.');
   }
   getHistory(prompt_id: string) {
     throw new Error('Method not implemented.');
   }
-  getImage(filename: string, subfolder: string, foldertype: string) {
-    throw new Error('Method not implemented.');
+
+  async getImage(filename: string, folder_type: string, subfolder: string = ''): Promise<string> {
+    const { data } = await this.httpService.axiosRef.get(
+      `https://${ComfyUIConfig.COMFYUI_URL}/view`,
+      {
+        params: {
+          filename,
+          subfolder,
+          type: folder_type,
+        },
+        responseType: 'arraybuffer',
+      },
+    );
+
+    const image = await this.imageStorageService.uploadImageWithBuffer(data);
+
+    return image.url;
   }
+
   uploadImage() {
     throw new Error('Method not implemented.');
   }
