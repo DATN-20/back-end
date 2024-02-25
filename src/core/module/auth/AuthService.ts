@@ -9,6 +9,7 @@ import { CreateUserPayload, JwtType, JwtUtil, TokenPayload } from '@core/common/
 import { SignInResponse } from './entity/response/SignInResponse';
 import { MailService } from '@infrastructure/external-services/mail/MailService';
 import { MailTemplate } from '@core/common/enum/MailTemplate';
+import { MailSubject } from '@core/common/enum/MailSubject';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +27,7 @@ export class AuthService {
       throw new Exception(AuthError.MAIL_USED_BY_ANOTHER_USER);
     }
 
-    await this.mailService.sendMail(data.email, 'Welcome to Our Community', MailTemplate.WELCOME, data);
+    await this.mailService.sendMail(data.email, MailSubject.WELCOME, MailTemplate.WELCOME, data);
   }
 
   async handleSignIn(data: LoginUserRequest): Promise<SignInResponse> {
