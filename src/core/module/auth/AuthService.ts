@@ -10,6 +10,8 @@ import { SignInResponse } from './entity/response/SignInResponse';
 import { MailService } from '@infrastructure/external-services/mail/MailService';
 import { MailTemplate } from '@core/common/enum/MailTemplate';
 import { MailSubject } from '@core/common/enum/MailSubject';
+import { ApiServerConfig } from '@infrastructure/config/ApiServerConfig';
+import { FrontEndConfig } from '@infrastructure/config/FrontEndConfig';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +20,7 @@ export class AuthService {
     private readonly hashService: BcryptHash,
     private readonly jwtUtil: JwtUtil,
     private readonly mailService: MailService,
-  ) { }
+  ) {}
 
   async handleSignUp(data: CreateNewUserRequest): Promise<void> {
     const mail_matched_user = await this.userRepository.getByEmail(data.email);
@@ -27,7 +29,13 @@ export class AuthService {
       throw new Exception(AuthError.MAIL_USED_BY_ANOTHER_USER);
     }
 
-    await this.mailService.sendMail(data.email, MailSubject.WELCOME, MailTemplate.WELCOME, data);
+    const token_register = this.jwtUtil.signToken<CreateUserPayload>(data, JwtType.MAIL_SIGN_UP);
+    await this.mailService.sendMail<string>(
+      data.email,
+      MailSubject.REGISTER_ACCOUNT,
+      MailTemplate.REGISTER_ACCOUNT,
+      `${ApiServerConfig.SERVER_URL}/api/v1/auth/signup/verify?token=${token_register}`,
+    );
   }
 
   async handleSignIn(data: LoginUserRequest): Promise<SignInResponse> {
@@ -43,13 +51,13 @@ export class AuthService {
       throw new Exception(AuthError.WRONG_USERNAME_OR_PASSWORD);
     }
 
-    const access_token = await this.jwtUtil.signToken<TokenPayload>(
+    const access_token = this.jwtUtil.signToken<TokenPayload>(
       {
         id: user.id,
       },
       JwtType.ACCESS,
     );
-    const refresh_token = await this.jwtUtil.signToken<TokenPayload>(
+    const refresh_token = this.jwtUtil.signToken<TokenPayload>(
       {
         id: user.id,
       },
@@ -81,14 +89,23 @@ export class AuthService {
       throw new Exception(AuthError.MAIL_NOT_MATCHED_WITH_ANY_USER);
     }
 
-    const token = this.jwtUtil.signToken<TokenPayload>(
+    const token_forget_password = this.jwtUtil.signToken<TokenPayload>(
       {
         id: matched_user.id,
       },
       JwtType.FORGET_PASSWORD,
     );
 
-    // send mail
+    await this.mailService.sendMail<{ name: string; token: string; url: string }>(
+      matched_user.email,
+      MailSubject.FORGET_PASSWORD,
+      MailTemplate.FORGET_PASSWORD,
+      {
+        name: matched_user.firstName,
+        token: token_forget_password,
+        url: `${FrontEndConfig.FRONT_END_URL}/${FrontEndConfig.URL_PATTERN_FORGET_PASSWORD}?token=${token_forget_password}`,
+      },
+    );
   }
 
   async handleChangePassword(token: string, new_password: string): Promise<void> {
