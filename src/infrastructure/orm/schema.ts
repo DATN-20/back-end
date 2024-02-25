@@ -36,6 +36,7 @@ export const images = mysqlTable('images', {
   promp: text('promp'),
   additionInfo: text('addition_info'),
   createdAt: timestamp('created_at').defaultNow(),
+  storageId: text('storage_id'),
 });
 
 export const albums = mysqlTable('albums', {
