@@ -8,6 +8,9 @@
 .idea/**/tasks.xml
 .idea/dictionaries
 
+# Ignore Visual Studio Code folder
+.vscode/
+
 # Sensitive or high-churn files:
 .idea/**/dataSources/
 .idea/**/dataSources.ids
