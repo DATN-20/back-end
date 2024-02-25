@@ -1,3 +1,5 @@
 export enum MailTemplate {
-    WELCOME = "Welcome",
+  WELCOME = 'Welcome',
+  REGISTER_ACCOUNT = 'VerifyRegister',
+  FORGET_PASSWORD = 'ForgetPassword',
 }
