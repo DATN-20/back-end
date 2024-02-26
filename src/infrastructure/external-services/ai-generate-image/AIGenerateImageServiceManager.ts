@@ -15,18 +15,18 @@ export class AIGenerateImageServiceManger {
     };
   }
 
-  async generateTextToImage(aIName: string, input_promts: InputPromts) {
-    this.CheckAIValid(aIName);
-    return this.aIList[aIName].generateTextToImage(input_promts);
+  async generateTextToImage(ai_name: string, input_promts: InputPromts) {
+    this.CheckAIValid(ai_name);
+    return this.aIList[ai_name].generateTextToImage(input_promts);
   }
 
-  async generateImageToImage(aiName: string, input_promts: InputPromts) {
-    this.CheckAIValid(aiName);
-    return this.aIList[aiName].generateImageToImage(input_promts);
+  async generateImageToImage(ai_name: string, input_promts: InputPromts) {
+    this.CheckAIValid(ai_name);
+    return this.aIList[ai_name].generateImageToImage(input_promts);
   }
 
-  CheckAIValid(aIname) {
-    if (!(aIname in this.aIList)) {
+  CheckAIValid(ai_name) {
+    if (!(ai_name in this.aIList)) {
       throw new Exception(AIGenerateImageError.INVALID_AI_NAME);
     }
   }

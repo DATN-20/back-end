@@ -7,12 +7,12 @@ export class SliderInput extends GenerateInput {
   constructor(
     name: string,
     desc: string,
-    defaultValue: any,
+    default_value: any,
     min: number,
     max: number,
     step: number,
   ) {
-    super(name, desc, defaultValue);
+    super(name, desc, default_value);
     this.typeName = 'text';
     this.max = max;
     this.min = min;
