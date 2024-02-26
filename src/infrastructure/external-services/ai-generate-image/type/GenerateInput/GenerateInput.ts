@@ -1,6 +1,5 @@
 export class GenerateInput {
   name: string;
-  value: any;
   default: any;
   typeName: string;
   desc: string;
@@ -20,5 +19,9 @@ export class GenerateInput {
       default: this.default,
       info: this.additionInfo(),
     });
+  }
+
+  validate(val) {
+    return true;
   }
 }

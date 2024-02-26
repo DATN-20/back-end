@@ -11,4 +11,5 @@ export class InputPromts {
   cfg: number;
   image: Buffer[];
   noise: number;
+  filename: string;
 }

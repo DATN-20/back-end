@@ -3,4 +3,5 @@ import { InputPromts } from '@infrastructure/external-services/ai-generate-image
 export interface IAIGenerateImageService {
   generateTextToImage(input_promts: InputPromts);
   generateImageToImage(input_promts: InputPromts);
+  getAIInfo();
 }

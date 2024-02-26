@@ -1,8 +1,8 @@
-import { AIGenerateImageController } from '@infrastructure/external-services/ai-generate-image/AIGenerateImageController';
 import { ComfyUIService } from '@infrastructure/external-services/ai-generate-image/comfyui/ComfyUIService';
 import { ImageStorageModule } from '@infrastructure/external-services/image-storage/ImageStorageModule';
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
+import { AIGenerateImageServiceManger } from './AIGenerateImageServiceManager';
 
 @Module({
   imports: [HttpModule, ImageStorageModule],
@@ -11,8 +11,8 @@ import { Module } from '@nestjs/common';
       provide: 'ComfyUIService',
       useClass: ComfyUIService,
     },
+    AIGenerateImageServiceManger,
   ],
-  controllers: [AIGenerateImageController],
-  exports: [],
+  exports: [AIGenerateImageServiceManger],
 })
 export class AIGenerateImageModule {}
