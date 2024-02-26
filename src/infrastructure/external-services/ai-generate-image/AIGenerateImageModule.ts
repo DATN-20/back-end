@@ -6,13 +6,7 @@ import { AIGenerateImageServiceManger } from './AIGenerateImageServiceManager';
 
 @Module({
   imports: [HttpModule, ImageStorageModule],
-  providers: [
-    {
-      provide: 'ComfyUIService',
-      useClass: ComfyUIService,
-    },
-    AIGenerateImageServiceManger,
-  ],
+  providers: [ComfyUIService, AIGenerateImageServiceManger],
   exports: [AIGenerateImageServiceManger],
 })
 export class AIGenerateImageModule {}

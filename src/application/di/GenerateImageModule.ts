@@ -5,9 +5,10 @@ import { AIGenerateImageModule } from '@infrastructure/external-services/ai-gene
 import { ImageStorageModule } from '@infrastructure/external-services/image-storage/ImageStorageModule';
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
+import { UserModule } from './UserModule';
 
 @Module({
-  imports: [HttpModule, ImageStorageModule, AIGenerateImageModule],
+  imports: [HttpModule, ImageStorageModule, AIGenerateImageModule, UserModule],
   providers: [JwtUtil, GenerateImageService],
   controllers: [GenerateImageController],
   exports: [],

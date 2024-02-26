@@ -4,10 +4,7 @@ import { GenerateInputs } from './entity/request/GenerateInputs';
 
 @Injectable()
 export class GenerateImageService {
-  constructor(
-    @Inject('AIGenerateImageServiceManger')
-    private aIGenerateImageServiceManger: AIGenerateImageServiceManger,
-  ) {}
+  constructor(private aIGenerateImageServiceManger: AIGenerateImageServiceManger) {}
 
   async handleGenerateTextToImg(user_id: number, generate_inputs: GenerateInputs) {
     return this.aIGenerateImageServiceManger.generateTextToImage(
