@@ -87,7 +87,7 @@ export class ComfyUIService implements IAIGenerateImageService {
 
   async getImages(web_socket: ComfyUISokcet, prompt: string) {
 
-    const prompt_id = await this.queuePrompt(prompt, web_socket.getClientId())['prompt_id'];
+    const prompt_id = await this.queuePrompt(prompt, web_socket.getClientId());
 
     return new Promise<string[]>((resolve, reject) => {
       web_socket.getExecutedResultFromMessage(prompt_id, async (output_images) => {
