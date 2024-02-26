@@ -4,7 +4,6 @@ import { Exception } from '@core/common/exception/Exception';
 import { ImageError } from '@core/common/resource/error/ImageError';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
 import { ImageResponse } from './entity/Response/ImageResponse';
-import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 
 @Injectable()
 export class ImageService {

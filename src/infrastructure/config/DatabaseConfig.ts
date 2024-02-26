@@ -8,7 +8,6 @@ export class DatabaseConfig {
   public static readonly DATABASE_PORT: number = get('DATABASE_PORT').default(3306).asPortNumber();
   public static readonly DATABASE_PASSWORD: string = get('DATABASE_PASSWORD')
     .default('root')
-    // .default('1234')
     .asString();
   public static readonly DATABASE_NAME: string = get('DATABASE_NAME').default('artist').asString();
 }

@@ -5,4 +5,5 @@ export interface IAIGenerateImageService {
   generateImageToImage(input_promts: InputPromts);
   getHistory(promptId: string);
   uploadImage(input_path, name, image_type: string, overwrite: boolean);
+  getAIInfo();
 }
