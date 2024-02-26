@@ -29,7 +29,7 @@ export class GenerateInputs {
   @IsOptional()
   noise: number;
 
-  convertToInputPrompts(user_id: number) {
+  public convertToInputPrompts(user_id: number): InputPromts {
     const result: InputPromts = {
       style: this.style,
       positivePrompt: this.positivePrompt,

@@ -19,9 +19,11 @@ export class ComfyUIService implements IAIGenerateImageService {
   constructor(
     private httpService: HttpService,
     @Inject('ImageStorageService') private imageStorageService: IImageStorageService,
-  ) { }
+  ) {}
 
-  private jsonFilePath = './workflow-json-files/';
+  private jsonFilePath =
+    process.cwd() +
+    '/src/infrastructure/external-services/ai-generate-image/comfyui/workflow-json-files/';
   private info = new ComfyUIInfo();
 
   async generateTextToImage(input_promts: InputPromts): Promise<string[]> {
@@ -31,7 +33,6 @@ export class ComfyUIService implements IAIGenerateImageService {
 
     return result;
   }
-
 
   generateImageToImage(input_promts: InputPromts) {
     throw new Error('Method not implemented.');
@@ -49,7 +50,7 @@ export class ComfyUIService implements IAIGenerateImageService {
 
   async getImage(filename: string, folder_type: string, subfolder: string = ''): Promise<string> {
     const { data } = await this.httpService.axiosRef.get(
-      `https://${ComfyUIConfig.COMFYUI_URL}/view`,
+      `http://${ComfyUIConfig.COMFYUI_URL}/view`,
       {
         params: {
           filename,
@@ -65,8 +66,13 @@ export class ComfyUIService implements IAIGenerateImageService {
     return image.url;
   }
 
-  async uploadImage(file: Express.Multer.File, name: string, image_type = 'input', overwrite = false) {
-    const form_request = new FormData;
+  async uploadImage(
+    file: Express.Multer.File,
+    name: string,
+    image_type = 'input',
+    overwrite = false,
+  ) {
+    const form_request = new FormData();
     form_request.append('image', Readable.from(file.buffer), {
       filename: file.originalname,
     });
@@ -74,11 +80,15 @@ export class ComfyUIService implements IAIGenerateImageService {
     form_request.append('overwrite', String(overwrite).toLowerCase());
 
     try {
-      const response = await this.httpService.axiosRef.post(`http://${ComfyUIConfig.COMFYUI_URL}/upload/image`, form_request, {
-        headers: {
-          ...form_request.getHeaders(),
+      const response = await this.httpService.axiosRef.post(
+        `http://${ComfyUIConfig.COMFYUI_URL}/upload/image`,
+        form_request,
+        {
+          headers: {
+            ...form_request.getHeaders(),
+          },
         },
-      });
+      );
       return response.data;
     } catch (error) {
       throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
@@ -86,7 +96,7 @@ export class ComfyUIService implements IAIGenerateImageService {
   }
 
   async getImages(web_socket: ComfyUISokcet, prompt: string) {
-
+    console.log(prompt);
     const prompt_id = await this.queuePrompt(prompt, web_socket.getClientId());
 
     return new Promise<string[]>((resolve, reject) => {
@@ -110,10 +120,16 @@ export class ComfyUIService implements IAIGenerateImageService {
   }
 
   async queuePrompt(prompt: string, client_id: string): Promise<string> {
-    const payload = { prompt, client_id: client_id };
-    const headers = { 'Content-Type': 'application/json' };
+    const payload = { prompt: JSON.parse(prompt), client_id: client_id };
+    //const headers = { 'Content-Type': 'application/json' };
     try {
-      const response = await this.httpService.axiosRef.post(`http://${ComfyUIConfig.COMFYUI_URL}/prompt`, payload, { headers });
+      console.log(1);
+      const response = await this.httpService.axiosRef.post(
+        `http://${ComfyUIConfig.COMFYUI_URL}/prompt`,
+        payload,
+        //{ headers },
+      );
+      console.log(response);
       return response.data.prompt_id;
     } catch (error) {
       throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
@@ -125,7 +141,7 @@ export class ComfyUIService implements IAIGenerateImageService {
       encoding: 'utf-8',
     });
     const workflow = JSON.parse(workflow_data);
-
+    console.log(workflow);
     workflow['1']['inputs']['ckpt_name'] = input_promts.style;
     workflow['2']['inputs']['text'] = input_promts.positivePrompt;
     workflow['3']['inputs']['text'] = input_promts.negativePrompt;
@@ -142,7 +158,9 @@ export class ComfyUIService implements IAIGenerateImageService {
     workflow['9']['inputs']['cfg'] = input_promts.cfg;
     workflow['9']['inputs']['sampler_name'] = input_promts.sampleMethos;
 
-    const prompt = stringify(workflow);
+    console.log(workflow);
+
+    const prompt = JSON.stringify(workflow);
     return prompt;
   }
 
@@ -169,7 +187,7 @@ export class ComfyUIService implements IAIGenerateImageService {
     workflow['4']['inputs']['cfg'] = input_promts.cfg;
     workflow['4']['inputs']['sampler_name'] = input_promts.sampleMethos;
 
-    const prompt = stringify(workflow);
+    const prompt = JSON.stringify(workflow);
     return prompt;
   }
 
