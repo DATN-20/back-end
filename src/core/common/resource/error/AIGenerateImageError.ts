@@ -15,4 +15,9 @@ export class AIGenerateImageError {
       status_code: HttpStatus.BAD_REQUEST,
     };
   }
+  public static COMFYUI_ERROR: ErrorBase = {
+    error_code: '04003',
+    message: 'Internal Server Error',
+    status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+  };
 }

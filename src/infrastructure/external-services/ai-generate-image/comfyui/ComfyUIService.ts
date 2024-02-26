@@ -36,15 +36,14 @@ export class ComfyUIService implements IAIGenerateImageService {
   generateImageToImage(input_promts: InputPromts) {
     throw new Error('Method not implemented.');
   }
-  async getHistory(prompt_id: string) {
+  async getHistory(prompt_id: string): Promise<any> {
     const url = `http://${ComfyUIConfig.COMFYUI_URL}/history/${prompt_id}`;
     try {
       const response = await this.httpService.axiosRef.get(url);
       const data = response.data;
       return data;
     } catch (error) {
-      console.error('Error fetching history:', error);
-      throw error;
+      throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
     }
   }
 
@@ -67,23 +66,22 @@ export class ComfyUIService implements IAIGenerateImageService {
   }
 
   async uploadImage(file: Express.Multer.File, name: string, image_type = 'input', overwrite = false) {
-    const formRequest = new FormData;
-    formRequest.append('image', Readable.from(file.buffer), {
+    const form_request = new FormData;
+    form_request.append('image', Readable.from(file.buffer), {
       filename: file.originalname,
     });
-    formRequest.append('type', image_type);
-    formRequest.append('overwrite', String(overwrite).toLowerCase());
+    form_request.append('type', image_type);
+    form_request.append('overwrite', String(overwrite).toLowerCase());
 
     try {
-      const response = await this.httpService.axiosRef.post(`http://${ComfyUIConfig.COMFYUI_URL}/upload/image`, formRequest, {
+      const response = await this.httpService.axiosRef.post(`http://${ComfyUIConfig.COMFYUI_URL}/upload/image`, form_request, {
         headers: {
-          ...formRequest.getHeaders(),
+          ...form_request.getHeaders(),
         },
       });
       return response.data;
     } catch (error) {
-      console.error('Error uploading image:', error);
-      throw error;
+      throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
     }
   }
 
@@ -111,19 +109,16 @@ export class ComfyUIService implements IAIGenerateImageService {
     });
   }
 
-  async queuePrompt(prompt: string, client_id: string): Promise<any> {
+  async queuePrompt(prompt: string, client_id: string): Promise<string> {
     const payload = { prompt, client_id: client_id };
     const headers = { 'Content-Type': 'application/json' };
-
     try {
       const response = await this.httpService.axiosRef.post(`http://${ComfyUIConfig.COMFYUI_URL}/prompt`, payload, { headers });
-      return response.data;
+      return response.data.prompt_id;
     } catch (error) {
-      console.error('Error queuing prompt:', error);
-      throw error;
+      throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
     }
   }
-
   convertToComfyUIPromptText2Img(input_promts: InputPromts) {
     this.textToImagePromptValidate(input_promts);
     const workflow_data = fs.readFileSync(this.jsonFilePath + 'text2img.json', {
