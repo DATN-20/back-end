@@ -24,12 +24,4 @@ export class BaseSocketClient {
   public disconnect(): void {
     this.webSocket.close();
   }
-
-  public receiveMessage(): void {
-    this.webSocket.on('message', (message) => {
-      const { type, data } = JSON.parse(message.toString('utf-8'));
-      console.log(type);
-      console.log(data);
-    });
-  }
 }
