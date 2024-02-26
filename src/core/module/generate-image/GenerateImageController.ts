@@ -2,7 +2,7 @@ import { User } from '@core/common/decorator/UserDecorator';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { IAIGenerateImageService } from '@core/common/interface/IAIGenerateImageService';
 import { AIGenerateImageServiceManger } from '@infrastructure/external-services/ai-generate-image/AIGenerateImageServiceManager';
-import { Body, Controller, Get, Inject, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { GenerateInputs } from './entity/request/GenerateInputs';
 import { GenerateImageService } from './GenerateImageService';
 
