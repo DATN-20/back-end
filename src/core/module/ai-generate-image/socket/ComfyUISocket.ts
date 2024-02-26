@@ -20,6 +20,9 @@ export class ComfyUISokcet extends BaseSocketClient {
     this.clientId = client_id;
   }
 
+  public getClientId(): string {
+    return this.clientId;
+  }
   public getExecutedResultFromMessage(
     prompt_id: string,
     callback: (output_images: any) => void,

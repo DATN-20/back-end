@@ -5,6 +5,8 @@ import { ComfyUIConfig } from '@infrastructure/config/ComfyUIConfig';
 import { InputPromts } from '@infrastructure/external-services/ai-generate-image/type/InputPrompts';
 import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable } from '@nestjs/common';
+import * as FormData from 'form-data';
+import { Readable } from 'stream';
 import * as fs from 'fs';
 import { stringify } from 'querystring';
 import { ComfyUIInfo } from './ComfyUIInfo';
@@ -17,7 +19,7 @@ export class ComfyUIService implements IAIGenerateImageService {
   constructor(
     private httpService: HttpService,
     @Inject('ImageStorageService') private imageStorageService: IImageStorageService,
-  ) {}
+  ) { }
 
   private jsonFilePath = './workflow-json-files/';
   private info = new ComfyUIInfo();
@@ -30,11 +32,19 @@ export class ComfyUIService implements IAIGenerateImageService {
     return result;
   }
 
+
   generateImageToImage(input_promts: InputPromts) {
     throw new Error('Method not implemented.');
   }
-  getHistory(prompt_id: string) {
-    throw new Error('Method not implemented.');
+  async getHistory(prompt_id: string): Promise<any> {
+    const url = `http://${ComfyUIConfig.COMFYUI_URL}/history/${prompt_id}`;
+    try {
+      const response = await this.httpService.axiosRef.get(url);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
+    }
   }
 
   async getImage(filename: string, folder_type: string, subfolder: string = ''): Promise<string> {
@@ -55,12 +65,29 @@ export class ComfyUIService implements IAIGenerateImageService {
     return image.url;
   }
 
-  uploadImage() {
-    throw new Error('Method not implemented.');
+  async uploadImage(file: Express.Multer.File, name: string, image_type = 'input', overwrite = false) {
+    const form_request = new FormData;
+    form_request.append('image', Readable.from(file.buffer), {
+      filename: file.originalname,
+    });
+    form_request.append('type', image_type);
+    form_request.append('overwrite', String(overwrite).toLowerCase());
+
+    try {
+      const response = await this.httpService.axiosRef.post(`http://${ComfyUIConfig.COMFYUI_URL}/upload/image`, form_request, {
+        headers: {
+          ...form_request.getHeaders(),
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
+    }
   }
 
   async getImages(web_socket: ComfyUISokcet, prompt: string) {
-    const prompt_id = await this.queuePrompt(prompt)['prompt_id'];
+
+    const prompt_id = await this.queuePrompt(prompt, web_socket.getClientId());
 
     return new Promise<string[]>((resolve, reject) => {
       web_socket.getExecutedResultFromMessage(prompt_id, async (output_images) => {
@@ -82,10 +109,16 @@ export class ComfyUIService implements IAIGenerateImageService {
     });
   }
 
-  async queuePrompt(prompt: string): Promise<any> {
-    throw new Error('Method not implemented.');
+  async queuePrompt(prompt: string, client_id: string): Promise<string> {
+    const payload = { prompt, client_id: client_id };
+    const headers = { 'Content-Type': 'application/json' };
+    try {
+      const response = await this.httpService.axiosRef.post(`http://${ComfyUIConfig.COMFYUI_URL}/prompt`, payload, { headers });
+      return response.data.prompt_id;
+    } catch (error) {
+      throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
+    }
   }
-
   convertToComfyUIPromptText2Img(input_promts: InputPromts) {
     this.textToImagePromptValidate(input_promts);
     const workflow_data = fs.readFileSync(this.jsonFilePath + 'text2img.json', {
