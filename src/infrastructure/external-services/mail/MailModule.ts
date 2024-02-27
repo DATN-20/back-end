@@ -6,30 +6,30 @@ import { MailService } from './MailService';
 import { MailConfig } from '@infrastructure/config/MailConfig';
 
 @Module({
-    imports: [
-        MailerModule.forRoot({
-            transport: {
-                host: MailConfig.MAIL_HOST,
-                port: MailConfig.MAIL_PORT,
-                secure: false,
-                auth: {
-                    user: MailConfig.MAIL_USER,
-                    pass: MailConfig.MAIL_PASSWORD,
-                },
-            },
-            defaults: {
-                from: MailConfig.MAIL_FROM,
-            },
-            template: {
-                dir: join(process.cwd(), 'src/infrastructure/external-services/mail/templates'),
-                adapter: new HandlebarsAdapter(),
-                options: {
-                    strict: true,
-                },
-            },
-        }),
-    ],
-    providers: [MailService],
-    exports: [MailService],
+  imports: [
+    MailerModule.forRoot({
+      transport: {
+        host: MailConfig.MAIL_HOST,
+        port: MailConfig.MAIL_PORT,
+        secure: false,
+        auth: {
+          user: MailConfig.MAIL_USER,
+          pass: MailConfig.MAIL_PASSWORD,
+        },
+      },
+      defaults: {
+        from: MailConfig.MAIL_FROM,
+      },
+      template: {
+        dir: join(process.cwd(), 'src/infrastructure/external-services/mail/templates'),
+        adapter: new HandlebarsAdapter(),
+        options: {
+          strict: true,
+        },
+      },
+    }),
+  ],
+  providers: [MailService],
+  exports: [MailService],
 })
-export class MailModule { }
+export class MailModule {}

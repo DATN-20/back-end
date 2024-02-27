@@ -18,7 +18,7 @@ export class CloudinaryService implements IImageStorageService {
   async uploadImages(imagesUpload: ImagesUpload): Promise<ImageUploadResult[]> {
     const uploadResults: ImageUploadResult[] = [];
     for (const image of imagesUpload.images) {
-      const result = await this.uploadImage(image.buffer);
+      const result = await this.uploadImageWithBuffer(image.buffer);
       uploadResults.push(result);
     }
 
@@ -34,7 +34,7 @@ export class CloudinaryService implements IImageStorageService {
     }
   }
 
-  private async uploadImage(imageBuffer: Buffer): Promise<ImageUploadResult> {
+  public async uploadImageWithBuffer(image_buffer: Buffer): Promise<ImageUploadResult> {
     try {
       const uploadResult = await new Promise<UploadApiResponse | UploadApiErrorResponse>(
         (resolve) => {
@@ -42,15 +42,15 @@ export class CloudinaryService implements IImageStorageService {
             .upload_stream((error, uploadResult) => {
               return resolve(uploadResult);
             })
-            .end(imageBuffer);
+            .end(image_buffer);
         },
       );
+
       return {
         url: uploadResult.secure_url,
         id: uploadResult.public_id,
       };
     } catch (error) {
-      console.log(error);
       throw new Exception(ImageError.FAIL_TO_UPLOAD_IMAGE);
     }
   }
