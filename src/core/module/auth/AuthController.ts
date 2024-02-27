@@ -1,4 +1,14 @@
-import { Body, Controller, HttpCode, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './AuthService';
 import { CreateNewUserRequest } from './entity/request/CreateNewUserRequest';
 import { LoginUserRequest } from './entity/request/LoginUserRequest';
@@ -30,9 +40,9 @@ export class AuthController {
     return result.toJson();
   }
 
-  @Post('signup/verify')
+  @Get('signup/verify')
   @HttpCode(HttpStatus.OK)
-  async verifySignUp(@Param('token') token: string) {
+  async verifySignUp(@Query('token') token: string) {
     await this.authService.handleActiveUserFromMail(token);
 
     return AuthMessage.SIGN_UP_SUCCESSFULLY;
