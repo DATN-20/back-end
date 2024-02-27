@@ -11,6 +11,11 @@ import { GenerateImageService } from './GenerateImageService';
 export class GenerateImageController {
   constructor(private readonly generateImageService: GenerateImageService) {}
 
+  @Get('/ai-info')
+  async getAtInfo() {
+    return this.generateImageService.handleGetAIInfo();
+  }
+
   @Post('/text2img')
   async generateTextToImage(@User() user_id: number, @Body() generate_inputs: GenerateInputs) {
     return await this.generateImageService.handleGenerateTextToImg(user_id, generate_inputs);

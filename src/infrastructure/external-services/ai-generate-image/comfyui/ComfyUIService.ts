@@ -191,10 +191,10 @@ export class ComfyUIService implements IAIGenerateImageService {
   }
 
   getAIInfo() {
-    return JSON.stringify({
+    return {
       ai_name: 'comfyUI',
       inputs: Object.values(this.info.inputs),
-    });
+    };
   }
 
   textToImagePromptValidate(input_promts: InputPromts) {

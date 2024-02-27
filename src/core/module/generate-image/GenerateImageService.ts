@@ -14,4 +14,8 @@ export class GenerateImageService {
       ConverterUtil.convertGenerateInputsToInputPromts(generate_inputs, user_id),
     );
   }
+
+  async handleGetAIInfo() {
+    return this.aIGenerateImageServiceManger.getAllAiInfo();
+  }
 }
