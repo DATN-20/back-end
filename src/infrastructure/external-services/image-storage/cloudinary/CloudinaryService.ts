@@ -51,7 +51,6 @@ export class CloudinaryService implements IImageStorageService {
         id: uploadResult.public_id,
       };
     } catch (error) {
-      console.log(error);
       throw new Exception(ImageError.FAIL_TO_UPLOAD_IMAGE);
     }
   }

@@ -126,13 +126,12 @@ export class ComfyUIService implements IAIGenerateImageService {
     const payload = { prompt, client_id: client_id };
     const headers = { 'Content-Type': 'application/json' };
     try {
-      console.log(1);
       const response = await this.httpService.axiosRef.post(
         `${EnvironmentConverter.convertUrlInSuitableEnvironment(ComfyUIConfig.COMFYUI_URL)}/prompt`,
         payload,
         { headers },
       );
-      console.log(response);
+
       return response.data.prompt_id;
     } catch (error) {
       throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
@@ -144,7 +143,6 @@ export class ComfyUIService implements IAIGenerateImageService {
       encoding: 'utf-8',
     });
     const workflow = JSON.parse(workflow_data);
-    console.log(workflow);
     workflow['1']['inputs']['ckpt_name'] = input_promts.style;
     workflow['2']['inputs']['text'] = input_promts.positivePrompt;
     workflow['3']['inputs']['text'] = input_promts.negativePrompt;

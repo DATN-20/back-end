@@ -8,7 +8,6 @@ export class GenerateImageService {
   constructor(private aIGenerateImageServiceManger: AIGenerateImageServiceManger) {}
 
   async handleGenerateTextToImg(user_id: number, generate_inputs: GenerateInputs) {
-    console.log(typeof generate_inputs);
     return this.aIGenerateImageServiceManger.generateTextToImage(
       generate_inputs.aiName,
       ConverterUtil.convertGenerateInputsToInputPromts(generate_inputs, user_id),
