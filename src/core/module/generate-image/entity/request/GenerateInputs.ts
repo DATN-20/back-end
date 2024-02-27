@@ -1,4 +1,3 @@
-import { InputPromts } from '@infrastructure/external-services/ai-generate-image/type/InputPrompts';
 import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class GenerateInputs {
@@ -28,23 +27,4 @@ export class GenerateInputs {
   image: Buffer[];
   @IsOptional()
   noise: number;
-
-  convertToInputPrompts(user_id: number) {
-    const result: InputPromts = {
-      style: this.style,
-      positivePrompt: this.positivePrompt,
-      negativePrompt: this.negativePrompt,
-      width: this.width,
-      height: this.height,
-      numberOfImage: this.numberOfImage,
-      seed: this.seed,
-      steps: this.steps,
-      sampleMethos: this.sampleMethos,
-      cfg: this.cfg,
-      image: this.image,
-      noise: this.noise,
-      filename: `${user_id}`,
-    };
-    return result;
-  }
 }

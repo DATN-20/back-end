@@ -1,3 +1,4 @@
+import { EnvironmentConverter } from '@core/common/util/converter/EnvironmentConverter';
 import { ComfyUIConfig } from '@infrastructure/config/ComfyUIConfig';
 import { BaseSocketClient } from '@infrastructure/socket/BaseSocketClient';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,13 +10,15 @@ export enum ComfyUITypeMessageSocket {
 }
 
 export class ComfyUISokcet extends BaseSocketClient {
-  protected clientId: string;
+  private clientId: string;
 
   constructor() {
     const client_id = uuidv4();
     super(
       ComfyUIConfig.COMFYUI_NAME,
-      `wss://${ComfyUIConfig.COMFYUI_URL}/ws?clientId=${client_id}`,
+      `${EnvironmentConverter.convertWebSocketInSuitableEnvironment(
+        ComfyUIConfig.COMFYUI_URL,
+      )}/ws?clientId=${client_id}`,
     );
     this.clientId = client_id;
   }
@@ -23,6 +26,7 @@ export class ComfyUISokcet extends BaseSocketClient {
   public getClientId(): string {
     return this.clientId;
   }
+
   public getExecutedResultFromMessage(
     prompt_id: string,
     callback: (output_images: any) => void,

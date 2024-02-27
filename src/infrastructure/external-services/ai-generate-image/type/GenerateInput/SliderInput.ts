@@ -29,6 +29,8 @@ export class SliderInput extends GenerateInput {
   validate(val) {
     if (val < this.min || val > this.max) {
       return false;
+    } else {
+      return true;
     }
   }
 }
