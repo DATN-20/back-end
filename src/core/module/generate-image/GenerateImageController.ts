@@ -20,4 +20,9 @@ export class GenerateImageController {
   async generateTextToImage(@User() user_id: number, @Body() generate_inputs: GenerateInputs) {
     return await this.generateImageService.handleGenerateTextToImg(user_id, generate_inputs);
   }
+
+  @Post('/img-to-img')
+  async generateImageToImage(@User() user_id: number, @Body() generate_inputs: GenerateInputs) {
+    return await this.generateImageService.handleGenerateImageToImage(user_id, generate_inputs);
+  }
 }

@@ -14,6 +14,13 @@ export class GenerateImageService {
     );
   }
 
+  async handleGenerateImageToImage(user_id: number, generate_inputs: GenerateInputs) {
+    return this.aIGenerateImageServiceManger.generateImageToImage(
+      generate_inputs.aiName,
+      ConverterUtil.convertGenerateInputsToInputPromts(generate_inputs, user_id),
+    );
+  }
+
   async handleGetAIInfo() {
     return this.aIGenerateImageServiceManger.getAllAiInfo();
   }

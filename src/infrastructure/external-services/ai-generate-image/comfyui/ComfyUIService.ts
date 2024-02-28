@@ -34,8 +34,12 @@ export class ComfyUIService implements IAIGenerateImageService {
     return result;
   }
 
-  generateImageToImage(input_promts: InputPromts) {
-    throw new Error('Method not implemented.');
+  async generateImageToImage(input_promts: InputPromts): Promise<string[]> {
+    const comfyui_socket = new ComfyUISokcet();
+    const comfyui_prompt = this.convertToComfyUIPromptImg2Img(input_promts);
+    const result = await this.getImages(comfyui_socket, comfyui_prompt);
+
+    return result;
   }
 
   async getHistory(prompt_id: string): Promise<any> {
@@ -104,7 +108,7 @@ export class ComfyUIService implements IAIGenerateImageService {
     const prompt_id = await this.queuePrompt(prompt, web_socket.getClientId());
 
     return new Promise<string[]>((resolve, reject) => {
-      web_socket.getExecutedResultFromMessage(prompt_id, async (output_images) => {
+      web_socket.getExecutedResultFromMessage(prompt_id, async output_images => {
         const list_image_url = [];
 
         for (const image_data of output_images) {
