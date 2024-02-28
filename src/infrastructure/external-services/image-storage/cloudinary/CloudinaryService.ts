@@ -37,7 +37,7 @@ export class CloudinaryService implements IImageStorageService {
   public async uploadImageWithBuffer(image_buffer: Buffer): Promise<ImageUploadResult> {
     try {
       const uploadResult = await new Promise<UploadApiResponse | UploadApiErrorResponse>(
-        (resolve) => {
+        resolve => {
           cloudinary.uploader
             .upload_stream((error, uploadResult) => {
               return resolve(uploadResult);

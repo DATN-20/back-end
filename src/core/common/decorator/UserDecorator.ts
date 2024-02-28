@@ -3,5 +3,5 @@ import { TokenPayload } from '../util/jwt/JwtUtil';
 
 export const User = createParamDecorator((data: TokenPayload, ctx: ExecutionContext) => {
   const request = ctx.switchToHttp().getRequest();
-  return request.user;
+  return request.user as UserFromAuthGuard;
 });

@@ -19,7 +19,7 @@ export class ConverterUtil {
       cfg: generate_inputs.cfg,
       image: generate_inputs.image,
       noise: generate_inputs.noise,
-      filename: `${user_id}`,
+      filename: `${user_id}_${Date.now()}.png`,
     };
     return result;
   }

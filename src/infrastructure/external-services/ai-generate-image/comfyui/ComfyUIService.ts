@@ -37,6 +37,7 @@ export class ComfyUIService implements IAIGenerateImageService {
   async generateImageToImage(input_promts: InputPromts): Promise<string[]> {
     const comfyui_socket = new ComfyUISokcet();
     const comfyui_prompt = this.convertToComfyUIPromptImg2Img(input_promts);
+    await this.uploadImage(input_promts.image, input_promts.filename);
     const result = await this.getImages(comfyui_socket, comfyui_prompt);
 
     return result;
@@ -75,13 +76,13 @@ export class ComfyUIService implements IAIGenerateImageService {
 
   async uploadImage(
     file: Express.Multer.File,
-    name: string,
+    file_name: string,
     image_type = 'input',
     overwrite = false,
-  ) {
+  ): Promise<ComfyUIUploadImageResponse> {
     const form_request = new FormData();
     form_request.append('image', Readable.from(file.buffer), {
-      filename: file.originalname,
+      filename: file_name,
     });
     form_request.append('type', image_type);
     form_request.append('overwrite', String(overwrite).toLowerCase());
@@ -98,6 +99,7 @@ export class ComfyUIService implements IAIGenerateImageService {
           },
         },
       );
+
       return response.data;
     } catch (error) {
       throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
@@ -188,6 +190,7 @@ export class ComfyUIService implements IAIGenerateImageService {
     workflow['4']['inputs']['steps'] = input_promts.steps;
     workflow['4']['inputs']['cfg'] = input_promts.cfg;
     workflow['4']['inputs']['sampler_name'] = input_promts.sampleMethos;
+    workflow['6']['inputs']['image'] = input_promts.filename;
 
     return workflow;
   }
