@@ -9,7 +9,7 @@ export class InputPromts {
   steps: number;
   sampleMethos: string;
   cfg: number;
-  image: Buffer[];
+  image: Express.Multer.File;
   noise: number;
   filename: string;
 }
