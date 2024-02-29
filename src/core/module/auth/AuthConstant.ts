@@ -1,3 +1,3 @@
 export class AuthConstant {
-  public static MIN_LENGTH_PASSWORD: number = 8;
+  public static MIN_LENGTH_PASSWORD = 8;
 }

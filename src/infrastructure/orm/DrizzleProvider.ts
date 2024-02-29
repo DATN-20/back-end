@@ -2,7 +2,6 @@ import { createConnection } from 'mysql2/promise';
 import { drizzle } from 'drizzle-orm/mysql2';
 import * as schema from './schema';
 import { DatabaseConfig } from 'src/infrastructure/config/DatabaseConfig';
-import { migrate } from 'drizzle-orm/mysql2/migrator';
 
 export const DrizzleAsyncProvider = 'drizzleProvider';
 
