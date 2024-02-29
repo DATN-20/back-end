@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { RootModule } from './di/RootModule';
 import { ApiServerConfig } from '@infrastructure/config/ApiServerConfig';
-import { HttpException, HttpStatus, Logger, ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { Exception } from '@core/common/exception/Exception';
 import { ErrorBaseSystem } from '@core/common/resource/error/ErrorBase';
 import { ExceptionFilterGlobal } from '@core/common/exception-filter/ExceptionFilterGlobal';

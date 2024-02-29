@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import { IHash } from './IHash';
 import { Injectable } from '@nestjs/common';
-const SALT_ROUNDS: number = 10;
+const SALT_ROUNDS = 10;
 
 @Injectable()
 export class BcryptHash implements IHash {

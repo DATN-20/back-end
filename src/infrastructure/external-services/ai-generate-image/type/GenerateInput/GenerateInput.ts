@@ -1,4 +1,4 @@
-export class GenerateInput {
+export abstract class GenerateInput {
   name: string;
   default: any;
   typeName: string;
@@ -21,7 +21,7 @@ export class GenerateInput {
     });
   }
 
-  validate(val) {
+  validate(val: any): boolean {
     return true;
   }
 }
