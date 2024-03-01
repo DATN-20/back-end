@@ -198,7 +198,7 @@ export class ComfyUIService implements IAIGenerateImageService {
   getAIInfo() {
     return {
       ai_name: 'comfyUI',
-      inputs: Object.values(this.info.inputs),
+      inputs: Object.values(this.info.inputs).map(input => JSON.parse(input.toJson())),
     };
   }
 
