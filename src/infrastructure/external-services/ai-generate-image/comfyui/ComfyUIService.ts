@@ -104,7 +104,7 @@ export class ComfyUIService implements IAIGenerateImageService {
     const prompt_id = await this.queuePrompt(prompt, web_socket.getClientId());
 
     return new Promise<string[]>((resolve, reject) => {
-      web_socket.getExecutedResultFromMessage(prompt_id, async (output_images) => {
+      web_socket.getExecutedResultFromMessage(prompt_id, async output_images => {
         const list_image_url = [];
 
         for (const image_data of output_images) {
@@ -191,7 +191,7 @@ export class ComfyUIService implements IAIGenerateImageService {
   getAIInfo() {
     return {
       ai_name: 'comfyUI',
-      inputs: Object.values(this.info.inputs),
+      inputs: Object.values(this.info.inputs).map(input => JSON.parse(input.toJson())),
     };
   }
 
