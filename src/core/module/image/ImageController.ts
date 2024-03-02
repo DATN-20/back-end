@@ -13,8 +13,8 @@ import {
 import { ImageService } from './ImageService';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { User } from '@core/common/decorator/UserDecorator';
-import { DeleteImageRequest } from './entity/request/DeleteImageRequest';
-import { ImageResponse } from './entity/response/ImageResponse';
+import { DeleteImageRequest } from './entity/Request/DeleteImageRequest';
+import { ImageResponse } from './entity/Response/ImageResponse';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 

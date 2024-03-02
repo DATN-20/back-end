@@ -24,10 +24,12 @@ export class GenerateImageController {
   }
 
   @Post('/text-to-image')
+  @UseInterceptors(FileInterceptor('image'))
   async generateTextToImage(
     @User() user: UserFromAuthGuard,
     @Body() generate_inputs: GenerateInputs,
   ) {
+    console.log(generate_inputs);
     return await this.generateImageService.handleGenerateTextToImg(user.id, generate_inputs);
   }
 
