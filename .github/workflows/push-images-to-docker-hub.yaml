@@ -1,6 +1,4 @@
-name: Push images to docker hub
-run-name: Push images to docker hub
-
+name: Login and push images to docker hub
 on:
   push:
     branches:
@@ -12,11 +10,36 @@ on:
       - 'main'
 
 jobs:
-  push-images-to-docker-hub:
+  build-and-push:
     runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Push images to docker hub
-        uses: ./.github/actions/docker-hub-action
+      - name: Login to docker hub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            miraijr/datn-back-end
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Build and push Docker image
+        if: github.event_name != 'pull_request'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
