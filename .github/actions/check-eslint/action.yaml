@@ -5,8 +5,10 @@ runs:
   using: composite
   steps:
     - name: install package and library
+      shell: bash
       run: |
         npm install
     - name: run eslint
+      shell: bash
       run: |
         npm run lint
