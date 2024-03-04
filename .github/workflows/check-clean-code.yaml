@@ -1,0 +1,13 @@
+name: eslint check source code
+description: Run ESLint to check code formatting
+
+on: [push, pull_request]
+
+jobs:
+  check-eslint:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: run eslint
+        uses: ./.github/actions/check-eslint

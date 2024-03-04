@@ -1,0 +1,12 @@
+name: eslint check source code
+description: run npm run lint to check eslint
+
+runs:
+  using: composite
+  steps:
+    - name: install package and library
+      run: |
+        npm install
+    - name: run eslint
+      run: |
+        npm run lint
