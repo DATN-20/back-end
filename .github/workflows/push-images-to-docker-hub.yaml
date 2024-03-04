@@ -1,0 +1,19 @@
+name: Push images to docker hub
+run-name: Push images to docker hub
+
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+  push-images-to-docker-hub:
+    runs-on: self-hosted
+    steps:
+      - name: Push images to docker hub
+        uses: ./.github/actions/docker-hub-action

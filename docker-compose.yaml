@@ -1,0 +1,24 @@
+services:
+  backend:
+    build: .
+    env_file:
+      - .docker.env
+    depends_on:
+      - mysql
+    ports:
+      - 3000:3000
+  mysql:
+    container_name: data-mysql
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_DATABASE=artist
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=1234
+      - MYSQL_ROOT_PASSWORD=1234
+    ports:
+      - 3306:3306
+    volumes:
+      - datn-mysql:/var/lib/mysql/data
+volumes:
+  datn-mysql:
