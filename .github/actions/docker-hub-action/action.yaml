@@ -1,12 +1,9 @@
-name: login to docker hub
-description: login to docker hub
+name: Login to docker hub
+description: Login to docker hub
 
 runs:
   using: composite
   steps:
-    - name: checkout the repository
-      uses: actions/checkout@v3
-
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v5
