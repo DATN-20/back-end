@@ -29,7 +29,6 @@ export class GenerateImageController {
     @User() user: UserFromAuthGuard,
     @Body() generate_inputs: GenerateInputs,
   ) {
-    console.log(generate_inputs);
     return await this.generateImageService.handleGenerateTextToImg(user.id, generate_inputs);
   }
 
