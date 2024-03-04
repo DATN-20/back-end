@@ -3,7 +3,7 @@ import { ImageRepository } from './ImageRepository';
 import { Exception } from '@core/common/exception/Exception';
 import { ImageError } from '@core/common/resource/error/ImageError';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
-import { ImageResponse } from './entity/response/ImageResponse';
+import { ImageResponse } from './entity/Response/ImageResponse';
 
 @Injectable()
 export class ImageService {
