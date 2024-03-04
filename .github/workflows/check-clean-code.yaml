@@ -1,5 +1,4 @@
 name: eslint check source code
-description: Run ESLint to check code formatting
 
 on: [push, pull_request]
 
