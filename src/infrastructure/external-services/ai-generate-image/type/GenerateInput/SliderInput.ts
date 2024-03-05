@@ -8,12 +8,13 @@ export class SliderInput extends GenerateInput {
     name: string,
     desc: string,
     default_value: any,
+    input_property_name: string,
     min: number,
     max: number,
     step: number,
   ) {
-    super(name, desc, default_value);
-    this.typeName = 'text';
+    super(name, desc, default_value, input_property_name);
+    this.typeName = 'slider';
     this.max = max;
     this.min = min;
     this.step = step;
@@ -26,7 +27,7 @@ export class SliderInput extends GenerateInput {
     };
   }
 
-  validate(val) {
+  validate(val: any): boolean {
     if (val < this.min || val > this.max) {
       return false;
     } else {

@@ -3,7 +3,7 @@ import { ImageRepository } from './ImageRepository';
 import { Exception } from '@core/common/exception/Exception';
 import { ImageError } from '@core/common/resource/error/ImageError';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
-import { ImageResponse } from './entity/Response/ImageResponse';
+import { ImageResponse } from './entity/response/ImageResponse';
 
 @Injectable()
 export class ImageService {
@@ -56,7 +56,7 @@ export class ImageService {
   async handleGetImagesOfUser(userId: number): Promise<ImageResponse[]> {
     try {
       const images = await this.imageRepository.getByUserId(userId);
-      const result: ImageResponse[] = images.map((image) => ImageResponse.convertFromImage(image));
+      const result: ImageResponse[] = images.map(image => ImageResponse.convertFromImage(image));
       return result;
     } catch (error) {
       throw new Exception(ImageError.GET_ERROR);

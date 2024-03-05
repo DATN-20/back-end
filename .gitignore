@@ -403,3 +403,5 @@ dist
 .serverless/**/*.zip
 
 .env
+.vscode
+package-lock.json

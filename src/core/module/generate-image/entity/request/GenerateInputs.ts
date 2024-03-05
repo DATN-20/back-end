@@ -24,7 +24,7 @@ export class GenerateInputs {
   @IsOptional()
   cfg: number;
   @IsOptional()
-  image: Buffer[];
+  image: Express.Multer.File;
   @IsOptional()
   noise: number;
 }

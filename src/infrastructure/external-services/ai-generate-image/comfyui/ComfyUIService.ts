@@ -34,8 +34,13 @@ export class ComfyUIService implements IAIGenerateImageService {
     return result;
   }
 
-  generateImageToImage(input_promts: InputPromts) {
-    throw new Error('Method not implemented.');
+  async generateImageToImage(input_promts: InputPromts): Promise<string[]> {
+    const comfyui_socket = new ComfyUISokcet();
+    const comfyui_prompt = this.convertToComfyUIPromptImg2Img(input_promts);
+    await this.uploadImage(input_promts.image, input_promts.filename);
+    const result = await this.getImages(comfyui_socket, comfyui_prompt);
+
+    return result;
   }
 
   async getHistory(prompt_id: string): Promise<any> {
@@ -51,7 +56,7 @@ export class ComfyUIService implements IAIGenerateImageService {
     }
   }
 
-  async getImage(filename: string, folder_type: string, subfolder: string = ''): Promise<string> {
+  async getImage(filename: string, folder_type: string, subfolder = ''): Promise<string> {
     const { data } = await this.httpService.axiosRef.get(
       `${EnvironmentConverter.convertUrlInSuitableEnvironment(ComfyUIConfig.COMFYUI_URL)}/view`,
       {
@@ -71,13 +76,13 @@ export class ComfyUIService implements IAIGenerateImageService {
 
   async uploadImage(
     file: Express.Multer.File,
-    name: string,
+    file_name: string,
     image_type = 'input',
     overwrite = false,
-  ) {
+  ): Promise<ComfyUIUploadImageResponse> {
     const form_request = new FormData();
     form_request.append('image', Readable.from(file.buffer), {
-      filename: file.originalname,
+      filename: file_name,
     });
     form_request.append('type', image_type);
     form_request.append('overwrite', String(overwrite).toLowerCase());
@@ -94,6 +99,7 @@ export class ComfyUIService implements IAIGenerateImageService {
           },
         },
       );
+
       return response.data;
     } catch (error) {
       throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
@@ -122,7 +128,7 @@ export class ComfyUIService implements IAIGenerateImageService {
     });
   }
 
-  async queuePrompt(prompt: object, client_id: string): Promise<string> {
+  async queuePrompt(prompt: any, client_id: string): Promise<string> {
     const payload = { prompt, client_id: client_id };
     const headers = { 'Content-Type': 'application/json' };
     try {
@@ -137,7 +143,7 @@ export class ComfyUIService implements IAIGenerateImageService {
       throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
     }
   }
-  convertToComfyUIPromptText2Img(input_promts: InputPromts): Object {
+  convertToComfyUIPromptText2Img(input_promts: InputPromts): any {
     this.textToImagePromptValidate(input_promts);
     const workflow_data = fs.readFileSync(this.JSON_FILE_PATH + 'text2img.json', {
       encoding: 'utf-8',
@@ -162,7 +168,7 @@ export class ComfyUIService implements IAIGenerateImageService {
     return workflow;
   }
 
-  convertToComfyUIPromptImg2Img(input_promts: InputPromts): Object {
+  convertToComfyUIPromptImg2Img(input_promts: InputPromts): any {
     this.imageToImagePromptValidate(input_promts);
     const workflow_data = fs.readFileSync(this.JSON_FILE_PATH + 'img2img.json', {
       encoding: 'utf-8',
@@ -184,6 +190,7 @@ export class ComfyUIService implements IAIGenerateImageService {
     workflow['4']['inputs']['steps'] = input_promts.steps;
     workflow['4']['inputs']['cfg'] = input_promts.cfg;
     workflow['4']['inputs']['sampler_name'] = input_promts.sampleMethos;
+    workflow['6']['inputs']['image'] = input_promts.filename;
 
     return workflow;
   }
@@ -191,7 +198,7 @@ export class ComfyUIService implements IAIGenerateImageService {
   getAIInfo() {
     return {
       ai_name: 'comfyUI',
-      inputs: Object.values(this.info.inputs),
+      inputs: Object.values(this.info.inputs).map(input => JSON.parse(input.toJson())),
     };
   }
 
