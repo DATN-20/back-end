@@ -5,9 +5,10 @@ import { ImageService } from '@core/module/image/ImageService';
 import { ImageStorageModule } from '@infrastructure/external-services/image-storage/ImageStorageModule';
 import { Module } from '@nestjs/common';
 import { UserModule } from './UserModule';
+import { ImageInteractionModule } from './ImageInteractionModule';
 
 @Module({
-  imports: [ImageStorageModule, UserModule],
+  imports: [ImageStorageModule, UserModule, ImageInteractionModule],
   controllers: [ImageController],
   providers: [ImageService, ImageRepository, JwtUtil],
   exports: [ImageService, ImageRepository],
