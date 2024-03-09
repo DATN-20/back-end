@@ -3,13 +3,17 @@ import { ImageRepository } from './ImageRepository';
 import { Exception } from '@core/common/exception/Exception';
 import { ImageError } from '@core/common/resource/error/ImageError';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
-import { ImageResponse } from './entity/Response/ImageResponse';
+import { ImageResponse } from './entity/response/ImageResponse';
+import { InteractImageRequest } from './entity/request/InteractImageRequest';
+import { ImageInteractionRepository } from '../images-interaction/ImageInteractionRepository';
+import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 
 @Injectable()
 export class ImageService {
   public constructor(
     private readonly imageRepository: ImageRepository,
     @Inject('ImageStorageService') private readonly imageStorageService: IImageStorageService,
+    private readonly imageInteractRepository: ImageInteractionRepository,
   ) {}
 
   async handleUploadImages(
@@ -61,5 +65,31 @@ export class ImageService {
     } catch (error) {
       throw new Exception(ImageError.GET_ERROR);
     }
+  }
+
+  async handleInteractImage(user_id: number, data: InteractImageRequest): Promise<string> {
+    const is_interacted = !!(await this.imageInteractRepository.getPrimaryKey({
+      userId: user_id,
+      imageId: data.imageId,
+      type: data.type,
+    }));
+
+    if (is_interacted) {
+      await this.imageInteractRepository.delete({
+        userId: user_id,
+        imageId: data.imageId,
+        type: data.type,
+      });
+
+      return ImageMessage.INTERACTION_IMAGE(data.type, true);
+    }
+
+    await this.imageInteractRepository.create({
+      userId: user_id,
+      imageId: data.imageId,
+      type: data.type,
+    });
+
+    return ImageMessage.INTERACTION_IMAGE(data.type, false);
   }
 }

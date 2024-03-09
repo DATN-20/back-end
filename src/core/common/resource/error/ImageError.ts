@@ -1,5 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 import { ErrorBase } from './ErrorBase';
+import { InteractionType } from '@core/common/enum/InteractionType';
 
 export class ImageError {
   public static FAIL_TO_UPLOAD_IMAGE: ErrorBase = {
@@ -43,4 +44,12 @@ export class ImageError {
     message: 'Images list can not empty',
     status_code: HttpStatus.INTERNAL_SERVER_ERROR,
   };
+
+  public static CAN_NOT_INTERACT_IMAGE(type: InteractionType): ErrorBase {
+    return {
+      error_code: '03006',
+      message: `You are ${type} this image so you can not ${type} again!`,
+      status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+    };
+  }
 }
