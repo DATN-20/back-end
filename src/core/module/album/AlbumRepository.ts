@@ -4,8 +4,8 @@ import { albums } from '@infrastructure/orm/schema';
 import { eq } from 'drizzle-orm';
 
 export class AlbumRepository extends BaseRepository {
-  async create(newAlbum: NewAlbum): Promise<Album> {
-    const result = await this.database.insert(albums).values(newAlbum);
+  async create(new_album: NewAlbum): Promise<Album> {
+    const result = await this.database.insert(albums).values(new_album);
 
     return await this.getById(result[0].insertId);
   }
@@ -20,9 +20,9 @@ export class AlbumRepository extends BaseRepository {
     await this.database.delete(albums).where(eq(albums.id, id));
   }
 
-  async getByUserId(userId: number): Promise<Album[]> {
+  async getByUserId(user_id: number): Promise<Album[]> {
     return this.database.query.albums.findMany({
-      where: (album, { eq }) => eq(album.userId, userId),
+      where: (album, { eq }) => eq(album.userId, user_id),
     });
   }
 

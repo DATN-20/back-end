@@ -49,8 +49,8 @@ export class AlbumService {
     }
   }
 
-  async handleViewAlbums(userId: number) {
-    const albums: Album[] = await this.albumRepository.getByUserId(userId);
+  async handleViewAlbums(user_id: number) {
+    const albums: Album[] = await this.albumRepository.getByUserId(user_id);
     const albumResponses = [];
     for (let i = 0; i < albums.length; i++) {
       albumResponses.push((await this.albumToAlbumResponse(albums[i])).toJson());
