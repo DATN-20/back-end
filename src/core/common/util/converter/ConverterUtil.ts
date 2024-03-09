@@ -20,6 +20,7 @@ export class ConverterUtil {
       image: generate_inputs.image,
       noise: generate_inputs.noise,
       filename: `${user_id}_${Date.now()}.png`,
+      controlNets: generate_inputs.controlNets ?? [],
     };
     return result;
   }
