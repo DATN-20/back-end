@@ -8,6 +8,7 @@ import { ImageAlbumModule } from './ImageAlbumModule';
 import { ImageStorageModule } from '@infrastructure/external-services/image-storage/ImageStorageModule';
 import { GenerateImageModule } from './GenerateImageModule';
 import { AIGenerateImageModule } from '@infrastructure/external-services/ai-generate-image/AIGenerateImageModule';
+import { ImageInteractionModule } from './ImageInteractionModule';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AIGenerateImageModule } from '@infrastructure/external-services/ai-gene
     ImageStorageModule,
     GenerateImageModule,
     AIGenerateImageModule,
+    ImageInteractionModule,
   ],
   controllers: [],
   providers: [],

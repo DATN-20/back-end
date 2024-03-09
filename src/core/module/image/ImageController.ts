@@ -17,6 +17,7 @@ import { DeleteImageRequest } from './entity/request/DeleteImageRequest';
 import { ImageResponse } from './entity/response/ImageResponse';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { ImageMessage } from '@core/common/resource/message/ImageMessage';
+import { InteractImageRequest } from './entity/request/InteractImageRequest';
 
 @UseGuards(AuthGuard)
 @Controller('images')
@@ -28,9 +29,9 @@ export class ImageController {
   @UseInterceptors(FilesInterceptor('files'))
   async uploadImage(
     @UploadedFiles() files: Express.Multer.File[],
-    @User() user: number,
+    @User() user: UserFromAuthGuard,
   ): Promise<ImageResponse[]> {
-    return this.imageService.handleUploadImages(user, files);
+    return this.imageService.handleUploadImages(user.id, files);
   }
 
   @Delete()
@@ -42,7 +43,13 @@ export class ImageController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  async getUserImages(@User() user: number) {
-    return this.imageService.handleGetImagesOfUser(user);
+  async getUserImages(@User() user: UserFromAuthGuard) {
+    return this.imageService.handleGetImagesOfUser(user.id);
+  }
+
+  @Post('interact')
+  @HttpCode(HttpStatus.OK)
+  async interac(@User() user: UserFromAuthGuard, @Body() data: InteractImageRequest) {
+    return await this.imageService.handleInteractImage(user.id, data);
   }
 }
