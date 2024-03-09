@@ -11,7 +11,7 @@ export class AlbumRepository extends BaseRepository {
   }
 
   async getById(id: number): Promise<Album> {
-    return this.database.query.albums.findFirst({
+    return await this.database.query.albums.findFirst({
       where: (albums, { eq }) => eq(albums.id, id),
     });
   }
@@ -24,5 +24,12 @@ export class AlbumRepository extends BaseRepository {
     return this.database.query.albums.findMany({
       where: (album, { eq }) => eq(album.userId, userId),
     });
+  }
+
+  async update(id: number, edited_data: Partial<NewAlbum>) {
+    edited_data.updatedAt = new Date();
+    await this.database.update(albums).set(edited_data).where(eq(albums.id, id));
+
+    return await this.getById(id);
   }
 }
