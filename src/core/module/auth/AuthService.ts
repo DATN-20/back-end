@@ -34,7 +34,7 @@ export class AuthService {
       data.email,
       MailSubject.REGISTER_ACCOUNT,
       MailTemplate.REGISTER_ACCOUNT,
-      `${ApiServerConfig.SERVER_URL}/api/v1/auth/signup/verify?token=${token_register}`,
+      `${FrontEndConfig.FRONT_END_URL}/verify?token=${token_register}`,
     );
   }
 
