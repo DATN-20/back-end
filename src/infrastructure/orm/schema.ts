@@ -55,6 +55,13 @@ export const albums_relation = relations(albums, ({ many }) => ({
   images: many(images),
 }));
 
+export const albums_user_relation = relations(albums, ({ one }) => ({
+  user: one(users, {
+    fields: [albums.userId],
+    references: [users.id],
+  }),
+}));
+
 export const images_album = mysqlTable('images_album', {
   albumId: int('album_id')
     .notNull()
