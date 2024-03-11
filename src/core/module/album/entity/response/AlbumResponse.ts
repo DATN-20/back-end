@@ -10,13 +10,13 @@ export class AlbumResponse {
   private createdUser: User;
   private imageList: Image[];
 
-  constructor(album: Album, createdUser: User = null, imageList: Image[] = null) {
+  constructor(album: Album, create_user: User = null, image_list: Image[] = null) {
     this.id = album.id;
     this.name = album.name;
     this.createdAt = album.createdAt;
     this.updatedAt = album.updatedAt;
-    this.createdUser = createdUser;
-    this.imageList = imageList;
+    this.createdUser = create_user;
+    this.imageList = image_list;
   }
 
   public createdUserInfo() {
