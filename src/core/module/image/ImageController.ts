@@ -5,7 +5,9 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
+  Query,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -13,16 +15,21 @@ import {
 import { ImageService } from './ImageService';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { User } from '@core/common/decorator/UserDecorator';
-import { DeleteImageRequest } from './entity/request/DeleteImageRequest';
-import { ImageResponse } from './entity/response/ImageResponse';
+import { DeleteImageRequest } from './entity/Request/DeleteImageRequest';
+import { ImageResponse } from './entity/Response/ImageResponse';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { ImageMessage } from '@core/common/resource/message/ImageMessage';
-import { InteractImageRequest } from './entity/request/InteractImageRequest';
+import { InteractImageRequest } from './entity/Request/InteractImageRequest';
+import { DashboardImageService } from '../dashboard-image/DashboardImageService';
+import { DashboardImageType } from '@core/common/enum/DashboardImageType';
 
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 @Controller('images')
 export class ImageController {
-  public constructor(private readonly imageService: ImageService) {}
+  public constructor(
+    private readonly imageService: ImageService,
+    private readonly dashboardService: DashboardImageService,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.OK)
@@ -51,5 +58,15 @@ export class ImageController {
   @HttpCode(HttpStatus.OK)
   async interac(@User() user: UserFromAuthGuard, @Body() data: InteractImageRequest) {
     return await this.imageService.handleInteractImage(user.id, data);
+  }
+  @Get('dashboard')
+  async getDashboardImages(
+    @Query('type') type: DashboardImageType,
+    @Query('limit') limit: string,
+    @Query('page') page: string,
+  ) {
+    const limitNumber = parseInt(limit);
+    const pageNumber = parseInt(page);
+    return await this.dashboardService.getImagesByType(type, limitNumber, pageNumber);
   }
 }
