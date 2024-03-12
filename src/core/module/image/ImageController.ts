@@ -24,7 +24,7 @@ import { DashboardImageService } from '../dashboard-image/DashboardImageService'
 import { DashboardImageType } from '@core/common/enum/DashboardImageType';
 import { DashboardResponse } from '../dashboard-image/entity/Response/DashboardResponse';
 
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 @Controller('images')
 export class ImageController {
   public constructor(
