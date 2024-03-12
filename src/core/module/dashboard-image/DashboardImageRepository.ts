@@ -7,8 +7,8 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class DashboardImageRepository extends BaseRepository {
   async getInteractionsWithinTimeRange(data: {
-    fromDate: Date;
-    toDate: Date;
+    from_date: Date;
+    to_date: Date;
     type: InteractionType;
     limit: number;
     offset: number;
@@ -23,7 +23,7 @@ export class DashboardImageRepository extends BaseRepository {
       .where(
         and(
           eq(images_interaction.type, data.type),
-          between(images_interaction.updatedAt, data.fromDate, data.toDate),
+          between(images_interaction.updatedAt, data.from_date, data.to_date),
         ),
       );
 
@@ -38,7 +38,7 @@ export class DashboardImageRepository extends BaseRepository {
       .where(
         and(
           eq(images_interaction.type, data.type),
-          between(images_interaction.updatedAt, data.fromDate, data.toDate),
+          between(images_interaction.updatedAt, data.from_date, data.to_date),
         ),
       )
       .orderBy(desc(sql`count(${images.id})`))

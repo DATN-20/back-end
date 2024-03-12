@@ -6,12 +6,11 @@ import { DashboardImageType } from '@core/common/enum/DashboardImageType';
 @Injectable()
 export class DashboardImageService {
   constructor(private readonly repository: DashboardImageRepository) {}
-
   public async getImagesByType(
     type: DashboardImageType,
     limit: number,
     page: number,
-  ): Promise<void> {
+  ): Promise<any> {
     const offset = (page - 1) * limit;
     switch (type) {
       case DashboardImageType.TOPLIKED:
@@ -25,14 +24,14 @@ export class DashboardImageService {
     }
   }
 
-  async getTopImageByWeek(type: InteractionType, limit: number, offset: number): Promise<void> {
+  async getTopImageByWeek(type: InteractionType, limit: number, offset: number): Promise<any> {
     const from_date = new Date();
     const to_date = new Date();
     to_date.setDate(to_date.getDate() + 1);
     from_date.setDate(to_date.getDate() - 8);
     const data = {
-      fromDate: from_date,
-      toDate: to_date,
+      from_date: from_date,
+      to_date: to_date,
       type: type,
       limit: limit,
       offset: offset,
