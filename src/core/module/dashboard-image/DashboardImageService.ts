@@ -25,18 +25,14 @@ export class DashboardImageService {
     }
   }
 
-  public async getTopImageByWeek(
-    type: InteractionType,
-    limit: number,
-    offset: number,
-  ): Promise<void> {
-    const fromDate = new Date();
-    const toDate = new Date();
-    toDate.setDate(toDate.getDate() + 1);
-    fromDate.setDate(toDate.getDate() - 8);
+  async getTopImageByWeek(type: InteractionType, limit: number, offset: number): Promise<void> {
+    const from_date = new Date();
+    const to_date = new Date();
+    to_date.setDate(to_date.getDate() + 1);
+    from_date.setDate(to_date.getDate() - 8);
     const data = {
-      fromDate: fromDate,
-      toDate: toDate,
+      fromDate: from_date,
+      toDate: to_date,
       type: type,
       limit: limit,
       offset: offset,

@@ -65,8 +65,8 @@ export class ImageController {
     @Query('limit') limit: string,
     @Query('page') page: string,
   ) {
-    const limitNumber = parseInt(limit);
-    const pageNumber = parseInt(page);
-    return await this.dashboardService.getImagesByType(type, limitNumber, pageNumber);
+    const limit_number = parseInt(limit);
+    const page_number = parseInt(page);
+    return await this.dashboardService.getImagesByType(type, limit_number, page_number);
   }
 }

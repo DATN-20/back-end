@@ -13,7 +13,7 @@ export class DashboardImageRepository extends BaseRepository {
     limit: number;
     offset: number;
   }): Promise<any> {
-    const totalCountQuery = this.database
+    const total_count_query = this.database
       .select({
         total: sql<number>`count(*)`.mapWith(Number),
       })
@@ -27,7 +27,7 @@ export class DashboardImageRepository extends BaseRepository {
         ),
       );
 
-    const mainQuery = this.database
+    const main_query = this.database
       .select({
         image: images,
         [`${data.type}`]: sql<number>`count(${images.id})`.mapWith(Number),
@@ -45,15 +45,18 @@ export class DashboardImageRepository extends BaseRepository {
       .limit(data.limit)
       .offset(data.offset);
 
-    const [totalCountResult, mainQueryResult] = await Promise.all([totalCountQuery, mainQuery]);
-    const totalCount = totalCountResult[0]?.total || 0;
+    const [total_count_Result, main_query_result] = await Promise.all([
+      total_count_query,
+      main_query,
+    ]);
+    const total_count = total_count_Result[0]?.total || 0;
     return {
-      totalCount,
-      data: mainQueryResult,
+      total_count,
+      data: main_query_result,
     };
   }
   async getTopInteraction(type: InteractionType, limit: number, offset: number): Promise<any> {
-    const totalCountQuery = this.database
+    const total_count_query = this.database
       .select({
         total: sql<number>`count(*)`.mapWith(Number),
       })
@@ -62,7 +65,7 @@ export class DashboardImageRepository extends BaseRepository {
       .groupBy(sql`${images_interaction.imageId}`)
       .where(and(eq(images_interaction.type, type)));
 
-    const mainQuery = this.database
+    const main_query = this.database
       .select({
         image: images,
         [`${type}`]: sql<number>`count(${images.id})`.mapWith(Number),
@@ -75,15 +78,18 @@ export class DashboardImageRepository extends BaseRepository {
       .limit(limit)
       .offset(offset);
 
-    const [totalCountResult, mainQueryResult] = await Promise.all([totalCountQuery, mainQuery]);
-    const totalCount = totalCountResult[0]?.total || 0;
+    const [total_count_Result, main_query_result] = await Promise.all([
+      total_count_query,
+      main_query,
+    ]);
+    const total_count = total_count_Result[0]?.total || 0;
     return {
-      totalCount,
-      data: mainQueryResult,
+      total_count,
+      data: main_query_result,
     };
   }
   async getLatestImage(limit: number, offset: number): Promise<any> {
-    const totalCountQuery = this.database
+    const total_count_query = this.database
       .select({
         total: sql<number>`count(*)`.mapWith(Number),
       })
@@ -92,7 +98,7 @@ export class DashboardImageRepository extends BaseRepository {
       .groupBy(sql`${images_interaction.imageId}`)
       .where(and(eq(images_interaction.type, InteractionType.LIKE)));
 
-    const mainQuery = this.database
+    const main_query = this.database
       .select({
         image: images,
         like: sql<number>`count(${images.id})`.mapWith(Number),
@@ -105,16 +111,19 @@ export class DashboardImageRepository extends BaseRepository {
       .limit(limit)
       .offset(offset);
 
-    const [totalCountResult, mainQueryResult] = await Promise.all([totalCountQuery, mainQuery]);
-    const totalCount = totalCountResult[0]?.total || 0;
+    const [total_count_Result, main_query_result] = await Promise.all([
+      total_count_query,
+      main_query,
+    ]);
+    const total_count = total_count_Result[0]?.total || 0;
     return {
-      totalCount,
-      data: mainQueryResult,
+      total_count,
+      data: main_query_result,
     };
   }
 
   async getRandomImage(limit: number, offset: number): Promise<any> {
-    const totalCountQuery = this.database
+    const total_count_query = this.database
       .select({
         total: sql<number>`count(*)`.mapWith(Number),
       })
@@ -123,7 +132,7 @@ export class DashboardImageRepository extends BaseRepository {
       .groupBy(sql`${images_interaction.imageId}`)
       .where(and(eq(images_interaction.type, InteractionType.LIKE)));
 
-    const mainQuery = this.database
+    const main_query = this.database
       .select({
         image: images,
         like: sql<number>`count(${images.id})`.mapWith(Number),
@@ -136,11 +145,14 @@ export class DashboardImageRepository extends BaseRepository {
       .limit(limit)
       .offset(offset);
 
-    const [totalCountResult, mainQueryResult] = await Promise.all([totalCountQuery, mainQuery]);
-    const totalCount = totalCountResult[0]?.total || 0;
+    const [total_count_Result, main_query_result] = await Promise.all([
+      total_count_query,
+      main_query,
+    ]);
+    const total_count = total_count_Result[0]?.total || 0;
     return {
-      totalCount,
-      data: mainQueryResult,
+      total_count,
+      data: main_query_result,
     };
   }
 }
