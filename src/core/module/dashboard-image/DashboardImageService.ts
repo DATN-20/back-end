@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DashboardImageRepository } from './DashboardImageRepository';
 import { InteractionType } from '@core/common/enum/InteractionType';
 import { DashboardImageType } from '@core/common/enum/DashboardImageType';
+import { DashboardResponse } from './entity/DashboardResponse';
 
 @Injectable()
 export class DashboardImageService {
@@ -10,7 +11,7 @@ export class DashboardImageService {
     type: DashboardImageType,
     limit: number,
     page: number,
-  ): Promise<any> {
+  ): Promise<DashboardResponse> {
     const offset = (page - 1) * limit;
     switch (type) {
       case DashboardImageType.TOPLIKED:
@@ -24,7 +25,11 @@ export class DashboardImageService {
     }
   }
 
-  async getTopImageByWeek(type: InteractionType, limit: number, offset: number): Promise<any> {
+  async getTopImageByWeek(
+    type: InteractionType,
+    limit: number,
+    offset: number,
+  ): Promise<DashboardResponse> {
     const from_date = new Date();
     const to_date = new Date();
     to_date.setDate(to_date.getDate() + 1);
@@ -38,13 +43,13 @@ export class DashboardImageService {
     };
     return await this.repository.getInteractionsWithinTimeRange(data);
   }
-  async getTopImageLiked(limit: number, offset: number): Promise<any> {
+  async getTopImageLiked(limit: number, offset: number): Promise<DashboardResponse> {
     return await this.repository.getTopInteraction(InteractionType.LIKE, limit, offset);
   }
-  async getLatestImage(limit: number, offset: number): Promise<any> {
+  async getLatestImage(limit: number, offset: number): Promise<DashboardResponse> {
     return await this.repository.getLatestImage(limit, offset);
   }
-  async getRandomImage(limit: number, offset: number): Promise<any> {
+  async getRandomImage(limit: number, offset: number): Promise<DashboardResponse> {
     return await this.repository.getRandomImage(limit, offset);
   }
 }
