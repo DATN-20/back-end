@@ -23,7 +23,7 @@ export class ImageResponse {
   public toJson() {
     return {
       id: this.id,
-      userId: this.userId,
+      user_id: this.userId,
       url: this.url,
       type: this.type,
       promp: this.promp,

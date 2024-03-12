@@ -1,6 +1,6 @@
-import { ImageResponse } from '../../image/entity/Response/ImageResponse';
+import { ImageResponse } from '../../../image/entity/response/ImageResponse';
 
-export class ImageData {
+export class DashboardImage {
   image: ImageResponse;
   like: number;
 

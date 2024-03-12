@@ -15,13 +15,14 @@ import {
 import { ImageService } from './ImageService';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { User } from '@core/common/decorator/UserDecorator';
-import { DeleteImageRequest } from './entity/Request/DeleteImageRequest';
-import { ImageResponse } from './entity/Response/ImageResponse';
+import { DeleteImageRequest } from './entity/request/DeleteImageRequest';
+import { ImageResponse } from './entity/response/ImageResponse';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { ImageMessage } from '@core/common/resource/message/ImageMessage';
-import { InteractImageRequest } from './entity/Request/InteractImageRequest';
+import { InteractImageRequest } from './entity/request/InteractImageRequest';
 import { DashboardImageService } from '../dashboard-image/DashboardImageService';
 import { DashboardImageType } from '@core/common/enum/DashboardImageType';
+import { DashboardResponse } from '../dashboard-image/entity/Response/DashboardResponse';
 
 // @UseGuards(AuthGuard)
 @Controller('images')
@@ -64,7 +65,7 @@ export class ImageController {
     @Query('type') type: DashboardImageType,
     @Query('limit') limit: string,
     @Query('page') page: string,
-  ) {
+  ): Promise<DashboardResponse> {
     const limit_number = parseInt(limit);
     const page_number = parseInt(page);
     return await this.dashboardService.getImagesByType(type, limit_number, page_number);

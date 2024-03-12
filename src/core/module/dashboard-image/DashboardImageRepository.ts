@@ -3,18 +3,17 @@ import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { images, images_interaction } from '@infrastructure/orm/schema';
 import { and, asc, between, desc, eq, sql } from 'drizzle-orm';
 import { Injectable } from '@nestjs/common';
-import { DashboardResponse } from './entity/DashboardResponse';
-import { ImageResponse } from '../image/entity/Response/ImageResponse';
+import { DashboardResponse } from './entity/Response/DashboardResponse';
+import { ImageResponse } from '../image/entity/response/ImageResponse';
+import { Image } from '../image/entity/Image';
 
 @Injectable()
 export class DashboardImageRepository extends BaseRepository {
-  async getInteractionsWithinTimeRange(data: {
+  async getTotalCountInteractionsWithinTimeRange(data: {
     from_date: Date;
     to_date: Date;
     type: InteractionType;
-    limit: number;
-    offset: number;
-  }): Promise<DashboardResponse> {
+  }): Promise<number> {
     const total_count_query = this.database
       .select({
         total: sql<number>`count(*)`.mapWith(Number),
@@ -29,6 +28,17 @@ export class DashboardImageRepository extends BaseRepository {
         ),
       );
 
+    const total_count_result = await total_count_query;
+    return total_count_result[0]?.total || 0;
+  }
+
+  async getInteractionsWithinTimeRange(data: {
+    from_date: Date;
+    to_date: Date;
+    type: InteractionType;
+    limit: number;
+    offset: number;
+  }): Promise<{ image: Image; count: number }[]> {
     const main_query = this.database
       .select({
         image: images,
@@ -47,23 +57,10 @@ export class DashboardImageRepository extends BaseRepository {
       .limit(data.limit)
       .offset(data.offset);
 
-    const [total_count_result, main_query_result] = await Promise.all([
-      total_count_query,
-      main_query,
-    ]);
-    const total_count = total_count_result[0]?.total || 0;
-    const result = (await main_query).map((image, count) => ({
-      image: ImageResponse.convertFromImage(image.image),
-      like: count,
-    }));
-
-    return new DashboardResponse(total_count, result);
+    return await main_query;
   }
-  async getTopInteraction(
-    type: InteractionType,
-    limit: number,
-    offset: number,
-  ): Promise<DashboardResponse> {
+
+  async getTotalCountTopInteraction(type: InteractionType): Promise<number> {
     const total_count_query = this.database
       .select({
         total: sql<number>`count(*)`.mapWith(Number),
@@ -73,6 +70,15 @@ export class DashboardImageRepository extends BaseRepository {
       .groupBy(sql`${images_interaction.imageId}`)
       .where(and(eq(images_interaction.type, type)));
 
+    const total_count_result = await total_count_query;
+    return total_count_result[0]?.total || 0;
+  }
+
+  async getTopInteraction(
+    type: InteractionType,
+    limit: number,
+    offset: number,
+  ): Promise<{ image: Image; count: number }[]> {
     const main_query = this.database
       .select({
         image: images,
@@ -86,19 +92,10 @@ export class DashboardImageRepository extends BaseRepository {
       .limit(limit)
       .offset(offset);
 
-    const [total_count_result, main_query_result] = await Promise.all([
-      total_count_query,
-      main_query,
-    ]);
-    const total_count = total_count_result[0]?.total || 0;
-    const result = (await main_query).map((image, count) => ({
-      image: ImageResponse.convertFromImage(image.image),
-      like: count,
-    }));
-
-    return new DashboardResponse(total_count, result);
+    return await main_query;
   }
-  async getLatestImage(limit: number, offset: number): Promise<DashboardResponse> {
+
+  async getTotalCountLatestImage(): Promise<number> {
     const total_count_query = this.database
       .select({
         total: sql<number>`count(*)`.mapWith(Number),
@@ -108,6 +105,11 @@ export class DashboardImageRepository extends BaseRepository {
       .groupBy(sql`${images_interaction.imageId}`)
       .where(and(eq(images_interaction.type, InteractionType.LIKE)));
 
+    const total_count_result = await total_count_query;
+    return total_count_result[0]?.total || 0;
+  }
+
+  async getLatestImage(limit: number, offset: number): Promise<{ image: Image; count: number }[]> {
     const main_query = this.database
       .select({
         image: images,
@@ -121,20 +123,10 @@ export class DashboardImageRepository extends BaseRepository {
       .limit(limit)
       .offset(offset);
 
-    const [total_count_result, main_query_result] = await Promise.all([
-      total_count_query,
-      main_query,
-    ]);
-    const total_count = total_count_result[0]?.total || 0;
-    const result = (await main_query).map((image, count) => ({
-      image: ImageResponse.convertFromImage(image.image),
-      like: count,
-    }));
-
-    return new DashboardResponse(total_count, result);
+    return await main_query;
   }
 
-  async getRandomImage(limit: number, offset: number): Promise<DashboardResponse> {
+  async getTotalCountRandomImage(): Promise<number> {
     const total_count_query = this.database
       .select({
         total: sql<number>`count(*)`.mapWith(Number),
@@ -144,6 +136,11 @@ export class DashboardImageRepository extends BaseRepository {
       .groupBy(sql`${images_interaction.imageId}`)
       .where(and(eq(images_interaction.type, InteractionType.LIKE)));
 
+    const total_count_result = await total_count_query;
+    return total_count_result[0]?.total || 0;
+  }
+
+  async getRandomImage(limit: number, offset: number): Promise<{ image: Image; count: number }[]> {
     const main_query = this.database
       .select({
         image: images,
@@ -157,16 +154,6 @@ export class DashboardImageRepository extends BaseRepository {
       .limit(limit)
       .offset(offset);
 
-    const [total_count_result, main_query_result] = await Promise.all([
-      total_count_query,
-      main_query,
-    ]);
-    const total_count = total_count_result[0]?.total || 0;
-    const result = (await main_query).map((image, count) => ({
-      image: ImageResponse.convertFromImage(image.image),
-      like: count,
-    }));
-
-    return new DashboardResponse(total_count, result);
+    return await main_query;
   }
 }
