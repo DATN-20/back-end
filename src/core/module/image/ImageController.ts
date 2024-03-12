@@ -22,7 +22,7 @@ import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 import { InteractImageRequest } from './entity/request/InteractImageRequest';
 import { DashboardImageService } from '../dashboard-image/DashboardImageService';
 import { DashboardImageType } from '@core/common/enum/DashboardImageType';
-import { DashboardResponse } from '../dashboard-image/entity/Response/DashboardResponse';
+import { DashboardResponse } from '../dashboard-image/entity/response/DashboardResponse';
 
 @UseGuards(AuthGuard)
 @Controller('images')

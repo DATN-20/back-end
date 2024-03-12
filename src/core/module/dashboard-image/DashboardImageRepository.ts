@@ -3,7 +3,7 @@ import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { images, images_interaction } from '@infrastructure/orm/schema';
 import { and, asc, between, desc, eq, sql } from 'drizzle-orm';
 import { Injectable } from '@nestjs/common';
-import { DashboardResponse } from './entity/Response/DashboardResponse';
+import { DashboardResponse } from './entity/response/DashboardResponse';
 import { ImageResponse } from '../image/entity/response/ImageResponse';
 import { Image } from '../image/entity/Image';
 
