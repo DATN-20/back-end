@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DashboardImageRepository } from './DashboardImageRepository';
 import { InteractionType } from '@core/common/enum/InteractionType';
 import { DashboardImageType } from '@core/common/enum/DashboardImageType';
-import { DashboardResponse } from './entity/responses/DashboardResponse';
+import { DashboardResponse } from './entity/response/DashboardResponse';
 import { ImageResponse } from '../image/entity/response/ImageResponse';
 
 @Injectable()
