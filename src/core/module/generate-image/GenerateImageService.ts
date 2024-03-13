@@ -42,7 +42,6 @@ export class GenerateImageService {
     );
 
     const result = list_image_response.map(image => image.getUrl());
-    console.log(list_image_response);
     return result;
   }
 
