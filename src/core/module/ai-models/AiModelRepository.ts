@@ -28,6 +28,7 @@ export class AiModelRepository extends BaseRepository {
     aiName: AiType;
     type: ModelType;
     description: string;
+    label: string;
   }): Promise<AiModel> {
     await this.database.insert(ai_models).values(data);
 

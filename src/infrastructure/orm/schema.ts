@@ -110,6 +110,7 @@ export const ai_models = mysqlTable(
     aiName: mysqlEnum('ai_name', [AiType.COMFYUI]),
     type: mysqlEnum('type', [ModelType.CONTROL_NET, ModelType.MODEL, ModelType.UPSCALE]),
     description: text('description'),
+    label: varchar('label', { length: 256 }),
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at').defaultNow(),
   },

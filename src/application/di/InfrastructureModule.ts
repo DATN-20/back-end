@@ -1,3 +1,5 @@
+import { JwtUtil } from '@core/common/util/jwt/JwtUtil';
+import { UserRepository } from '@core/module/user/UserRepository';
 import { DrizzleModule } from '@infrastructure/orm/DrizzleModule';
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -17,6 +19,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [JwtUtil, UserRepository],
+  exports: [JwtUtil, UserRepository],
 })
 export class InfrastructureModule {}
