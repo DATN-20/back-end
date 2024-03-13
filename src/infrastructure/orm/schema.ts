@@ -1,8 +1,19 @@
+import { AiType } from '@core/common/enum/AiType';
 import { ImageType } from '@core/common/enum/ImageType';
 import { InteractionType } from '@core/common/enum/InteractionType';
+import { ModelType } from '@core/common/enum/ModelType';
 import { UserRole } from '@core/common/enum/UserRole';
 import { relations } from 'drizzle-orm';
-import { int, json, mysqlEnum, mysqlTable, text, timestamp, varchar } from 'drizzle-orm/mysql-core';
+import {
+  int,
+  json,
+  mysqlEnum,
+  mysqlTable,
+  text,
+  timestamp,
+  uniqueIndex,
+  varchar,
+} from 'drizzle-orm/mysql-core';
 
 export const users = mysqlTable('users', {
   id: int('id').primaryKey().autoincrement(),
@@ -35,7 +46,7 @@ export const images = mysqlTable('images', {
     .references(() => users.id, { onDelete: 'cascade' }),
   url: text('url').notNull(),
   type: mysqlEnum('role', [ImageType.UPLOADED, ImageType.IMG_TO_IMG, ImageType.TEXT_TO_IMG]),
-  prompt: text('promp'),
+  prompt: text('prompt'),
   additionInfo: text('addition_info'),
   createdAt: timestamp('created_at').defaultNow(),
   storageId: text('storage_id'),
@@ -84,10 +95,27 @@ export const images_interaction = mysqlTable('images_interaction', {
     .notNull()
     .references(() => images.id, { onDelete: 'cascade' }),
   type: mysqlEnum('type', [InteractionType.LIKE]),
-  updatedAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
 });
 
 export const images_interaction_relations = relations(images_interaction, ({ one }) => ({
   images: one(images),
   users: one(users),
 }));
+
+export const ai_models = mysqlTable(
+  'ai_models',
+  {
+    name: varchar('name', { length: 256 }).notNull().primaryKey(),
+    aiName: mysqlEnum('ai_name', [AiType.COMFYUI]),
+    type: mysqlEnum('type', [ModelType.CONTROL_NET, ModelType.MODEL, ModelType.UPSCALE]),
+    description: text('description'),
+    createdAt: timestamp('created_at').defaultNow(),
+    updatedAt: timestamp('updated_at').defaultNow(),
+  },
+  table => {
+    return {
+      nameIndex: uniqueIndex('ai_models_name_idx').on(table.name),
+    };
+  },
+);
