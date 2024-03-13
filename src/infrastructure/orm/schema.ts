@@ -34,8 +34,8 @@ export const images = mysqlTable('images', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   url: text('url').notNull(),
-  type: mysqlEnum('role', [ImageType.UPLOADED, ImageType.GENERATED]),
-  promp: text('promp'),
+  type: mysqlEnum('role', [ImageType.UPLOADED, ImageType.IMG_TO_IMG, ImageType.TEXT_TO_IMG]),
+  prompt: text('promp'),
   additionInfo: text('addition_info'),
   createdAt: timestamp('created_at').defaultNow(),
   storageId: text('storage_id'),
