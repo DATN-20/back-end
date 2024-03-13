@@ -66,10 +66,6 @@ export class ComfyUIService implements IAIGenerateImageService {
       },
     );
 
-    //const image = await this.imageStorageService.uploadImageWithBuffer(data);
-
-    //return image.url;
-
     return data;
   }
 
