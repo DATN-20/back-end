@@ -6,6 +6,7 @@ import { AlbumResponse } from './entity/response/AlbumResponse';
 import { UserRepository } from '../user/UserRepository';
 import { EditAlbumReq } from './entity/request/EditAlbumReq';
 import { Exception } from '@core/common/exception/Exception';
+import { AlbumJson } from './entity/response/AlbumJson';
 
 @Injectable()
 export class AlbumService {
@@ -13,7 +14,7 @@ export class AlbumService {
     private readonly albumRepository: AlbumRepository,
     private readonly userRepository: UserRepository,
   ) {}
-  async handleCreateNewAlbum(user_id: number, name: string) {
+  async handleCreateNewAlbum(user_id: number, name: string): Promise<AlbumJson> {
     const new_album: NewAlbum = {
       name: name,
       userId: user_id,
@@ -38,7 +39,11 @@ export class AlbumService {
     }
   }
 
-  async handleEditAlbum(user_id: number, album_id: number, edit_album_req: EditAlbumReq) {
+  async handleEditAlbum(
+    user_id: number,
+    album_id: number,
+    edit_album_req: EditAlbumReq,
+  ): Promise<AlbumJson> {
     if (!edit_album_req || Object.keys(edit_album_req).length === 0) {
       throw new Exception(AlbumError.BAD_EDIT_REQUEST);
     }
@@ -49,7 +54,7 @@ export class AlbumService {
     }
   }
 
-  async handleViewAlbums(user_id: number) {
+  async handleViewAlbums(user_id: number): Promise<AlbumJson[]> {
     const albums: Album[] = await this.albumRepository.getByUserId(user_id);
     const albumResponses = [];
     for (let i = 0; i < albums.length; i++) {
@@ -59,7 +64,7 @@ export class AlbumService {
     return albumResponses;
   }
 
-  async isAlbumOfUser(user_id: number, album_id: number) {
+  async isAlbumOfUser(user_id: number, album_id: number): Promise<boolean> {
     const album = await this.albumRepository.getById(album_id);
     if (!album) {
       throw new Exception(AlbumError.ALBUM_NOT_EXIST);
@@ -70,7 +75,7 @@ export class AlbumService {
     return true;
   }
 
-  private async albumToAlbumResponse(album: Album) {
+  private async albumToAlbumResponse(album: Album): Promise<AlbumResponse> {
     const user = await this.userRepository.getById(album.userId);
     //Get album Image
     const responseAlbum = new AlbumResponse(album, user);

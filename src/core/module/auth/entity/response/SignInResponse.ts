@@ -1,4 +1,5 @@
 import { User } from '@core/module/user/entity/User';
+import { AuthResponseJson } from './AuthResponseJson';
 
 export class SignInResponse {
   private accessToken: string;
@@ -13,7 +14,7 @@ export class SignInResponse {
     return new SignInResponse(user.accessToken, user.refeshToken);
   }
 
-  public toJson() {
+  public toJson(): AuthResponseJson {
     return {
       access_token: this.accessToken,
       refresh_token: this.refreshToken,

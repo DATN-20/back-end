@@ -1,5 +1,6 @@
 import { ImageType } from '@core/common/enum/ImageType';
 import { Image } from '../Image';
+import { ImageJson } from './ImageJson';
 
 export class ImageResponse {
   private id: number;
@@ -20,13 +21,13 @@ export class ImageResponse {
     return new ImageResponse(image.id, image.userId, image.url, image.type, image.prompt);
   }
 
-  public toJson() {
+  public toJson(): ImageJson {
     return {
       id: this.id,
       user_id: this.userId,
       url: this.url,
       type: this.type,
-      promp: this.prompt,
+      prompt: this.prompt,
     };
   }
 

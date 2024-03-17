@@ -12,7 +12,10 @@ import {
 import { GenerateInputs } from './entity/request/GenerateInputs';
 import { GenerateImageService } from './GenerateImageService';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Api generate images')
+@ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller('generate-image')
 export class GenerateImageController {
@@ -33,6 +36,11 @@ export class GenerateImageController {
 
   @Post('/image-to-image')
   @UseInterceptors(FileInterceptor('image'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Image file and additional parameters for generating image to image',
+    type: GenerateInputs,
+  })
   async generateImageToImage(
     @User() user: UserFromAuthGuard,
     @UploadedFile() image: Express.Multer.File,

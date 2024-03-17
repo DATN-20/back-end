@@ -1,6 +1,8 @@
 import { User } from '@core/module/user/entity/User';
 import { Album } from '../Album';
 import { Image } from '@core/module/image/entity/Image';
+import { AlbumJson } from './AlbumJson';
+import { UserInfoJson } from '@core/module/user/entity/response/UserInfoJson';
 
 export class AlbumResponse {
   private id: number;
@@ -19,7 +21,7 @@ export class AlbumResponse {
     this.imageList = image_list;
   }
 
-  public createdUserInfo() {
+  public createdUserInfo(): UserInfoJson {
     if (this.createdUser) {
       return {
         id: this.createdUser.id,
@@ -32,7 +34,7 @@ export class AlbumResponse {
     }
   }
 
-  toJson() {
+  toJson(): AlbumJson {
     return {
       id: this.id,
       name: this.name,
