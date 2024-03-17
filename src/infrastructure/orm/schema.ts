@@ -35,7 +35,7 @@ export const images = mysqlTable('images', {
     .references(() => users.id, { onDelete: 'cascade' }),
   url: text('url').notNull(),
   type: mysqlEnum('role', [ImageType.UPLOADED, ImageType.IMG_TO_IMG, ImageType.TEXT_TO_IMG]),
-  prompt: text('promp'),
+  prompt: text('prompt'),
   aiName: text('ai_name'),
   style: text('model_name'),
   additionInfo: text('addition_info'),
