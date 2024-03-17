@@ -65,9 +65,15 @@ export class ImageController {
     @Query('type') type: DashboardImageType,
     @Query('limit') limit: string,
     @Query('page') page: string,
-  ): Promise<DashboardResponse> {
+    @User() user: UserFromAuthGuard,
+  ) {
     const limit_number = parseInt(limit);
     const page_number = parseInt(page);
-    return await this.dashboardService.getImagesByType(type, limit_number, page_number);
+    return (
+      await this.dashboardService.getImagesByType(type, limit_number, page_number, user.id)
+    ).toJson();
   }
+
+  @Get('generate-history')
+  async getGenerateHistoryImages() {}
 }

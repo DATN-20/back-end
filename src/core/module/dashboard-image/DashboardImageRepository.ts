@@ -156,4 +156,11 @@ export class DashboardImageRepository extends BaseRepository {
 
     return await main_query;
   }
+
+  async getByImageIdAndUserId(user_id: number, image_id: number) {
+    return this.database.query.images_interaction.findMany({
+      where: (image_interaction, { eq }) =>
+        eq(image_interaction.imageId, image_id) && eq(image_interaction.userId, user_id),
+    });
+  }
 }
