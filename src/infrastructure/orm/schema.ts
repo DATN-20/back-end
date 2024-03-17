@@ -36,8 +36,6 @@ export const images = mysqlTable('images', {
   url: text('url').notNull(),
   type: mysqlEnum('role', [ImageType.UPLOADED, ImageType.IMG_TO_IMG, ImageType.TEXT_TO_IMG]),
   prompt: text('promp'),
-  aiName: text('ai_name'),
-  style: text('model_name'),
   additionInfo: text('addition_info'),
   createdAt: timestamp('created_at').defaultNow(),
   storageId: text('storage_id'),

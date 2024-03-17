@@ -22,7 +22,7 @@ export class GenerateImageService {
       user_id,
       list_image_buffer,
       ImageType.TEXT_TO_IMG,
-      generate_inputs,
+      input_promts,
     );
     const result = list_image_response.map(image => image.getUrl());
     return result;
@@ -38,7 +38,7 @@ export class GenerateImageService {
       user_id,
       list_image_buffer,
       ImageType.TEXT_TO_IMG,
-      generate_inputs,
+      input_promts,
     );
 
     const result = list_image_response.map(image => image.getUrl());
