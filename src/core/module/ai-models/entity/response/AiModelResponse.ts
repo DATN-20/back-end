@@ -1,4 +1,5 @@
 import { AiModel } from '../AiModel';
+import { AiModelJson } from './AiModelJson';
 
 export class AiModelResponse {
   private name: string;
@@ -23,7 +24,7 @@ export class AiModelResponse {
     return new AiModelResponse(data);
   }
 
-  public toJson() {
+  public toJson(): AiModelJson {
     return {
       name: this.name,
       ai_name: this.aiName,

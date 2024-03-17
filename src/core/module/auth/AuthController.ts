@@ -19,14 +19,18 @@ import { TokenPayload } from '@core/common/util/jwt/JwtUtil';
 import { ForgetPasswordRequest } from './entity/request/ForgetPasswordRequest';
 import { ChangePasswordRequest } from './entity/request/ChangePasswordRequest';
 import { RefreshTokenRequest } from './entity/request/RefreshTokenRequest';
+import { ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { AuthResponseJson } from './entity/response/AuthResponseJson';
 
+@ApiTags('Api auth')
 @Controller('auth')
 export class AuthController {
   public constructor(private readonly authService: AuthService) {}
 
   @Post('signup')
   @HttpCode(HttpStatus.OK)
-  async signUp(@Body() body: CreateNewUserRequest) {
+  @ApiResponse({ status: HttpStatus.OK, type: String })
+  async signUp(@Body() body: CreateNewUserRequest): Promise<string> {
     await this.authService.handleSignUp(body);
 
     return AuthMessage.SIGN_UP_SEND_MAIL_SUCCESSFULLY;
@@ -34,7 +38,8 @@ export class AuthController {
 
   @Post('signin')
   @HttpCode(HttpStatus.OK)
-  async signIn(@Body() body: LoginUserRequest) {
+  @ApiResponse({ status: HttpStatus.OK, type: AuthResponseJson })
+  async signIn(@Body() body: LoginUserRequest): Promise<AuthResponseJson> {
     const result = await this.authService.handleSignIn(body);
 
     return result.toJson();
@@ -42,7 +47,8 @@ export class AuthController {
 
   @Get('signup/verify')
   @HttpCode(HttpStatus.OK)
-  async verifySignUp(@Query('token') token: string) {
+  @ApiResponse({ status: HttpStatus.OK, type: String })
+  async verifySignUp(@Query('token') token: string): Promise<string> {
     await this.authService.handleActiveUserFromMail(token);
 
     return AuthMessage.SIGN_UP_SUCCESSFULLY;
@@ -51,7 +57,9 @@ export class AuthController {
   @Post('signout')
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
-  async signOut(@User() user: TokenPayload) {
+  @ApiBearerAuth()
+  @ApiResponse({ status: HttpStatus.OK, type: String })
+  async signOut(@User() user: TokenPayload): Promise<string> {
     await this.authService.handleSignOut(user.id);
 
     return AuthMessage.SIGN_OUT_SUCCESSFULLY;
@@ -59,7 +67,8 @@ export class AuthController {
 
   @Post('forget-password')
   @HttpCode(HttpStatus.OK)
-  async forgetPassword(@Body() body: ForgetPasswordRequest) {
+  @ApiResponse({ status: HttpStatus.OK, type: String })
+  async forgetPassword(@Body() body: ForgetPasswordRequest): Promise<string> {
     await this.authService.handleForgetPassword(body.email);
 
     return AuthMessage.SEND_MAIL_VERIFY_FORGET_PASSWORD_SUCCESSFULLY;
@@ -67,7 +76,11 @@ export class AuthController {
 
   @Post('forget-password/change-password')
   @HttpCode(HttpStatus.OK)
-  async changePassword(@Body() body: ChangePasswordRequest, @Param('token') token: string) {
+  @ApiResponse({ status: HttpStatus.OK, type: String })
+  async changePassword(
+    @Body() body: ChangePasswordRequest,
+    @Param('token') token: string,
+  ): Promise<string> {
     await this.authService.handleChangePassword(token, body.password);
 
     return AuthMessage.CHANGE_PASSWORD_SUCCESSFULLY;
@@ -75,7 +88,8 @@ export class AuthController {
 
   @Post('refresh-token')
   @HttpCode(HttpStatus.OK)
-  async refreshToken(@Body() body: RefreshTokenRequest) {
+  @ApiResponse({ status: HttpStatus.OK, type: AuthResponseJson })
+  async refreshToken(@Body() body: RefreshTokenRequest): Promise<AuthResponseJson> {
     const result = await this.authService.handleRefreshToken(body.token);
 
     return result.toJson();
