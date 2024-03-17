@@ -41,7 +41,7 @@ export class ServerApplication {
       .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api/story-book', app, document);
+    SwaggerModule.setup('story-book', app, document);
 
     await app
       .listen(this.port, this.host)
