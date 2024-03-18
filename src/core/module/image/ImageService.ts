@@ -3,13 +3,20 @@ import { ImageRepository } from './ImageRepository';
 import { Exception } from '@core/common/exception/Exception';
 import { ImageError } from '@core/common/resource/error/ImageError';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
-import { ImageResponse } from './entity/Response/ImageResponse';
+import { ImageResponse } from './entity/response/ImageResponse';
+import { InteractImageRequest } from './entity/request/InteractImageRequest';
+import { ImageInteractionRepository } from '../images-interaction/ImageInteractionRepository';
+import { ImageMessage } from '@core/common/resource/message/ImageMessage';
+import { ImageType } from '@core/common/enum/ImageType';
+import { NewImage } from './entity/Image';
+import { InputPromts } from '@infrastructure/external-services/ai-generate-image/type/InputPrompts';
 
 @Injectable()
 export class ImageService {
   public constructor(
     private readonly imageRepository: ImageRepository,
     @Inject('ImageStorageService') private readonly imageStorageService: IImageStorageService,
+    private readonly imageInteractRepository: ImageInteractionRepository,
   ) {}
 
   async handleUploadImages(
@@ -61,5 +68,75 @@ export class ImageService {
     } catch (error) {
       throw new Exception(ImageError.GET_ERROR);
     }
+  }
+
+  async handleInteractImage(user_id: number, data: InteractImageRequest): Promise<string> {
+    const is_interacted = !!(await this.imageInteractRepository.getPrimaryKey({
+      userId: user_id,
+      imageId: data.imageId,
+      type: data.type,
+    }));
+
+    if (is_interacted) {
+      await this.imageInteractRepository.delete({
+        userId: user_id,
+        imageId: data.imageId,
+        type: data.type,
+      });
+
+      return ImageMessage.INTERACTION_IMAGE(data.type, true);
+    }
+
+    await this.imageInteractRepository.create({
+      userId: user_id,
+      imageId: data.imageId,
+      type: data.type,
+    });
+
+    return ImageMessage.INTERACTION_IMAGE(data.type, false);
+  }
+
+  async handleCreateGenerateImages(
+    user_id: number,
+    list_image_buffer: Buffer[],
+    image_type: ImageType,
+    prompt: InputPromts,
+  ) {
+    const result: ImageResponse[] = [];
+
+    for (const image_buffer of list_image_buffer) {
+      const image_response = await this.handleCreateGenerateImage(
+        user_id,
+        image_buffer,
+        image_type,
+        prompt,
+      );
+
+      result.push(image_response);
+    }
+
+    return result;
+  }
+
+  async handleCreateGenerateImage(
+    user_id: number,
+    image_buffer: Buffer,
+    image_type: ImageType,
+    promts: InputPromts,
+  ) {
+    const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
+
+    const new_image: NewImage = {
+      userId: user_id,
+      url: image_upload_result.url,
+      storageId: image_upload_result.id,
+      type: image_type,
+      prompt: promts.positivePrompt,
+    };
+    const image = await this.imageRepository.create(new_image);
+
+    const image_response = ImageResponse.convertFromImage(image);
+
+    return image_response;
   }
 }

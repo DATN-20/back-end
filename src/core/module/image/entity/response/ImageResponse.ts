@@ -6,27 +6,31 @@ export class ImageResponse {
   private userId: number;
   private url: string;
   private type: ImageType;
-  private promp: string;
+  private prompt: string;
 
-  constructor(id: number, userId: number, url: string, type: ImageType, promp: string) {
+  constructor(id: number, userId: number, url: string, type: ImageType, prompt: string) {
     this.id = id;
     this.userId = userId;
     this.url = url;
     this.type = type;
-    this.promp = promp;
+    this.prompt = prompt;
   }
 
   public static convertFromImage(image: Image) {
-    return new ImageResponse(image.id, image.userId, image.url, image.type, image.promp);
+    return new ImageResponse(image.id, image.userId, image.url, image.type, image.prompt);
   }
 
   public toJson() {
     return {
       id: this.id,
-      userId: this.userId,
+      user_id: this.userId,
       url: this.url,
       type: this.type,
-      promp: this.promp,
+      promp: this.prompt,
     };
+  }
+
+  public getUrl() {
+    return this.url;
   }
 }

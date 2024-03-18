@@ -5,7 +5,9 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
+  Query,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -17,20 +19,27 @@ import { DeleteImageRequest } from './entity/Request/DeleteImageRequest';
 import { ImageResponse } from './entity/Response/ImageResponse';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { ImageMessage } from '@core/common/resource/message/ImageMessage';
+import { InteractImageRequest } from './entity/request/InteractImageRequest';
+import { DashboardImageService } from '../dashboard-image/DashboardImageService';
+import { DashboardImageType } from '@core/common/enum/DashboardImageType';
+import { DashboardResponse } from '../dashboard-image/entity/response/DashboardResponse';
 
 @UseGuards(AuthGuard)
 @Controller('images')
 export class ImageController {
-  public constructor(private readonly imageService: ImageService) {}
+  public constructor(
+    private readonly imageService: ImageService,
+    private readonly dashboardService: DashboardImageService,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(FilesInterceptor('files'))
   async uploadImage(
     @UploadedFiles() files: Express.Multer.File[],
-    @User() user: number,
+    @User() user: UserFromAuthGuard,
   ): Promise<ImageResponse[]> {
-    return this.imageService.handleUploadImages(user, files);
+    return this.imageService.handleUploadImages(user.id, files);
   }
 
   @Delete()
@@ -42,7 +51,23 @@ export class ImageController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  async getUserImages(@User() user: number) {
-    return this.imageService.handleGetImagesOfUser(user);
+  async getUserImages(@User() user: UserFromAuthGuard) {
+    return this.imageService.handleGetImagesOfUser(user.id);
+  }
+
+  @Post('interact')
+  @HttpCode(HttpStatus.OK)
+  async interac(@User() user: UserFromAuthGuard, @Body() data: InteractImageRequest) {
+    return await this.imageService.handleInteractImage(user.id, data);
+  }
+  @Get('dashboard')
+  async getDashboardImages(
+    @Query('type') type: DashboardImageType,
+    @Query('limit') limit: string,
+    @Query('page') page: string,
+  ): Promise<DashboardResponse> {
+    const limit_number = parseInt(limit);
+    const page_number = parseInt(page);
+    return await this.dashboardService.getImagesByType(type, limit_number, page_number);
   }
 }
