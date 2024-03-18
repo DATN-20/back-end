@@ -17,11 +17,20 @@ import { DeleteAlbumReq } from './entity/request/DeleteAlbumsReq';
 import { AlbumMessage } from '@core/common/resource/message/AlbumMessage';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { EditAlbumReq } from './entity/request/EditAlbumReq';
+import { ImageAlbumService } from '../images-album/ImageAlbumService';
+import { ImageAlbumRequest } from '../images-album/entity/request/ImageAlbumRequest';
+import { Image } from '../image/entity/Image';
+import { ImageAlbumMessage } from '@core/common/resource/message/ImageAlbumMessage';
+import { ImageAlbum } from '../images-album/entity/ImageAlbum';
 
 @UseGuards(AuthGuard)
 @Controller('album')
 export class AlbumController {
-  public constructor(private readonly albumService: AlbumService) {}
+  public constructor(
+    private readonly albumService: AlbumService,
+    // @Inject(forwardRef(() => ImageAlbumService))
+    private readonly imageAlbumService: ImageAlbumService,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.OK)
@@ -50,5 +59,31 @@ export class AlbumController {
     @Body() edit_album_req: EditAlbumReq,
   ) {
     return await this.albumService.handleEditAlbum(user.id, album_id, edit_album_req);
+  }
+
+  @Post(':albumId/add-image')
+  addImageToAlbum(
+    @User() user: UserFromAuthGuard,
+    @Param('albumId') album_id: number,
+    @Body() imageAlbumRequest: ImageAlbumRequest,
+  ): Promise<Image[]> {
+    return this.imageAlbumService.addImageToAlbum(user.id, album_id, imageAlbumRequest);
+  }
+  @Delete(':albumId/remove-image')
+  async removeImageFromAlbum(
+    @User() user: UserFromAuthGuard,
+    @Param('albumId') album_id: number,
+    @Body() image_album_request: ImageAlbumRequest,
+  ): Promise<string> {
+    await this.imageAlbumService.removeImageFromAlbum(user.id, album_id, image_album_request);
+    return ImageAlbumMessage.DELETE_SUCCESS;
+  }
+
+  @Get(':albumId/images')
+  getAllImagesInAlbum(
+    @User() user: UserFromAuthGuard,
+    @Param('albumId') album_id: number,
+  ): Promise<Image[]> {
+    return this.imageAlbumService.getAllImagesInAlbum(user.id, album_id);
   }
 }

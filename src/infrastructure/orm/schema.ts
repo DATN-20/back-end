@@ -1,8 +1,18 @@
 import { ImageType } from '@core/common/enum/ImageType';
 import { InteractionType } from '@core/common/enum/InteractionType';
 import { UserRole } from '@core/common/enum/UserRole';
+import { VisibilityType } from '@core/common/enum/VisibilityType';
 import { relations } from 'drizzle-orm';
-import { int, json, mysqlEnum, mysqlTable, text, timestamp, varchar } from 'drizzle-orm/mysql-core';
+import {
+  int,
+  json,
+  mysqlEnum,
+  mysqlTable,
+  primaryKey,
+  text,
+  timestamp,
+  varchar,
+} from 'drizzle-orm/mysql-core';
 
 export const users = mysqlTable('users', {
   id: int('id').primaryKey().autoincrement(),
@@ -39,6 +49,11 @@ export const images = mysqlTable('images', {
   additionInfo: text('addition_info'),
   createdAt: timestamp('created_at').defaultNow(),
   storageId: text('storage_id'),
+  visibility: mysqlEnum('visibility', [
+    VisibilityType.PUBLIC,
+    VisibilityType.PRIVATE,
+    VisibilityType.HIDDEN,
+  ]),
 });
 
 export const albums = mysqlTable('albums', {
@@ -62,30 +77,46 @@ export const albums_user_relation = relations(albums, ({ one }) => ({
   }),
 }));
 
-export const images_album = mysqlTable('images_album', {
-  albumId: int('album_id')
-    .notNull()
-    .references(() => albums.id, { onDelete: 'cascade' }),
-  imageId: int('image_id')
-    .notNull()
-    .references(() => images.id, { onDelete: 'cascade' }),
-  addedAt: timestamp('added_at').defaultNow(),
-});
+export const images_album = mysqlTable(
+  'images_album',
+  {
+    albumId: int('album_id')
+      .notNull()
+      .references(() => albums.id, { onDelete: 'cascade' }),
+    imageId: int('image_id')
+      .notNull()
+      .references(() => images.id, { onDelete: 'cascade' }),
+    addedAt: timestamp('added_at').defaultNow(),
+  },
+  table => {
+    return {
+      pk: primaryKey({ columns: [table.imageId, table.albumId] }),
+    };
+  },
+);
 
 export const image_relations = relations(images, ({ many }) => ({
   images_interaction: many(images_interaction),
 }));
 
-export const images_interaction = mysqlTable('images_interaction', {
-  userId: int('user_id')
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
-  imageId: int('image_id')
-    .notNull()
-    .references(() => images.id, { onDelete: 'cascade' }),
-  type: mysqlEnum('type', [InteractionType.LIKE]),
-  updatedAt: timestamp('created_at').defaultNow(),
-});
+export const images_interaction = mysqlTable(
+  'images_interaction',
+  {
+    userId: int('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    imageId: int('image_id')
+      .notNull()
+      .references(() => images.id, { onDelete: 'cascade' }),
+    type: mysqlEnum('type', [InteractionType.LIKE]),
+    updatedAt: timestamp('created_at').defaultNow(),
+  },
+  table => {
+    return {
+      pk: primaryKey({ columns: [table.imageId, table.userId, table.type] }),
+    };
+  },
+);
 
 export const images_interaction_relations = relations(images_interaction, ({ one }) => ({
   images: one(images),
