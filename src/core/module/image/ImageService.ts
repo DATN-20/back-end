@@ -10,6 +10,7 @@ import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 import { ImageType } from '@core/common/enum/ImageType';
 import { NewImage } from './entity/Image';
 import { InputPromts } from '@infrastructure/external-services/ai-generate-image/type/InputPrompts';
+import { VisibilityType } from '@core/common/enum/VisibilityType';
 
 @Injectable()
 export class ImageService {
@@ -132,6 +133,7 @@ export class ImageService {
       storageId: image_upload_result.id,
       type: image_type,
       prompt: promts.positivePrompt,
+      visibility: VisibilityType.PUBLIC,
     };
     const image = await this.imageRepository.create(new_image);
 
