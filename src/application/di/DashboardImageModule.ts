@@ -2,9 +2,10 @@ import { DashboardImageRepository } from '@core/module/dashboard-image/Dashboard
 import { DashboardImageService } from '@core/module/dashboard-image/DashboardImageService';
 import { DrizzleModule } from '@infrastructure/orm/DrizzleModule';
 import { Module } from '@nestjs/common';
+import { UserModule } from './UserModule';
 
 @Module({
-  imports: [DrizzleModule],
+  imports: [DrizzleModule, UserModule],
   providers: [DashboardImageRepository, DashboardImageService],
   exports: [DashboardImageRepository, DashboardImageService],
 })

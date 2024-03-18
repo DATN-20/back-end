@@ -75,5 +75,7 @@ export class ImageController {
   }
 
   @Get('generate-history')
-  async getGenerateHistoryImages() {}
+  async getGenerateHistoryImages(@User() user: UserFromAuthGuard) {
+    return this.imageService.handleGetGenerateImageHistory(user.id);
+  }
 }
