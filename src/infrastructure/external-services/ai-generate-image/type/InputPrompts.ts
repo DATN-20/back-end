@@ -15,4 +15,5 @@ export class InputPromts {
   noise: number;
   filename: string;
   controlNets: InputControlnet[];
+  isUpscale: boolean;
 }

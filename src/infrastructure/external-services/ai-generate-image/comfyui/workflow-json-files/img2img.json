@@ -93,7 +93,7 @@
   "7": {
     "inputs": {
       "pixels": [
-        "10",
+        "6",
         0
       ],
       "vae": [
@@ -117,22 +117,6 @@
     "class_type": "SaveImage",
     "_meta": {
       "title": "Save Image Finally"
-    }
-  },
-  "10": {
-    "inputs": {
-      "upscale_method": "nearest-exact",
-      "width": 413,
-      "height": 584,
-      "crop": "disabled",
-      "image": [
-        "6",
-        0
-      ]
-    },
-    "class_type": "ImageScale",
-    "_meta": {
-      "title": "Upscale Image"
     }
   }
 }

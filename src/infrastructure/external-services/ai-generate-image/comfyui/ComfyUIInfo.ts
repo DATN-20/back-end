@@ -24,7 +24,7 @@ export class ComfyUIInfo {
 
   private widthName = 'Width';
   private widthDesc = '';
-  private widthMax = 1024;
+  private widthMax = 1280;
   private widthMin = 64;
   private widthDefault = 512;
   private widthStep = 8;
@@ -32,7 +32,7 @@ export class ComfyUIInfo {
 
   private heightName = 'Height';
   private heightDesc = '';
-  private heightMax = 1024;
+  private heightMax = 1280;
   private heightMin = 64;
   private heightDefault = 512;
   private heightStep = 8;

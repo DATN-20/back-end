@@ -30,4 +30,6 @@ export class GenerateInputs {
   noise: number;
   @IsOptional()
   controlNets: InputControlnet[];
+  @IsOptional()
+  isUpscale: boolean;
 }

@@ -17,6 +17,8 @@ import { ComfyUIControlNet } from './control-net/ComfyUIControlNet';
 import { ComfyUIUtil } from './ComfyUIUtil';
 import { InputControlnet } from '../type/Controlnet/InputControlnet';
 import { FileUtil } from '@core/common/util/FileUtil';
+import { ComfyUIUpscale } from './upscale/ComfyUIUpscale';
+import { UpscaleModelName } from '../type/Upscale/UpscaleModelName';
 
 @Injectable()
 export class ComfyUIService implements IAIGenerateImageService {
@@ -28,16 +30,16 @@ export class ComfyUIService implements IAIGenerateImageService {
   private info = new ComfyUIInfo();
 
   async generateTextToImage(input_promts: InputPromts): Promise<string[]> {
-    const comfyui_socket = new ComfyUISokcet();
     const comfyui_prompt = await this.convertToComfyUIPromptText2Img(input_promts);
+    const comfyui_socket = new ComfyUISokcet();
     const result = await this.getImages(comfyui_socket, comfyui_prompt);
 
     return result;
   }
 
   async generateImageToImage(input_promts: InputPromts): Promise<string[]> {
-    const comfyui_socket = new ComfyUISokcet();
     const comfyui_prompt = await this.convertToComfyUIPromptImg2Img(input_promts);
+    const comfyui_socket = new ComfyUISokcet();
     await this.uploadImage(input_promts.image.buffer, input_promts.filename);
     const result = await this.getImages(comfyui_socket, comfyui_prompt);
 
@@ -171,6 +173,10 @@ export class ComfyUIService implements IAIGenerateImageService {
       workflow = await this.applyMultipleControlNet(workflow, input_promts.controlNets);
     }
 
+    if (input_promts.isUpscale) {
+      workflow = this.applyUpscale(workflow).workflow;
+    }
+
     return workflow;
   }
 
@@ -200,6 +206,10 @@ export class ComfyUIService implements IAIGenerateImageService {
 
     if (input_promts.controlNets.length !== 0) {
       workflow = await this.applyMultipleControlNet(workflow, input_promts.controlNets);
+    }
+
+    if (input_promts.isUpscale) {
+      workflow = this.applyUpscale(workflow).workflow;
     }
 
     return workflow;
@@ -338,10 +348,32 @@ export class ComfyUIService implements IAIGenerateImageService {
       workflow = applied_control_net_result.workflow;
 
       if (index === input_controlnets.length - 1) {
-        ComfyUIControlNet.linkToKsampler(workflow, applied_control_net_result.output_id);
+        workflow = ComfyUIControlNet.linkToKsampler(workflow, applied_control_net_result.output_id);
       }
     }
 
     return workflow;
+  }
+
+  applyUpscale(workflow: any) {
+    const vae_decode_node_id = ComfyUIUtil.findIdByTitle(workflow, 'VAE Decode');
+    const max_key_id = ComfyUIUtil.getMaximumIdOfWorkflow(workflow);
+
+    const upscale_component = ComfyUIUpscale.generateUpscaleComponent(
+      max_key_id,
+      UpscaleModelName.REAL_ESRGAN_X4PLUS,
+      vae_decode_node_id,
+    );
+
+    let updated_workflow = ComfyUIUtil.appendWorkflow(workflow, upscale_component.workflow);
+    updated_workflow = ComfyUIUpscale.linkToSaveImage(
+      updated_workflow,
+      upscale_component.output_id,
+    );
+
+    return {
+      workflow: updated_workflow,
+      output_id: upscale_component.output_id,
+    };
   }
 }

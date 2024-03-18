@@ -1,4 +1,13 @@
 {
+  "%%upscale_model_loader%%": {
+    "inputs": {
+      "model_name": "%%upscale_model_name%%"
+    },
+    "class_type": "UpscaleModelLoader",
+    "_meta": {
+      "title": "UpscaleModelLoader_Upscale"
+    }
+  },
   "%%upscale_image_with_model%%": {
     "inputs": {
       "upscale_model": [
@@ -13,15 +22,6 @@
     "class_type": "ImageUpscaleWithModel",
     "_meta": {
       "title": "ImageUpscaleWithModel_Upscale"
-    }
-  },
-  "%%upscale_model_loader%%": {
-    "inputs": {
-      "model_name": "%%upscale_model_name%%"
-    },
-    "class_type": "UpscaleModelLoader",
-    "_meta": {
-      "title": "UpscaleModelLoader_Upscale"
     }
   }
 }
