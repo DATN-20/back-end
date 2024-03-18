@@ -1,0 +1,1 @@
+ALTER TABLE `images_album` ADD PRIMARY KEY(`image_id`,`album_id`);

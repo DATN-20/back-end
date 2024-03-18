@@ -19,4 +19,15 @@ export class AlbumError {
     message: 'Edit request must contain at least one field to edit.',
     status_code: HttpStatus.BAD_REQUEST,
   };
+
+  public static DUPLICATE_IMAGE: ErrorBase = {
+    error_code: '05004',
+    message: 'Image already exists',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
+  public static IMAGE_NOT_EXITS: ErrorBase = {
+    error_code: '05005',
+    message: 'Image does not exists',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
 }

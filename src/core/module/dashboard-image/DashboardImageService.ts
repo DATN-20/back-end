@@ -53,7 +53,7 @@ export class DashboardImageService {
     return new DashboardResponse(total_count, result);
   }
   async getTopImageLiked(limit: number, offset: number): Promise<DashboardResponse> {
-    const total_count = await this.repository.getTotalCountTopInteraction(InteractionType.LIKE);
+    const total_count = await this.repository.getTotalImage();
     const main_query_result = await this.repository.getTopInteraction(
       InteractionType.LIKE,
       limit,
@@ -68,9 +68,8 @@ export class DashboardImageService {
     return new DashboardResponse(total_count, result);
   }
   async getLatestImage(limit: number, offset: number): Promise<DashboardResponse> {
-    const total_count = await this.repository.getTotalCountLatestImage();
+    const total_count = await this.repository.getTotalImage();
     const main_query_result = await this.repository.getLatestImage(limit, offset);
-
     const result = main_query_result.map(({ image, count }) => ({
       image: ImageResponse.convertFromImage(image),
       like: count,
@@ -79,7 +78,7 @@ export class DashboardImageService {
     return new DashboardResponse(total_count, result);
   }
   async getRandomImage(limit: number, offset: number): Promise<DashboardResponse> {
-    const total_count = await this.repository.getTotalCountRandomImage();
+    const total_count = await this.repository.getTotalImage();
     const main_query_result = await this.repository.getRandomImage(limit, offset);
 
     const result = main_query_result.map(({ image, count }) => ({
