@@ -22,7 +22,6 @@ import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 import { InteractImageRequest } from './entity/request/InteractImageRequest';
 import { DashboardImageService } from '../dashboard-image/DashboardImageService';
 import { DashboardImageType } from '@core/common/enum/DashboardImageType';
-import { DashboardResponse } from '../dashboard-image/entity/response/DashboardResponse';
 
 @UseGuards(AuthGuard)
 @Controller('images')
@@ -60,14 +59,24 @@ export class ImageController {
   async interac(@User() user: UserFromAuthGuard, @Body() data: InteractImageRequest) {
     return await this.imageService.handleInteractImage(user.id, data);
   }
+
   @Get('dashboard')
   async getDashboardImages(
     @Query('type') type: DashboardImageType,
     @Query('limit') limit: string,
     @Query('page') page: string,
-  ): Promise<DashboardResponse> {
+    @User() user: UserFromAuthGuard,
+  ) {
     const limit_number = parseInt(limit);
     const page_number = parseInt(page);
-    return await this.dashboardService.getImagesByType(type, limit_number, page_number);
+
+    return (
+      await this.dashboardService.getImagesByType(type, limit_number, page_number, user.id)
+    ).toJson();
+  }
+
+  @Get('generate-history')
+  async getGenerateHistoryImages(@User() user: UserFromAuthGuard) {
+    return this.imageService.handleGetGenerateImageHistory(user.id);
   }
 }

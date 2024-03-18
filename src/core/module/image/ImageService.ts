@@ -9,7 +9,7 @@ import { ImageInteractionRepository } from '../images-interaction/ImageInteracti
 import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 import { ImageType } from '@core/common/enum/ImageType';
 import { NewImage } from './entity/Image';
-import { InputPromts } from '@infrastructure/external-services/ai-generate-image/type/InputPrompts';
+import { GenerateInputs } from '../generate-image/entity/request/GenerateInputs';
 
 @Injectable()
 export class ImageService {
@@ -100,7 +100,7 @@ export class ImageService {
     user_id: number,
     list_image_buffer: Buffer[],
     image_type: ImageType,
-    prompt: InputPromts,
+    prompt: GenerateInputs,
   ) {
     const result: ImageResponse[] = [];
 
@@ -122,7 +122,7 @@ export class ImageService {
     user_id: number,
     image_buffer: Buffer,
     image_type: ImageType,
-    promts: InputPromts,
+    promts: GenerateInputs,
   ) {
     const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
 
@@ -132,11 +132,28 @@ export class ImageService {
       storageId: image_upload_result.id,
       type: image_type,
       prompt: promts.positivePrompt,
+      aiName: promts.aiName,
+      style: promts.style,
     };
     const image = await this.imageRepository.create(new_image);
 
     const image_response = ImageResponse.convertFromImage(image);
 
     return image_response;
+  }
+
+  async handleGetGenerateImageHistory(user_id: number) {
+    const generatedImageTypes = [ImageType.IMG_TO_IMG, ImageType.TEXT_TO_IMG];
+    const images = await this.imageRepository.getByUserIdAndImageTypes(
+      user_id,
+      generatedImageTypes,
+    );
+
+    const result = [];
+    for (const image of images) {
+      result.push(ImageResponse.convertFromImage(image).toJson());
+    }
+
+    return result;
   }
 }
