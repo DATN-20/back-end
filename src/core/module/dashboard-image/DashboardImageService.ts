@@ -5,6 +5,7 @@ import { DashboardImageType } from '@core/common/enum/DashboardImageType';
 import { DashboardResponse } from './entity/response/DashboardResponse';
 import { ImageResponse } from '../image/entity/response/ImageResponse';
 import { UserRepository } from '../user/UserRepository';
+import { Image } from '../image/entity/Image';
 
 @Injectable()
 export class DashboardImageService {
@@ -60,7 +61,7 @@ export class DashboardImageService {
     offset: number,
     user_id: number,
   ): Promise<DashboardResponse> {
-    const total_count = await this.repository.getTotalCountTopInteraction(InteractionType.LIKE);
+    const total_count = await this.repository.getTotalImage();
     const main_query_result = await this.repository.getTopInteraction(
       InteractionType.LIKE,
       limit,
@@ -72,7 +73,7 @@ export class DashboardImageService {
     return new DashboardResponse(total_count, result);
   }
   async getLatestImage(limit: number, offset: number, user_id: number): Promise<DashboardResponse> {
-    const total_count = await this.repository.getTotalCountLatestImage();
+    const total_count = await this.repository.getTotalImage();
     const main_query_result = await this.repository.getLatestImage(limit, offset);
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
@@ -80,7 +81,7 @@ export class DashboardImageService {
     return new DashboardResponse(total_count, result);
   }
   async getRandomImage(limit: number, offset: number, user_id: number): Promise<DashboardResponse> {
-    const total_count = await this.repository.getTotalCountRandomImage();
+    const total_count = await this.repository.getTotalImage();
     const main_query_result = await this.repository.getRandomImage(limit, offset);
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
@@ -89,17 +90,16 @@ export class DashboardImageService {
   }
 
   private async mainQueryResultToDashboardResponse(
-    main_query_result,
-    user_id,
+    images_with_count: { image: Image; count: number }[],
+    user_id: number,
   ): Promise<ImageResponse[]> {
-    const result = main_query_result.map(async ({ image, count }) => {
-      const owner = await this.userRepository.getById(image.user_id);
-      const isLiked = (await this.repository.getByImageIdAndUserId(image.id, user_id))
-        ? true
-        : false;
+    let result: ImageResponse[] = [];
+    for (let { image, count } of images_with_count) {
+      const owner = await this.userRepository.getById(image.userId);
+      const is_liked = !!(await this.repository.getByImageIdAndUserId(user_id, image.id));
 
-      return new ImageResponse(image, owner, count, isLiked);
-    });
+      result.push(new ImageResponse(image, owner, count, is_liked));
+    }
 
     return result;
   }

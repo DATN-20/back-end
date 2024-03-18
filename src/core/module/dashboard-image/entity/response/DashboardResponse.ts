@@ -9,10 +9,14 @@ export class DashboardResponse {
     this.data = data;
   }
 
+  private dataToJson() {
+    return this.data.map(image => image.toJson());
+  }
+
   toJson() {
     return {
       total_count: this.totalCount,
-      data: this.data,
+      data: this.dataToJson(),
     };
   }
 }
