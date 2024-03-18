@@ -52,6 +52,8 @@ export class ImageResponse {
       url: this.url,
       type: this.type,
       promp: this.prompt,
+      ai_name: this.aiName,
+      style: this.style,
       created_at: this.createdAt,
       created_user: this.createdUserInfo(),
       is_liked: this.isLiked,
