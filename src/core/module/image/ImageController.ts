@@ -5,7 +5,9 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
+  Query,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -18,11 +20,16 @@ import { ImageResponse } from './entity/response/ImageResponse';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 import { InteractImageRequest } from './entity/request/InteractImageRequest';
+import { DashboardImageService } from '../dashboard-image/DashboardImageService';
+import { DashboardImageType } from '@core/common/enum/DashboardImageType';
 
 @UseGuards(AuthGuard)
 @Controller('images')
 export class ImageController {
-  public constructor(private readonly imageService: ImageService) {}
+  public constructor(
+    private readonly imageService: ImageService,
+    private readonly dashboardService: DashboardImageService,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.OK)
@@ -51,5 +58,25 @@ export class ImageController {
   @HttpCode(HttpStatus.OK)
   async interac(@User() user: UserFromAuthGuard, @Body() data: InteractImageRequest) {
     return await this.imageService.handleInteractImage(user.id, data);
+  }
+
+  @Get('dashboard')
+  async getDashboardImages(
+    @Query('type') type: DashboardImageType,
+    @Query('limit') limit: string,
+    @Query('page') page: string,
+    @User() user: UserFromAuthGuard,
+  ) {
+    const limit_number = parseInt(limit);
+    const page_number = parseInt(page);
+
+    return (
+      await this.dashboardService.getImagesByType(type, limit_number, page_number, user.id)
+    ).toJson();
+  }
+
+  @Get('generate-history')
+  async getGenerateHistoryImages(@User() user: UserFromAuthGuard) {
+    return this.imageService.handleGetGenerateImageHistory(user.id);
   }
 }

@@ -7,6 +7,9 @@ import { ImageResponse } from './entity/response/ImageResponse';
 import { InteractImageRequest } from './entity/request/InteractImageRequest';
 import { ImageInteractionRepository } from '../images-interaction/ImageInteractionRepository';
 import { ImageMessage } from '@core/common/resource/message/ImageMessage';
+import { ImageType } from '@core/common/enum/ImageType';
+import { NewImage } from './entity/Image';
+import { GenerateInputs } from '../generate-image/entity/request/GenerateInputs';
 
 @Injectable()
 export class ImageService {
@@ -91,5 +94,66 @@ export class ImageService {
     });
 
     return ImageMessage.INTERACTION_IMAGE(data.type, false);
+  }
+
+  async handleCreateGenerateImages(
+    user_id: number,
+    list_image_buffer: Buffer[],
+    image_type: ImageType,
+    prompt: GenerateInputs,
+  ) {
+    const result: ImageResponse[] = [];
+
+    for (const image_buffer of list_image_buffer) {
+      const image_response = await this.handleCreateGenerateImage(
+        user_id,
+        image_buffer,
+        image_type,
+        prompt,
+      );
+
+      result.push(image_response);
+    }
+
+    return result;
+  }
+
+  async handleCreateGenerateImage(
+    user_id: number,
+    image_buffer: Buffer,
+    image_type: ImageType,
+    promts: GenerateInputs,
+  ) {
+    const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
+
+    const new_image: NewImage = {
+      userId: user_id,
+      url: image_upload_result.url,
+      storageId: image_upload_result.id,
+      type: image_type,
+      prompt: promts.positivePrompt,
+      aiName: promts.aiName,
+      style: promts.style,
+    };
+    const image = await this.imageRepository.create(new_image);
+
+    const image_response = ImageResponse.convertFromImage(image);
+
+    return image_response;
+  }
+
+  async handleGetGenerateImageHistory(user_id: number) {
+    const generatedImageTypes = [ImageType.IMG_TO_IMG, ImageType.TEXT_TO_IMG];
+    const images = await this.imageRepository.getByUserIdAndImageTypes(
+      user_id,
+      generatedImageTypes,
+    );
+
+    const result = [];
+    for (const image of images) {
+      result.push(ImageResponse.convertFromImage(image).toJson());
+    }
+
+    return result;
   }
 }

@@ -6,9 +6,10 @@ import { ImageStorageModule } from '@infrastructure/external-services/image-stor
 import { Module } from '@nestjs/common';
 import { UserModule } from './UserModule';
 import { ImageInteractionModule } from './ImageInteractionModule';
+import { DashboardImageModule } from './DashboardImageModule';
 
 @Module({
-  imports: [ImageStorageModule, UserModule, ImageInteractionModule],
+  imports: [ImageStorageModule, UserModule, ImageInteractionModule, DashboardImageModule],
   controllers: [ImageController],
   providers: [ImageService, ImageRepository, JwtUtil],
   exports: [ImageService, ImageRepository],

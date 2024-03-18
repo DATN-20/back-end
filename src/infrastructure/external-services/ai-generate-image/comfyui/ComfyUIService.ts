@@ -1,9 +1,8 @@
 import { IAIGenerateImageService } from '@core/common/interface/IAIGenerateImageService';
-import { IImageStorageService } from '@core/common/interface/IImageStorageService';
 import { ComfyUIConfig } from '@infrastructure/config/ComfyUIConfig';
 import { InputPromts } from '@infrastructure/external-services/ai-generate-image/type/InputPrompts';
 import { HttpService } from '@nestjs/axios';
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as FormData from 'form-data';
 import * as fs from 'fs';
 import { ComfyUIInfo } from './ComfyUIInfo';
@@ -22,28 +21,25 @@ import { UpscaleModelName } from '../type/Upscale/UpscaleModelName';
 
 @Injectable()
 export class ComfyUIService implements IAIGenerateImageService {
-  constructor(
-    private httpService: HttpService,
-    @Inject('ImageStorageService') private imageStorageService: IImageStorageService,
-  ) {}
+  constructor(private httpService: HttpService) {}
 
   private info = new ComfyUIInfo();
 
-  async generateTextToImage(input_promts: InputPromts): Promise<string[]> {
-    const comfyui_prompt = await this.convertToComfyUIPromptText2Img(input_promts);
+  async generateTextToImage(input_promts: InputPromts): Promise<Buffer[]> {
+    const comfyui_prompt = this.convertToComfyUIPromptText2Img(input_promts);
     const comfyui_socket = new ComfyUISokcet();
-    const result = await this.getImages(comfyui_socket, comfyui_prompt);
+    const list_image_buffer = await this.getImages(comfyui_socket, comfyui_prompt);
 
-    return result;
+    return list_image_buffer;
   }
 
-  async generateImageToImage(input_promts: InputPromts): Promise<string[]> {
+  async generateImageToImage(input_promts: InputPromts): Promise<Buffer[]> {
     const comfyui_prompt = await this.convertToComfyUIPromptImg2Img(input_promts);
     const comfyui_socket = new ComfyUISokcet();
     await this.uploadImage(input_promts.image.buffer, input_promts.filename);
-    const result = await this.getImages(comfyui_socket, comfyui_prompt);
+    const list_image_buffer = await this.getImages(comfyui_socket, comfyui_prompt);
 
-    return result;
+    return list_image_buffer;
   }
 
   async getHistory(prompt_id: string): Promise<any> {
@@ -59,7 +55,7 @@ export class ComfyUIService implements IAIGenerateImageService {
     }
   }
 
-  async getImage(filename: string, folder_type: string, subfolder = ''): Promise<string> {
+  async getImage(filename: string, folder_type: string, subfolder = ''): Promise<Buffer> {
     const { data } = await this.httpService.axiosRef.get(
       `${EnvironmentConverter.convertUrlInSuitableEnvironment(ComfyUIConfig.COMFYUI_URL)}/view`,
       {
@@ -72,9 +68,7 @@ export class ComfyUIService implements IAIGenerateImageService {
       },
     );
 
-    const image = await this.imageStorageService.uploadImageWithBuffer(data);
-
-    return image.url;
+    return data;
   }
 
   async uploadImage(
@@ -109,24 +103,24 @@ export class ComfyUIService implements IAIGenerateImageService {
     }
   }
 
-  async getImages(web_socket: ComfyUISokcet, prompt: object) {
+  async getImages(web_socket: ComfyUISokcet, prompt: object): Promise<Buffer[]> {
     const prompt_id = await this.queuePrompt(prompt, web_socket.getClientId());
 
-    return new Promise<string[]>((resolve, reject) => {
+    return new Promise<Buffer[]>((resolve, reject) => {
       web_socket.getExecutedResultFromMessage(prompt_id, async output_images => {
-        const list_image_url = [];
+        const list_image_buffer = [];
 
         for (const image_data of output_images) {
-          const image_url = await this.getImage(
+          const image_buffer = await this.getImage(
             image_data.filename,
             image_data.type,
             image_data.subfolder,
           );
 
-          list_image_url.push(image_url);
+          list_image_buffer.push(image_buffer);
         }
 
-        resolve(list_image_url);
+        resolve(list_image_buffer);
       });
     });
   }

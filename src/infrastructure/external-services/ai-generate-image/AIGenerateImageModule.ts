@@ -5,7 +5,7 @@ import { Module } from '@nestjs/common';
 import { AIGenerateImageServiceManger } from './AIGenerateImageServiceManager';
 
 @Module({
-  imports: [HttpModule, ImageStorageModule],
+  imports: [HttpModule],
   providers: [ComfyUIService, AIGenerateImageServiceManger],
   exports: [AIGenerateImageServiceManger],
 })
