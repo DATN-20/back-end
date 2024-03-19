@@ -11,10 +11,7 @@
   "2": {
     "inputs": {
       "text": "Black hair, yellow eyes",
-      "clip": [
-        "1",
-        1
-      ]
+      "clip": ["1", 1]
     },
     "class_type": "CLIPTextEncode",
     "_meta": {
@@ -24,10 +21,7 @@
   "3": {
     "inputs": {
       "text": "nsfw, bad hands",
-      "clip": [
-        "1",
-        1
-      ]
+      "clip": ["1", 1]
     },
     "class_type": "CLIPTextEncode",
     "_meta": {
@@ -42,22 +36,10 @@
       "sampler_name": "euler",
       "scheduler": "normal",
       "denoise": 0.5,
-      "model": [
-        "1",
-        0
-      ],
-      "positive": [
-        "2",
-        0
-      ],
-      "negative": [
-        "3",
-        0
-      ],
-      "latent_image": [
-        "7",
-        0
-      ]
+      "model": ["1", 0],
+      "positive": ["2", 0],
+      "negative": ["3", 0],
+      "latent_image": ["7", 0]
     },
     "class_type": "KSampler",
     "_meta": {
@@ -66,14 +48,8 @@
   },
   "5": {
     "inputs": {
-      "samples": [
-        "4",
-        0
-      ],
-      "vae": [
-        "1",
-        2
-      ]
+      "samples": ["4", 0],
+      "vae": ["1", 2]
     },
     "class_type": "VAEDecode",
     "_meta": {
@@ -92,14 +68,8 @@
   },
   "7": {
     "inputs": {
-      "pixels": [
-        "6",
-        0
-      ],
-      "vae": [
-        "1",
-        2
-      ]
+      "pixels": ["10", 0],
+      "vae": ["1", 2]
     },
     "class_type": "VAEEncode",
     "_meta": {
@@ -109,14 +79,24 @@
   "8": {
     "inputs": {
       "filename_prefix": "ComfyUI",
-      "images": [
-        "5",
-        0
-      ]
+      "images": ["5", 0]
     },
     "class_type": "SaveImage",
     "_meta": {
       "title": "Save Image Finally"
+    }
+  },
+  "10": {
+    "inputs": {
+      "upscale_method": "nearest-exact",
+      "width": 413,
+      "height": 584,
+      "crop": "disabled",
+      "image": ["6", 0]
+    },
+    "class_type": "ImageScale",
+    "_meta": {
+      "title": "Upscale Image"
     }
   }
 }
