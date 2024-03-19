@@ -197,6 +197,8 @@ export class ComfyUIService implements IAIGenerateImageService {
     workflow['4']['inputs']['cfg'] = input_promts.cfg;
     workflow['4']['inputs']['sampler_name'] = input_promts.sampleMethos;
     workflow['6']['inputs']['image'] = input_promts.filename;
+    workflow['10']['inputs']['width'] = input_promts.width;
+    workflow['10']['inputs']['height'] = input_promts.height;
 
     if (input_promts.controlNets.length !== 0) {
       workflow = await this.applyMultipleControlNet(workflow, input_promts.controlNets);
