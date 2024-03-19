@@ -1,11 +1,9 @@
 import { IAIGenerateImageService } from '@core/common/interface/IAIGenerateImageService';
-import { IImageStorageService } from '@core/common/interface/IImageStorageService';
 import { ComfyUIConfig } from '@infrastructure/config/ComfyUIConfig';
 import { InputPromts } from '@infrastructure/external-services/ai-generate-image/type/InputPrompts';
 import { HttpService } from '@nestjs/axios';
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as FormData from 'form-data';
-import { Readable } from 'stream';
 import * as fs from 'fs';
 import { ComfyUIInfo } from './ComfyUIInfo';
 import { Exception } from '@core/common/exception/Exception';
@@ -13,28 +11,32 @@ import { AIGenerateImageError } from '@core/common/resource/error/AIGenerateImag
 import { GenerateInput } from '../type/GenerateInput/GenerateInput';
 import { ComfyUISokcet } from './ComfyUISocket';
 import { EnvironmentConverter } from '@core/common/util/converter/EnvironmentConverter';
+import { COMFYUI_JSON_FILE_PATH } from './ComfyUIConstant';
+import { ComfyUIControlNet } from './control-net/ComfyUIControlNet';
+import { ComfyUIUtil } from './ComfyUIUtil';
+import { InputControlnet } from '../type/Controlnet/InputControlnet';
+import { FileUtil } from '@core/common/util/FileUtil';
+import { ComfyUIUpscale } from './upscale/ComfyUIUpscale';
+import { UpscaleModelName } from '../type/Upscale/UpscaleModelName';
 
 @Injectable()
 export class ComfyUIService implements IAIGenerateImageService {
   constructor(private httpService: HttpService) {}
 
-  private JSON_FILE_PATH =
-    process.cwd() +
-    '/src/infrastructure/external-services/ai-generate-image/comfyui/workflow-json-files/';
   private info = new ComfyUIInfo();
 
   async generateTextToImage(input_promts: InputPromts): Promise<Buffer[]> {
-    const comfyui_socket = new ComfyUISokcet();
     const comfyui_prompt = this.convertToComfyUIPromptText2Img(input_promts);
+    const comfyui_socket = new ComfyUISokcet();
     const list_image_buffer = await this.getImages(comfyui_socket, comfyui_prompt);
 
     return list_image_buffer;
   }
 
   async generateImageToImage(input_promts: InputPromts): Promise<Buffer[]> {
+    const comfyui_prompt = await this.convertToComfyUIPromptImg2Img(input_promts);
     const comfyui_socket = new ComfyUISokcet();
-    const comfyui_prompt = this.convertToComfyUIPromptImg2Img(input_promts);
-    await this.uploadImage(input_promts.image, input_promts.filename);
+    await this.uploadImage(input_promts.image.buffer, input_promts.filename);
     const list_image_buffer = await this.getImages(comfyui_socket, comfyui_prompt);
 
     return list_image_buffer;
@@ -70,13 +72,13 @@ export class ComfyUIService implements IAIGenerateImageService {
   }
 
   async uploadImage(
-    file: Express.Multer.File,
+    buffer: Buffer,
     file_name: string,
     image_type = 'input',
     overwrite = false,
   ): Promise<ComfyUIUploadImageResponse> {
     const form_request = new FormData();
-    form_request.append('image', Readable.from(file.buffer), {
+    form_request.append('image', buffer, {
       filename: file_name,
     });
     form_request.append('type', image_type);
@@ -138,12 +140,13 @@ export class ComfyUIService implements IAIGenerateImageService {
       throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
     }
   }
-  convertToComfyUIPromptText2Img(input_promts: InputPromts): any {
+
+  async convertToComfyUIPromptText2Img(input_promts: InputPromts): Promise<any> {
     this.textToImagePromptValidate(input_promts);
-    const workflow_data = fs.readFileSync(this.JSON_FILE_PATH + 'text2img.json', {
+    const workflow_data = fs.readFileSync(COMFYUI_JSON_FILE_PATH + 'text2img.json', {
       encoding: 'utf-8',
     });
-    const workflow = JSON.parse(workflow_data);
+    let workflow = JSON.parse(workflow_data);
     workflow['1']['inputs']['ckpt_name'] = input_promts.style;
     workflow['2']['inputs']['text'] = input_promts.positivePrompt;
     workflow['3']['inputs']['text'] = input_promts.negativePrompt;
@@ -160,15 +163,23 @@ export class ComfyUIService implements IAIGenerateImageService {
     workflow['9']['inputs']['cfg'] = input_promts.cfg;
     workflow['9']['inputs']['sampler_name'] = input_promts.sampleMethos;
 
+    if (input_promts.controlNets.length !== 0) {
+      workflow = await this.applyMultipleControlNet(workflow, input_promts.controlNets);
+    }
+
+    if (input_promts.isUpscale) {
+      workflow = this.applyUpscale(workflow).workflow;
+    }
+
     return workflow;
   }
 
-  convertToComfyUIPromptImg2Img(input_promts: InputPromts): any {
+  async convertToComfyUIPromptImg2Img(input_promts: InputPromts): Promise<any> {
     this.imageToImagePromptValidate(input_promts);
-    const workflow_data = fs.readFileSync(this.JSON_FILE_PATH + 'img2img.json', {
+    const workflow_data = fs.readFileSync(COMFYUI_JSON_FILE_PATH + 'img2img.json', {
       encoding: 'utf-8',
     });
-    const workflow = JSON.parse(workflow_data);
+    let workflow = JSON.parse(workflow_data);
 
     workflow['1']['inputs']['ckpt_name'] = input_promts.style;
     workflow['2']['inputs']['text'] = input_promts.positivePrompt;
@@ -186,6 +197,14 @@ export class ComfyUIService implements IAIGenerateImageService {
     workflow['4']['inputs']['cfg'] = input_promts.cfg;
     workflow['4']['inputs']['sampler_name'] = input_promts.sampleMethos;
     workflow['6']['inputs']['image'] = input_promts.filename;
+
+    if (input_promts.controlNets.length !== 0) {
+      workflow = await this.applyMultipleControlNet(workflow, input_promts.controlNets);
+    }
+
+    if (input_promts.isUpscale) {
+      workflow = this.applyUpscale(workflow).workflow;
+    }
 
     return workflow;
   }
@@ -282,5 +301,73 @@ export class ComfyUIService implements IAIGenerateImageService {
     if (!generateInput.validate(value)) {
       throw new Exception(AIGenerateImageError.INVALID_INPUT_VALUE(generateInput.name));
     }
+  }
+
+  async applyControlNet(workflow: any, input_controlnet: InputControlnet, start_id: string) {
+    const uploaded_image_result = await this.uploadImage(
+      FileUtil.getBufferFromBase64(input_controlnet.image),
+      `${Date.now()}.png`,
+    );
+
+    const max_key_id = ComfyUIUtil.getMaximumIdOfWorkflow(workflow);
+    const control_net_component_result = ComfyUIControlNet.generateControlNetComponent(
+      max_key_id,
+      input_controlnet.controlNetName,
+      uploaded_image_result.name,
+      start_id,
+    );
+    let updated_workflow = ComfyUIUtil.appendWorkflow(
+      workflow,
+      control_net_component_result.workflow,
+    );
+
+    return {
+      workflow: updated_workflow,
+      output_id: control_net_component_result.output_id,
+    };
+  }
+
+  async applyMultipleControlNet(workflow: any, input_controlnets: InputControlnet[]) {
+    const positive_node_id = ComfyUIUtil.findIdByTitle(workflow, 'Positive Prompt');
+    let start_id = positive_node_id;
+    for (let index = 0; index < input_controlnets.length; index++) {
+      const input_controlnet = input_controlnets[index];
+
+      const applied_control_net_result = await this.applyControlNet(
+        workflow,
+        input_controlnet,
+        start_id,
+      );
+      start_id = applied_control_net_result.output_id;
+      workflow = applied_control_net_result.workflow;
+
+      if (index === input_controlnets.length - 1) {
+        workflow = ComfyUIControlNet.linkToKsampler(workflow, applied_control_net_result.output_id);
+      }
+    }
+
+    return workflow;
+  }
+
+  applyUpscale(workflow: any) {
+    const vae_decode_node_id = ComfyUIUtil.findIdByTitle(workflow, 'VAE Decode');
+    const max_key_id = ComfyUIUtil.getMaximumIdOfWorkflow(workflow);
+
+    const upscale_component = ComfyUIUpscale.generateUpscaleComponent(
+      max_key_id,
+      UpscaleModelName.REAL_ESRGAN_X4PLUS,
+      vae_decode_node_id,
+    );
+
+    let updated_workflow = ComfyUIUtil.appendWorkflow(workflow, upscale_component.workflow);
+    updated_workflow = ComfyUIUpscale.linkToSaveImage(
+      updated_workflow,
+      upscale_component.output_id,
+    );
+
+    return {
+      workflow: updated_workflow,
+      output_id: upscale_component.output_id,
+    };
   }
 }

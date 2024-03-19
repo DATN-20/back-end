@@ -10,8 +10,8 @@ export class ConverterUtil {
       style: generate_inputs.style,
       positivePrompt: generate_inputs.positivePrompt,
       negativePrompt: generate_inputs.negativePrompt,
-      width: generate_inputs.width,
-      height: generate_inputs.height,
+      width: parseInt(generate_inputs.width.toString()),
+      height: parseInt(generate_inputs.height.toString()),
       numberOfImage: generate_inputs.numberOfImage,
       seed: generate_inputs.seed,
       steps: generate_inputs.steps,
@@ -20,6 +20,8 @@ export class ConverterUtil {
       image: generate_inputs.image,
       noise: generate_inputs.noise,
       filename: `${user_id}_${Date.now()}.png`,
+      controlNets: generate_inputs.controlNets ?? [],
+      isUpscale: generate_inputs.isUpscale ?? false,
     };
     return result;
   }
