@@ -47,6 +47,7 @@ export const images = mysqlTable('images', {
   ]),
   createdAt: timestamp('created_at').defaultNow(),
   storageId: text('storage_id'),
+  generateId: int('generate_id'),
 });
 
 export const albums = mysqlTable('albums', {
