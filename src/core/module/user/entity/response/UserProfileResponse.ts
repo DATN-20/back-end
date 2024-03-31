@@ -21,6 +21,7 @@ export class UserProfileResponse {
     result.address = user.address;
     result.description = user.description;
     result.socials = user.socials;
+    result.aliasName = user.aliasName;
     result.role = user.role;
     result.createdAt = DateUtil.formatDate(user.createdAt);
     result.updatedAt = DateUtil.formatDate(user.updatedAt);

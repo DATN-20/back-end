@@ -25,7 +25,7 @@ export class DashboardImageRepository extends BaseRepository {
         and(
           eq(images_interaction.type, data.type),
           between(images_interaction.updatedAt, data.from_date, data.to_date),
-          eq(images.visibility, VisibilityType.PUBLIC),
+          eq(images.visibility, true),
         ),
       );
 
@@ -52,7 +52,7 @@ export class DashboardImageRepository extends BaseRepository {
         and(
           eq(images_interaction.type, data.type),
           between(images_interaction.updatedAt, data.from_date, data.to_date),
-          eq(images.visibility, VisibilityType.PUBLIC),
+          eq(images.visibility, true),
         ),
       )
       .orderBy(desc(sql`count(${images.id})`))
@@ -77,7 +77,7 @@ export class DashboardImageRepository extends BaseRepository {
         images_interaction,
         and(eq(images.id, images_interaction.imageId), eq(images_interaction.type, type)),
       )
-      .where(eq(images.visibility, VisibilityType.PUBLIC))
+      .where(eq(images.visibility, true))
       .groupBy(sql`${images.id}`)
       .orderBy(desc(sql`IFNULL(count(${images_interaction.imageId}),0)`))
       .limit(limit)
@@ -100,7 +100,7 @@ export class DashboardImageRepository extends BaseRepository {
           eq(images_interaction.type, InteractionType.LIKE),
         ),
       )
-      .where(eq(images.visibility, VisibilityType.PUBLIC))
+      .where(eq(images.visibility, true))
       .groupBy(sql`${images.id}`)
       .orderBy(desc(images.createdAt))
       .limit(limit)
@@ -115,7 +115,7 @@ export class DashboardImageRepository extends BaseRepository {
         total: sql<number>`count(*)`.mapWith(Number),
       })
       .from(images)
-      .where(eq(images.visibility, VisibilityType.PUBLIC))
+      .where(eq(images.visibility, true))
       .orderBy(asc(sql`RAND()`));
 
     const total_count_result = await total_count_query;
@@ -136,7 +136,7 @@ export class DashboardImageRepository extends BaseRepository {
           eq(images_interaction.type, InteractionType.LIKE),
         ),
       )
-      .where(eq(images.visibility, VisibilityType.PUBLIC))
+      .where(eq(images.visibility, true))
       .groupBy(sql`${images.id}`)
       .orderBy(asc(sql`RAND()`))
       .limit(limit)

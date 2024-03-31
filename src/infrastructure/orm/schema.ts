@@ -1,9 +1,17 @@
 import { ImageType } from '@core/common/enum/ImageType';
 import { InteractionType } from '@core/common/enum/InteractionType';
 import { UserRole } from '@core/common/enum/UserRole';
-import { VisibilityType } from '@core/common/enum/VisibilityType';
 import { relations } from 'drizzle-orm';
-import { int, json, mysqlEnum, mysqlTable, text, timestamp, varchar } from 'drizzle-orm/mysql-core';
+import {
+  boolean,
+  int,
+  json,
+  mysqlEnum,
+  mysqlTable,
+  text,
+  timestamp,
+  varchar,
+} from 'drizzle-orm/mysql-core';
 
 export const users = mysqlTable('users', {
   id: int('id').primaryKey().autoincrement(),
@@ -40,11 +48,7 @@ export const images = mysqlTable('images', {
   aiName: text('ai_name'),
   style: text('model_name'),
   additionInfo: text('addition_info'),
-  visibility: mysqlEnum('visibility', [
-    VisibilityType.PUBLIC,
-    VisibilityType.PRIVATE,
-    VisibilityType.HIDDEN,
-  ]),
+  visibility: boolean('visibility').default(true),
   createdAt: timestamp('created_at').defaultNow(),
   storageId: text('storage_id'),
   generateId: int('generate_id'),
