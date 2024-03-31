@@ -7,4 +7,9 @@ export class UserError {
     message: 'User not found!',
     status_code: HttpStatus.NOT_FOUND,
   };
+  public static POST_ERROR: ErrorBase = {
+    error_code: '05003',
+    message: 'Post error!, image or album is not exist',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
 }

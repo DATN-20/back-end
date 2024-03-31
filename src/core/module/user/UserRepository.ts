@@ -1,7 +1,8 @@
 import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { users } from '@infrastructure/orm/schema';
 import { User } from './entity/User';
-import { eq } from 'drizzle-orm';
+import { SQL, eq, sql } from 'drizzle-orm';
+import { SocialRequest } from './entity/request/SocialRequest';
 
 export class UserRepository extends BaseRepository {
   async create(user: {
@@ -54,5 +55,26 @@ export class UserRepository extends BaseRepository {
       .where(eq(users.id, id));
 
     return await this.getById(id);
+  }
+
+  async addSocial(id: number, social: SocialRequest): Promise<void> {
+    await this.database
+      .update(users)
+      .set({
+        socials: sql`CASE WHEN socials IS NULL THEN JSON_OBJECT( "social_name" , ${social.social_name},"social_link" , ${social.social_link}) ELSE JSON_ARRAY_APPEND (socials, '$', JSON_OBJECT( "social_name" , ${social.social_name},"social_link" , ${social.social_link})) END`,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, id));
+  }
+
+  //error here
+  async deleteSocial(id: number, social_name: string): Promise<void> {
+    await this.database
+      .update(users)
+      .set({
+        socials: sql`JSON_REMOVE(socials, JSON_UNQUOTE(JSON_SEARCH(socials, 'one', ${social_name}, NULL, '$[*].social_link')))`,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, id));
   }
 }
