@@ -62,7 +62,7 @@ export class UserRepository extends BaseRepository {
     await this.database
       .update(users)
       .set({
-        socials: sql`CASE WHEN socials IS NULL THEN JSON_OBJECT( "social_name" , ${social.social_name},"social_link" , ${social.social_link}) ELSE JSON_ARRAY_APPEND (socials, '$', JSON_OBJECT( "social_name" , ${social.social_name},"social_link" , ${social.social_link})) END`,
+        socials: sql`CASE WHEN socials IS NULL THEN JSON_OBJECT( "social_name" , ${social.socialName},"social_link" , ${social.socialLink}) ELSE JSON_ARRAY_APPEND (socials, '$', JSON_OBJECT( "social_name" , ${social.socialName}, "social_link" , ${social.socialLink})) END`,
         updatedAt: new Date(),
       })
       .where(eq(users.id, id));

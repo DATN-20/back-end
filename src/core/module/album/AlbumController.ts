@@ -67,7 +67,7 @@ export class AlbumController {
   async getFullInfo(@User() user: UserFromAuthGuard): Promise<AlbumWithImageResponse[]> {
     return this.albumService.getFullInfo(user.id);
   }
-  @Post(':albumId/add-image')
+  @Post(':albumId')
   addImageToAlbum(
     @User() user: UserFromAuthGuard,
     @Param('albumId') album_id: number,
@@ -75,7 +75,7 @@ export class AlbumController {
   ): Promise<ImageAlbumResponse[]> {
     return this.imageAlbumService.addImageToAlbum(user.id, album_id, imageAlbumRequest);
   }
-  @Delete(':albumId/remove-image')
+  @Delete(':albumId')
   async removeImageFromAlbum(
     @User() user: UserFromAuthGuard,
     @Param('albumId') album_id: number,
@@ -85,7 +85,7 @@ export class AlbumController {
     return ImageAlbumMessage.DELETE_SUCCESS;
   }
 
-  @Get(':albumId/images')
+  @Get(':albumId')
   getAllImagesInAlbum(
     @User() user: UserFromAuthGuard,
     @Param('albumId') album_id: number,
