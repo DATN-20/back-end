@@ -3,6 +3,7 @@ import { users } from '@infrastructure/orm/schema';
 import { User } from './entity/User';
 import { SQL, eq, sql } from 'drizzle-orm';
 import { SocialRequest } from './entity/request/SocialRequest';
+import { ProfileRequest } from './entity/request/ProfileRequest';
 
 export class UserRepository extends BaseRepository {
   async create(user: {
@@ -66,13 +67,17 @@ export class UserRepository extends BaseRepository {
       })
       .where(eq(users.id, id));
   }
-
-  //error here
-  async deleteSocial(id: number, social_name: string): Promise<void> {
+  async updateProfile(id: number, profile: ProfileRequest): Promise<void> {
     await this.database
       .update(users)
       .set({
-        socials: sql`JSON_REMOVE(socials, JSON_UNQUOTE(JSON_SEARCH(socials, 'one', ${social_name}, NULL, '$[*].social_link')))`,
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        aliasName: profile.aliasName,
+        phone: profile.phone,
+        socials: sql`NULL`,
+        address: profile.address,
+        description: profile.description,
         updatedAt: new Date(),
       })
       .where(eq(users.id, id));
