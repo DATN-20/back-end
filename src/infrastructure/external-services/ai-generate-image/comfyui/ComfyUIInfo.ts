@@ -74,7 +74,7 @@ export class ComfyUIInfo {
   private cfgStep = 0.5;
   private cfgInputPropertyName = 'cfg';
 
-  private noiseName = 'CFG';
+  private noiseName = 'Noise';
   private noiseDesc = '';
   private noiseMin = 0;
   private noiseMax = 1;

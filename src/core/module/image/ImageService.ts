@@ -10,6 +10,7 @@ import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 import { ImageType } from '@core/common/enum/ImageType';
 import { NewImage } from './entity/Image';
 import { GenerateInputs } from '../generate-image/entity/request/GenerateInputs';
+import { GenerateImageListResponse } from './entity/response/GenerateImageListResponse';
 
 @Injectable()
 export class ImageService {
@@ -104,12 +105,15 @@ export class ImageService {
   ) {
     const result: ImageResponse[] = [];
 
+    const generate_id = (await this.imageRepository.getUserMaxGenerateID(user_id)) + 1;
+
     for (const image_buffer of list_image_buffer) {
       const image_response = await this.handleCreateGenerateImage(
         user_id,
         image_buffer,
         image_type,
         prompt,
+        generate_id,
       );
 
       result.push(image_response);
@@ -123,6 +127,7 @@ export class ImageService {
     image_buffer: Buffer,
     image_type: ImageType,
     promts: GenerateInputs,
+    generate_id: number,
   ) {
     const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
 
@@ -134,6 +139,7 @@ export class ImageService {
       prompt: promts.positivePrompt,
       aiName: promts.aiName,
       style: promts.style,
+      generateId: generate_id,
     };
     const image = await this.imageRepository.create(new_image);
 
@@ -149,10 +155,24 @@ export class ImageService {
       generatedImageTypes,
     );
 
-    const result = [];
+    images.sort((a, b) => b.generateId - a.generateId);
+
+    const generateImagesList = [];
+
     for (const image of images) {
-      result.push(ImageResponse.convertFromImage(image).toJson());
+      if (
+        generateImagesList.length == 0 ||
+        image.generateId != generateImagesList[generateImagesList.length - 1].getGenerateId()
+      ) {
+        generateImagesList.push(
+          new GenerateImageListResponse(image.style, image.prompt, image.generateId),
+        );
+      }
+      const image_response = new ImageResponse(image);
+      generateImagesList[generateImagesList.length - 1].addImage(image_response);
     }
+
+    const result = generateImagesList.map(generateImages => generateImages.toJson());
 
     return result;
   }

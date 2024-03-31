@@ -184,9 +184,9 @@ export class ComfyUIService implements IAIGenerateImageService {
     workflow['1']['inputs']['ckpt_name'] = input_promts.style;
     workflow['2']['inputs']['text'] = input_promts.positivePrompt;
     workflow['3']['inputs']['text'] = input_promts.negativePrompt;
-    workflow['8']['inputs']['width'] = input_promts.width;
-    workflow['8']['inputs']['height'] = input_promts.height;
-    workflow['8']['inputs']['batch_size'] = input_promts.numberOfImage;
+    workflow['10']['inputs']['width'] = input_promts.width;
+    workflow['10']['inputs']['height'] = input_promts.height;
+    workflow['12']['inputs']['batch_size'] = input_promts.numberOfImage;
     if (input_promts.seed != null) {
       workflow['4']['inputs']['seed'] = input_promts.seed;
     } else {
@@ -197,6 +197,7 @@ export class ComfyUIService implements IAIGenerateImageService {
     workflow['4']['inputs']['cfg'] = input_promts.cfg;
     workflow['4']['inputs']['sampler_name'] = input_promts.sampleMethos;
     workflow['6']['inputs']['image'] = input_promts.filename;
+    workflow['4']['inputs']['denoise'] = input_promts.noise;
 
     if (input_promts.controlNets.length !== 0) {
       workflow = await this.applyMultipleControlNet(workflow, input_promts.controlNets);
