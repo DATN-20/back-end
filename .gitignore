@@ -405,3 +405,5 @@ dist
 .env
 .vscode
 package-lock.json
+
+src/infrastructure/orm/migration
