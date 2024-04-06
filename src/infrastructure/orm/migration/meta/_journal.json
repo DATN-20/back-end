@@ -43,6 +43,13 @@
       "when": 1709993696551,
       "tag": "0005_dazzling_skullbuster",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1711942890487,
+      "tag": "0006_shiny_archangel",
+      "breakpoints": true
     }
   ]
 }

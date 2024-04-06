@@ -18,6 +18,8 @@ import { InputControlnet } from '../type/Controlnet/InputControlnet';
 import { FileUtil } from '@core/common/util/FileUtil';
 import { ComfyUIUpscale } from './upscale/ComfyUIUpscale';
 import { UpscaleModelName } from '../type/Upscale/UpscaleModelName';
+import { WorkflowResultJson } from '../type/WorkflowResult';
+import { exit } from 'process';
 
 @Injectable()
 export class ComfyUIService implements IAIGenerateImageService {
@@ -187,6 +189,7 @@ export class ComfyUIService implements IAIGenerateImageService {
     workflow['10']['inputs']['width'] = input_promts.width;
     workflow['10']['inputs']['height'] = input_promts.height;
     workflow['12']['inputs']['batch_size'] = input_promts.numberOfImage;
+    workflow['12']['inputs']['amount'] = input_promts.numberOfImage;
     if (input_promts.seed != null) {
       workflow['4']['inputs']['seed'] = input_promts.seed;
     } else {
@@ -304,19 +307,36 @@ export class ComfyUIService implements IAIGenerateImageService {
     }
   }
 
-  async applyControlNet(workflow: any, input_controlnet: InputControlnet, start_id: string) {
+  async applyControlNet(
+    workflow: any,
+    input_controlnet: InputControlnet,
+    start_id: string,
+  ): Promise<WorkflowResultJson> {
     const uploaded_image_result = await this.uploadImage(
       FileUtil.getBufferFromBase64(input_controlnet.image),
       `${Date.now()}.png`,
     );
 
     const max_key_id = ComfyUIUtil.getMaximumIdOfWorkflow(workflow);
-    const control_net_component_result = ComfyUIControlNet.generateControlNetComponent(
-      max_key_id,
-      input_controlnet.controlNetName,
-      uploaded_image_result.name,
-      start_id,
-    );
+    let control_net_component_result: WorkflowResultJson;
+
+    if (input_controlnet.preprocessor) {
+      control_net_component_result = ComfyUIControlNet.generateControlNetComponentWithAIO(
+        max_key_id,
+        input_controlnet.controlNetName,
+        input_controlnet.preprocessor,
+        uploaded_image_result.name,
+        start_id,
+      );
+    } else {
+      control_net_component_result = ComfyUIControlNet.generateControlNetComponent(
+        max_key_id,
+        input_controlnet.controlNetName,
+        uploaded_image_result.name,
+        start_id,
+      );
+    }
+
     let updated_workflow = ComfyUIUtil.appendWorkflow(
       workflow,
       control_net_component_result.workflow,
@@ -350,7 +370,7 @@ export class ComfyUIService implements IAIGenerateImageService {
     return workflow;
   }
 
-  applyUpscale(workflow: any) {
+  applyUpscale(workflow: any): WorkflowResultJson {
     const vae_decode_node_id = ComfyUIUtil.findIdByTitle(workflow, 'VAE Decode');
     const max_key_id = ComfyUIUtil.getMaximumIdOfWorkflow(workflow);
 
