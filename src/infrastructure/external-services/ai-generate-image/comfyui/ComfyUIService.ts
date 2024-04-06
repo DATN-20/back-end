@@ -19,7 +19,6 @@ import { FileUtil } from '@core/common/util/FileUtil';
 import { ComfyUIUpscale } from './upscale/ComfyUIUpscale';
 import { UpscaleModelName } from '../type/Upscale/UpscaleModelName';
 import { WorkflowResultJson } from '../type/WorkflowResult';
-import { exit } from 'process';
 
 @Injectable()
 export class ComfyUIService implements IAIGenerateImageService {
