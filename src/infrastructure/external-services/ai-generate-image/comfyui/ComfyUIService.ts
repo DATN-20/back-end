@@ -23,7 +23,7 @@ export class ComfyUIService implements IAIGenerateImageService {
 
   async generateTextToImage(input_promts: InputPromts): Promise<Buffer[]> {
     this.comfyUIValidator.textToImagePromptValidate(this.info, input_promts);
-    const comfyui_prompt = this.comfyUIConverter.convertToComfyUIPromptText2Img(input_promts);
+    const comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptText2Img(input_promts);
     const comfyui_socket = new ComfyUISokcet();
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);
 
