@@ -3,9 +3,11 @@ import { COMFYUI_JSON_FILE_PATH } from '../ComfyUIConstant';
 import * as fs from 'fs';
 import { ComfyUIUtil } from '../ComfyUIUtil';
 import { ControlnetNameEnum } from '../../type/Controlnet/ControlnetNameEnum';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class ComfyUIControlNet {
-  public static generateControlNetComponent(
+  public generateControlNetComponent(
     start_id: string,
     control_net_name: ControlnetNameEnum,
     image_name: string,
@@ -48,7 +50,7 @@ export class ComfyUIControlNet {
     };
   }
 
-  public static linkToKsampler(workflow: any, control_net_apply_id: string) {
+  public linkToKsampler(workflow: any, control_net_apply_id: string) {
     const ksampler_id = ComfyUIUtil.findIdByTitle(workflow, 'KSampler');
 
     workflow[ksampler_id]['inputs']['positive'][0] = control_net_apply_id;
