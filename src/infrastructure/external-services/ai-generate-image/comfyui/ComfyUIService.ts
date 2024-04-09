@@ -18,10 +18,15 @@ import { InputControlnet } from '../type/Controlnet/InputControlnet';
 import { FileUtil } from '@core/common/util/FileUtil';
 import { ComfyUIUpscale } from './upscale/ComfyUIUpscale';
 import { UpscaleModelName } from '../type/Upscale/UpscaleModelName';
+import { IComfyUIFeatureService } from '@core/common/interface/IComfyUIFeatureService';
+import { RemoveBackgroundReq } from '@core/module/generate-image/entity/request/RemoveBackgroundReq';
 
 @Injectable()
-export class ComfyUIService implements IAIGenerateImageService {
-  constructor(private httpService: HttpService) {}
+export class ComfyUIService implements IAIGenerateImageService, IComfyUIFeatureService {
+  constructor(private httpService: HttpService, private controlNetService: ComfyUIControlNet) {}
+  async removeBackground(req_data: RemoveBackgroundReq): Promise<string> {
+    throw new Error('Method not implemented.');
+  }
 
   private info = new ComfyUIInfo();
 
@@ -311,7 +316,7 @@ export class ComfyUIService implements IAIGenerateImageService {
     );
 
     const max_key_id = ComfyUIUtil.getMaximumIdOfWorkflow(workflow);
-    const control_net_component_result = ComfyUIControlNet.generateControlNetComponent(
+    const control_net_component_result = this.controlNetService.generateControlNetComponent(
       max_key_id,
       input_controlnet.controlNetName,
       uploaded_image_result.name,
@@ -343,7 +348,10 @@ export class ComfyUIService implements IAIGenerateImageService {
       workflow = applied_control_net_result.workflow;
 
       if (index === input_controlnets.length - 1) {
-        workflow = ComfyUIControlNet.linkToKsampler(workflow, applied_control_net_result.output_id);
+        workflow = this.controlNetService.linkToKsampler(
+          workflow,
+          applied_control_net_result.output_id,
+        );
       }
     }
 

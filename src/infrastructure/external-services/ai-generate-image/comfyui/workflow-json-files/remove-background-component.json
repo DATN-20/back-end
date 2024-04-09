@@ -1,0 +1,31 @@
+{
+  "%%remove_background_input_image_node_id%%": {
+    "inputs": {
+      "image": "%%remove_background_input_image_file_name%%",
+      "upload": "image"
+    },
+    "class_type": "LoadImage_RemoveBackground"
+  },
+  "%%remove_background_image_rembg_id%%": {
+    "inputs": {
+      "transparency": true,
+      "model": "isnet-anime",
+      "post_processing": true,
+      "only_mask": false,
+      "alpha_matting": true,
+      "alpha_matting_foreground_threshold": 0,
+      "alpha_matting_background_threshold": 0,
+      "alpha_matting_erode_size": 100,
+      "background_color": "black",
+      "images": ["%%remove_background_input_image_node_id%%", 0]
+    },
+    "class_type": "ImageRembg_RemoveBackground"
+  },
+  "%%remove_background_save_image_id%%": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": ["%%remove_background_image_rembg_id%%", 0]
+    },
+    "class_type": "SaveImage_RemoveBackground"
+  }
+}
