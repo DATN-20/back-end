@@ -3,10 +3,13 @@ import { UpscaleModelName } from '../../type/Upscale/UpscaleModelName';
 import { NodeUpscaleInfo } from '../../type/Upscale/NodeUpscaleInfo';
 import { COMFYUI_JSON_FILE_PATH } from '../ComfyUIConstant';
 import { ComfyUIUtil } from '../ComfyUIUtil';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class ComfyUIUpscale {
-  private static FILE_NAME: string = 'upscale-component.json';
-  public static generateUpscaleComponent(
+  private FILE_NAME: string = 'upscale-component.json';
+
+  public generateUpscaleComponent(
     start_id: string,
     model_name: UpscaleModelName,
     input_image_id: string,
@@ -43,7 +46,7 @@ export class ComfyUIUpscale {
     };
   }
 
-  public static linkToSaveImage(workflow: any, upscale_image_with_model_id: string) {
+  public linkToSaveImage(workflow: any, upscale_image_with_model_id: string) {
     const save_image_id = ComfyUIUtil.findIdByTitle(workflow, 'Save Image Finally');
 
     workflow[save_image_id]['inputs']['images'][0] = upscale_image_with_model_id;
