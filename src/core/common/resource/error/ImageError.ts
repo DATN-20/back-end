@@ -52,4 +52,16 @@ export class ImageError {
       status_code: HttpStatus.INTERNAL_SERVER_ERROR,
     };
   }
+
+  public static FORBIDDEN_IMAGES: ErrorBase = {
+    error_code: '03007',
+    message: 'You are not have permission to access to this image!',
+    status_code: HttpStatus.FORBIDDEN,
+  };
+
+  public static IMAGE_REMOVED_BACKGROUD: ErrorBase = {
+    error_code: '03007',
+    message: 'This image is removed background!',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
 }

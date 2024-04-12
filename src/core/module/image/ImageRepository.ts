@@ -46,4 +46,16 @@ export class ImageRepository extends BaseRepository {
 
     return result;
   }
+
+  async updateRemoveBackgroundImageById(
+    image_id: number,
+    remove_background_url: string,
+  ): Promise<Image> {
+    await this.database
+      .update(images)
+      .set({ removeBackground: remove_background_url })
+      .where(eq(images.id, image_id));
+
+    return this.getById(image_id);
+  }
 }

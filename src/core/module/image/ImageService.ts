@@ -11,6 +11,8 @@ import { ImageType } from '@core/common/enum/ImageType';
 import { NewImage } from './entity/Image';
 import { GenerateInputs } from '../generate-image/entity/request/GenerateInputs';
 import { GenerateImageListResponse } from './entity/response/GenerateImageListResponse';
+import { UrlUtil } from '@core/common/util/UrlUtil';
+import { ComfyUIService } from '@infrastructure/external-services/ai-generate-image/comfyui/ComfyUIService';
 
 @Injectable()
 export class ImageService {
@@ -18,6 +20,7 @@ export class ImageService {
     private readonly imageRepository: ImageRepository,
     @Inject('ImageStorageService') private readonly imageStorageService: IImageStorageService,
     private readonly imageInteractRepository: ImageInteractionRepository,
+    private readonly comfyUIService: ComfyUIService,
   ) {}
 
   async handleUploadImages(
@@ -175,5 +178,48 @@ export class ImageService {
     const result = generateImagesList.map(generateImages => generateImages.toJson());
 
     return result;
+  }
+
+  async handleRemoveBackground(user_id: number, image_id: number): Promise<ImageResponse[]> {
+    const image = await this.imageRepository.getById(image_id);
+
+    if (!image) {
+      throw new Exception(ImageError.IMAGE_NOT_FOUND);
+    }
+
+    if (image.userId !== user_id) {
+      throw new Exception(ImageError.FORBIDDEN_IMAGES);
+    }
+
+    if (image.removeBackground || image.removeBackground !== '') {
+      throw new Exception(ImageError.IMAGE_REMOVED_BACKGROUD);
+    }
+
+    const image_buffer = await UrlUtil.urlImageToBuffer(image.url);
+    const images_result_from_comfyui = await this.comfyUIService.removeBackground(image_buffer);
+    const result: ImageResponse[] = [];
+
+    for (const image_buffer of images_result_from_comfyui) {
+      const image_response = await this.handleUpdateRemoveBackgroundImage(image.id, image_buffer);
+
+      result.push(image_response);
+    }
+
+    return result;
+  }
+
+  async handleUpdateRemoveBackgroundImage(
+    image_id: number,
+    image_buffer: Buffer,
+  ): Promise<ImageResponse> {
+    const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
+    const image = await this.imageRepository.updateRemoveBackgroundImageById(
+      image_id,
+      image_upload_result.url,
+    );
+
+    const image_response = ImageResponse.convertFromImage(image);
+
+    return image_response;
   }
 }

@@ -7,6 +7,7 @@ import { ComfyUIConverter } from './ComfyUIConverter';
 import { ComfyUIValidator } from './ComfyUIValidator';
 import { ComfyUIApi } from './ComfyUIApi';
 import { ComfyUIFeature } from './ComfyUIFeature';
+import { RemoveBackgroundReq } from '@core/module/image/entity/request/RemoveBackgroundReq';
 
 @Injectable()
 export class ComfyUIService implements IAIGenerateImageService {
@@ -19,6 +20,13 @@ export class ComfyUIService implements IAIGenerateImageService {
     private readonly comfyUIFeature: ComfyUIFeature,
   ) {
     this.info = new ComfyUIInfo();
+  }
+  async removeBackground(image_buffer: Buffer): Promise<Buffer[]> {
+    const comfyui_workflow = await this.comfyUIFeature.removeBackgroundWorkflow(image_buffer);
+    const comfyui_socket = new ComfyUISokcet();
+    const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_workflow);
+
+    return list_image_buffer;
   }
 
   async generateTextToImage(input_promts: InputPromts): Promise<Buffer[]> {
