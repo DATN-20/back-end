@@ -4,7 +4,7 @@
       "image": "%%remove_background_input_image_file_name%%",
       "upload": "image"
     },
-    "class_type": "LoadImage_RemoveBackground"
+    "class_type": "LoadImage"
   },
   "%%remove_background_image_rembg_id%%": {
     "inputs": {
@@ -19,13 +19,13 @@
       "background_color": "black",
       "images": ["%%remove_background_input_image_node_id%%", 0]
     },
-    "class_type": "ImageRembg_RemoveBackground"
+    "class_type": "Image Rembg (Remove Background)"
   },
   "%%remove_background_save_image_id%%": {
     "inputs": {
       "filename_prefix": "ComfyUI",
       "images": ["%%remove_background_image_rembg_id%%", 0]
     },
-    "class_type": "SaveImage_RemoveBackground"
+    "class_type": "SaveImage"
   }
 }

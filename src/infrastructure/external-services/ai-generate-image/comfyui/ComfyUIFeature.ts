@@ -4,8 +4,10 @@ import { InputControlnet } from '../type/Controlnet/InputControlnet';
 import { FileUtil } from '@core/common/util/FileUtil';
 import { ComfyUIUtil } from './ComfyUIUtil';
 import { ComfyUIControlNet } from './control-net/ComfyUIControlNet';
+import { ComfyUIRemoveBackground } from './remove-background/ComfyUIRemoveBackground';
 import { ComfyUIUpscale } from './upscale/ComfyUIUpscale';
 import { UpscaleModelName } from '../type/Upscale/UpscaleModelName';
+import { DEFAULT_REMOVE_BACKGROUND_PROPERTY } from './remove-background/types/constant';
 
 @Injectable()
 export class ComfyUIFeature {
@@ -13,6 +15,7 @@ export class ComfyUIFeature {
     private readonly comfyUIApi: ComfyUIApi,
     private readonly comfyUIControlNet: ComfyUIControlNet,
     private readonly comfyUIUpscale: ComfyUIUpscale,
+    private readonly comfyUIRemoveBackground: ComfyUIRemoveBackground,
   ) {}
 
   async applyControlNet(workflow: any, input_controlnet: InputControlnet, start_id: string) {
@@ -84,5 +87,17 @@ export class ComfyUIFeature {
       workflow: updated_workflow,
       output_id: upscale_component.output_id,
     };
+  }
+
+  async removeBackgroundWorkflow(image_buffer: Buffer) {
+    const result_uploaded_image = await this.comfyUIApi.uploadImage(
+      image_buffer,
+      `${Date.now()}.png`,
+    );
+
+    return this.comfyUIRemoveBackground.generateWorkflow(
+      result_uploaded_image.name,
+      DEFAULT_REMOVE_BACKGROUND_PROPERTY,
+    ).workflow;
   }
 }

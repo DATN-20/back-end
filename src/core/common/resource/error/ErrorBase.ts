@@ -28,4 +28,9 @@ export class ErrorBaseSystem {
     message: 'Unauthorize token!',
     status_code: HttpStatus.UNAUTHORIZED,
   };
+  public static INTERNAL_SERVER_ERROR: ErrorBase = {
+    error_code: '00005',
+    message: 'Internal server error!',
+    status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+  };
 }

@@ -1,19 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { RemoveBackgroundComponentParams } from '../upscale/types/ComponentParameters';
 import { COMFYUI_JSON_FILE_PATH } from '../ComfyUIConstant';
 import * as fs from 'fs';
-import { NodeRemoveBackground } from '../upscale/types/NodeRemoveBackground';
+import { NodeRemoveBackground } from './types/NodeRemoveBackground';
+import { RemoveBackgroundProperty } from './types/RemoveBackgroundProperty';
 
 @Injectable()
 export class ComfyUIRemoveBackground {
-  public generateWorkflow(args: RemoveBackgroundComponentParams) {
+  public generateWorkflow(
+    input_image_file_name: string,
+    rembg_property: RemoveBackgroundProperty,
+    start_id: string = '0',
+  ) {
     let workflow_data_string = fs.readFileSync(
-      COMFYUI_JSON_FILE_PATH + 'controlnet-component.json',
+      COMFYUI_JSON_FILE_PATH + 'remove-background-component.json',
       {
         encoding: 'utf-8',
       },
     );
-    let node_id = parseInt(args.start_id);
+    let node_id = parseInt(start_id);
     node_id += 1;
     workflow_data_string = workflow_data_string.replaceAll(
       NodeRemoveBackground.IMAGE_REMBG_INPUT_IMAGE_NODE_ID,
@@ -21,7 +25,7 @@ export class ComfyUIRemoveBackground {
     );
     workflow_data_string = workflow_data_string.replaceAll(
       NodeRemoveBackground.IMAGE_REMBG_INPUT_IMAGE_FILE_NAME,
-      args.input_image_file_name,
+      input_image_file_name,
     );
 
     node_id += 1;
@@ -38,18 +42,18 @@ export class ComfyUIRemoveBackground {
     );
 
     const workflow = JSON.parse(workflow_data_string);
-    workflow[image_rembg_id]['inputs']['transparency'] = args.rembg_property.transparency;
-    workflow[image_rembg_id]['inputs']['model'] = args.rembg_property.model;
-    workflow[image_rembg_id]['inputs']['post_processing'] = args.rembg_property.post_processing;
-    workflow[image_rembg_id]['inputs']['only_mask'] = args.rembg_property.only_mask;
-    workflow[image_rembg_id]['inputs']['alpha_matting'] = args.rembg_property.alpha_matting;
+    workflow[image_rembg_id]['inputs']['transparency'] = rembg_property.transparency;
+    workflow[image_rembg_id]['inputs']['model'] = rembg_property.model;
+    workflow[image_rembg_id]['inputs']['post_processing'] = rembg_property.post_processing;
+    workflow[image_rembg_id]['inputs']['only_mask'] = rembg_property.only_mask;
+    workflow[image_rembg_id]['inputs']['alpha_matting'] = rembg_property.alpha_matting;
     workflow[image_rembg_id]['inputs']['alpha_matting_foreground_threshold'] =
-      args.rembg_property.alpha_matting_foreground_threshold;
+      rembg_property.alpha_matting_foreground_threshold;
     workflow[image_rembg_id]['inputs']['alpha_matting_background_threshold'] =
-      args.rembg_property.alpha_matting_background_threshold;
+      rembg_property.alpha_matting_background_threshold;
     workflow[image_rembg_id]['inputs']['alpha_matting_erode_size'] =
-      args.rembg_property.alpha_matting_erode_size;
-    workflow[image_rembg_id]['inputs']['background_color'] = args.rembg_property.background_color;
+      rembg_property.alpha_matting_erode_size;
+    workflow[image_rembg_id]['inputs']['background_color'] = rembg_property.background_color;
 
     return {
       workflow,
