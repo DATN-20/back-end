@@ -191,6 +191,10 @@ export class ImageService {
       throw new Exception(ImageError.FORBIDDEN_IMAGES);
     }
 
+    if (image.removeBackground || image.removeBackground !== '') {
+      throw new Exception(ImageError.IMAGE_REMOVED_BACKGROUD);
+    }
+
     const image_buffer = await UrlUtil.urlImageToBuffer(image.url);
     const images_result_from_comfyui = await this.comfyUIService.removeBackground(image_buffer);
     const result: ImageResponse[] = [];
