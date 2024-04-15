@@ -8,7 +8,7 @@ export class AIFeatureServiceManager {
 
   constructor(private readonly comfyUIService: ComfyUIService) {
     this.aIList = {
-      comfyUI: comfyUIService,
+      comfyUI: this.comfyUIService,
     };
   }
 
