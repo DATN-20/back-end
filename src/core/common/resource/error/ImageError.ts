@@ -64,4 +64,16 @@ export class ImageError {
     message: 'This image is removed background!',
     status_code: HttpStatus.BAD_REQUEST,
   };
+
+  public static IMAGE_UPSCALED: ErrorBase = {
+    error_code: '03008',
+    message: 'This image is upscaled!',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
+
+  public static INVALID_PROCESS_TYPE: ErrorBase = {
+    error_code: '03009',
+    message: 'Invalid processing typr!',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
 }

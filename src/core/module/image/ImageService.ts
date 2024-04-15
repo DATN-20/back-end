@@ -12,8 +12,8 @@ import { NewImage } from './entity/Image';
 import { GenerateInputs } from '../generate-image/entity/request/GenerateInputs';
 import { GenerateImageListResponse } from './entity/response/GenerateImageListResponse';
 import { UrlUtil } from '@core/common/util/UrlUtil';
-import { ComfyUIService } from '@infrastructure/external-services/ai-generate-image/comfyui/ComfyUIService';
 import { AIFeatureServiceManager } from '@infrastructure/external-services/ai-generate-image/AIFeatureServiceManager';
+import { ProcessType } from './entity/ProcessType';
 
 @Injectable()
 export class ImageService {
@@ -181,7 +181,11 @@ export class ImageService {
     return result;
   }
 
-  async handleRemoveBackground(user_id: number, image_id: number): Promise<ImageResponse> {
+  async handleImageProcessing(
+    user_id: number,
+    process_type: ProcessType,
+    image_id: number,
+  ): Promise<ImageResponse> {
     const image = await this.imageRepository.getById(image_id);
 
     if (!image) {
@@ -192,35 +196,76 @@ export class ImageService {
       throw new Exception(ImageError.FORBIDDEN_IMAGES);
     }
 
-    if (image.removeBackground) {
-      throw new Exception(ImageError.IMAGE_REMOVED_BACKGROUD);
+    switch (process_type) {
+      case ProcessType.REMOVE_BACKGROUND:
+        if (image.removeBackground) {
+          throw new Exception(ImageError.IMAGE_REMOVED_BACKGROUD);
+        }
+        break;
+
+      case ProcessType.UPSCALE:
+        if (image.upscale) {
+          throw new Exception(ImageError.IMAGE_UPSCALED);
+        }
+        break;
+      default:
+        throw new Exception(ImageError.INVALID_PROCESS_TYPE);
     }
 
-    const image_buffer = await UrlUtil.urlImageToBuffer(image.url);
-    const images_result_from_comfyui = await this.aiFeatureService.removeBackground(
-      'comfyUI',
-      image_buffer,
+    const image_buffer_input = await UrlUtil.urlImageToBuffer(image.url);
+
+    let images_result_from_comfyui;
+    switch (process_type) {
+      case ProcessType.REMOVE_BACKGROUND:
+        images_result_from_comfyui = await this.aiFeatureService.removeBackground(
+          'comfyUI',
+          image_buffer_input,
+        );
+        break;
+      case ProcessType.UPSCALE:
+        images_result_from_comfyui = await this.aiFeatureService.upscale(
+          'comfyUI',
+          image_buffer_input,
+        );
+        break;
+      default:
+        throw new Exception(ImageError.INVALID_PROCESS_TYPE);
+    }
+
+    const image_response = await this.handleUpdatePropertycorrespondingOfImage(
+      process_type,
+      image.id,
+      images_result_from_comfyui[0],
     );
-    const result: ImageResponse[] = [];
 
-    for (const image_buffer of images_result_from_comfyui) {
-      const image_response = await this.handleUpdateRemoveBackgroundImage(image.id, image_buffer);
-
-      result.push(image_response);
-    }
-
-    return result[0];
+    return image_response;
   }
 
-  async handleUpdateRemoveBackgroundImage(
+  async handleUpdatePropertycorrespondingOfImage(
+    process_type: ProcessType,
     image_id: number,
     image_buffer: Buffer,
   ): Promise<ImageResponse> {
     const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
-    const image = await this.imageRepository.updateRemoveBackgroundImageById(
-      image_id,
-      image_upload_result.url,
-    );
+
+    let image;
+
+    switch (process_type) {
+      case ProcessType.REMOVE_BACKGROUND:
+        image = await this.imageRepository.updateRemoveBackgroundImageById(
+          image_id,
+          image_upload_result.url,
+        );
+        break;
+      case ProcessType.UPSCALE:
+        image = await this.imageRepository.updateUpscaleImageById(
+          image_id,
+          image_upload_result.url,
+        );
+        break;
+      default:
+        throw new Exception(ImageError.INVALID_PROCESS_TYPE);
+    }
 
     const image_response = ImageResponse.convertFromImage(image);
 

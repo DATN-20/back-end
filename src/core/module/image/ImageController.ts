@@ -22,6 +22,8 @@ import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 import { InteractImageRequest } from './entity/request/InteractImageRequest';
 import { DashboardImageService } from '../dashboard-image/DashboardImageService';
 import { DashboardImageType } from '@core/common/enum/DashboardImageType';
+import { ProcessType } from './entity/ProcessType';
+import { ProcessImageRequest } from './entity/request/ProcessImageRequest';
 
 @UseGuards(AuthGuard)
 @Controller('images')
@@ -80,11 +82,12 @@ export class ImageController {
     return this.imageService.handleGetGenerateImageHistory(user.id);
   }
 
-  @Post('/:id/remove-background')
+  @Post('/:id/image-processing')
   async removeBackground(
     @User() user: UserFromAuthGuard,
     @Param('id') image_id: number,
+    @Body() data: ProcessImageRequest,
   ): Promise<ImageResponse> {
-    return this.imageService.handleRemoveBackground(user.id, image_id);
+    return this.imageService.handleImageProcessing(user.id, data.processType, image_id);
   }
 }

@@ -15,6 +15,7 @@ export class ImageResponse {
   private likeNumber: number;
   private isLiked: boolean;
   private removeBackground: string;
+  private upscale: string;
 
   constructor(image: Image, user: User = null, likeNumber = null, isLiked: boolean = false) {
     this.id = image.id;
@@ -29,6 +30,7 @@ export class ImageResponse {
     this.isLiked = isLiked;
     this.likeNumber = likeNumber;
     this.removeBackground = image.removeBackground ?? '';
+    this.upscale = image.upscale ?? '';
   }
 
   public static convertFromImage(image: Image) {
@@ -61,6 +63,7 @@ export class ImageResponse {
       is_liked: this.isLiked,
       like_number: this.likeNumber,
       remove_background: this.removeBackground,
+      upscale: this.upscale,
     };
   }
 

@@ -15,4 +15,8 @@ export class AIFeatureServiceManager {
   async removeBackground(ai_name: string, image_buffer: Buffer): Promise<Buffer[]> {
     return this.aIList[ai_name].removeBackground(image_buffer);
   }
+
+  async upscale(ai_name: string, image_buffer: Buffer): Promise<Buffer[]> {
+    return this.aIList[ai_name].upscale(image_buffer);
+  }
 }
