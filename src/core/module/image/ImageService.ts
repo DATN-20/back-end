@@ -13,6 +13,7 @@ import { GenerateInputs } from '../generate-image/entity/request/GenerateInputs'
 import { GenerateImageListResponse } from './entity/response/GenerateImageListResponse';
 import { UrlUtil } from '@core/common/util/UrlUtil';
 import { ComfyUIService } from '@infrastructure/external-services/ai-generate-image/comfyui/ComfyUIService';
+import { AIFeatureServiceManager } from '@infrastructure/external-services/ai-generate-image/AIFeatureServiceManager';
 
 @Injectable()
 export class ImageService {
@@ -20,7 +21,7 @@ export class ImageService {
     private readonly imageRepository: ImageRepository,
     @Inject('ImageStorageService') private readonly imageStorageService: IImageStorageService,
     private readonly imageInteractRepository: ImageInteractionRepository,
-    private readonly comfyUIService: ComfyUIService,
+    private readonly aiFeatureService: AIFeatureServiceManager,
   ) {}
 
   async handleUploadImages(
@@ -180,7 +181,7 @@ export class ImageService {
     return result;
   }
 
-  async handleRemoveBackground(user_id: number, image_id: number): Promise<ImageResponse[]> {
+  async handleRemoveBackground(user_id: number, image_id: number): Promise<ImageResponse> {
     const image = await this.imageRepository.getById(image_id);
 
     if (!image) {
@@ -191,12 +192,15 @@ export class ImageService {
       throw new Exception(ImageError.FORBIDDEN_IMAGES);
     }
 
-    if (image.removeBackground || image.removeBackground !== '') {
+    if (image.removeBackground) {
       throw new Exception(ImageError.IMAGE_REMOVED_BACKGROUD);
     }
 
     const image_buffer = await UrlUtil.urlImageToBuffer(image.url);
-    const images_result_from_comfyui = await this.comfyUIService.removeBackground(image_buffer);
+    const images_result_from_comfyui = await this.aiFeatureService.removeBackground(
+      'comfyUI',
+      image_buffer,
+    );
     const result: ImageResponse[] = [];
 
     for (const image_buffer of images_result_from_comfyui) {
@@ -205,7 +209,7 @@ export class ImageService {
       result.push(image_response);
     }
 
-    return result;
+    return result[0];
   }
 
   async handleUpdateRemoveBackgroundImage(

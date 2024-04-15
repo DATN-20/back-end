@@ -84,7 +84,7 @@ export class ImageController {
   async removeBackground(
     @User() user: UserFromAuthGuard,
     @Param('id') image_id: number,
-  ): Promise<ImageResponse[]> {
+  ): Promise<ImageResponse> {
     return this.imageService.handleRemoveBackground(user.id, image_id);
   }
 }

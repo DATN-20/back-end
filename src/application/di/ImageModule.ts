@@ -8,6 +8,7 @@ import { UserModule } from './UserModule';
 import { ImageInteractionModule } from './ImageInteractionModule';
 import { DashboardImageModule } from './DashboardImageModule';
 import { ComfyUIModule } from '@infrastructure/external-services/ai-generate-image/comfyui/ComfyUIModule';
+import { AIFeatureServiceModule } from '@infrastructure/external-services/ai-generate-image/AIFeatureServiceModule';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ComfyUIModule } from '@infrastructure/external-services/ai-generate-ima
     UserModule,
     ImageInteractionModule,
     DashboardImageModule,
+    AIFeatureServiceModule,
   ],
   controllers: [ImageController],
   providers: [ImageService, ImageRepository, JwtUtil],

@@ -7,10 +7,10 @@ import { ComfyUIConverter } from './ComfyUIConverter';
 import { ComfyUIValidator } from './ComfyUIValidator';
 import { ComfyUIApi } from './ComfyUIApi';
 import { ComfyUIFeature } from './ComfyUIFeature';
-import { RemoveBackgroundReq } from '@core/module/image/entity/request/RemoveBackgroundReq';
+import { IAIFeatureService } from '@core/common/interface/IAIFeatureService';
 
 @Injectable()
-export class ComfyUIService implements IAIGenerateImageService {
+export class ComfyUIService implements IAIGenerateImageService, IAIFeatureService {
   private info: ComfyUIInfo;
 
   constructor(
