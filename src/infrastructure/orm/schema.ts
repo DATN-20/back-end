@@ -53,6 +53,7 @@ export const images = mysqlTable('images', {
   storageId: text('storage_id'),
   generateId: int('generate_id'),
   removeBackground: text('remove_background_url'),
+  upscale: text('upscale_url'),
 });
 
 export const albums = mysqlTable('albums', {

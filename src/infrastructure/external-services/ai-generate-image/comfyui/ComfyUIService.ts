@@ -7,10 +7,10 @@ import { ComfyUIConverter } from './ComfyUIConverter';
 import { ComfyUIValidator } from './ComfyUIValidator';
 import { ComfyUIApi } from './ComfyUIApi';
 import { ComfyUIFeature } from './ComfyUIFeature';
-import { RemoveBackgroundReq } from '@core/module/image/entity/request/RemoveBackgroundReq';
+import { IAIFeatureService } from '@core/common/interface/IAIFeatureService';
 
 @Injectable()
-export class ComfyUIService implements IAIGenerateImageService {
+export class ComfyUIService implements IAIGenerateImageService, IAIFeatureService {
   private info: ComfyUIInfo;
 
   constructor(
@@ -21,6 +21,15 @@ export class ComfyUIService implements IAIGenerateImageService {
   ) {
     this.info = new ComfyUIInfo();
   }
+
+  async upscale(image_buffer: Buffer): Promise<Buffer[]> {
+    const comfyui_workflow = await this.comfyUIFeature.upscaleWorkflow(image_buffer);
+    const comfyui_socket = new ComfyUISokcet();
+    const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_workflow);
+
+    return list_image_buffer;
+  }
+
   async removeBackground(image_buffer: Buffer): Promise<Buffer[]> {
     const comfyui_workflow = await this.comfyUIFeature.removeBackgroundWorkflow(image_buffer);
     const comfyui_socket = new ComfyUISokcet();
