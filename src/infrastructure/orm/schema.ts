@@ -43,7 +43,12 @@ export const images = mysqlTable('images', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   url: text('url').notNull(),
-  type: mysqlEnum('role', [ImageType.UPLOADED, ImageType.IMG_TO_IMG, ImageType.TEXT_TO_IMG]),
+  type: mysqlEnum('role', [
+    ImageType.UPLOADED,
+    ImageType.IMG_TO_IMG,
+    ImageType.TEXT_TO_IMG,
+    ImageType.IMG_BY_IMAGES_STYLE,
+  ]),
   prompt: text('prompt'),
   aiName: text('ai_name'),
   style: text('model_name'),

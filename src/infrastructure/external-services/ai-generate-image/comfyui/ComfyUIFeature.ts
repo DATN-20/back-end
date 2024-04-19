@@ -6,6 +6,8 @@ import { ComfyUIUtil } from './ComfyUIUtil';
 import { ComfyUIControlNet } from './control-net/ComfyUIControlNet';
 import { ComfyUIUpscale } from './upscale/ComfyUIUpscale';
 import { UpscaleModelName } from '../type/Upscale/UpscaleModelName';
+import { ComfyUIUnclip } from './unclip/ComfyUIUnclip';
+import { ImageToUnclipInput } from '../type/Unclip/ImageToUnClipInput';
 
 @Injectable()
 export class ComfyUIFeature {
@@ -13,6 +15,7 @@ export class ComfyUIFeature {
     private readonly comfyUIApi: ComfyUIApi,
     private readonly comfyUIControlNet: ComfyUIControlNet,
     private readonly comfyUIUpscale: ComfyUIUpscale,
+    private readonly comfyUIUnclip: ComfyUIUnclip,
   ) {}
 
   async applyControlNet(workflow: any, input_controlnet: InputControlnet, start_id: string) {
@@ -62,6 +65,38 @@ export class ComfyUIFeature {
     }
 
     return workflow;
+  }
+
+  async addMultipleUnclipComponent(
+    start_id: string,
+    load_unclip_checkpoint_node_id: string,
+    precondition_node_id: string,
+    imag_to_unclip_inputs: ImageToUnclipInput[],
+  ) {
+    let workflow = {};
+    for (let i = 0; i < imag_to_unclip_inputs.length; i++) {
+      let image_to_unclip = imag_to_unclip_inputs[i];
+      const uploaded_image_result = await this.comfyUIApi.uploadImage(
+        image_to_unclip.image.buffer,
+        `${Date.now()}.png`,
+      );
+      let image_to_unclip_component = this.comfyUIUnclip.generateImageToUnclipComponent(
+        start_id,
+        load_unclip_checkpoint_node_id,
+        uploaded_image_result.name,
+        image_to_unclip.strength,
+        image_to_unclip.noiseAugmentation,
+        precondition_node_id,
+      );
+      workflow = { ...workflow, ...image_to_unclip_component.workflow };
+      start_id = image_to_unclip_component.output_id;
+      precondition_node_id = image_to_unclip_component.output_id;
+    }
+
+    return {
+      workflow: workflow,
+      output_id: start_id,
+    };
   }
 
   applyUpscale(workflow: any) {
