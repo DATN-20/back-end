@@ -7,9 +7,18 @@ import { Module } from '@nestjs/common';
 import { UserModule } from './UserModule';
 import { ImageInteractionModule } from './ImageInteractionModule';
 import { DashboardImageModule } from './DashboardImageModule';
+import { ComfyUIModule } from '@infrastructure/external-services/ai-generate-image/comfyui/ComfyUIModule';
+import { AIFeatureServiceModule } from '@infrastructure/external-services/ai-generate-image/AIFeatureServiceModule';
 
 @Module({
-  imports: [ImageStorageModule, UserModule, ImageInteractionModule, DashboardImageModule],
+  imports: [
+    ComfyUIModule,
+    ImageStorageModule,
+    UserModule,
+    ImageInteractionModule,
+    DashboardImageModule,
+    AIFeatureServiceModule,
+  ],
   controllers: [ImageController],
   providers: [ImageService, ImageRepository, JwtUtil],
   exports: [ImageService, ImageRepository],

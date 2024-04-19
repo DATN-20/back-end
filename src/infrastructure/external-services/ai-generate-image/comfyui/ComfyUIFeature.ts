@@ -4,8 +4,11 @@ import { InputControlnet } from '../type/Controlnet/InputControlnet';
 import { FileUtil } from '@core/common/util/FileUtil';
 import { ComfyUIUtil } from './ComfyUIUtil';
 import { ComfyUIControlNet } from './control-net/ComfyUIControlNet';
+import { ComfyUIRemoveBackground } from './remove-background/ComfyUIRemoveBackground';
 import { ComfyUIUpscale } from './upscale/ComfyUIUpscale';
-import { UpscaleModelName } from '../type/Upscale/UpscaleModelName';
+import { UpscaleModelName } from './upscale/types/UpscaleModelName';
+import { DEFAULT_REMOVE_BACKGROUND_PROPERTY } from './remove-background/types/constant';
+import { DEFAULT_UPSCALE_PROPERTY } from './upscale/types/constant';
 import { ComfyUIUnclip } from './unclip/ComfyUIUnclip';
 import { ImageToUnclipInput } from '../type/Unclip/ImageToUnClipInput';
 
@@ -15,6 +18,7 @@ export class ComfyUIFeature {
     private readonly comfyUIApi: ComfyUIApi,
     private readonly comfyUIControlNet: ComfyUIControlNet,
     private readonly comfyUIUpscale: ComfyUIUpscale,
+    private readonly comfyUIRemoveBackground: ComfyUIRemoveBackground,
     private readonly comfyUIUnclip: ComfyUIUnclip,
   ) {}
 
@@ -119,5 +123,29 @@ export class ComfyUIFeature {
       workflow: updated_workflow,
       output_id: upscale_component.output_id,
     };
+  }
+
+  async removeBackgroundWorkflow(image_buffer: Buffer) {
+    const result_uploaded_image = await this.comfyUIApi.uploadImage(
+      image_buffer,
+      `${Date.now()}.jpg`,
+    );
+
+    return this.comfyUIRemoveBackground.generateWorkflow(
+      result_uploaded_image.name,
+      DEFAULT_REMOVE_BACKGROUND_PROPERTY,
+    ).workflow;
+  }
+
+  async upscaleWorkflow(image_buffer: Buffer) {
+    const result_uploaded_image = await this.comfyUIApi.uploadImage(
+      image_buffer,
+      `${Date.now()}.jpeg`,
+    );
+
+    return this.comfyUIUpscale.generateWorkflow(
+      result_uploaded_image.name,
+      DEFAULT_UPSCALE_PROPERTY,
+    ).workflow;
   }
 }
