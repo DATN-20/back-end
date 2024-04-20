@@ -55,7 +55,7 @@ export class ImageResponse {
       id: this.id,
       url: this.url,
       type: this.type,
-      promp: this.prompt,
+      prompt: this.prompt,
       ai_name: this.aiName,
       style: this.style,
       created_at: this.createdAt,
