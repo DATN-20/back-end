@@ -78,14 +78,14 @@ export class ComfyUIService
   }
 
   async generateImageByImagesStyle(
-    input_promts: GenerateByImagesStyleInputPromts,
+    input_prompts: GenerateByImagesStyleInputPromts,
   ): Promise<Buffer[]> {
     this.comfyUIValidator.imageByImagesStylePromptValidate(
       this.info.generateImageToUnclipComponentInputsInfo,
-      input_promts,
+      input_prompts,
     );
     let comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptImg2ImgUnclip(
-      input_promts,
+      input_prompts,
     );
 
     const comfyui_socket = new ComfyUISokcet();

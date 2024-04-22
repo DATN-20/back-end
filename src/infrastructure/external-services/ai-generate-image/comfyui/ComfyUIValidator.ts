@@ -101,91 +101,91 @@ export class ComfyUIValidator {
 
   imageByImagesStylePromptValidate(
     info: ComfyUIGenerateImageByImagesStyleInputsInfo,
-    input_promts: GenerateByImagesStyleInputPromts,
+    input_prompts: GenerateByImagesStyleInputPromts,
   ) {
-    if (input_promts.positivePrompt == null) {
+    if (input_prompts.positivePrompt == null) {
       throw new Exception(
         AIGenerateImageError.INVALID_INPUT_VALUE(info.inputs.positivePrompt.name),
       );
     } else {
-      this.validateInput(info.inputs.positivePrompt, input_promts.positivePrompt);
+      this.validateInput(info.inputs.positivePrompt, input_prompts.positivePrompt);
     }
 
-    if (input_promts.negativePrompt == null) {
+    if (input_prompts.negativePrompt == null) {
       throw new Exception(
         AIGenerateImageError.INVALID_INPUT_VALUE(info.inputs.negativePrompt.name),
       );
     } else {
-      this.validateInput(info.inputs.negativePrompt, input_promts.negativePrompt);
+      this.validateInput(info.inputs.negativePrompt, input_prompts.negativePrompt);
     }
 
-    if (input_promts.width == null) {
-      input_promts.width = info.inputs.width.default;
+    if (input_prompts.width == null) {
+      input_prompts.width = info.inputs.width.default;
     } else {
-      this.validateInput(info.inputs.width, input_promts.width);
+      this.validateInput(info.inputs.width, input_prompts.width);
     }
 
-    if (input_promts.height == null) {
-      input_promts.height = info.inputs.height.default;
+    if (input_prompts.height == null) {
+      input_prompts.height = info.inputs.height.default;
     } else {
-      this.validateInput(info.inputs.height, input_promts.height);
+      this.validateInput(info.inputs.height, input_prompts.height);
     }
 
-    if (input_promts.numberOfImage == null) {
-      input_promts.numberOfImage = info.inputs.size.default;
+    if (input_prompts.numberOfImage == null) {
+      input_prompts.numberOfImage = info.inputs.size.default;
     } else {
-      this.validateInput(info.inputs.size, input_promts.numberOfImage);
+      this.validateInput(info.inputs.size, input_prompts.numberOfImage);
     }
 
-    if (input_promts.steps == null) {
-      input_promts.steps = info.inputs.steps.default;
+    if (input_prompts.steps == null) {
+      input_prompts.steps = info.inputs.steps.default;
     } else {
-      this.validateInput(info.inputs.steps, input_promts.steps);
+      this.validateInput(info.inputs.steps, input_prompts.steps);
     }
 
-    if (input_promts.sampleMethos == null) {
-      input_promts.sampleMethos = info.inputs.sampler.default;
+    if (input_prompts.sampleMethos == null) {
+      input_prompts.sampleMethos = info.inputs.sampler.default;
     } else {
-      this.validateInput(info.inputs.sampler, input_promts.sampleMethos);
+      this.validateInput(info.inputs.sampler, input_prompts.sampleMethos);
     }
 
-    if (input_promts.cfg == null) {
-      input_promts.cfg = info.inputs.cfg.default;
+    if (input_prompts.cfg == null) {
+      input_prompts.cfg = info.inputs.cfg.default;
     } else {
-      this.validateInput(info.inputs.cfg, input_promts.cfg);
+      this.validateInput(info.inputs.cfg, input_prompts.cfg);
     }
 
     let noise_input = info.imageToUnclipNoiseAgementationInput;
     let stregth_input = info.imageToUnclipStrengthInput;
-    if (input_promts.imageToUnclips == null) {
+    if (input_prompts.imageToUnclips == null) {
       throw new Exception(
         AIGenerateImageError.INVALID_INPUT_VALUE(info.inputs.imageToUnclips.name),
       );
     }
-    for (let i = 0; i < input_promts.imageToUnclips?.length; i++) {
-      this.validateImageToUnclipInput(input_promts.imageToUnclips[i], stregth_input, noise_input);
+    for (let i = 0; i < input_prompts.imageToUnclips?.length; i++) {
+      this.validateImageToUnclipInput(input_prompts.imageToUnclips[i], stregth_input, noise_input);
     }
   }
 
   validateImageToUnclipInput(
     input: ImageToUnclipInput,
-    strengthInput: GenerateInput,
-    noiseInput: GenerateInput,
+    strength_input: GenerateInput,
+    noise_input: GenerateInput,
   ) {
     if (input.image == null) {
       throw new Exception(AIGenerateImageError.INVALID_INPUT_VALUE('image'));
     }
 
     if (input.noiseAugmentation == null) {
-      input.noiseAugmentation = noiseInput.default;
+      input.noiseAugmentation = noise_input.default;
     } else {
-      this.validateInput(noiseInput, input.noiseAugmentation);
+      this.validateInput(noise_input, input.noiseAugmentation);
     }
 
     if (input.strength == null) {
-      input.strength = strengthInput.default;
+      input.strength = strength_input.default;
     } else {
-      this.validateInput(strengthInput, input.strength);
+      this.validateInput(strength_input, input.strength);
     }
   }
 

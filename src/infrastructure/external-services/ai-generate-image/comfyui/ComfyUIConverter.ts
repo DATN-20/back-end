@@ -84,7 +84,7 @@ export class ComfyUIConverter {
   }
 
   async convertToComfyUIPromptImg2ImgUnclip(
-    input_promts: GenerateByImagesStyleInputPromts,
+    input_prompts: GenerateByImagesStyleInputPromts,
   ): Promise<any> {
     const workflow_data = fs.readFileSync(COMFYUI_JSON_FILE_PATH + 'workflow-unclip-model.json', {
       encoding: 'utf-8',
@@ -97,32 +97,32 @@ export class ComfyUIConverter {
     const save_image_node_id = '7';
     const lantent_image_node_id = '6';
 
-    workflow[positive_prompt_node_id]['inputs']['text'] = input_promts.positivePrompt;
-    workflow[negative_prompt_node_id]['inputs']['text'] = input_promts.negativePrompt;
+    workflow[positive_prompt_node_id]['inputs']['text'] = input_prompts.positivePrompt;
+    workflow[negative_prompt_node_id]['inputs']['text'] = input_prompts.negativePrompt;
     if (input_promts.seed != null) {
-      workflow[ksampler_node_id]['inputs']['seed'] = input_promts.seed;
+      workflow[ksampler_node_id]['inputs']['seed'] = input_prompts.seed;
     } else {
       const seed = Math.floor(Math.random() * 1000000000) + 1;
       workflow[ksampler_node_id]['inputs']['seed'] = seed;
     }
-    workflow[ksampler_node_id]['inputs']['steps'] = input_promts.steps;
-    workflow[ksampler_node_id]['inputs']['cfg'] = input_promts.cfg;
-    workflow[ksampler_node_id]['inputs']['sampler_name'] = input_promts.sampleMethos;
+    workflow[ksampler_node_id]['inputs']['steps'] = input_prompts.steps;
+    workflow[ksampler_node_id]['inputs']['cfg'] = input_prompts.cfg;
+    workflow[ksampler_node_id]['inputs']['sampler_name'] = input_prompts.sampleMethos;
 
-    workflow[lantent_image_node_id]['inputs']['width'] = input_promts.width;
-    workflow[lantent_image_node_id]['inputs']['height'] = input_promts.height;
-    workflow[lantent_image_node_id]['inputs']['batch_size'] = input_promts.numberOfImage;
+    workflow[lantent_image_node_id]['inputs']['width'] = input_prompts.width;
+    workflow[lantent_image_node_id]['inputs']['height'] = input_prompts.height;
+    workflow[lantent_image_node_id]['inputs']['batch_size'] = input_prompts.numberOfImage;
 
-    workflow[save_image_node_id]['inputs']['filename_prefix'] = input_promts.filename;
+    workflow[save_image_node_id]['inputs']['filename_prefix'] = input_prompts.filename;
 
-    if (input_promts.imageToUnclips.length > 0) {
+    if (input_prompts.imageToUnclips.length > 0) {
       const start_id = ComfyUIUtil.getMaximumIdOfWorkflow(workflow);
 
       const image_to_unclip_components = await this.comfyUIFeature.addMultipleUnclipComponent(
         start_id,
         unclip_checkpoint_loader_id,
         positive_prompt_node_id,
-        input_promts.imageToUnclips,
+        input_prompts.imageToUnclips,
       );
 
       workflow = ComfyUIUtil.appendWorkflow(workflow, image_to_unclip_components.workflow);

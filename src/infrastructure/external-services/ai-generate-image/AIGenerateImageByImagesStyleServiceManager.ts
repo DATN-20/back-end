@@ -37,9 +37,9 @@ export class AIGenerateImageByImagesStyleServiceManager {
 
   async generateImageByImagesStyle(
     ai_name: string,
-    input_promts: GenerateByImagesStyleInputPromts,
+    input_prompts: GenerateByImagesStyleInputPromts,
   ) {
     this.CheckAIValid(ai_name);
-    return this.aIList[ai_name].generateImageByImagesStyle(input_promts);
+    return this.aIList[ai_name].generateImageByImagesStyle(input_prompts);
   }
 }
