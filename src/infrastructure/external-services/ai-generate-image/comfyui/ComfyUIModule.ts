@@ -7,6 +7,7 @@ import { ComfyUIUpscale } from './upscale/ComfyUIUpscale';
 import { ComfyUIValidator } from './ComfyUIValidator';
 import { HttpModule } from '@nestjs/axios';
 import { ComfyUIService } from './ComfyUIService';
+import { ComfyUIUnclip } from './unclip/ComfyUIUnclip';
 import { ComfyUIRemoveBackground } from './remove-background/ComfyUIRemoveBackground';
 
 @Module({
@@ -19,6 +20,7 @@ import { ComfyUIRemoveBackground } from './remove-background/ComfyUIRemoveBackgr
     ComfyUIFeature,
     ComfyUIUpscale,
     ComfyUIService,
+    ComfyUIUnclip,
     ComfyUIRemoveBackground,
   ],
   exports: [ComfyUIService],

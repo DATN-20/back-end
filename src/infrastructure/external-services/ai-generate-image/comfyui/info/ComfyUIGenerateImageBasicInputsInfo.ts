@@ -1,10 +1,10 @@
-import { ChoiceInput } from '../type/GenerateInput/ChoiceInput';
-import { GenerateInput } from '../type/GenerateInput/GenerateInput';
-import { ImageInput } from '../type/GenerateInput/ImageInput';
-import { SliderInput } from '../type/GenerateInput/SliderInput';
-import { TextInput } from '../type/GenerateInput/TextInput';
+import { ChoiceInput } from '../../type/GenerateInput/ChoiceInput';
+import { GenerateInput } from '../../type/GenerateInput/GenerateInput';
+import { ImageInput } from '../../type/GenerateInput/ImageInput';
+import { SliderInput } from '../../type/GenerateInput/SliderInput';
+import { TextInput } from '../../type/GenerateInput/TextInput';
 
-export class ComfyUIInfo {
+export class ComfyUIGenerateImageBasicInputsInfo {
   private styleChoices: { [key: string]: string } = {
     anime: 'anything_inkBase.safetensors',
   };
