@@ -99,7 +99,7 @@ export class ComfyUIConverter {
 
     workflow[positive_prompt_node_id]['inputs']['text'] = input_prompts.positivePrompt;
     workflow[negative_prompt_node_id]['inputs']['text'] = input_prompts.negativePrompt;
-    if (input_promts.seed != null) {
+    if (input_prompts.seed != null) {
       workflow[ksampler_node_id]['inputs']['seed'] = input_prompts.seed;
     } else {
       const seed = Math.floor(Math.random() * 1000000000) + 1;
