@@ -101,7 +101,7 @@
   },
   "12": {
     "inputs": {
-      "amount": 2,
+      "amount": 1,
       "samples": ["7", 0]
     },
     "class_type": "RepeatLatentBatch",

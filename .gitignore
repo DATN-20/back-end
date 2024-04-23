@@ -404,5 +404,8 @@ dist
 
 .env
 .vscode
+package-lock.json
+
+src/infrastructure/orm/migration
 ./src/infrastructure/config/DatabaseConfig.ts
 ./package-lock.json
