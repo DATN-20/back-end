@@ -5,4 +5,6 @@ export enum NodeControlnetEnum {
   CONTROLNET_LOAD_IMAGE_IMAGE = '%%controlnet_load_image_image%%',
   CONTROLNET_APPLY = '%%controlnet_apply%%',
   POSITIVE_PROMPT = '%%positive_prompt%%',
+  CONTROLNET_AIO_PREPROCESSOR_ID = '%%controlnet_aio_preprocessor%%',
+  CONTROLNET_AIO_TYPE_PREPROCESSOR = '%%type_preprocessor%%',
 }

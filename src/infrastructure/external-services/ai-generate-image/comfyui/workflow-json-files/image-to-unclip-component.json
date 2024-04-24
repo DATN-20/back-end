@@ -1,0 +1,34 @@
+{
+  "%%load_image_node%%": {
+    "inputs": {
+      "image": "%%load_image_image_input%%",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "%%clip_vision_encode_node%%": {
+    "inputs": {
+      "clip_vision": ["%%load_unclip_checkpoint_node%%", 3],
+      "image": ["%%load_image_node%%", 0]
+    },
+    "class_type": "CLIPVisionEncode",
+    "_meta": {
+      "title": "CLIP Vision Encode"
+    }
+  },
+  "%%unclip_conditioning_node%%": {
+    "inputs": {
+      "strength": "%%unclip_conditioning_strength_input%%",
+      "noise_augmentation": "%%unclip_conditioning_noise_augmentation_input%%",
+      "conditioning": ["%%precondition_node%%", 0],
+      "clip_vision_output": ["%%clip_vision_encode_node%%", 0]
+    },
+    "class_type": "unCLIPConditioning",
+    "_meta": {
+      "title": "unCLIPConditioning"
+    }
+  }
+}

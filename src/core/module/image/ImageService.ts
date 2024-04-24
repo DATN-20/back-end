@@ -14,6 +14,7 @@ import { GenerateImageListResponse } from './entity/response/GenerateImageListRe
 import { UrlUtil } from '@core/common/util/UrlUtil';
 import { AIFeatureServiceManager } from '@infrastructure/external-services/ai-generate-image/AIFeatureServiceManager';
 import { ProcessType } from './entity/ProcessType';
+import { GenerateByImagesStyleInputs } from '../generate-image/entity/request/GenerateImageByImagesStyleInputs';
 
 @Injectable()
 export class ImageService {
@@ -101,6 +102,7 @@ export class ImageService {
     return ImageMessage.INTERACTION_IMAGE(data.type, false);
   }
 
+  //Save image genrated basic by AI to database
   async handleCreateGenerateImages(
     user_id: number,
     list_image_buffer: Buffer[],
@@ -143,6 +145,57 @@ export class ImageService {
       prompt: promts.positivePrompt,
       aiName: promts.aiName,
       style: promts.style,
+      generateId: generate_id,
+    };
+    const image = await this.imageRepository.create(new_image);
+
+    const image_response = ImageResponse.convertFromImage(image);
+
+    return image_response;
+  }
+
+  //Save image genrated by images style to database
+  async handleCreateGenerateImagesByImagesStyle(
+    user_id: number,
+    list_image_buffer: Buffer[],
+    image_type: ImageType,
+    prompt: GenerateByImagesStyleInputs,
+  ) {
+    const result: ImageResponse[] = [];
+
+    const generate_id = (await this.imageRepository.getUserMaxGenerateID(user_id)) + 1;
+
+    for (const image_buffer of list_image_buffer) {
+      const image_response = await this.handleCreateGenerateImageByImagesStyle(
+        user_id,
+        image_buffer,
+        image_type,
+        prompt,
+        generate_id,
+      );
+
+      result.push(image_response);
+    }
+
+    return result;
+  }
+
+  async handleCreateGenerateImageByImagesStyle(
+    user_id: number,
+    image_buffer: Buffer,
+    image_type: ImageType,
+    promts: GenerateByImagesStyleInputs,
+    generate_id: number,
+  ) {
+    const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
+
+    const new_image: NewImage = {
+      userId: user_id,
+      url: image_upload_result.url,
+      storageId: image_upload_result.id,
+      type: image_type,
+      prompt: promts.positivePrompt,
+      aiName: promts.aiName,
       generateId: generate_id,
     };
     const image = await this.imageRepository.create(new_image);
