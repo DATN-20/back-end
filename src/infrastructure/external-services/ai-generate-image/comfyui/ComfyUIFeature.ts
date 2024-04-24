@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ComfyUIApi } from './ComfyUIApi';
-import { InputControlnet } from '../type/Controlnet/InputControlnet';
+import { InputControlnet } from './control-net/types/InputControlnet';
 import { FileUtil } from '@core/common/util/FileUtil';
 import { ComfyUIUtil } from './ComfyUIUtil';
 import { ComfyUIControlNet } from './control-net/ComfyUIControlNet';
@@ -11,6 +11,8 @@ import { DEFAULT_REMOVE_BACKGROUND_PROPERTY } from './remove-background/types/co
 import { DEFAULT_UPSCALE_PROPERTY } from './upscale/types/constant';
 import { ComfyUIUnclip } from './unclip/ComfyUIUnclip';
 import { ImageToUnclipInput } from '../type/Unclip/ImageToUnClipInput';
+import { ControlNetModelMapping } from './control-net/ControlNetModelMapping';
+import { WorkflowResultJson } from '../type/WorkflowResult';
 
 @Injectable()
 export class ComfyUIFeature {
@@ -20,19 +22,55 @@ export class ComfyUIFeature {
     private readonly comfyUIUpscale: ComfyUIUpscale,
     private readonly comfyUIRemoveBackground: ComfyUIRemoveBackground,
     private readonly comfyUIUnclip: ComfyUIUnclip,
+    private readonly controlNetModelMapping: ControlNetModelMapping,
   ) {}
 
-  async applyControlNet(workflow: any, input_controlnet: InputControlnet, start_id: string) {
-    const uploaded_image_result = await this.comfyUIApi.uploadImage(
-      FileUtil.getBufferFromBase64(input_controlnet.image),
-      `${Date.now()}.png`,
-    );
+  async applyControlNet(
+    workflow: any,
+    input_controlnet: InputControlnet,
+    start_id: string,
+  ): Promise<WorkflowResultJson> {
+    // const uploaded_image_result = await this.comfyUIApi.uploadImage(
+    //   input_controlnet.image,
+    //   `${Date.now()}.png`,
+    // );
 
     const max_key_id = ComfyUIUtil.getMaximumIdOfWorkflow(workflow);
+
+    const control_net_name = this.controlNetModelMapping.getControlNet(
+      input_controlnet.controlNetType,
+    );
+    if (input_controlnet.isPreprocessor) {
+      const aio_preprocessor = this.controlNetModelMapping.getAIOPreprocessor(
+        input_controlnet.controlNetType,
+      );
+
+      const control_net_component_result =
+        this.comfyUIControlNet.generateControlNetComponentWithAIO(
+          max_key_id,
+          control_net_name,
+          input_controlnet.strength,
+          aio_preprocessor,
+          'abc',
+          start_id,
+        );
+
+      let updated_workflow = ComfyUIUtil.appendWorkflow(
+        workflow,
+        control_net_component_result.workflow,
+      );
+
+      return {
+        workflow: updated_workflow,
+        output_id: control_net_component_result.output_id,
+      };
+    }
+
     const control_net_component_result = this.comfyUIControlNet.generateControlNetComponent(
       max_key_id,
-      input_controlnet.controlNetName,
-      uploaded_image_result.name,
+      control_net_name,
+      input_controlnet.strength,
+      'abc',
       start_id,
     );
     let updated_workflow = ComfyUIUtil.appendWorkflow(
@@ -51,7 +89,6 @@ export class ComfyUIFeature {
     let start_id = positive_node_id;
     for (let index = 0; index < input_controlnets.length; index++) {
       const input_controlnet = input_controlnets[index];
-
       const applied_control_net_result = await this.applyControlNet(
         workflow,
         input_controlnet,
@@ -76,7 +113,7 @@ export class ComfyUIFeature {
     load_unclip_checkpoint_node_id: string,
     precondition_node_id: string,
     imag_to_unclip_inputs: ImageToUnclipInput[],
-  ) {
+  ): Promise<WorkflowResultJson> {
     let workflow = {};
     for (let i = 0; i < imag_to_unclip_inputs.length; i++) {
       let image_to_unclip = imag_to_unclip_inputs[i];
@@ -103,7 +140,7 @@ export class ComfyUIFeature {
     };
   }
 
-  applyUpscale(workflow: any) {
+  applyUpscale(workflow: any): WorkflowResultJson {
     const vae_decode_node_id = ComfyUIUtil.findIdByTitle(workflow, 'VAE Decode');
     const max_key_id = ComfyUIUtil.getMaximumIdOfWorkflow(workflow);
 

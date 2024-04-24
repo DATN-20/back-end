@@ -5,14 +5,13 @@ import {
   Controller,
   Get,
   Post,
-  UploadedFile,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { GenerateInputs } from './entity/request/GenerateInputs';
 import { GenerateImageService } from './GenerateImageService';
-import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { GenerateByImagesStyleInputs } from './entity/request/GenerateImageByImagesStyleInputs';
 
 @UseGuards(AuthGuard)
@@ -35,14 +34,31 @@ export class GenerateImageController {
   }
 
   @Post('/image-to-image')
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'image', maxCount: 1 },
+      { name: 'controlNetImages', maxCount: 10 },
+    ]),
+  )
   async generateImageToImage(
     @User() user: UserFromAuthGuard,
-    @UploadedFile() image: Express.Multer.File,
+    @UploadedFiles()
+    data_images: { image: Express.Multer.File[]; controlNetImages?: Express.Multer.File[] },
     @Body() generate_inputs: GenerateInputs,
   ) {
     generate_inputs.isUpscale = generate_inputs.isUpscale?.toString() === 'true';
-    generate_inputs.image = image;
+    generate_inputs.image = data_images.image[0];
+
+    if (data_images.controlNetImages) {
+      data_images.controlNetImages.forEach((image, _index) => {
+        generate_inputs.controlNets[_index].image = image.buffer;
+        generate_inputs.controlNets[_index].strength = parseInt(
+          generate_inputs.controlNets[_index].strength.toString(),
+        );
+        generate_inputs.controlNets[_index].isPreprocessor =
+          generate_inputs.controlNets[_index].isPreprocessor.toString() === 'true';
+      });
+    }
     return await this.generateImageService.handleGenerateImageToImage(user.id, generate_inputs);
   }
 

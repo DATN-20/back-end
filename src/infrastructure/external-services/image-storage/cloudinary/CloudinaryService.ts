@@ -2,17 +2,19 @@ import { Exception } from '@core/common/exception/Exception';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
 import { ImageError } from '@core/common/resource/error/ImageError';
 import { CloudinaryConfig } from '@infrastructure/config/CloudinaryConfig';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { UploadApiErrorResponse, UploadApiResponse, v2 as cloudinary } from 'cloudinary';
 
 @Injectable()
 export class CloudinaryService implements IImageStorageService {
+  private logger: Logger;
   constructor() {
     cloudinary.config({
       cloud_name: CloudinaryConfig.CLOUDINARY_NAME,
       api_key: CloudinaryConfig.CLOUDINARY_API_KEY,
       api_secret: CloudinaryConfig.CLOUDINARY_API_SECRET,
     });
+    this.logger = new Logger(CloudinaryService.name);
   }
 
   async uploadImages(imagesUpload: ImagesUpload): Promise<ImageUploadResult[]> {
@@ -29,7 +31,7 @@ export class CloudinaryService implements IImageStorageService {
     try {
       await cloudinary.uploader.destroy(imageDelete.storageIds);
     } catch (error) {
-      console.error('Failed to delete images:', error);
+      this.logger.error('Failed to delete images:', error);
       throw new Exception(ImageError.FAIL_TO_DELETE_IMAGE);
     }
   }

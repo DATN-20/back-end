@@ -1,4 +1,4 @@
-import { InputControlnet } from './Controlnet/InputControlnet';
+import { InputControlnet } from '../comfyui/control-net/types/InputControlnet';
 
 export class InputPromts {
   style: string;

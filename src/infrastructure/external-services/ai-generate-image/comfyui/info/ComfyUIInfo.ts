@@ -1,3 +1,4 @@
+import { ComfyUIControlNetInfo } from '../control-net/ComfyUIControlNetInfo';
 import { ComfyUIGenerateImageBasicInputsInfo } from './ComfyUIGenerateImageBasicInputsInfo';
 import { ComfyUIGenerateImageByImagesStyleInputsInfo } from './ComfyUIGenerateImageByImagesStyleInputsInfo';
 
@@ -6,4 +7,5 @@ export class ComfyUIInfo {
   public generateImageBasicInputsInfo = new ComfyUIGenerateImageBasicInputsInfo();
   public generateImageToUnclipComponentInputsInfo =
     new ComfyUIGenerateImageByImagesStyleInputsInfo();
+  public controlNetInputsInfo = new ComfyUIControlNetInfo();
 }
