@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ComfyUIApi } from './ComfyUIApi';
 import { InputControlnet } from './control-net/types/InputControlnet';
-import { FileUtil } from '@core/common/util/FileUtil';
 import { ComfyUIUtil } from './ComfyUIUtil';
 import { ComfyUIControlNet } from './control-net/ComfyUIControlNet';
 import { ComfyUIRemoveBackground } from './remove-background/ComfyUIRemoveBackground';
@@ -30,10 +29,10 @@ export class ComfyUIFeature {
     input_controlnet: InputControlnet,
     start_id: string,
   ): Promise<WorkflowResultJson> {
-    // const uploaded_image_result = await this.comfyUIApi.uploadImage(
-    //   input_controlnet.image,
-    //   `${Date.now()}.png`,
-    // );
+    const uploaded_image_result = await this.comfyUIApi.uploadImage(
+      input_controlnet.image,
+      `${Date.now()}.png`,
+    );
 
     const max_key_id = ComfyUIUtil.getMaximumIdOfWorkflow(workflow);
 
