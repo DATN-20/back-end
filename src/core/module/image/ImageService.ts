@@ -9,7 +9,12 @@ import { ImageInteractionRepository } from '../images-interaction/ImageInteracti
 import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 import { ImageType } from '@core/common/enum/ImageType';
 import { NewImage } from './entity/Image';
-import { InputPromts } from '@infrastructure/external-services/ai-generate-image/type/InputPrompts';
+import { GenerateInputs } from '../generate-image/entity/request/GenerateInputs';
+import { GenerateImageListResponse } from './entity/response/GenerateImageListResponse';
+import { UrlUtil } from '@core/common/util/UrlUtil';
+import { AIFeatureServiceManager } from '@infrastructure/external-services/ai-generate-image/AIFeatureServiceManager';
+import { ProcessType } from './entity/ProcessType';
+import { GenerateByImagesStyleInputs } from '../generate-image/entity/request/GenerateImageByImagesStyleInputs';
 
 @Injectable()
 export class ImageService {
@@ -17,6 +22,7 @@ export class ImageService {
     private readonly imageRepository: ImageRepository,
     @Inject('ImageStorageService') private readonly imageStorageService: IImageStorageService,
     private readonly imageInteractRepository: ImageInteractionRepository,
+    private readonly aiFeatureService: AIFeatureServiceManager,
   ) {}
 
   async handleUploadImages(
@@ -96,13 +102,16 @@ export class ImageService {
     return ImageMessage.INTERACTION_IMAGE(data.type, false);
   }
 
+  //Save image genrated basic by AI to database
   async handleCreateGenerateImages(
     user_id: number,
     list_image_buffer: Buffer[],
     image_type: ImageType,
-    prompt: InputPromts,
+    prompt: GenerateInputs,
   ) {
     const result: ImageResponse[] = [];
+
+    const generate_id = (await this.imageRepository.getUserMaxGenerateID(user_id)) + 1;
 
     for (const image_buffer of list_image_buffer) {
       const image_response = await this.handleCreateGenerateImage(
@@ -110,6 +119,7 @@ export class ImageService {
         image_buffer,
         image_type,
         prompt,
+        generate_id,
       );
 
       result.push(image_response);
@@ -122,7 +132,8 @@ export class ImageService {
     user_id: number,
     image_buffer: Buffer,
     image_type: ImageType,
-    promts: InputPromts,
+    promts: GenerateInputs,
+    generate_id: number,
   ) {
     const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
 
@@ -132,8 +143,182 @@ export class ImageService {
       storageId: image_upload_result.id,
       type: image_type,
       prompt: promts.positivePrompt,
+      aiName: promts.aiName,
+      style: promts.style,
+      generateId: generate_id,
     };
     const image = await this.imageRepository.create(new_image);
+
+    const image_response = ImageResponse.convertFromImage(image);
+
+    return image_response;
+  }
+
+  //Save image genrated by images style to database
+  async handleCreateGenerateImagesByImagesStyle(
+    user_id: number,
+    list_image_buffer: Buffer[],
+    image_type: ImageType,
+    prompt: GenerateByImagesStyleInputs,
+  ) {
+    const result: ImageResponse[] = [];
+
+    const generate_id = (await this.imageRepository.getUserMaxGenerateID(user_id)) + 1;
+
+    for (const image_buffer of list_image_buffer) {
+      const image_response = await this.handleCreateGenerateImageByImagesStyle(
+        user_id,
+        image_buffer,
+        image_type,
+        prompt,
+        generate_id,
+      );
+
+      result.push(image_response);
+    }
+
+    return result;
+  }
+
+  async handleCreateGenerateImageByImagesStyle(
+    user_id: number,
+    image_buffer: Buffer,
+    image_type: ImageType,
+    promts: GenerateByImagesStyleInputs,
+    generate_id: number,
+  ) {
+    const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
+
+    const new_image: NewImage = {
+      userId: user_id,
+      url: image_upload_result.url,
+      storageId: image_upload_result.id,
+      type: image_type,
+      prompt: promts.positivePrompt,
+      aiName: promts.aiName,
+      generateId: generate_id,
+    };
+    const image = await this.imageRepository.create(new_image);
+
+    const image_response = ImageResponse.convertFromImage(image);
+
+    return image_response;
+  }
+
+  async handleGetGenerateImageHistory(user_id: number) {
+    const generatedImageTypes = [ImageType.IMG_TO_IMG, ImageType.TEXT_TO_IMG];
+    const images = await this.imageRepository.getByUserIdAndImageTypes(
+      user_id,
+      generatedImageTypes,
+    );
+
+    images.sort((a, b) => b.generateId - a.generateId);
+
+    const generateImagesList = [];
+
+    for (const image of images) {
+      if (
+        generateImagesList.length == 0 ||
+        image.generateId != generateImagesList[generateImagesList.length - 1].getGenerateId()
+      ) {
+        generateImagesList.push(
+          new GenerateImageListResponse(image.style, image.prompt, image.generateId),
+        );
+      }
+      const image_response = new ImageResponse(image);
+      generateImagesList[generateImagesList.length - 1].addImage(image_response);
+    }
+
+    const result = generateImagesList.map(generateImages => generateImages.toJson());
+
+    return result;
+  }
+
+  async handleImageProcessing(
+    user_id: number,
+    process_type: ProcessType,
+    image_id: number,
+  ): Promise<ImageResponse> {
+    const image = await this.imageRepository.getById(image_id);
+
+    if (!image) {
+      throw new Exception(ImageError.IMAGE_NOT_FOUND);
+    }
+
+    if (image.userId !== user_id) {
+      throw new Exception(ImageError.FORBIDDEN_IMAGES);
+    }
+
+    switch (process_type) {
+      case ProcessType.REMOVE_BACKGROUND:
+        if (image.removeBackground) {
+          throw new Exception(ImageError.IMAGE_REMOVED_BACKGROUD);
+        }
+        break;
+
+      case ProcessType.UPSCALE:
+        if (image.upscale) {
+          throw new Exception(ImageError.IMAGE_UPSCALED);
+        }
+        break;
+      default:
+        throw new Exception(ImageError.INVALID_PROCESS_TYPE);
+    }
+
+    const image_buffer_input = await UrlUtil.urlImageToBuffer(image.url);
+
+    let images_result_from_comfyui;
+    switch (process_type) {
+      case ProcessType.REMOVE_BACKGROUND:
+        images_result_from_comfyui = await this.aiFeatureService.removeBackground(
+          'comfyUI',
+          image_buffer_input,
+        );
+        break;
+      case ProcessType.UPSCALE:
+        images_result_from_comfyui = await this.aiFeatureService.upscale(
+          'comfyUI',
+          image_buffer_input,
+        );
+        break;
+      default:
+        throw new Exception(ImageError.INVALID_PROCESS_TYPE);
+    }
+
+    const image_response = await this.handleUpdatePropertycorrespondingOfImage(
+      process_type,
+      image.id,
+      images_result_from_comfyui[0],
+    );
+
+    return image_response;
+  }
+
+  async handleUpdatePropertycorrespondingOfImage(
+    process_type: ProcessType,
+    image_id: number,
+    image_buffer: Buffer,
+  ): Promise<ImageResponse> {
+    const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
+
+    let image;
+
+    switch (process_type) {
+      case ProcessType.REMOVE_BACKGROUND:
+        image = await this.imageRepository.updateRemoveBackgroundImageById(
+          image_id,
+          image_upload_result.url,
+        );
+        break;
+      case ProcessType.UPSCALE:
+        image = await this.imageRepository.updateUpscaleImageById(
+          image_id,
+          image_upload_result.url,
+        );
+        break;
+      default:
+        throw new Exception(ImageError.INVALID_PROCESS_TYPE);
+    }
 
     const image_response = ImageResponse.convertFromImage(image);
 

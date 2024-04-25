@@ -6,13 +6,15 @@ import {
   Get,
   Post,
   UploadedFile,
+  UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { GenerateInputs } from './entity/request/GenerateInputs';
 import { GenerateImageService } from './GenerateImageService';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
+import { GenerateByImagesStyleInputs } from './entity/request/GenerateImageByImagesStyleInputs';
 
 @ApiTags('Api generate images')
 @ApiBearerAuth()
@@ -31,6 +33,7 @@ export class GenerateImageController {
     @User() user: UserFromAuthGuard,
     @Body() generate_inputs: GenerateInputs,
   ) {
+    generate_inputs.isUpscale = generate_inputs.isUpscale?.toString() === 'true';
     return await this.generateImageService.handleGenerateTextToImg(user.id, generate_inputs);
   }
 
@@ -46,7 +49,32 @@ export class GenerateImageController {
     @UploadedFile() image: Express.Multer.File,
     @Body() generate_inputs: GenerateInputs,
   ) {
+    generate_inputs.isUpscale = generate_inputs.isUpscale?.toString() === 'true';
     generate_inputs.image = image;
     return await this.generateImageService.handleGenerateImageToImage(user.id, generate_inputs);
+  }
+
+  @Post('/image-by-images-style')
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'imageToUnclipsImages', maxCount: 10 }]))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Image file and additional parameters for generating image to image',
+    type: GenerateByImagesStyleInputs,
+  })
+  async generateImageByImagesStyle(
+    @User() user: UserFromAuthGuard,
+    @Body() generate_inputs: GenerateByImagesStyleInputs,
+    @UploadedFiles() files: { imageToUnclipsImages: Express.Multer.File[] },
+  ) {
+    generate_inputs.imageToUnclipsImages = files.imageToUnclipsImages;
+    return await this.generateImageService.handleGenerateImageByImagesStyle(
+      user.id,
+      generate_inputs,
+    );
+  }
+
+  @Get('/ai-generate-by-images-style-info')
+  async getAIGenerateByImagesStyleInfo() {
+    return this.generateImageService.handleGetAIGenerateByImagesStyleInfo();
   }
 }

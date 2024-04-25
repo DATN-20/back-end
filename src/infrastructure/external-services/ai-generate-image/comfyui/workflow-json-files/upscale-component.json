@@ -1,0 +1,27 @@
+{
+  "%%upscale_model_loader_id%%": {
+    "inputs": {
+      "model_name": "%%upscale_model_loader_model%%"
+    },
+    "class_type": "UpscaleModelLoader",
+    "_meta": {
+      "title": "UpscaleModelLoader_Upscale"
+    }
+  },
+  "%%image_upscale_with_model_id%%": {
+    "inputs": {
+      "upscale_model": [
+        "%%upscale_model_loader_id%%",
+        0
+      ],
+      "image": [
+        "%%load_image_id%%",
+        0
+      ]
+    },
+    "class_type": "ImageUpscaleWithModel",
+    "_meta": {
+      "title": "ImageUpscaleWithModel_Upscale"
+    }
+  }
+}

@@ -31,6 +31,7 @@ import {
   ApiQuery,
   ApiBearerAuth,
 } from '@nestjs/swagger';
+import { ProcessImageRequest } from './entity/request/ProcessImageRequest';
 
 @ApiTags('Api images')
 @ApiBearerAuth()
@@ -91,9 +92,27 @@ export class ImageController {
     @Query('type') type: DashboardImageType,
     @Query('limit') limit: string,
     @Query('page') page: string,
-  ): Promise<DashboardResponse> {
+    @User() user: UserFromAuthGuard,
+  ) {
     const limit_number = parseInt(limit);
     const page_number = parseInt(page);
-    return await this.dashboardService.getImagesByType(type, limit_number, page_number);
+
+    return (
+      await this.dashboardService.getImagesByType(type, limit_number, page_number, user.id)
+    ).toJson();
+  }
+
+  @Get('generate-history')
+  async getGenerateHistoryImages(@User() user: UserFromAuthGuard) {
+    return this.imageService.handleGetGenerateImageHistory(user.id);
+  }
+
+  @Post('/:id/image-processing')
+  async removeBackground(
+    @User() user: UserFromAuthGuard,
+    @Param('id') image_id: number,
+    @Body() data: ProcessImageRequest,
+  ): Promise<ImageResponse> {
+    return this.imageService.handleImageProcessing(user.id, data.processType, image_id);
   }
 }

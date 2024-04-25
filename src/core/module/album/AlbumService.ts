@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { AlbumRepository } from './AlbumRepository';
 import { Album, NewAlbum } from './entity/Album';
 import { AlbumError } from '@core/common/resource/error/AlbumError';
@@ -7,12 +7,16 @@ import { UserRepository } from '../user/UserRepository';
 import { EditAlbumReq } from './entity/request/EditAlbumReq';
 import { Exception } from '@core/common/exception/Exception';
 import { AlbumJson } from './entity/response/AlbumJson';
+import { ImageAlbumService } from '../images-album/ImageAlbumService';
+import { AlbumWithImageResponse } from './entity/response/AlbumWithImageResponse';
 
 @Injectable()
 export class AlbumService {
   public constructor(
     private readonly albumRepository: AlbumRepository,
     private readonly userRepository: UserRepository,
+    @Inject(forwardRef(() => ImageAlbumService))
+    private readonly imageAlbumService: ImageAlbumService,
   ) {}
   async handleCreateNewAlbum(user_id: number, name: string): Promise<AlbumJson> {
     const new_album: NewAlbum = {
@@ -81,5 +85,18 @@ export class AlbumService {
     const responseAlbum = new AlbumResponse(album, user);
 
     return responseAlbum;
+  }
+  async getFullInfo(user_id: number): Promise<AlbumWithImageResponse[]> {
+    const albums = await this.albumRepository.getByUserId(user_id);
+    const albumResponses = [];
+    for (let i = 0; i < albums.length; i++) {
+      const album = albums[i];
+      const allImages = await this.imageAlbumService.getAllImagesInAlbum(user_id, album.id);
+
+      const responseAlbum = new AlbumWithImageResponse(album, allImages);
+      albumResponses.push(responseAlbum);
+    }
+
+    return albumResponses;
   }
 }

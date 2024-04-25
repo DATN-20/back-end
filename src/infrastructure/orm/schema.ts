@@ -5,6 +5,7 @@ import { ModelType } from '@core/common/enum/ModelType';
 import { UserRole } from '@core/common/enum/UserRole';
 import { relations } from 'drizzle-orm';
 import {
+  boolean,
   int,
   json,
   mysqlEnum,
@@ -45,11 +46,22 @@ export const images = mysqlTable('images', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   url: text('url').notNull(),
-  type: mysqlEnum('role', [ImageType.UPLOADED, ImageType.IMG_TO_IMG, ImageType.TEXT_TO_IMG]),
+  type: mysqlEnum('role', [
+    ImageType.UPLOADED,
+    ImageType.IMG_TO_IMG,
+    ImageType.TEXT_TO_IMG,
+    ImageType.IMG_BY_IMAGES_STYLE,
+  ]),
   prompt: text('prompt'),
+  aiName: text('ai_name'),
+  style: text('model_name'),
   additionInfo: text('addition_info'),
+  visibility: boolean('visibility').default(true),
   createdAt: timestamp('created_at').defaultNow(),
   storageId: text('storage_id'),
+  generateId: int('generate_id'),
+  removeBackground: text('remove_background_url'),
+  upscale: text('upscale_url'),
 });
 
 export const albums = mysqlTable('albums', {

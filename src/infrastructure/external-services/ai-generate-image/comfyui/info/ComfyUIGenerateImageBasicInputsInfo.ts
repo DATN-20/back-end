@@ -1,10 +1,10 @@
-import { ChoiceInput } from '../type/GenerateInput/ChoiceInput';
-import { GenerateInput } from '../type/GenerateInput/GenerateInput';
-import { ImageInput } from '../type/GenerateInput/ImageInput';
-import { SliderInput } from '../type/GenerateInput/SliderInput';
-import { TextInput } from '../type/GenerateInput/TextInput';
+import { ChoiceInput } from '../../type/GenerateInput/ChoiceInput';
+import { GenerateInput } from '../../type/GenerateInput/GenerateInput';
+import { ImageInput } from '../../type/GenerateInput/ImageInput';
+import { SliderInput } from '../../type/GenerateInput/SliderInput';
+import { TextInput } from '../../type/GenerateInput/TextInput';
 
-export class ComfyUIInfo {
+export class ComfyUIGenerateImageBasicInputsInfo {
   private styleChoices: { [key: string]: string } = {
     anime: 'anything_inkBase.safetensors',
   };
@@ -24,7 +24,7 @@ export class ComfyUIInfo {
 
   private widthName = 'Width';
   private widthDesc = '';
-  private widthMax = 1024;
+  private widthMax = 1280;
   private widthMin = 64;
   private widthDefault = 512;
   private widthStep = 8;
@@ -32,7 +32,7 @@ export class ComfyUIInfo {
 
   private heightName = 'Height';
   private heightDesc = '';
-  private heightMax = 1024;
+  private heightMax = 1280;
   private heightMin = 64;
   private heightDefault = 512;
   private heightStep = 8;
@@ -74,7 +74,7 @@ export class ComfyUIInfo {
   private cfgStep = 0.5;
   private cfgInputPropertyName = 'cfg';
 
-  private noiseName = 'CFG';
+  private noiseName = 'Noise';
   private noiseDesc = '';
   private noiseMin = 0;
   private noiseMax = 1;

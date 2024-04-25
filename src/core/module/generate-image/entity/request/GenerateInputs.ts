@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional } from 'class-validator';
+import { InputControlnet } from '@infrastructure/external-services/ai-generate-image/type/Controlnet/InputControlnet';
 
 export class GenerateInputs {
   @ApiProperty()
@@ -53,4 +54,12 @@ export class GenerateInputs {
   @ApiProperty()
   @IsOptional()
   noise: number;
+
+  @ApiProperty()
+  @IsOptional()
+  controlNets: InputControlnet[];
+
+  @ApiProperty()
+  @IsOptional()
+  isUpscale: boolean;
 }
