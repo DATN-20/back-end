@@ -10,7 +10,6 @@ import { ComfyUIFeature } from './ComfyUIFeature';
 import { IAIFeatureService } from '@core/common/interface/IAIFeatureService';
 import { IAIGenerateImageByImagesStyleService } from '@core/common/interface/IAIGenerateImageByImagesStyleService';
 import { GenerateByImagesStyleInputPromts } from '../type/GenerateByImagesStyleInputPromts';
-import { FileUtil } from '@core/common/util/FileUtil';
 
 @Injectable()
 export class ComfyUIService
@@ -60,7 +59,6 @@ export class ComfyUIService
       input_promts,
     );
     let comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptImg2Img(input_promts);
-
     const comfyui_socket = new ComfyUISokcet();
     await this.comfyUIApi.uploadImage(input_promts.image.buffer, input_promts.filename);
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);

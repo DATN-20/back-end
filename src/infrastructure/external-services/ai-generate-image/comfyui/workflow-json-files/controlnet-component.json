@@ -15,18 +15,9 @@
   "%%controlnet_apply%%": {
     "inputs": {
       "strength": 1,
-      "conditioning": [
-        "%%positive_prompt%%",
-        0
-      ],
-      "control_net": [
-        "%%controlnet_loader%%",
-        0
-      ],
-      "image": [
-        "%%controlnet_load_image%%",
-        0
-      ]
+      "conditioning": ["%%positive_prompt%%", 0],
+      "control_net": ["%%controlnet_loader%%", 0],
+      "image": ["%%controlnet_load_image%%", 0]
     },
     "class_type": "ControlNetApply"
   }

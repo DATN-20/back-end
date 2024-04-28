@@ -9,6 +9,7 @@ import { HttpModule } from '@nestjs/axios';
 import { ComfyUIService } from './ComfyUIService';
 import { ComfyUIUnclip } from './unclip/ComfyUIUnclip';
 import { ComfyUIRemoveBackground } from './remove-background/ComfyUIRemoveBackground';
+import { ControlNetModelMapping } from './control-net/ControlNetModelMapping';
 
 @Module({
   imports: [HttpModule],
@@ -22,6 +23,7 @@ import { ComfyUIRemoveBackground } from './remove-background/ComfyUIRemoveBackgr
     ComfyUIService,
     ComfyUIUnclip,
     ComfyUIRemoveBackground,
+    ControlNetModelMapping,
   ],
   exports: [ComfyUIService],
 })

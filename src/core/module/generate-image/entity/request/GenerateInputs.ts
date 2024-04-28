@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsOptional } from 'class-validator';
-import { InputControlnet } from '@infrastructure/external-services/ai-generate-image/type/Controlnet/InputControlnet';
+import { InputControlnet } from '@infrastructure/external-services/ai-generate-image/comfyui/control-net/types/InputControlnet';
 
 export class GenerateInputs {
   @IsNotEmpty()

@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { ComfyUIInfo } from './info/ComfyUIInfo';
 import { InputPromts } from '../type/InputPrompts';
 import { Exception } from '@core/common/exception/Exception';
 import { AIGenerateImageError } from '@core/common/resource/error/AIGenerateImageError';
@@ -8,7 +7,10 @@ import { GenerateByImagesStyleInputPromts } from '../type/GenerateByImagesStyleI
 import { ComfyUIGenerateImageBasicInputsInfo } from './info/ComfyUIGenerateImageBasicInputsInfo';
 import { ComfyUIGenerateImageByImagesStyleInputsInfo } from './info/ComfyUIGenerateImageByImagesStyleInputsInfo';
 import { ImageToUnclipInput } from '../type/Unclip/ImageToUnClipInput';
-import { SliderInput } from '../type/GenerateInput/SliderInput';
+import { InputControlnet } from './control-net/types/InputControlnet';
+import { ControlNetType } from './control-net/types/ControlNetType';
+import { ControlNetError } from '@core/common/resource/error/ControlNetError';
+import { ComfyUIControlNetInfo } from './control-net/ComfyUIControlNetInfo';
 
 @Injectable()
 export class ComfyUIValidator {
@@ -76,6 +78,10 @@ export class ComfyUIValidator {
     } else {
       this.validateInput(info.inputs.style, input_promts.style);
     }
+
+    if (input_promts.controlNets.length > 0) {
+      this.controlNetValidate(input_promts.controlNets);
+    }
   }
 
   imageToImagePromptValidate(info: ComfyUIGenerateImageBasicInputsInfo, input_promts: InputPromts) {
@@ -96,6 +102,10 @@ export class ComfyUIValidator {
       input_promts.noise = info.inputs.noise.default;
     } else {
       this.validateInput(info.inputs.noise, input_promts.noise);
+    }
+
+    if (input_promts.controlNets.length > 0) {
+      this.controlNetValidate(input_promts.controlNets);
     }
   }
 
@@ -192,6 +202,21 @@ export class ComfyUIValidator {
   validateInput(generateInput: GenerateInput, value: any): void {
     if (!generateInput.validate(value)) {
       throw new Exception(AIGenerateImageError.INVALID_INPUT_VALUE(generateInput.name));
+    }
+  }
+
+  controlNetValidate(control_nets: InputControlnet[]) {
+    const control_net_info = new ComfyUIControlNetInfo();
+
+    for (let _index = 0; _index < control_nets.length; _index++) {
+      const is_valid_type = Object.values(ControlNetType).includes(
+        control_nets[_index].controlNetType,
+      );
+      if (!is_valid_type) {
+        throw new Exception(ControlNetError.INVALID_CONTROL_NET_TYPE);
+      }
+
+      this.validateInput(control_net_info.controlNetStrengthInput, control_nets[_index].strength);
     }
   }
 }
