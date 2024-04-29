@@ -29,6 +29,8 @@ export const users = mysqlTable('users', {
   accessToken: varchar('access_token', { length: 256 }),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
+  avatar: text('avatar'),
+  background: text('background'),
 });
 
 export const users_relations = relations(users, ({ many }) => ({

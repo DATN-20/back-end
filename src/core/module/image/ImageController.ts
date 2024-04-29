@@ -58,7 +58,7 @@ export class ImageController {
 
   @Post('interact')
   @HttpCode(HttpStatus.OK)
-  async interac(@User() user: UserFromAuthGuard, @Body() data: InteractImageRequest) {
+  async interact(@User() user: UserFromAuthGuard, @Body() data: InteractImageRequest) {
     return await this.imageService.handleInteractImage(user.id, data);
   }
 
