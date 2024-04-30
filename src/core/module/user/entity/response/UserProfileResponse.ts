@@ -29,7 +29,6 @@ export class UserProfileResponse {
     result.background = user.background;
     result.createdAt = DateUtil.formatDate(user.createdAt);
     result.updatedAt = DateUtil.formatDate(user.updatedAt);
-
     return result;
   }
 }

@@ -54,22 +54,19 @@ export class UserService {
     return UserProfileResponse.convertToResponseFromUserEntity(res);
   }
 
-  async handleUpdateAvatar(user_id: number, files: Express.Multer.File[]): Promise<string> {
+  async handleUpdateAvatar(user_id: number, file: Express.Multer.File): Promise<string> {
     const matched_user = await this.userRepository.getById(user_id);
-    console.log('-----');
 
     if (!matched_user) {
       throw new Exception(UserError.USER_NOT_FOUND);
     }
+
     let avatar = '';
-    try {
-      const imageUploadResults: ImageUploadResult[] = await this.imageStorageService.uploadImages({
-        images: files,
-      });
-      avatar = imageUploadResults[0].url;
-    } catch (error) {
-      throw new Exception(ImageError.UPLOAD_ERROR);
-    }
+    const imageUploadResults: ImageUploadResult[] = await this.imageStorageService.uploadImages({
+      images: [file],
+    });
+    avatar = imageUploadResults[0].url;
+
     try {
       await this.userRepository.updateAvatar(user_id, avatar);
       return avatar;
@@ -78,22 +75,20 @@ export class UserService {
     }
   }
 
-  async handleUpdateBackground(user_id: number, files: Express.Multer.File[]): Promise<string> {
+  async handleUpdateBackground(user_id: number, file: Express.Multer.File): Promise<string> {
     const matched_user = await this.userRepository.getById(user_id);
 
     if (!matched_user) {
       throw new Exception(UserError.USER_NOT_FOUND);
     }
     let background = '';
-    try {
-      const imageUploadResults: ImageUploadResult[] = await this.imageStorageService.uploadImages({
-        images: files,
-      });
 
-      background = imageUploadResults[0].url;
-    } catch (error) {
-      throw new Exception(ImageError.UPLOAD_ERROR);
-    }
+    const imageUploadResults: ImageUploadResult[] = await this.imageStorageService.uploadImages({
+      images: [file],
+    });
+
+    background = imageUploadResults[0].url;
+
     try {
       await this.userRepository.updateBackground(user_id, background);
       return background;

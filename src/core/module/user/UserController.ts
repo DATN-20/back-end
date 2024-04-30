@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Put, UploadedFiles, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Put,
+  UploadedFile,
+  UploadedFiles,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './UserService';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { User } from '@core/common/decorator/UserDecorator';
@@ -36,20 +45,20 @@ export class UserController {
   }
 
   @Post('me/avatar')
-  @UseInterceptors(FilesInterceptor('files'))
+  @UseInterceptors(FileInterceptor('file'))
   async updateAvatar(
     @User() user: UserFromAuthGuard,
-    @UploadedFiles() files: Express.Multer.File[],
+    @UploadedFile() file: Express.Multer.File,
   ): Promise<string> {
-    return await this.userService.handleUpdateAvatar(user.id, files);
+    return await this.userService.handleUpdateAvatar(user.id, file);
   }
 
-  @UseInterceptors(FilesInterceptor('files'))
+  @UseInterceptors(FileInterceptor('file'))
   @Post('me/background')
   async updateBackground(
     @User() user: UserFromAuthGuard,
-    @UploadedFiles() files: Express.Multer.File[],
+    @UploadedFile() file: Express.Multer.File,
   ): Promise<string> {
-    return await this.userService.handleUpdateBackground(user.id, files);
+    return await this.userService.handleUpdateBackground(user.id, file);
   }
 }
