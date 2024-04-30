@@ -72,9 +72,7 @@ export class ImageController {
     const limit_number = parseInt(limit);
     const page_number = parseInt(page);
 
-    return (
-      await this.dashboardService.getImagesByType(type, limit_number, page_number, user.id)
-    ).toJson();
+    return await this.dashboardService.getImagesByType(type, limit_number, page_number, user.id);
   }
 
   @Get('generate-history')

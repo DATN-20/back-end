@@ -4,7 +4,8 @@ import { ImageAlbum } from './entity/ImageAlbum';
 import { and, eq, sql } from 'drizzle-orm';
 import { Image } from '../image/entity/Image';
 import { getTableColumns } from 'drizzle-orm';
-import { ImageAlbumResponse } from './entity/response/ImageAlbumResponse';
+import { ImageAlbumDTO } from './entity/dto/ImageAlbumDTO';
+
 export class ImageAlbumRepository extends BaseRepository {
   public async addImageToAlbum(id_image: number, id_album: number): Promise<void> {
     await this.database.insert(images_album).values({
@@ -12,7 +13,7 @@ export class ImageAlbumRepository extends BaseRepository {
       imageId: id_image,
     });
   }
-  public async getAllImageInAlbum(album_id: number): Promise<ImageAlbumResponse[]> {
+  public async getAllImageInAlbum(album_id: number): Promise<ImageAlbumDTO[]> {
     const result = await this.database
       .select({
         image: images,
