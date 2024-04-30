@@ -82,4 +82,24 @@ export class UserRepository extends BaseRepository {
       })
       .where(eq(users.id, id));
   }
+
+  async updateAvatar(id: number, avatar: string): Promise<void> {
+    await this.database
+      .update(users)
+      .set({
+        avatar: avatar,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, id));
+  }
+
+  async updateBackground(id: number, background: string): Promise<void> {
+    await this.database
+      .update(users)
+      .set({
+        background: background,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, id));
+  }
 }

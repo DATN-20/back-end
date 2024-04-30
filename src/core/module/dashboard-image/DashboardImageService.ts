@@ -18,7 +18,7 @@ export class DashboardImageService {
     limit: number,
     page: number,
     user_id: number,
-  ): Promise<DashboardResponse> {
+  ) {
     const offset = (page - 1) * limit;
     switch (type) {
       case DashboardImageType.TOPLIKED:
@@ -27,17 +27,12 @@ export class DashboardImageService {
         return await this.getTopImageByWeek(InteractionType.LIKE, limit, offset, user_id);
       case DashboardImageType.LATEST:
         return await this.getLatestImage(limit, offset, user_id);
-      case DashboardImageType.RANDOM:
+      default:
         return await this.getRandomImage(limit, offset, user_id);
     }
   }
 
-  async getTopImageByWeek(
-    type: InteractionType,
-    limit: number,
-    offset: number,
-    user_id: number,
-  ): Promise<DashboardResponse> {
+  async getTopImageByWeek(type: InteractionType, limit: number, offset: number, user_id: number) {
     const from_date = new Date();
     const to_date = new Date();
     to_date.setDate(to_date.getDate() + 1);
@@ -54,13 +49,9 @@ export class DashboardImageService {
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
 
-    return new DashboardResponse(total_count, result);
+    return new DashboardResponse(total_count, result).toJson();
   }
-  async getTopImageLiked(
-    limit: number,
-    offset: number,
-    user_id: number,
-  ): Promise<DashboardResponse> {
+  async getTopImageLiked(limit: number, offset: number, user_id: number) {
     const total_count = await this.repository.getTotalImage();
     const main_query_result = await this.repository.getTopInteraction(
       InteractionType.LIKE,
@@ -69,24 +60,23 @@ export class DashboardImageService {
     );
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
-
-    return new DashboardResponse(total_count, result);
+    return new DashboardResponse(total_count, result).toJson();
   }
-  async getLatestImage(limit: number, offset: number, user_id: number): Promise<DashboardResponse> {
+  async getLatestImage(limit: number, offset: number, user_id: number) {
     const total_count = await this.repository.getTotalImage();
     const main_query_result = await this.repository.getLatestImage(limit, offset);
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
 
-    return new DashboardResponse(total_count, result);
+    return new DashboardResponse(total_count, result).toJson();
   }
-  async getRandomImage(limit: number, offset: number, user_id: number): Promise<DashboardResponse> {
+  async getRandomImage(limit: number, offset: number, user_id: number) {
     const total_count = await this.repository.getTotalImage();
     const main_query_result = await this.repository.getRandomImage(limit, offset);
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
 
-    return new DashboardResponse(total_count, result);
+    return new DashboardResponse(total_count, result).toJson();
   }
 
   private async mainQueryResultToDashboardResponse(
