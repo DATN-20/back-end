@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Our Community</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello {{data.name}}</h1>
+        <p>We regret to inform you that your account has been {{data.type}} locked at {{data.lockedAt}} due to some reasons and it will expire at {{data.expiredAt}}.</p>
+
+        <p>In order to unlock your account, please follow these steps:</p>
+        <ul>
+            <li>Contact our support team immediately via email at <a href="mailto:support@example.com">support@example.com</a>.</li>
+            <li>Provide relevant information to verify your identity and unlock your account.</li>
+            <li>Once your identity is confirmed, we will assist you in regaining access to your account.</li>
+        </ul>
+
+        <p>If you have any concerns or questions, please do not hesitate to reach out to us.</p>
+
+        <p>Thank you for your understanding and cooperation.</p>
+    </div>
+</body>
+</html>
