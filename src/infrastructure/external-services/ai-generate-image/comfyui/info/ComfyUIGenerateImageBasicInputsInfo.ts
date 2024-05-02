@@ -3,6 +3,7 @@ import { GenerateInput } from '../../type/GenerateInput/GenerateInput';
 import { ImageInput } from '../../type/GenerateInput/ImageInput';
 import { SliderInput } from '../../type/GenerateInput/SliderInput';
 import { TextInput } from '../../type/GenerateInput/TextInput';
+import { ComfyUIControlNetInfo } from '../control-net/ComfyUIControlNetInfo';
 
 export class ComfyUIGenerateImageBasicInputsInfo {
   private styleChoices: { [key: string]: string } = {
@@ -85,6 +86,7 @@ export class ComfyUIGenerateImageBasicInputsInfo {
   private imageName = 'Image';
   private imageDesc = '';
   private imageInputPropertyName = 'image';
+
   public inputs: { [key: string]: GenerateInput } = {
     style: new ChoiceInput(
       this.styleName,
@@ -169,5 +171,7 @@ export class ComfyUIGenerateImageBasicInputsInfo {
     ),
 
     image: new ImageInput(this.imageName, this.imageDesc, null, this.imageInputPropertyName),
+
+    controlNets: new ComfyUIControlNetInfo().inputs.controlNet,
   };
 }
