@@ -33,4 +33,9 @@ export class ErrorBaseSystem {
     message: 'Internal server error!',
     status_code: HttpStatus.INTERNAL_SERVER_ERROR,
   };
+  public static FORBIDDEN_RESOURCE: ErrorBase = {
+    error_code: '00006',
+    message: 'You do not have permission to access this API!',
+    status_code: HttpStatus.FORBIDDEN,
+  };
 }
