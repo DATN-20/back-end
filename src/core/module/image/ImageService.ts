@@ -15,6 +15,8 @@ import { UrlUtil } from '@core/common/util/UrlUtil';
 import { AIFeatureServiceManager } from '@infrastructure/external-services/ai-generate-image/AIFeatureServiceManager';
 import { ProcessType } from './entity/ProcessType';
 import { GenerateByImagesStyleInputs } from '../generate-image/entity/request/GenerateImageByImagesStyleInputs';
+import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
+import { ImageResponseJson } from './entity/response/ImageResponseJson';
 
 @Injectable()
 export class ImageService {
@@ -238,7 +240,7 @@ export class ImageService {
     user_id: number,
     process_type: ProcessType,
     image_id: number,
-  ): Promise<ImageResponse> {
+  ): Promise<ImageResponseJson> {
     const image = await this.imageRepository.getById(image_id);
 
     if (!image) {
@@ -298,7 +300,7 @@ export class ImageService {
     process_type: ProcessType,
     image_id: number,
     image_buffer: Buffer,
-  ): Promise<ImageResponse> {
+  ): Promise<ImageResponseJson> {
     const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
 
     let image;
@@ -320,8 +322,24 @@ export class ImageService {
         throw new Exception(ImageError.INVALID_PROCESS_TYPE);
     }
 
-    const image_response = ImageResponse.convertFromImage(image);
+    const image_response = ImageResponse.convertFromImage(image).toJson();
 
     return image_response;
+  }
+
+  async handleSearchPrompt(
+    query_data: SearchPromptRequest,
+  ): Promise<QueryPaginationResponse<ImageResponseJson>> {
+    const pagination: QueryPagination = {
+      page: query_data.page,
+      limit: query_data.limit,
+    };
+
+    const images = await this.imageRepository.searchByPrompt(query_data.query, pagination);
+    const result: ImageResponseJson[] = images.map(image =>
+      ImageResponse.convertFromImage(image).toJson(),
+    );
+    const total_record = await this.imageRepository.countTotalRecordSeachByPrompt(query_data.query);
+    return { page: query_data.page, limit: query_data.limit, data: result, total: total_record };
   }
 }

@@ -1,6 +1,8 @@
 import { ImageType } from '@core/common/enum/ImageType';
 import { Image } from '../Image';
 import { User } from '@core/module/user/entity/User';
+import { ImageResponseJson } from './ImageResponseJson';
+import { UserResponseJson } from '@core/module/user/entity/response/UserResponseJson';
 
 export class ImageResponse {
   private id: number;
@@ -37,7 +39,7 @@ export class ImageResponse {
     return new ImageResponse(image);
   }
 
-  public createdUserInfo() {
+  public createdUserInfo(): UserResponseJson {
     if (this.createdUser) {
       return {
         id: this.createdUser.id,
@@ -50,12 +52,12 @@ export class ImageResponse {
     }
   }
 
-  public toJson() {
+  public toJson(): ImageResponseJson {
     return {
       id: this.id,
       url: this.url,
       type: this.type,
-      promp: this.prompt,
+      prompt: this.prompt,
       ai_name: this.aiName,
       style: this.style,
       created_at: this.createdAt,

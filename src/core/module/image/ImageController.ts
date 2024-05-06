@@ -22,10 +22,11 @@ import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 import { InteractImageRequest } from './entity/request/InteractImageRequest';
 import { DashboardImageService } from '../dashboard-image/DashboardImageService';
 import { DashboardImageType } from '@core/common/enum/DashboardImageType';
-import { ProcessType } from './entity/ProcessType';
 import { ProcessImageRequest } from './entity/request/ProcessImageRequest';
+import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
+import { ImageResponseJson } from './entity/response/ImageResponseJson';
 
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 @Controller('images')
 export class ImageController {
   public constructor(
@@ -85,7 +86,14 @@ export class ImageController {
     @User() user: UserFromAuthGuard,
     @Param('id') image_id: number,
     @Body() data: ProcessImageRequest,
-  ): Promise<ImageResponse> {
+  ): Promise<ImageResponseJson> {
     return this.imageService.handleImageProcessing(user.id, data.processType, image_id);
+  }
+
+  @Get('search-prompt')
+  async searchPrompt(
+    @Query() query_data: SearchPromptRequest,
+  ): Promise<QueryPaginationResponse<ImageResponseJson>> {
+    return this.imageService.handleSearchPrompt(query_data);
   }
 }
