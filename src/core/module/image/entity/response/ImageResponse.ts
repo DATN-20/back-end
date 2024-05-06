@@ -35,7 +35,7 @@ export class ImageResponse {
     this.upscale = image.upscale ?? '';
   }
 
-  public static convertFromImage(image: Image) {
+  public static convertFromImage(image: Image): ImageResponse {
     return new ImageResponse(image);
   }
 
@@ -46,6 +46,7 @@ export class ImageResponse {
         first_name: this.createdUser.firstName,
         last_name: this.createdUser.lastName,
         alias_name: this.createdUser.aliasName,
+        avatar: this.createdUser.avatar,
       };
     } else {
       return null;
@@ -69,7 +70,7 @@ export class ImageResponse {
     };
   }
 
-  public getUrl() {
+  public getUrl(): string {
     return this.url;
   }
 }
