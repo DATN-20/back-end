@@ -26,7 +26,7 @@ import { ProcessImageRequest } from './entity/request/ProcessImageRequest';
 import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
 import { ImageResponseJson } from './entity/response/ImageResponseJson';
 
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 @Controller('images')
 export class ImageController {
   public constructor(
