@@ -79,10 +79,13 @@ export class UserManagementService {
     await this.lockedUserRepository.delete(user_id);
   }
 
-  async handleGetAllUser(): Promise<UserInformationResponseJson[]> {
-    const result = await this.userRepository.getAll();
+  async handleGetAllUser(
+    pagination: QueryPagination,
+  ): Promise<QueryPaginationResponse<UserInformationResponseJson>> {
+    const users = await this.userRepository.getAll(pagination);
+    const total_record = (await this.userRepository.getAll()).length;
 
-    return result.map(user_information => {
+    const converted_users = users.map(user_information => {
       if (user_information.lockedInformation) {
         return UserInformationResponse.convertFromUserWithLockedInformation(
           user_information,
@@ -94,5 +97,11 @@ export class UserManagementService {
         locked_information: null,
       };
     });
+
+    return {
+      ...pagination,
+      total: total_record,
+      data: converted_users,
+    };
   }
 }

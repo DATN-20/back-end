@@ -103,8 +103,8 @@ export class UserRepository extends BaseRepository {
       .where(eq(users.id, id));
   }
 
-  async getAll(): Promise<UserWithLockedInformation[]> {
-    const result = await this.database
+  async getAll(pagination?: QueryPagination): Promise<UserWithLockedInformation[]> {
+    const query_sql = this.database
       .select({
         user: users,
         lockedInformation: locked_users,
@@ -112,6 +112,10 @@ export class UserRepository extends BaseRepository {
       .from(users)
       .leftJoin(locked_users, eq(users.id, locked_users.userId));
 
-    return result;
+    if (pagination) {
+      query_sql.limit(pagination.limit).offset((pagination.page - 1) * pagination.limit);
+    }
+
+    return query_sql;
   }
 }
