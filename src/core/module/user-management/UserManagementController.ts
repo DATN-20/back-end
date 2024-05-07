@@ -1,10 +1,11 @@
 import { AdminGuard } from '@core/common/guard/AdminGuard';
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { UserManagementService } from './UserManagementService';
 import { LockUserRequest } from './entity/request/LockUserRequest';
 import { UnlockUserRequest } from './entity/request/UnlockUserRequest';
 import { LockedUserJson } from './entity/response/LockedUserJson';
 import { LockedUserMessage } from '@core/common/resource/message/LockedUserMessage';
+import { UserInformationResponseJson } from './entity/response/UserInformationResponseJson';
 
 @Controller('/management/users')
 @UseGuards(AdminGuard)
@@ -24,5 +25,10 @@ export class UserManagementController {
       '%%id%%',
       data.lockedUserId.toString(),
     );
+  }
+
+  @Get()
+  async getAllUser(): Promise<UserInformationResponseJson[]> {
+    return this.userManagementService.handleGetAllUser();
   }
 }

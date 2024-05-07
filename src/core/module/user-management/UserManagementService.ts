@@ -10,6 +10,9 @@ import { LockedUserError } from '@core/common/resource/error/LockedUserError';
 import { MailService } from '@infrastructure/external-services/mail/MailService';
 import { MailSubject } from '@core/common/enum/MailSubject';
 import { MailTemplate } from '@core/common/enum/MailTemplate';
+import { UserInformationResponseJson } from './entity/response/UserInformationResponseJson';
+import { UserInformationResponse } from './entity/response/UserInformationResponse';
+import { UserProfileResponse } from '../user/entity/response/UserProfileResponse';
 
 @Injectable()
 export class UserManagementService {
@@ -49,7 +52,7 @@ export class UserManagementService {
       },
     );
 
-    return LockedUserResponse.convertFromLockedUserEntity(locked_user);
+    return LockedUserResponse.convertFromLockedUserEntity(locked_user).toJson();
   }
 
   async handleUnlockUser(user_id: number): Promise<void> {
@@ -74,5 +77,22 @@ export class UserManagementService {
     );
 
     await this.lockedUserRepository.delete(user_id);
+  }
+
+  async handleGetAllUser(): Promise<UserInformationResponseJson[]> {
+    const result = await this.userRepository.getAll();
+
+    return result.map(user_information => {
+      if (user_information.lockedInformation) {
+        return UserInformationResponse.convertFromUserWithLockedInformation(
+          user_information,
+        ).toJson();
+      }
+
+      return {
+        user: UserProfileResponse.convertToResponseFromUserEntity(user_information.user).toJson(),
+        locked_information: null,
+      };
+    });
   }
 }
