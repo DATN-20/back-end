@@ -73,7 +73,7 @@ export const images = mysqlTable('images', {
   aiName: text('ai_name'),
   style: text('model_name'),
   additionInfo: text('addition_info'),
-  visibility: boolean('visibility').default(true),
+  visibility: boolean('visibility').default(false),
   createdAt: timestamp('created_at').defaultNow(),
   storageId: text('storage_id'),
   generateId: int('generate_id'),

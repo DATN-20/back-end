@@ -26,6 +26,10 @@ export class ServerApplication {
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
+        transform: true,
+        transformOptions: {
+          enableImplicitConversion: true,
+        },
         exceptionFactory(_errors) {
           throw new Exception(ErrorBaseSystem.VALIDATION_REQUEST_DATA_FAILED);
         },

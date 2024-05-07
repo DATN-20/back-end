@@ -15,6 +15,8 @@ import { UrlUtil } from '@core/common/util/UrlUtil';
 import { AIFeatureServiceManager } from '@infrastructure/external-services/ai-generate-image/AIFeatureServiceManager';
 import { ProcessType } from './entity/ProcessType';
 import { GenerateByImagesStyleInputs } from '../generate-image/entity/request/GenerateImageByImagesStyleInputs';
+import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
+import { ImageResponseJson } from './entity/response/ImageResponseJson';
 
 @Injectable()
 export class ImageService {
@@ -28,11 +30,11 @@ export class ImageService {
   async handleUploadImages(
     userId: number,
     images: Express.Multer.File[],
-  ): Promise<ImageResponse[]> {
+  ): Promise<ImageResponseJson[]> {
     if (images == null) {
       throw new Exception(ImageError.IMAGES_LIST_EMPTY);
     }
-    const result: ImageResponse[] = [];
+    const result: ImageResponseJson[] = [];
     const imageUploadResults: ImageUploadResult[] = await this.imageStorageService.uploadImages({
       images,
     });
@@ -43,8 +45,9 @@ export class ImageService {
           url: imageUpload.url,
           storageId: imageUpload.id,
         });
-        result.push(ImageResponse.convertFromImage(image));
+        result.push(ImageResponse.convertFromImage(image).toJson());
       }
+
       return result;
     } catch (error) {
       throw new Exception(ImageError.UPLOAD_ERROR);
@@ -53,11 +56,11 @@ export class ImageService {
 
   async handleDeleteImages(imageIds: number[]): Promise<void> {
     for (const id of imageIds) {
-      this.DeleteImage(id);
+      this.deleteImage(id);
     }
   }
 
-  async DeleteImage(id: number): Promise<void> {
+  async deleteImage(id: number): Promise<void> {
     const image = await this.imageRepository.getById(id);
     if (!image) {
       throw new Exception(ImageError.IMAGE_NOT_FOUND);
@@ -66,10 +69,13 @@ export class ImageService {
     await this.imageRepository.deleteById(id);
   }
 
-  async handleGetImagesOfUser(userId: number): Promise<ImageResponse[]> {
+  async handleGetImagesOfUser(userId: number): Promise<ImageResponseJson[]> {
     try {
       const images = await this.imageRepository.getByUserId(userId);
-      const result: ImageResponse[] = images.map(image => ImageResponse.convertFromImage(image));
+      const result: ImageResponseJson[] = images.map(image =>
+        ImageResponse.convertFromImage(image).toJson(),
+      );
+
       return result;
     } catch (error) {
       throw new Exception(ImageError.GET_ERROR);
@@ -134,7 +140,7 @@ export class ImageService {
     image_type: ImageType,
     promts: GenerateInputs,
     generate_id: number,
-  ) {
+  ): Promise<ImageResponse> {
     const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
 
     const new_image: NewImage = {
@@ -160,7 +166,7 @@ export class ImageService {
     list_image_buffer: Buffer[],
     image_type: ImageType,
     prompt: GenerateByImagesStyleInputs,
-  ) {
+  ): Promise<ImageResponse[]> {
     const result: ImageResponse[] = [];
 
     const generate_id = (await this.imageRepository.getUserMaxGenerateID(user_id)) + 1;
@@ -186,7 +192,7 @@ export class ImageService {
     image_type: ImageType,
     promts: GenerateByImagesStyleInputs,
     generate_id: number,
-  ) {
+  ): Promise<ImageResponse> {
     const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
 
     const new_image: NewImage = {
@@ -205,7 +211,7 @@ export class ImageService {
     return image_response;
   }
 
-  async handleGetGenerateImageHistory(user_id: number) {
+  async handleGetGenerateImageHistory(user_id: number): Promise<ImageResponseJson[]> {
     const generatedImageTypes = [ImageType.IMG_TO_IMG, ImageType.TEXT_TO_IMG];
     const images = await this.imageRepository.getByUserIdAndImageTypes(
       user_id,
@@ -238,7 +244,7 @@ export class ImageService {
     user_id: number,
     process_type: ProcessType,
     image_id: number,
-  ): Promise<ImageResponse> {
+  ): Promise<ImageResponseJson> {
     const image = await this.imageRepository.getById(image_id);
 
     if (!image) {
@@ -267,7 +273,7 @@ export class ImageService {
 
     const image_buffer_input = await UrlUtil.urlImageToBuffer(image.url);
 
-    let images_result_from_comfyui;
+    let images_result_from_comfyui: Buffer[];
     switch (process_type) {
       case ProcessType.REMOVE_BACKGROUND:
         images_result_from_comfyui = await this.aiFeatureService.removeBackground(
@@ -298,7 +304,7 @@ export class ImageService {
     process_type: ProcessType,
     image_id: number,
     image_buffer: Buffer,
-  ): Promise<ImageResponse> {
+  ): Promise<ImageResponseJson> {
     const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
 
     let image;
@@ -320,8 +326,24 @@ export class ImageService {
         throw new Exception(ImageError.INVALID_PROCESS_TYPE);
     }
 
-    const image_response = ImageResponse.convertFromImage(image);
+    const image_response = ImageResponse.convertFromImage(image).toJson();
 
     return image_response;
+  }
+
+  async handleSearchPrompt(
+    query_data: SearchPromptRequest,
+  ): Promise<QueryPaginationResponse<ImageResponseJson>> {
+    const pagination: QueryPagination = {
+      page: query_data.page,
+      limit: query_data.limit,
+    };
+
+    const images = await this.imageRepository.searchByPrompt(query_data.query, pagination);
+    const result: ImageResponseJson[] = images.map(image =>
+      ImageResponse.convertFromImage(image).toJson(),
+    );
+    const total_record = await this.imageRepository.countTotalRecordSeachByPrompt(query_data.query);
+    return { page: query_data.page, limit: query_data.limit, data: result, total: total_record };
   }
 }

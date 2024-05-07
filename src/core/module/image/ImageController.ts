@@ -16,14 +16,14 @@ import { ImageService } from './ImageService';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { User } from '@core/common/decorator/UserDecorator';
 import { DeleteImageRequest } from './entity/request/DeleteImageRequest';
-import { ImageResponse } from './entity/response/ImageResponse';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 import { InteractImageRequest } from './entity/request/InteractImageRequest';
 import { DashboardImageService } from '../dashboard-image/DashboardImageService';
-import { DashboardImageType } from '@core/common/enum/DashboardImageType';
-import { ProcessType } from './entity/ProcessType';
 import { ProcessImageRequest } from './entity/request/ProcessImageRequest';
+import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
+import { ImageResponseJson } from './entity/response/ImageResponseJson';
+import { DashboardImageQueryRequest } from './entity/request/DashboardImageQueryRequest';
 
 @UseGuards(AuthGuard)
 @Controller('images')
@@ -39,7 +39,7 @@ export class ImageController {
   async uploadImage(
     @UploadedFiles() files: Express.Multer.File[],
     @User() user: UserFromAuthGuard,
-  ): Promise<ImageResponse[]> {
+  ): Promise<ImageResponseJson[]> {
     return this.imageService.handleUploadImages(user.id, files);
   }
 
@@ -52,31 +52,32 @@ export class ImageController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  async getUserImages(@User() user: UserFromAuthGuard) {
+  async getUserImages(@User() user: UserFromAuthGuard): Promise<ImageResponseJson[]> {
     return this.imageService.handleGetImagesOfUser(user.id);
   }
 
   @Post('interact')
   @HttpCode(HttpStatus.OK)
-  async interact(@User() user: UserFromAuthGuard, @Body() data: InteractImageRequest) {
-    return await this.imageService.handleInteractImage(user.id, data);
+  async interact(
+    @User() user: UserFromAuthGuard,
+    @Body() data: InteractImageRequest,
+  ): Promise<string> {
+    return this.imageService.handleInteractImage(user.id, data);
   }
 
   @Get('dashboard')
   async getDashboardImages(
-    @Query('type') type: DashboardImageType,
-    @Query('limit') limit: string,
-    @Query('page') page: string,
+    @Query() query_data: DashboardImageQueryRequest,
     @User() user: UserFromAuthGuard,
-  ) {
-    const limit_number = parseInt(limit);
-    const page_number = parseInt(page);
-
-    return await this.dashboardService.getImagesByType(type, limit_number, page_number, user.id);
+  ): Promise<any> {
+    return this.dashboardService.getImagesByType(query_data.type, user.id, {
+      page: query_data.page,
+      limit: query_data.limit,
+    });
   }
 
   @Get('generate-history')
-  async getGenerateHistoryImages(@User() user: UserFromAuthGuard) {
+  async getGenerateHistoryImages(@User() user: UserFromAuthGuard): Promise<ImageResponseJson[]> {
     return this.imageService.handleGetGenerateImageHistory(user.id);
   }
 
@@ -85,7 +86,14 @@ export class ImageController {
     @User() user: UserFromAuthGuard,
     @Param('id') image_id: number,
     @Body() data: ProcessImageRequest,
-  ): Promise<ImageResponse> {
+  ): Promise<ImageResponseJson> {
     return this.imageService.handleImageProcessing(user.id, data.processType, image_id);
+  }
+
+  @Get('search-prompt')
+  async searchPrompt(
+    @Query() query_data: SearchPromptRequest,
+  ): Promise<QueryPaginationResponse<ImageResponseJson>> {
+    return this.imageService.handleSearchPrompt(query_data);
   }
 }

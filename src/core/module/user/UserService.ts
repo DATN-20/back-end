@@ -5,10 +5,7 @@ import { Exception } from '@core/common/exception/Exception';
 import { UserError } from '@core/common/resource/error/UserError';
 import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
-import { ImageResponse } from '../image/entity/response/ImageResponse';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
-import { ImageRepository } from '../image/ImageRepository';
-import { ImageError } from '@core/common/resource/error/ImageError';
 import { UserProfileResponseJson } from './entity/response/UserProfileResponseJson';
 
 @Injectable()
