@@ -1,6 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
 import { ErrorBase } from './ErrorBase';
-import * as moment from 'moment';
 import { DateUtil } from '@core/common/util/DateUtil';
 
 export class LockedUserError {

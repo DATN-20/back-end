@@ -4,9 +4,10 @@ import { LockedUserRepository } from '@core/module/user-management/repositories/
 import { Module } from '@nestjs/common';
 import { UserModule } from './UserModule';
 import { MailModule } from '@infrastructure/external-services/mail/MailModule';
+import { MyElasticsearchModule } from '@infrastructure/external-services/elasticsearch/ElasticsearchModule';
 
 @Module({
-  imports: [UserModule, MailModule],
+  imports: [UserModule, MailModule, MyElasticsearchModule],
   controllers: [UserManagementController],
   providers: [UserManagementService, LockedUserRepository],
   exports: [UserManagementService, LockedUserRepository],

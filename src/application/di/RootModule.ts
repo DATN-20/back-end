@@ -12,6 +12,7 @@ import { ImageInteractionModule } from './ImageInteractionModule';
 import { DashboardImageModule } from './DashboardImageModule';
 import { AIFeatureServiceModule } from '@infrastructure/external-services/ai-generate-image/AIFeatureServiceModule';
 import { UserManagementModule } from './UserManagementModule';
+import { MyElasticsearchModule } from '@infrastructure/external-services/elasticsearch/ElasticsearchModule';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UserManagementModule } from './UserManagementModule';
     DashboardImageModule,
     AIFeatureServiceModule,
     UserManagementModule,
+    MyElasticsearchModule,
   ],
   controllers: [],
   providers: [],
