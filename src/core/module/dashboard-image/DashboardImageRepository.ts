@@ -3,10 +3,7 @@ import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { images, images_interaction } from '@infrastructure/orm/schema';
 import { and, asc, between, desc, eq, sql } from 'drizzle-orm';
 import { Injectable } from '@nestjs/common';
-import { DashboardResponse } from './entity/response/DashboardResponse';
-import { ImageResponse } from '../image/entity/response/ImageResponse';
 import { Image } from '../image/entity/Image';
-import { VisibilityType } from '@core/common/enum/VisibilityType';
 
 @Injectable()
 export class DashboardImageRepository extends BaseRepository {
@@ -37,8 +34,7 @@ export class DashboardImageRepository extends BaseRepository {
     from_date: Date;
     to_date: Date;
     type: InteractionType;
-    limit: number;
-    offset: number;
+    pagination: QueryPagination;
   }): Promise<{ image: Image; count: number }[]> {
     const main_query = this.database
       .select({
@@ -56,16 +52,15 @@ export class DashboardImageRepository extends BaseRepository {
         ),
       )
       .orderBy(desc(sql`count(${images.id})`))
-      .limit(data.limit)
-      .offset(data.offset);
+      .limit(data.pagination.limit)
+      .offset((data.pagination.page - 1) * data.pagination.limit);
 
     return await main_query;
   }
 
   async getTopInteraction(
     type: InteractionType,
-    limit: number,
-    offset: number,
+    pagination: QueryPagination,
   ): Promise<{ image: Image; count: number }[]> {
     const main_query = this.database
       .select({
@@ -80,13 +75,13 @@ export class DashboardImageRepository extends BaseRepository {
       .where(eq(images.visibility, true))
       .groupBy(sql`${images.id}`)
       .orderBy(desc(sql`IFNULL(count(${images_interaction.imageId}),0)`))
-      .limit(limit)
-      .offset(offset);
+      .limit(pagination.limit)
+      .offset((pagination.page - 1) * pagination.limit);
 
     return await main_query;
   }
 
-  async getLatestImage(limit: number, offset: number): Promise<{ image: Image; count: number }[]> {
+  async getLatestImage(pagination: QueryPagination): Promise<{ image: Image; count: number }[]> {
     const main_query = this.database
       .select({
         image: images,
@@ -103,8 +98,8 @@ export class DashboardImageRepository extends BaseRepository {
       .where(eq(images.visibility, true))
       .groupBy(sql`${images.id}`)
       .orderBy(desc(images.createdAt))
-      .limit(limit)
-      .offset(offset);
+      .limit(pagination.limit)
+      .offset((pagination.page - 1) * pagination.limit);
 
     return await main_query;
   }
@@ -122,7 +117,7 @@ export class DashboardImageRepository extends BaseRepository {
     return total_count_result[0]?.total || 0;
   }
 
-  async getRandomImage(limit: number, offset: number): Promise<{ image: Image; count: number }[]> {
+  async getRandomImage(pagination: QueryPagination): Promise<{ image: Image; count: number }[]> {
     const main_query = this.database
       .select({
         image: images,
@@ -139,8 +134,8 @@ export class DashboardImageRepository extends BaseRepository {
       .where(eq(images.visibility, true))
       .groupBy(sql`${images.id}`)
       .orderBy(asc(sql`RAND()`))
-      .limit(limit)
-      .offset(offset);
+      .limit(pagination.limit)
+      .offset((pagination.page - 1) * pagination.limit);
 
     return await main_query;
   }

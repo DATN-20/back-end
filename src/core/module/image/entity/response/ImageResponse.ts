@@ -1,6 +1,8 @@
 import { ImageType } from '@core/common/enum/ImageType';
 import { Image } from '../Image';
 import { User } from '@core/module/user/entity/User';
+import { ImageResponseJson } from './ImageResponseJson';
+import { UserResponseJson } from '@core/module/user/entity/response/UserResponseJson';
 
 export class ImageResponse {
   private id: number;
@@ -33,29 +35,30 @@ export class ImageResponse {
     this.upscale = image.upscale ?? '';
   }
 
-  public static convertFromImage(image: Image) {
+  public static convertFromImage(image: Image): ImageResponse {
     return new ImageResponse(image);
   }
 
-  public createdUserInfo() {
+  public createdUserInfo(): UserResponseJson {
     if (this.createdUser) {
       return {
         id: this.createdUser.id,
         first_name: this.createdUser.firstName,
         last_name: this.createdUser.lastName,
         alias_name: this.createdUser.aliasName,
+        avatar: this.createdUser.avatar,
       };
     } else {
       return null;
     }
   }
 
-  public toJson() {
+  public toJson(): ImageResponseJson {
     return {
       id: this.id,
       url: this.url,
       type: this.type,
-      promp: this.prompt,
+      prompt: this.prompt,
       ai_name: this.aiName,
       style: this.style,
       created_at: this.createdAt,
@@ -67,7 +70,7 @@ export class ImageResponse {
     };
   }
 
-  public getUrl() {
+  public getUrl(): string {
     return this.url;
   }
 }
