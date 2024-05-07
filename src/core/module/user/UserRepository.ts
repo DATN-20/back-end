@@ -1,7 +1,7 @@
 import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { locked_users, users } from '@infrastructure/orm/schema';
 import { User, UserWithLockedInformation } from './entity/User';
-import { SQL, eq, sql } from 'drizzle-orm';
+import { SQL, count, eq, sql } from 'drizzle-orm';
 import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
 
@@ -117,5 +117,18 @@ export class UserRepository extends BaseRepository {
     }
 
     return query_sql;
+  }
+
+  async countNewUserInDate(date: Date): Promise<number> {
+    const result = await this.database
+      .select({ count: count() })
+      .from(users)
+      .where(
+        sql`DAY(${users.createdAt}) = ${date.getDate()} and MONTH(${users.createdAt}) = ${
+          date.getMonth() + 1
+        } and YEAR(${users.createdAt}) = ${date.getFullYear()}`,
+      );
+
+    return result[0].count;
   }
 }

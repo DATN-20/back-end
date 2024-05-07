@@ -13,6 +13,10 @@ import { MailTemplate } from '@core/common/enum/MailTemplate';
 import { UserInformationResponseJson } from './entity/response/UserInformationResponseJson';
 import { UserInformationResponse } from './entity/response/UserInformationResponse';
 import { UserProfileResponse } from '../user/entity/response/UserProfileResponse';
+import { MyElasticsearchService } from '@infrastructure/external-services/elasticsearch/ElasticsearchService';
+import { AnalysisWithDateJson } from './entity/response/AnalysisWithDateJson';
+import { DateUtil } from '@core/common/util/DateUtil';
+import { DateUnit } from '@core/common/enum/DateUnit';
 
 @Injectable()
 export class UserManagementService {
@@ -20,6 +24,7 @@ export class UserManagementService {
     private readonly userRepository: UserRepository,
     private readonly lockedUserRepository: LockedUserRepository,
     private readonly mailService: MailService,
+    private readonly elasticsearchService: MyElasticsearchService,
   ) {}
 
   async handleLockUser(data: LockUserRequest): Promise<LockedUserJson> {
@@ -103,5 +108,54 @@ export class UserManagementService {
       total: total_record,
       data: converted_users,
     };
+  }
+
+  async handleAnalysisNewUserInRange(
+    start_date: Date,
+    end_date: Date,
+  ): Promise<AnalysisWithDateJson[]> {
+    let processing_date = start_date;
+    let result: AnalysisWithDateJson[] = [];
+
+    while (processing_date <= end_date) {
+      const analysis_processing_date = await this.userRepository.countNewUserInDate(
+        processing_date,
+      );
+      result.push({
+        date: processing_date,
+        total: analysis_processing_date,
+      });
+
+      processing_date = DateUtil.addDate(processing_date, 1, DateUnit.DAYS);
+    }
+
+    return result;
+  }
+
+  async handleGetApiRequestTimesOfUser(
+    user_id: number,
+    endpoint: string,
+    start_date: Date,
+    end_date: Date,
+  ): Promise<AnalysisWithDateJson[]> {
+    let processing_date = start_date;
+    let result: AnalysisWithDateJson[] = [];
+
+    while (processing_date <= end_date) {
+      const analysis_processing_date = await this.elasticsearchService.countLogs(
+        user_id,
+        endpoint,
+        processing_date,
+      );
+
+      result.push({
+        date: processing_date,
+        total: analysis_processing_date,
+      });
+
+      processing_date = DateUtil.addDate(processing_date, 1, DateUnit.DAYS);
+    }
+
+    return result;
   }
 }

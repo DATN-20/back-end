@@ -52,6 +52,7 @@
     "socket.io-client": "^4.7.4",
     "uuid": "^9.0.1",
     "winston": "^3.13.0",
+    "winston-elasticsearch": "^0.18.0",
     "ws": "^8.16.0"
   },
   "devDependencies": {
