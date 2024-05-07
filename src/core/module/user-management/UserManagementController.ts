@@ -7,9 +7,10 @@ import { LockedUserJson } from './entity/response/LockedUserJson';
 import { LockedUserMessage } from '@core/common/resource/message/LockedUserMessage';
 import { UserInformationResponseJson } from './entity/response/UserInformationResponseJson';
 import { GetUsersQueryRequest } from './entity/request/GetUsersQueryRequest';
+import ApiLogger from '@core/common/logger/ApiLoggerService';
 
 @Controller('/management/users')
-@UseGuards(AdminGuard)
+// @UseGuards(AdminGuard)
 export class UserManagementController {
   constructor(private readonly userManagementService: UserManagementService) {}
 
@@ -32,6 +33,7 @@ export class UserManagementController {
   async getAllUser(
     @Query() query_data: GetUsersQueryRequest,
   ): Promise<QueryPaginationResponse<UserInformationResponseJson>> {
+    ApiLogger.info('access to api', { user_id: 1, api_endpoint: '/management/users' });
     return this.userManagementService.handleGetAllUser({
       page: query_data.page,
       limit: query_data.limit,
