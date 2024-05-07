@@ -1,6 +1,6 @@
-import { CreateUserPayload } from '@core/common/util/jwt/JwtUtil';
-import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
 import { AuthConstant } from '../../AuthConstant';
+import { UserRole } from '@core/common/enum/UserRole';
 
 export class CreateNewUserRequest {
   @IsNotEmpty()
@@ -20,12 +20,7 @@ export class CreateNewUserRequest {
   @Length(AuthConstant.MIN_LENGTH_PASSWORD)
   password: string;
 
-  public convertToPayloadJwt(): CreateUserPayload {
-    return {
-      email: this.email,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      password: this.password,
-    };
-  }
+  @IsOptional()
+  @IsEnum(UserRole)
+  role: UserRole;
 }

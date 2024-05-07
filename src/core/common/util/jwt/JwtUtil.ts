@@ -1,3 +1,4 @@
+import { UserRole } from '@core/common/enum/UserRole';
 import { Exception } from '@core/common/exception/Exception';
 import { ErrorBaseSystem } from '@core/common/resource/error/ErrorBase';
 import { Global, Injectable } from '@nestjs/common';
@@ -13,6 +14,7 @@ export interface CreateUserPayload {
   firstName: string;
   lastName: string;
   password: string;
+  role?: UserRole;
 }
 
 export enum JwtType {
