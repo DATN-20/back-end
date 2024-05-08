@@ -166,14 +166,14 @@ export class ComfyUIValidator {
     }
 
     const noise_input = info.imageToUnclipNoiseAgementationInput;
-    const stregth_input = info.imageToUnclipStrengthInput;
+    const strength_input = info.imageToUnclipStrengthInput;
     if (input_prompts.imageToUnclips == null) {
       throw new Exception(
         AIGenerateImageError.INVALID_INPUT_VALUE(info.inputs.imageToUnclips.name),
       );
     }
     for (let i = 0; i < input_prompts.imageToUnclips?.length; i++) {
-      this.validateImageToUnclipInput(input_prompts.imageToUnclips[i], stregth_input, noise_input);
+      this.validateImageToUnclipInput(input_prompts.imageToUnclips[i], strength_input, noise_input);
     }
   }
 

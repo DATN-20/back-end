@@ -5,6 +5,7 @@ import { COMFYUI_JSON_FILE_PATH } from '../ComfyUIConstant';
 import { ComfyUIUtil } from '../ComfyUIUtil';
 import { Injectable } from '@nestjs/common';
 import { UpscalePropterty } from './types/UpscaleProperty';
+import { WorkflowResultJson } from '../../type/WorkflowResult';
 
 @Injectable()
 export class ComfyUIUpscale {
@@ -14,7 +15,7 @@ export class ComfyUIUpscale {
     start_id: string,
     model_name: UpscaleModelName,
     input_image_id: string,
-  ) {
+  ): WorkflowResultJson {
     let workflow_data_string = fs.readFileSync(COMFYUI_JSON_FILE_PATH + this.FILE_NAME, {
       encoding: 'utf-8',
     });
@@ -47,7 +48,7 @@ export class ComfyUIUpscale {
     };
   }
 
-  public linkToSaveImage(workflow: any, upscale_image_with_model_id: string) {
+  public linkToSaveImage(workflow: any, upscale_image_with_model_id: string): any {
     const save_image_id = ComfyUIUtil.findIdByTitle(workflow, 'Save Image Finally');
 
     workflow[save_image_id]['inputs']['images'][0] = upscale_image_with_model_id;
@@ -58,7 +59,7 @@ export class ComfyUIUpscale {
     input_image_file_name: string,
     upscale_property: UpscalePropterty,
     start_id = '0',
-  ) {
+  ): WorkflowResultJson {
     let workflow_data_string = fs.readFileSync(COMFYUI_JSON_FILE_PATH + 'upscale-workflow.json', {
       encoding: 'utf-8',
     });
@@ -102,7 +103,7 @@ export class ComfyUIUpscale {
 
     return {
       workflow: JSON.parse(workflow_data_string),
-      output_id: node_id,
+      output_id: node_id.toString(),
     };
   }
 }

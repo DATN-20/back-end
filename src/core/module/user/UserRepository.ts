@@ -1,7 +1,7 @@
 import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { users } from '@infrastructure/orm/schema';
 import { User } from './entity/User';
-import { SQL, eq, sql } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
 

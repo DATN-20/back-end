@@ -1,6 +1,8 @@
 import { Logger } from '@nestjs/common';
 import * as WebSocket from 'ws';
 
+type ConnectionError = Error | WebSocket.ErrorEvent | WebSocket.CloseEvent;
+
 export class BaseSocketClient {
   protected webSocket: WebSocket;
   protected logger: Logger;
@@ -16,7 +18,7 @@ export class BaseSocketClient {
       this.logger.log('Connected to websocket server');
     });
 
-    this.webSocket.on('connect_error', error => {
+    this.webSocket.on('connect_error', (error: ConnectionError) => {
       this.logger.error('Connection error:', error);
     });
   }
