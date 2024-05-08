@@ -19,7 +19,7 @@ export class ImageResponse {
   private removeBackground: string;
   private upscale: string;
 
-  constructor(image: Image, user: User = null, likeNumber = 0, isLiked = false) {
+  constructor(image: Image, user: User = null, like_number: number = 0, is_liked: boolean = false) {
     this.id = image.id;
     this.userId = image.userId;
     this.url = image.url;
@@ -29,8 +29,8 @@ export class ImageResponse {
     this.style = image.style;
     this.createdAt = image.createdAt;
     this.createdUser = user;
-    this.isLiked = isLiked;
-    this.likeNumber = likeNumber;
+    this.isLiked = is_liked;
+    this.likeNumber = like_number;
     this.removeBackground = image.removeBackground ?? '';
     this.upscale = image.upscale ?? '';
   }
