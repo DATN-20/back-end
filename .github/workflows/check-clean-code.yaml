@@ -1,18 +1,9 @@
 name: eslint check source code
 run-name: Run ESLint to check code formatting
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
-  # check-eslint:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-
-  #     - name: run eslint
-  #       uses: ./.github/actions/check-eslint
-
   review-dog:
     name: runner / eslint
     runs-on: ubuntu-latest
@@ -26,3 +17,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
           eslint_flags: 'src/'
+          level: error
