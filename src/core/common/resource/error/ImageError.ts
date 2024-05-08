@@ -1,5 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 import { ErrorBase } from './ErrorBase';
+import { InteractionType } from '@core/common/enum/InteractionType';
 
 export class ImageError {
   public static FAIL_TO_UPLOAD_IMAGE: ErrorBase = {
@@ -42,5 +43,37 @@ export class ImageError {
     error_code: '03005',
     message: 'Images list can not empty',
     status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+  };
+
+  public static CAN_NOT_INTERACT_IMAGE(type: InteractionType): ErrorBase {
+    return {
+      error_code: '03006',
+      message: `You are ${type} this image so you can not ${type} again!`,
+      status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+    };
+  }
+
+  public static FORBIDDEN_IMAGES: ErrorBase = {
+    error_code: '03007',
+    message: 'You are not have permission to access to this image!',
+    status_code: HttpStatus.FORBIDDEN,
+  };
+
+  public static IMAGE_REMOVED_BACKGROUD: ErrorBase = {
+    error_code: '03007',
+    message: 'This image is removed background!',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
+
+  public static IMAGE_UPSCALED: ErrorBase = {
+    error_code: '03008',
+    message: 'This image is upscaled!',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
+
+  public static INVALID_PROCESS_TYPE: ErrorBase = {
+    error_code: '03009',
+    message: 'Invalid processing typr!',
+    status_code: HttpStatus.BAD_REQUEST,
   };
 }

@@ -1,3 +1,5 @@
+import { InputControlnet } from '../comfyui/control-net/types/InputControlnet';
+
 export class InputPromts {
   style: string;
   positivePrompt: string;
@@ -12,4 +14,6 @@ export class InputPromts {
   image: Express.Multer.File;
   noise: number;
   filename: string;
+  controlNets: InputControlnet[];
+  isUpscale: boolean;
 }

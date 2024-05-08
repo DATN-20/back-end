@@ -12,6 +12,8 @@ export class UserProfileResponse {
   public role: string;
   public createdAt: string;
   public updatedAt: string;
+  public avatar: string;
+  public background: string;
 
   public static convertToResponseFromUserEntity(user: User): UserProfileResponse {
     const result = new UserProfileResponse();
@@ -21,10 +23,12 @@ export class UserProfileResponse {
     result.address = user.address;
     result.description = user.description;
     result.socials = user.socials;
+    result.aliasName = user.aliasName;
     result.role = user.role;
+    result.avatar = user.avatar;
+    result.background = user.background;
     result.createdAt = DateUtil.formatDate(user.createdAt);
     result.updatedAt = DateUtil.formatDate(user.updatedAt);
-
     return result;
   }
 }

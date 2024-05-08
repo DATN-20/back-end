@@ -3,10 +3,11 @@ import { ImageStorageModule } from '@infrastructure/external-services/image-stor
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { AIGenerateImageServiceManger } from './AIGenerateImageServiceManager';
+import { ComfyUIModule } from './comfyui/ComfyUIModule';
 
 @Module({
-  imports: [HttpModule, ImageStorageModule],
-  providers: [ComfyUIService, AIGenerateImageServiceManger],
+  imports: [ComfyUIModule],
+  providers: [AIGenerateImageServiceManger],
   exports: [AIGenerateImageServiceManger],
 })
 export class AIGenerateImageModule {}

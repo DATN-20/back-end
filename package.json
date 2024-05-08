@@ -23,6 +23,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@esbuild/win32-x64": "^0.20.1",
     "@nestjs-modules/mailer": "^1.10.3",
     "@nestjs/axios": "^3.0.2",
     "@nestjs/common": "^10.0.0",
@@ -39,7 +40,7 @@
     "class-validator": "^0.14.1",
     "cloudinary": "^2.0.0",
     "cross-env": "^7.0.3",
-    "drizzle-orm": "^0.29.3",
+    "drizzle-orm": "^0.30.10",
     "env-var": "^7.4.1",
     "form-data": "^4.0.0",
     "module-alias": "^2.2.3",

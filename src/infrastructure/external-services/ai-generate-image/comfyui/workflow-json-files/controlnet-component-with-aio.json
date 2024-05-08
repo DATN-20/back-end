@@ -1,0 +1,32 @@
+{
+  "%%controlnet_loader%%": {
+    "inputs": {
+      "control_net_name": "%%controlnet_loader_controlnet_net_name%%"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "%%controlnet_load_image%%": {
+    "inputs": {
+      "image": "%%controlnet_load_image_image%%",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "%%controlnet_aio_preprocessor%%": {
+    "inputs": {
+      "preprocessor": "%%type_preprocessor%%",
+      "resolution": 2048,
+      "image": ["%%controlnet_load_image%%", 0]
+    },
+    "class_type": "AIO_Preprocessor"
+  },
+  "%%controlnet_apply%%": {
+    "inputs": {
+      "strength": 1,
+      "conditioning": ["%%positive_prompt%%", 0],
+      "control_net": ["%%controlnet_loader%%", 0],
+      "image": ["%%controlnet_aio_preprocessor%%", 0]
+    },
+    "class_type": "ControlNetApply"
+  }
+}

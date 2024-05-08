@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsOptional } from 'class-validator';
+import { InputControlnet } from '@infrastructure/external-services/ai-generate-image/comfyui/control-net/types/InputControlnet';
 
 export class GenerateInputs {
   @IsNotEmpty()
@@ -27,4 +28,8 @@ export class GenerateInputs {
   image: Express.Multer.File;
   @IsOptional()
   noise: number;
+  @IsOptional()
+  controlNets: InputControlnet[];
+  @IsOptional()
+  isUpscale: boolean;
 }

@@ -29,6 +29,27 @@
       "when": 1706972097232,
       "tag": "0003_lush_wolf_cub",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1709819017360,
+      "tag": "0004_nosy_franklin_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1709993696551,
+      "tag": "0005_dazzling_skullbuster",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1711942890487,
+      "tag": "0006_shiny_archangel",
+      "breakpoints": true
     }
   ]
 }
