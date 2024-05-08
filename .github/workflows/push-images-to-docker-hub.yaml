@@ -1,10 +1,5 @@
 name: Login and push images to docker hub
 on:
-  push:
-    branches:
-      - '*'
-    tags:
-      - 'v*'
   pull_request:
     branches:
       - 'main'
