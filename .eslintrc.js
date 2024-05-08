@@ -20,5 +20,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'warn',
     'no-unused-vars': 'warn',
     'import/no-duplicates': 'warn',
+    '@typescript-eslint/no-inferrable-types': 'off',
   },
 };
