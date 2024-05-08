@@ -57,19 +57,24 @@ export class GenerateImageController {
       api_endpoint: '/generate-image/image-to-image',
     });
 
-    generate_inputs.isUpscale = generate_inputs.isUpscale?.toString() === 'true';
+    generate_inputs.isUpscale ??= false;
     generate_inputs.image = data_images.image[0];
+    generate_inputs.controlNets ??= [];
+    data_images.controlNetImages ??= [];
 
-    if (data_images.controlNetImages) {
-      data_images.controlNetImages.forEach((image, _index) => {
-        generate_inputs.controlNets[_index].image = image.buffer;
-        generate_inputs.controlNets[_index].strength = parseInt(
-          generate_inputs.controlNets[_index].strength.toString(),
-        );
-        generate_inputs.controlNets[_index].isPreprocessor =
-          generate_inputs.controlNets[_index].isPreprocessor.toString() === 'true';
+    if (data_images.controlNetImages.length > 0 && generate_inputs.controlNets.length > 0) {
+      generate_inputs.controlNets = generate_inputs.controlNets.map((control_net, _index) => {
+        return {
+          controlNetType: control_net.controlNetType,
+          image: data_images.controlNetImages[_index].buffer,
+          strength: control_net.strength ? parseInt(control_net.strength.toString()) : 1,
+          isPreprocessor: control_net.isPreprocessor
+            ? control_net.isPreprocessor.toString() === 'true'
+            : false,
+        };
       });
     }
+
     return await this.generateImageService.handleGenerateImageToImage(user.id, generate_inputs);
   }
 

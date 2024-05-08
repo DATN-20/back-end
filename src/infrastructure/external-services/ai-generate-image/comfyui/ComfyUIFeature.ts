@@ -50,11 +50,11 @@ export class ComfyUIFeature {
           control_net_name,
           input_controlnet.strength,
           aio_preprocessor,
-          'abc',
+          uploaded_image_result.name,
           start_id,
         );
 
-      let updated_workflow = ComfyUIUtil.appendWorkflow(
+      const updated_workflow = ComfyUIUtil.appendWorkflow(
         workflow,
         control_net_component_result.workflow,
       );
@@ -69,10 +69,10 @@ export class ComfyUIFeature {
       max_key_id,
       control_net_name,
       input_controlnet.strength,
-      'abc',
+      uploaded_image_result.name,
       start_id,
     );
-    let updated_workflow = ComfyUIUtil.appendWorkflow(
+    const updated_workflow = ComfyUIUtil.appendWorkflow(
       workflow,
       control_net_component_result.workflow,
     );
@@ -115,12 +115,12 @@ export class ComfyUIFeature {
   ): Promise<WorkflowResultJson> {
     let workflow = {};
     for (let i = 0; i < imag_to_unclip_inputs.length; i++) {
-      let image_to_unclip = imag_to_unclip_inputs[i];
+      const image_to_unclip = imag_to_unclip_inputs[i];
       const uploaded_image_result = await this.comfyUIApi.uploadImage(
         image_to_unclip.image.buffer,
         `${Date.now()}.png`,
       );
-      let image_to_unclip_component = this.comfyUIUnclip.generateImageToUnclipComponent(
+      const image_to_unclip_component = this.comfyUIUnclip.generateImageToUnclipComponent(
         start_id,
         load_unclip_checkpoint_node_id,
         uploaded_image_result.name,

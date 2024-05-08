@@ -3,6 +3,7 @@ import { COMFYUI_JSON_FILE_PATH } from '../ComfyUIConstant';
 import * as fs from 'fs';
 import { NodeRemoveBackground } from './types/NodeRemoveBackground';
 import { RemoveBackgroundProperty } from './types/RemoveBackgroundProperty';
+import { WorkflowResultJson } from '../../type/WorkflowResult';
 
 @Injectable()
 export class ComfyUIRemoveBackground {
@@ -10,7 +11,7 @@ export class ComfyUIRemoveBackground {
     input_image_file_name: string,
     rembg_property: RemoveBackgroundProperty,
     start_id: string = '0',
-  ) {
+  ): WorkflowResultJson {
     let workflow_data_string = fs.readFileSync(
       COMFYUI_JSON_FILE_PATH + 'remove-background-component.json',
       {

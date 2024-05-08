@@ -1,18 +1,6 @@
-import { ImageType } from '@core/common/enum/ImageType';
+import { Image } from '@core/module/image/entity/Image';
 
 export class ImageAlbumDTO {
-  image: {
-    id: number;
-    createdAt: Date;
-    userId: number;
-    url: string;
-    type: ImageType;
-    prompt: string;
-    aiName: string;
-    style: string;
-    additionInfo: string;
-    visibility: boolean;
-    storageId: string;
-  };
+  image: Image;
   like: number;
 }

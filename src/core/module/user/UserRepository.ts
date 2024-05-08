@@ -1,7 +1,7 @@
 import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { locked_users, users } from '@infrastructure/orm/schema';
 import { User, UserWithLockedInformation } from './entity/User';
-import { SQL, count, eq, sql } from 'drizzle-orm';
+import { count, eq, sql } from 'drizzle-orm';
 import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
 import { UserRole } from '@core/common/enum/UserRole';
