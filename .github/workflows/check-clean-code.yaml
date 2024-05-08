@@ -26,7 +26,6 @@ jobs:
           level: error
           filter_mode: added
           fail_on_error: true
-          workdir: 'backend'
 
   shellcheck:
     name: runner / shellcheck
