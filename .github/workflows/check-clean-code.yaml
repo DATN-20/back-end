@@ -10,5 +10,5 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: review dog check elsint
-        uses: ./.github/actions/review-dog
+      - name: run eslint
+        uses: ./.github/actions/check-eslint
