@@ -20,17 +20,5 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'warn',
     'no-unused-vars': 'warn',
     'import/no-duplicates': 'warn',
-    '@typescript-eslint/typedef': [
-      'warn',
-      {
-        parameter: true,
-        arrowParameter: false,
-        memberVariableDeclaration: false,
-        objectDestructuring: false,
-        propertyDeclaration: false,
-        variableDeclaration: false,
-        variableDeclarationIgnoreFunction: false,
-      },
-    ],
   },
 };
