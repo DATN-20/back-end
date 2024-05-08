@@ -1,19 +1,20 @@
 import { DateUtil } from '@core/common/util/DateUtil';
 import { User } from '../User';
+import { UserProfileResponseJson } from './UserProfileResponseJson';
 
 export class UserProfileResponse {
-  public firstName: string;
-  public lastName: string;
-  public aliasName: string;
-  public phone: string;
-  public address: string;
-  public description: string;
-  public socials: Social[];
-  public role: string;
-  public createdAt: string;
-  public updatedAt: string;
-  public avatar: string;
-  public background: string;
+  private firstName: string;
+  private lastName: string;
+  private aliasName: string;
+  private phone: string;
+  private address: string;
+  private description: string;
+  private socials: Social[];
+  private role: string;
+  private createdAt: string;
+  private updatedAt: string;
+  private avatar: string;
+  private background: string;
 
   public static convertToResponseFromUserEntity(user: User): UserProfileResponse {
     const result = new UserProfileResponse();
@@ -30,5 +31,22 @@ export class UserProfileResponse {
     result.createdAt = DateUtil.formatDate(user.createdAt);
     result.updatedAt = DateUtil.formatDate(user.updatedAt);
     return result;
+  }
+
+  public toJson(): UserProfileResponseJson {
+    return {
+      first_name: this.firstName,
+      last_name: this.lastName,
+      phone: this.phone,
+      address: this.address,
+      description: this.description,
+      socials: this.socials,
+      alias_name: this.aliasName,
+      role: this.role,
+      avatar: this.avatar,
+      background: this.background,
+      created_at: this.createdAt,
+      updated_at: this.updatedAt,
+    };
   }
 }

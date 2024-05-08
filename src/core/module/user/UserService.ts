@@ -6,6 +6,7 @@ import { UserError } from '@core/common/resource/error/UserError';
 import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
+import { UserProfileResponseJson } from './entity/response/UserProfileResponseJson';
 
 @Injectable()
 export class UserService {
@@ -14,19 +15,20 @@ export class UserService {
     @Inject('ImageStorageService') private readonly imageStorageService: IImageStorageService,
   ) {}
 
-  async handleGetLoggedInUserProfile(user_id: number): Promise<UserProfileResponse> {
+  async handleGetLoggedInUserProfile(user_id: number): Promise<UserProfileResponseJson> {
     const matched_user = await this.userRepository.getById(user_id);
 
     if (!matched_user) {
       throw new Exception(UserError.USER_NOT_FOUND);
     }
 
-    return UserProfileResponse.convertToResponseFromUserEntity(matched_user);
+    return UserProfileResponse.convertToResponseFromUserEntity(matched_user).toJson();
   }
+
   async handleUpdateProfile(
     user_id: number,
     profile: ProfileRequest,
-  ): Promise<UserProfileResponse> {
+  ): Promise<UserProfileResponseJson> {
     const matched_user = await this.userRepository.getById(user_id);
 
     if (!matched_user) {
@@ -37,9 +39,10 @@ export class UserService {
       await this.userRepository.addSocial(user_id, social);
     });
     const res = await this.userRepository.getById(user_id);
-    return UserProfileResponse.convertToResponseFromUserEntity(res);
+    return UserProfileResponse.convertToResponseFromUserEntity(res).toJson();
   }
-  async handleAddSocial(user_id: number, social: SocialRequest): Promise<UserProfileResponse> {
+
+  async handleAddSocial(user_id: number, social: SocialRequest): Promise<UserProfileResponseJson> {
     const matched_user = await this.userRepository.getById(user_id);
 
     if (!matched_user) {
@@ -48,7 +51,7 @@ export class UserService {
 
     await this.userRepository.addSocial(user_id, social);
     const res = await this.userRepository.getById(user_id);
-    return UserProfileResponse.convertToResponseFromUserEntity(res);
+    return UserProfileResponse.convertToResponseFromUserEntity(res).toJson();
   }
 
   async handleUpdateAvatar(user_id: number, file: Express.Multer.File): Promise<string> {

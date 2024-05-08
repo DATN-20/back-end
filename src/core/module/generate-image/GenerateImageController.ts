@@ -13,6 +13,8 @@ import { GenerateInputs } from './entity/request/GenerateInputs';
 import { GenerateImageService } from './GenerateImageService';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { GenerateByImagesStyleInputs } from './entity/request/GenerateImageByImagesStyleInputs';
+import ApiLogger from '@core/common/logger/ApiLoggerService';
+import { ImageType } from '@core/common/enum/ImageType';
 
 @UseGuards(AuthGuard)
 @Controller('generate-image')
@@ -29,6 +31,10 @@ export class GenerateImageController {
     @User() user: UserFromAuthGuard,
     @Body() generate_inputs: GenerateInputs,
   ) {
+    ApiLogger.info(ImageType.TEXT_TO_IMG, {
+      user_id: user.id,
+      api_endpoint: '/generate-image/text-to-image',
+    });
     generate_inputs.isUpscale = generate_inputs.isUpscale?.toString() === 'true';
     return await this.generateImageService.handleGenerateTextToImg(user.id, generate_inputs);
   }
@@ -46,6 +52,11 @@ export class GenerateImageController {
     data_images: { image: Express.Multer.File[]; controlNetImages?: Express.Multer.File[] },
     @Body() generate_inputs: GenerateInputs,
   ) {
+    ApiLogger.info(ImageType.IMG_TO_IMG, {
+      user_id: user.id,
+      api_endpoint: '/generate-image/image-to-image',
+    });
+
     generate_inputs.isUpscale = generate_inputs.isUpscale?.toString() === 'true';
     generate_inputs.image = data_images.image[0];
 
@@ -69,6 +80,11 @@ export class GenerateImageController {
     @Body() generate_inputs: GenerateByImagesStyleInputs,
     @UploadedFiles() files: { imageToUnclipsImages: Express.Multer.File[] },
   ) {
+    ApiLogger.info(ImageType.IMG_BY_IMAGES_STYLE, {
+      user_id: user.id,
+      api_endpoint: '/generate-image/image-by-images-style',
+    });
+
     generate_inputs.imageToUnclipsImages = files.imageToUnclipsImages;
     return await this.generateImageService.handleGenerateImageByImagesStyle(
       user.id,
