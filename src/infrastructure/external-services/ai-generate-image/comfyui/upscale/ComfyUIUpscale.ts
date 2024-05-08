@@ -58,7 +58,7 @@ export class ComfyUIUpscale {
   public generateWorkflow(
     input_image_file_name: string,
     upscale_property: UpscalePropterty,
-    start_id = '0',
+    start_id: string = '0',
   ): WorkflowResultJson {
     let workflow_data_string = fs.readFileSync(COMFYUI_JSON_FILE_PATH + 'upscale-workflow.json', {
       encoding: 'utf-8',
