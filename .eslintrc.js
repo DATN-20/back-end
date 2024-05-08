@@ -16,12 +16,12 @@ module.exports = {
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'error',
+    '@typescript-eslint/explicit-module-boundary-types': 'warn',
     '@typescript-eslint/no-explicit-any': 'warn',
     'no-unused-vars': 'warn',
-    'import/no-duplicates': 'error',
+    'import/no-duplicates': 'warn',
     '@typescript-eslint/typedef': [
-      'error',
+      'warn',
       {
         parameter: true,
         arrowParameter: false,

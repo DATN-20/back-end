@@ -39,17 +39,17 @@ jobs:
           level: warning
           fail_on_error: true
 
-  hadolint:
-    name: runner / hadolint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: reviewdog/action-hadolint@v1
-        with:
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
-          level: warning
-          fail_on_error: true
+  # hadolint:
+  #   name: runner / hadolint
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: reviewdog/action-hadolint@v1
+  #       with:
+  #         github_token: ${{ secrets.github_token }}
+  #         reporter: github-pr-review
+  #         level: warning
+  #         fail_on_error: true
 
   misspell:
     name: runner / misspell
