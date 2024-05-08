@@ -1,9 +1,6 @@
 import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { images, images_album, images_interaction } from '@infrastructure/orm/schema';
-import { ImageAlbum } from './entity/ImageAlbum';
 import { and, eq, sql } from 'drizzle-orm';
-import { Image } from '../image/entity/Image';
-import { getTableColumns } from 'drizzle-orm';
 import { ImageAlbumDTO } from './entity/dto/ImageAlbumDTO';
 
 export class ImageAlbumRepository extends BaseRepository {
@@ -26,11 +23,13 @@ export class ImageAlbumRepository extends BaseRepository {
       .groupBy(images.id);
     return result;
   }
+
   public async removeImageFromAlbum(id_album: number, id_image: number): Promise<void> {
     await this.database
       .delete(images_album)
       .where(and(eq(images_album.albumId, id_album), eq(images_album.imageId, id_image)));
   }
+
   public async checkImageInAlbum(id_album: number, id_image: number): Promise<boolean> {
     const result = await this.database
       .select({ count: sql<number>`count(*)`.mapWith(Number) })

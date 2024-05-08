@@ -1,5 +1,5 @@
 import { createConnection } from 'mysql2/promise';
-import { drizzle } from 'drizzle-orm/mysql2';
+import { drizzle, MySql2Database } from 'drizzle-orm/mysql2';
 import * as schema from './schema';
 import { DatabaseConfig } from 'src/infrastructure/config/DatabaseConfig';
 
@@ -8,7 +8,7 @@ export const DrizzleAsyncProvider = 'drizzleProvider';
 export const dizzleProvider = [
   {
     provide: DrizzleAsyncProvider,
-    useFactory: async () => {
+    useFactory: async (): Promise<MySql2Database<typeof schema>> => {
       const connection = await createConnection({
         host: DatabaseConfig.DATABASE_HOST,
         user: DatabaseConfig.DATABASE_USER,

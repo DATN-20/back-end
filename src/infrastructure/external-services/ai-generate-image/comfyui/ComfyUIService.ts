@@ -58,7 +58,7 @@ export class ComfyUIService
       this.info.generateImageBasicInputsInfo,
       input_promts,
     );
-    let comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptImg2Img(input_promts);
+    const comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptImg2Img(input_promts);
     const comfyui_socket = new ComfyUISokcet();
     await this.comfyUIApi.uploadImage(input_promts.image.buffer, input_promts.filename);
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);
@@ -82,7 +82,7 @@ export class ComfyUIService
       this.info.generateImageToUnclipComponentInputsInfo,
       input_prompts,
     );
-    let comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptImg2ImgUnclip(
+    const comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptImg2ImgUnclip(
       input_prompts,
     );
 

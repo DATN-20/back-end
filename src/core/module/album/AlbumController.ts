@@ -18,7 +18,6 @@ import { AlbumMessage } from '@core/common/resource/message/AlbumMessage';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { EditAlbumReq } from './entity/request/EditAlbumReq';
 import { ImageAlbumRequest } from '../images-album/entity/request/ImageAlbumRequest';
-import { Image } from '../image/entity/Image';
 import { ImageAlbumService } from '../images-album/ImageAlbumService';
 import { ImageAlbumMessage } from '@core/common/resource/message/ImageAlbumMessage';
 import { ImageAlbumResponse } from '../images-album/entity/response/ImageAlbumResponse';

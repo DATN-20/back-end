@@ -56,7 +56,7 @@ export class ComfyUIControlNet {
       link_condition_to_node_id,
     );
 
-    let workflow = JSON.parse(workflow_data_string);
+    const workflow = JSON.parse(workflow_data_string);
     workflow[controlnet_apply_node_id]['inputs']['strength'] = control_net_strength;
 
     return {
@@ -126,7 +126,7 @@ export class ComfyUIControlNet {
       link_condition_to_node_id,
     );
 
-    let workflow = JSON.parse(workflow_data_string);
+    const workflow = JSON.parse(workflow_data_string);
     workflow[controlnet_apply_node_id]['inputs']['strength'] = control_net_strength;
 
     return {
