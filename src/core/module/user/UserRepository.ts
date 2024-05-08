@@ -4,6 +4,7 @@ import { User } from './entity/User';
 import { SQL, eq, sql } from 'drizzle-orm';
 import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
+import { UserRole } from '@core/common/enum/UserRole';
 
 export class UserRepository extends BaseRepository {
   async create(user: {
@@ -11,6 +12,7 @@ export class UserRepository extends BaseRepository {
     password: string;
     firstName: string;
     lastName: string;
+    role?: UserRole;
   }): Promise<User> {
     const result = await this.database.insert(users).values(user);
 
