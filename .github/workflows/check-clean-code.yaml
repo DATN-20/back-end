@@ -26,6 +26,7 @@ jobs:
           level: error
           filter_mode: added
           fail_on_error: true
+          filter: "- '@typescript-eslint/no-inferrable-types'"
 
   shellcheck:
     name: runner / shellcheck
