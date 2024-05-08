@@ -50,7 +50,7 @@ export class ComfyUIFeature {
           control_net_name,
           input_controlnet.strength,
           aio_preprocessor,
-          'abc',
+          uploaded_image_result.name,
           start_id,
         );
 
@@ -69,7 +69,7 @@ export class ComfyUIFeature {
       max_key_id,
       control_net_name,
       input_controlnet.strength,
-      'abc',
+      uploaded_image_result.name,
       start_id,
     );
     let updated_workflow = ComfyUIUtil.appendWorkflow(

@@ -2,6 +2,7 @@ import { EnvironmentConverter } from '@core/common/util/converter/EnvironmentCon
 import { ComfyUIConfig } from '@infrastructure/config/ComfyUIConfig';
 import { BaseSocketClient } from '@infrastructure/socket/BaseSocketClient';
 import { v4 as uuidv4 } from 'uuid';
+import { OutputPropertyWebSocket } from './ComfyUIConstant';
 
 export enum ComfyUITypeMessageSocket {
   EXECUTING = 'executing',
@@ -29,14 +30,15 @@ export class ComfyUISokcet extends BaseSocketClient {
 
   public getExecutedResultFromMessage(
     prompt_id: string,
-    callback: (output_images: any) => void,
+    property: OutputPropertyWebSocket,
+    callback: (output_data: any) => void,
   ): void {
-    this.webSocket.on('message', (message) => {
+    this.webSocket.on('message', message => {
       const { type, data } = JSON.parse(message.toString('utf-8'));
 
       if (type === ComfyUITypeMessageSocket.EXECUTED && data.prompt_id === prompt_id) {
-        const output_images = data.output.images;
-        callback(output_images);
+        const output_data = data.output[property];
+        callback(output_data);
       }
     });
   }
