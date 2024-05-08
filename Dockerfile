@@ -5,7 +5,7 @@ WORKDIR /datn/back-end
 COPY package.json package-lock.json ./
 
 RUN npm install
-RUN npm install @css-inline/css-inline-linux-arm64-gnu
+# RUN npm install @css-inline/css-inline-linux-arm64-gnu
 
 COPY . .
 
