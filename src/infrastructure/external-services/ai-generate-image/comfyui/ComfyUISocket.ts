@@ -31,7 +31,7 @@ export class ComfyUISokcet extends BaseSocketClient {
     prompt_id: string,
     callback: (output_images: any) => void,
   ): void {
-    this.webSocket.on('message', (message) => {
+    this.webSocket.on('message', message => {
       const { type, data } = JSON.parse(message.toString('utf-8'));
 
       if (type === ComfyUITypeMessageSocket.EXECUTED && data.prompt_id === prompt_id) {

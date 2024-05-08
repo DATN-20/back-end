@@ -8,7 +8,7 @@ import { UpscalePropterty } from './types/UpscaleProperty';
 
 @Injectable()
 export class ComfyUIUpscale {
-  private FILE_NAME: string = 'upscale-component.json';
+  private FILE_NAME = 'upscale-component.json';
 
   public generateUpscaleComponent(
     start_id: string,
@@ -57,7 +57,7 @@ export class ComfyUIUpscale {
   public generateWorkflow(
     input_image_file_name: string,
     upscale_property: UpscalePropterty,
-    start_id: string = '0',
+    start_id = '0',
   ) {
     let workflow_data_string = fs.readFileSync(COMFYUI_JSON_FILE_PATH + 'upscale-workflow.json', {
       encoding: 'utf-8',

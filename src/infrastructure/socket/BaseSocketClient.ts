@@ -16,7 +16,7 @@ export class BaseSocketClient {
       this.logger.log('Connected to websocket server');
     });
 
-    this.webSocket.on('connect_error', (error) => {
+    this.webSocket.on('connect_error', error => {
       this.logger.error('Connection error:', error);
     });
   }

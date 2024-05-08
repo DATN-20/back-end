@@ -1,9 +1,8 @@
 import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { images, images_album, images_interaction } from '@infrastructure/orm/schema';
 import { ImageAlbum } from './entity/ImageAlbum';
-import { and, eq, sql } from 'drizzle-orm';
+import { and, eq, sql, getTableColumns } from 'drizzle-orm';
 import { Image } from '../image/entity/Image';
-import { getTableColumns } from 'drizzle-orm';
 import { ImageAlbumDTO } from './entity/dto/ImageAlbumDTO';
 
 export class ImageAlbumRepository extends BaseRepository {

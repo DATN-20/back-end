@@ -34,7 +34,7 @@ export class ImageRepository extends BaseRepository {
   }
 
   async getUserMaxGenerateID(user_id: number): Promise<number> {
-    var result = 0;
+    let result = 0;
     const query_result = await this.database
       .select({ value: max(images.generateId) })
       .from(images)

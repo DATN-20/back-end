@@ -120,8 +120,8 @@ export class DashboardImageService {
     images_with_count: { image: Image; count: number }[],
     user_id: number,
   ): Promise<ImageResponseJson[]> {
-    let result: ImageResponseJson[] = [];
-    for (let { image, count } of images_with_count) {
+    const result: ImageResponseJson[] = [];
+    for (const { image, count } of images_with_count) {
       const owner = await this.userRepository.getById(image.userId);
       const is_liked = !!(await this.repository.getByImageIdAndUserId(user_id, image.id));
 

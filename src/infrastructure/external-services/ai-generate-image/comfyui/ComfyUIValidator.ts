@@ -165,8 +165,8 @@ export class ComfyUIValidator {
       this.validateInput(info.inputs.cfg, input_prompts.cfg);
     }
 
-    let noise_input = info.imageToUnclipNoiseAgementationInput;
-    let stregth_input = info.imageToUnclipStrengthInput;
+    const noise_input = info.imageToUnclipNoiseAgementationInput;
+    const stregth_input = info.imageToUnclipStrengthInput;
     if (input_prompts.imageToUnclips == null) {
       throw new Exception(
         AIGenerateImageError.INVALID_INPUT_VALUE(info.inputs.imageToUnclips.name),
