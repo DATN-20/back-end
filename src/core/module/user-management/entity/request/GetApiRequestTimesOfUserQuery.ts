@@ -11,9 +11,9 @@ export class GetApiRequestTimesOfUserQuery {
 
   @IsNotEmpty()
   @IsDate()
-  start_date: Date;
+  startDate: Date;
 
   @IsNotEmpty()
   @IsDate()
-  end_date: Date;
+  endDate: Date;
 }
