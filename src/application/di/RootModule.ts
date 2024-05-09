@@ -13,6 +13,7 @@ import { DashboardImageModule } from './DashboardImageModule';
 import { AIFeatureServiceModule } from '@infrastructure/external-services/ai-generate-image/AIFeatureServiceModule';
 import { UserManagementModule } from './UserManagementModule';
 import { MyElasticsearchModule } from '@infrastructure/external-services/elasticsearch/ElasticsearchModule';
+import { LogMonitoringModule } from './LogMonitoringModule';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { MyElasticsearchModule } from '@infrastructure/external-services/elastic
     AIFeatureServiceModule,
     UserManagementModule,
     MyElasticsearchModule,
+    LogMonitoringModule,
   ],
   controllers: [],
   providers: [],

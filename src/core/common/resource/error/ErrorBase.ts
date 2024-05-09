@@ -1,10 +1,11 @@
-import { HttpStatus } from '@nestjs/common';
+import { HttpStatus, ValidationError } from '@nestjs/common';
 
 export type ErrorBase = {
   error_code: string;
   message: string;
   status_code: HttpStatus;
   error?: any;
+  raw_input?: any;
 };
 
 export class ErrorBaseSystem {
@@ -37,5 +38,13 @@ export class ErrorBaseSystem {
     error_code: '00006',
     message: 'You do not have permission to access this API!',
     status_code: HttpStatus.FORBIDDEN,
+  };
+  public static DYNAMIC_ENTITY_VALIDATION_ERROR = (error: ValidationError): ErrorBase => {
+    return {
+      error_code: '00007',
+      message: Object.values(error.constraints).join('/n'),
+      status_code: HttpStatus.BAD_REQUEST,
+      raw_input: error.target,
+    };
   };
 }

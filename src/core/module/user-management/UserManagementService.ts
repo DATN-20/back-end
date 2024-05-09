@@ -142,7 +142,7 @@ export class UserManagementService {
     let result: AnalysisWithDateJson[] = [];
 
     while (processing_date <= end_date) {
-      const analysis_processing_date = await this.elasticsearchService.countLogs(
+      const analysis_processing_date = await this.elasticsearchService.countLogsForSpecificUser(
         user_id,
         endpoint,
         processing_date,

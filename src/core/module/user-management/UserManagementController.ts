@@ -46,16 +46,16 @@ export class UserManagementController {
   async analysisNewUserInRange(
     @Query() query_data: AnalysisNewUserInRangeQuery,
   ): Promise<AnalysisWithQueryJson> {
-    const { start_date, end_date } = query_data;
-    DateUtil.validateRangeDate(start_date, end_date);
+    const { startDate, endDate } = query_data;
+    DateUtil.validateRangeDate(startDate, endDate);
     const result = await this.userManagementService.handleAnalysisNewUserInRange(
-      start_date,
-      end_date,
+      startDate,
+      endDate,
     );
 
     return {
-      start_date: start_date,
-      end_date: end_date,
+      start_date: startDate,
+      end_date: endDate,
       data: result,
     };
   }
@@ -64,17 +64,17 @@ export class UserManagementController {
   async getApiRequestTimesOfUser(
     @Query() query_data: GetApiRequestTimesOfUserQuery,
   ): Promise<AnalysisWithQueryJson> {
-    DateUtil.validateRangeDate(query_data.start_date, query_data.end_date);
+    DateUtil.validateRangeDate(query_data.startDate, query_data.endDate);
     const result = await this.userManagementService.handleGetApiRequestTimesOfUser(
       query_data.user_id,
       query_data.endpoint,
-      query_data.start_date,
-      query_data.end_date,
+      query_data.startDate,
+      query_data.endDate,
     );
 
     return {
-      start_date: query_data.start_date,
-      end_date: query_data.end_date,
+      start_date: query_data.startDate,
+      end_date: query_data.endDate,
       endpoint: query_data.endpoint,
       data: result,
     };
