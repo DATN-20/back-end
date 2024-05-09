@@ -4,7 +4,7 @@ import { GetLogsQuery } from './entity/request/GetLogsQuery';
 import { LogMonitoringJson } from './entity/LogMonitoringJson';
 import { DateUtil } from '@core/common/util/DateUtil';
 
-@Controller('/managment/logging')
+@Controller('/management/logging')
 export class LogMonitoringController {
   constructor(private readonly logMonitoringService: LogMonitoringService) {}
 
