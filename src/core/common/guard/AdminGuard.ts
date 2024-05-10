@@ -11,6 +11,10 @@ export class AdminGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const authorization = request.header('Authorization');
+    if (authorization === undefined) {
+      throw new Exception(ErrorBaseSystem.UNAUTHORIZE_TOKEN);
+    }
+
     const token = authorization && authorization.split(' ')[1];
 
     const user_id = this.jwtUtil.verify<TokenPayload>(token, JwtType.ACCESS).id;
