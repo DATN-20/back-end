@@ -30,7 +30,16 @@ export class AuthGuard implements CanActivate {
     }
 
     const locked_user = await this.lockedUserRepository.getByUserId(matched_user.id);
+    if (!locked_user) {
+      request.user = {
+        id: user_id,
+      };
+
+      return true;
+    }
+
     const current_date = new Date();
+
     if (locked_user.expiredAt < current_date) {
       await this.lockedUserRepository.delete(matched_user.id);
     } else {
