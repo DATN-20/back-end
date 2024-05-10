@@ -251,7 +251,7 @@ export class ImageService {
       throw new Exception(ImageError.IMAGE_NOT_FOUND);
     }
 
-    if (image.userId !== user_id) {
+    if (!image.visibility && image.userId !== user_id) {
       throw new Exception(ImageError.FORBIDDEN_IMAGES);
     }
 
@@ -345,5 +345,19 @@ export class ImageService {
     );
     const total_record = await this.imageRepository.countTotalRecordSeachByPrompt(query_data.query);
     return { page: query_data.page, limit: query_data.limit, data: result, total: total_record };
+  }
+
+  async handleGetImageById(image_id: number): Promise<ImageResponseJson> {
+    const detail_image = await this.imageRepository.getById(image_id);
+
+    if (!detail_image) {
+      throw new Exception(ImageError.IMAGE_NOT_FOUND);
+    }
+
+    if (!detail_image.visibility) {
+      throw new Exception(ImageError.CAN_NOT_VIEW_PRIVATE_IMAGE);
+    }
+
+    return ImageResponse.convertFromImage(detail_image).toJson();
   }
 }
