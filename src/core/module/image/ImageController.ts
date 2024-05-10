@@ -56,6 +56,11 @@ export class ImageController {
     return this.imageService.handleGetImagesOfUser(user.id);
   }
 
+  @Get(':imageId')
+  async getImageById(@Param('imageId') image_id: number) {
+    return this.imageService.handleGetImageById(image_id);
+  }
+
   @Post('interact')
   @HttpCode(HttpStatus.OK)
   async interact(
