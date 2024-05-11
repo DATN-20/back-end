@@ -1,5 +1,6 @@
 import { PAGINATION_MIN_LIMIT, PAGINATION_MIN_PAGE } from '@core/common/constant/Constant';
 import { DashboardImageType } from '@core/common/enum/DashboardImageType';
+import { ImageType } from '@core/common/enum/ImageType';
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional, Min } from 'class-validator';
 
 export class DashboardImageQueryRequest {
@@ -27,5 +28,5 @@ export class DashboardImageQueryRequest {
   aiName: string = '%';
 
   @IsOptional()
-  imageType: string = '%';
+  imageType: ImageType;
 }

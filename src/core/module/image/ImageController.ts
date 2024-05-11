@@ -25,6 +25,7 @@ import { ProcessImageRequest } from './entity/request/ProcessImageRequest';
 import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
 import { ImageResponseJson } from './entity/response/ImageResponseJson';
 import { DashboardImageQueryRequest } from './entity/request/DashboardImageQueryRequest';
+import { ImageFilter } from './entity/filter/ImageFilter';
 
 @UseGuards(AuthGuard)
 @Controller('images')
@@ -76,10 +77,20 @@ export class ImageController {
     @Query() query_data: DashboardImageQueryRequest,
     @User() user: UserFromAuthGuard,
   ): Promise<any> {
-    return this.dashboardService.getImagesByType(query_data.type, user.id, {
+    const imageFilter = {
+      aiName: query_data.aiName,
+      prompt: query_data.prompt,
+      style: query_data.style,
+      imageType: query_data.imageType,
+    };
+
+    const pagination = {
       page: query_data.page,
       limit: query_data.limit,
-    });
+    };
+    console.log('filter', imageFilter);
+    return 'ccdcd';
+    // return this.dashboardService.getImagesByType(query_data.type, user.id, pagination, imageFilter);
   }
 
   @Get('generate-history')
