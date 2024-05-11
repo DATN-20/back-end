@@ -61,4 +61,13 @@ export class ImageAlbumService {
     });
     return response;
   }
+
+  async getAllImagesInAlbumGuest(album_id: number): Promise<ImageAlbumResponse[]> {
+    const result = await this.imageAlbumRepository.getAllImageInAlbumByGuest(album_id);
+
+    const response = result.map(image => {
+      return ImageAlbumResponse.convertFromImageAlbumDTO(image);
+    });
+    return response;
+  }
 }

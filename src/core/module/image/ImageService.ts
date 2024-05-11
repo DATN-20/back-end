@@ -71,7 +71,7 @@ export class ImageService {
 
   async handleGetImagesOfUser(userId: number): Promise<ImageResponseJson[]> {
     try {
-      const images = await this.imageRepository.getByUserId(userId);
+      const images = await this.imageRepository.getByUserId(userId, null);
       const result: ImageResponseJson[] = images.map(image =>
         ImageResponse.convertFromImage(image).toJson(),
       );
@@ -359,5 +359,37 @@ export class ImageService {
     }
 
     return ImageResponse.convertFromImage(detail_image).toJson();
+  }
+
+  async changeVisibilityImage(user_id: number, image_id: number): Promise<void> {
+    const image = await this.imageRepository.getById(image_id);
+
+    if (!image) {
+      throw new Exception(ImageError.IMAGE_NOT_FOUND);
+    }
+
+    if (image.userId !== user_id) {
+      throw new Exception(ImageError.FORBIDDEN_IMAGES);
+    }
+
+    const new_visibility = !image.visibility;
+
+    try {
+      const updated_image = await this.imageRepository.updateVisibilityById(
+        image_id,
+        new_visibility,
+      );
+    } catch (error) {
+      throw new Exception(ImageError.FAIL_TO_CHANGE_VISIBILITY);
+    }
+  }
+
+  async handleGetImagesByUserId(user_id: number): Promise<ImageResponseJson[]> {
+    const images = await this.imageRepository.getByUserId(user_id, true);
+    const result: ImageResponseJson[] = images.map(image =>
+      ImageResponse.convertFromImage(image).toJson(),
+    );
+
+    return result;
   }
 }

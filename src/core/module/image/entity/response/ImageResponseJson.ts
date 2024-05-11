@@ -14,4 +14,5 @@ export interface ImageResponseJson {
   like_number: number;
   remove_background: string;
   upscale: string;
+  visibility: boolean;
 }

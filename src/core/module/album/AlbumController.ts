@@ -64,8 +64,9 @@ export class AlbumController {
   // add image to album, remove image from album, get all images in album
   @Get('full-info')
   async getFullInfo(@User() user: UserFromAuthGuard): Promise<AlbumWithImageResponse[]> {
-    return this.albumService.getFullInfo(user.id);
+    return this.albumService.getFullInfo(user.id, false);
   }
+
   @Post(':albumId')
   addImageToAlbum(
     @User() user: UserFromAuthGuard,
@@ -74,6 +75,7 @@ export class AlbumController {
   ): Promise<ImageAlbumResponse[]> {
     return this.imageAlbumService.addImageToAlbum(user.id, album_id, imageAlbumRequest);
   }
+
   @Delete(':albumId')
   async removeImageFromAlbum(
     @User() user: UserFromAuthGuard,

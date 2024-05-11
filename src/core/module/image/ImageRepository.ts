@@ -21,10 +21,16 @@ export class ImageRepository extends BaseRepository {
     await this.database.delete(images).where(eq(images.id, id));
   }
 
-  async getByUserId(userId: number): Promise<Image[]> {
-    return this.database.query.images.findMany({
-      where: (image, { eq }) => eq(image.userId, userId),
-    });
+  async getByUserId(user_id: number, visibility: boolean): Promise<Image[]> {
+    if (visibility === null) {
+      return this.database.query.images.findMany({
+        where: (image, { eq }) => eq(image.userId, user_id),
+      });
+    } else {
+      return this.database.query.images.findMany({
+        where: (image, { eq }) => eq(image.userId, user_id) && eq(image.visibility, visibility),
+      });
+    }
   }
 
   async getByUserIdAndImageTypes(user_id: number, types: ImageType[]): Promise<Image[]> {
@@ -88,5 +94,9 @@ export class ImageRepository extends BaseRepository {
       );
 
     return result[0].count;
+  }
+
+  async updateVisibilityById(image_id: number, visibility: boolean): Promise<void> {
+    await this.database.update(images).set({ visibility }).where(eq(images.id, image_id));
   }
 }

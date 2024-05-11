@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Query,
   UploadedFiles,
@@ -100,5 +101,19 @@ export class ImageController {
     @Query() query_data: SearchPromptRequest,
   ): Promise<QueryPaginationResponse<ImageResponseJson>> {
     return this.imageService.handleSearchPrompt(query_data);
+  }
+
+  @Patch('visibility/:id')
+  async changeVisibility(
+    @User() user: UserFromAuthGuard,
+    @Param('id') image_id: number,
+  ): Promise<string> {
+    await this.imageService.changeVisibilityImage(user.id, image_id);
+    return ImageMessage.CHANGE_VISIBILITY_SUCCESS;
+  }
+
+  @Get('user/:userId')
+  async getImageByUserId(@Param('userId') user_id: number): Promise<ImageResponseJson[]> {
+    return this.imageService.handleGetImagesByUserId(user_id);
   }
 }
