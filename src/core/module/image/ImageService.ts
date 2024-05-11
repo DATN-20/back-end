@@ -44,6 +44,7 @@ export class ImageService {
           userId,
           url: imageUpload.url,
           storageId: imageUpload.id,
+          type: ImageType.UPLOADED,
         });
         result.push(ImageResponse.convertFromImage(image).toJson());
       }
@@ -384,12 +385,21 @@ export class ImageService {
     }
   }
 
-  async handleGetImagesByUserId(user_id: number): Promise<ImageResponseJson[]> {
-    const images = await this.imageRepository.getByUserId(user_id, true);
+  async handleGetImagesByUserId(
+    user_id: number,
+    pagination: QueryPagination,
+  ): Promise<QueryPaginationResponse<ImageResponseJson>> {
+    const images = await this.imageRepository.getByUserIdWithPaginition(user_id, true, pagination);
+
     const result: ImageResponseJson[] = images.map(image =>
       ImageResponse.convertFromImage(image).toJson(),
     );
-
-    return result;
+    const total_count = await this.imageRepository.countTotalRecordByUserId(user_id, true);
+    return {
+      page: pagination.page,
+      limit: pagination.limit,
+      total: total_count,
+      data: result,
+    };
   }
 }
