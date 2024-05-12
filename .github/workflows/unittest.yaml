@@ -25,22 +25,5 @@ jobs:
           node-version: '20.x'
       - run: npm install
       - run: npm run test
-
-  deploy-unittest-coverage-page:
-    needs: unittest
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - run: npm install
       - name: Build test coverage
         run: npm run test:cov
-
-      - name: Deploy coverage report to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.3
-        with:
-          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: coverage
-
