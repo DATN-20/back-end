@@ -51,7 +51,7 @@ export class GenerateImageController {
           controlNetType: control_net.controlNetType,
           image: data_images.controlNetImages[_index].buffer,
           strength: control_net.strength
-            ? parseInt(control_net.strength.toString())
+            ? parseFloat(control_net.strength.toString())
             : CONTROL_NET_DEFAULT_STRENGTH,
           isPreprocessor: control_net.isPreprocessor
             ? control_net.isPreprocessor.toString() === 'true'
@@ -92,7 +92,7 @@ export class GenerateImageController {
           controlNetType: control_net.controlNetType,
           image: data_images.controlNetImages[_index].buffer,
           strength: control_net.strength
-            ? parseInt(control_net.strength.toString())
+            ? parseFloat(control_net.strength.toString())
             : CONTROL_NET_DEFAULT_STRENGTH,
           isPreprocessor: control_net.isPreprocessor
             ? control_net.isPreprocessor.toString() === 'true'
