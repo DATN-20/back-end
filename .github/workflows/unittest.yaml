@@ -26,14 +26,23 @@ jobs:
       - run: npm install
       - run: npm run test
       - run: npm run test:cov
+      - name: Create coverage directory if it doesn't exist
+        run: mkdir -p coverage
   deploy-unittest-coverage-page:
     needs: unittest-with-coverage
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Deploy coverage report to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: ./coverage
-          CLEAN: true
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+
+          git checkout gh-pages || git checkout --orphan gh-pages
+          git rm -rf .
+          mv -f ../coverage/* .
+          git add .
+          git commit -m "Deploy coverage report"
+          git push origin gh-pages
