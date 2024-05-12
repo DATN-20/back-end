@@ -15,7 +15,7 @@ on:
       - '*'
 
 jobs: 
-  unittest-with-coverage:
+  unittest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,9 +25,7 @@ jobs:
           node-version: '20.x'
       - run: npm install
       - run: npm run test
-      - run: npm run test:cov
-      - name: Create coverage directory if it doesn't exist
-        run: mkdir -p coverage
+
   deploy-unittest-coverage-page:
     needs: unittest-with-coverage
     runs-on: ubuntu-latest
@@ -35,13 +33,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Deploy coverage report to GitHub Pages
-        run: |
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
+      - name: Build test coverage
+        run: npm run test:cov
 
-          git checkout gh-pages || git checkout --orphan gh-pages
-          mv -f ../coverage/* .
-          git add .
-          git commit -m "Deploy coverage report"
-          git push origin gh-pages
+      - name: Deploy coverage report to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.3
+        with:
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: coverage
+
