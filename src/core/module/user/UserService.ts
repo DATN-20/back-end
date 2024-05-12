@@ -7,6 +7,7 @@ import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
 import { UserProfileResponseJson } from './entity/response/UserProfileResponseJson';
+import { User } from './entity/User';
 
 @Injectable()
 export class UserService {
@@ -15,12 +16,18 @@ export class UserService {
     @Inject('ImageStorageService') private readonly imageStorageService: IImageStorageService,
   ) {}
 
-  async handleGetLoggedInUserProfile(user_id: number): Promise<UserProfileResponseJson> {
+  async handleGetExistedUser(user_id: number): Promise<User> {
     const matched_user = await this.userRepository.getById(user_id);
 
     if (!matched_user) {
       throw new Exception(UserError.USER_NOT_FOUND);
     }
+
+    return matched_user;
+  }
+
+  async handleGetLoggedInUserProfile(user_id: number): Promise<UserProfileResponseJson> {
+    const matched_user = await this.handleGetExistedUser(user_id);
 
     return UserProfileResponse.convertToResponseFromUserEntity(matched_user).toJson();
   }
@@ -29,25 +36,21 @@ export class UserService {
     user_id: number,
     profile: ProfileRequest,
   ): Promise<UserProfileResponseJson> {
-    const matched_user = await this.userRepository.getById(user_id);
+    const matched_user = await this.handleGetExistedUser(user_id);
 
-    if (!matched_user) {
-      throw new Exception(UserError.USER_NOT_FOUND);
-    }
+    ProfileRequest.updateFields(profile, matched_user);
     await this.userRepository.updateProfile(user_id, profile);
+
     profile.socials.forEach(async social => {
       await this.userRepository.addSocial(user_id, social);
     });
-    const res = await this.userRepository.getById(user_id);
-    return UserProfileResponse.convertToResponseFromUserEntity(res).toJson();
+
+    const updated_user = await this.userRepository.getById(user_id);
+    return UserProfileResponse.convertToResponseFromUserEntity(updated_user).toJson();
   }
 
   async handleAddSocial(user_id: number, social: SocialRequest): Promise<UserProfileResponseJson> {
-    const matched_user = await this.userRepository.getById(user_id);
-
-    if (!matched_user) {
-      throw new Exception(UserError.USER_NOT_FOUND);
-    }
+    await this.handleGetExistedUser(user_id);
 
     await this.userRepository.addSocial(user_id, social);
     const res = await this.userRepository.getById(user_id);
@@ -55,17 +58,9 @@ export class UserService {
   }
 
   async handleUpdateAvatar(user_id: number, file: Express.Multer.File): Promise<string> {
-    const matched_user = await this.userRepository.getById(user_id);
+    await this.handleGetExistedUser(user_id);
 
-    if (!matched_user) {
-      throw new Exception(UserError.USER_NOT_FOUND);
-    }
-
-    let avatar = '';
-    const imageUploadResults: ImageUploadResult[] = await this.imageStorageService.uploadImages({
-      images: [file],
-    });
-    avatar = imageUploadResults[0].url;
+    const { url: avatar } = await this.imageStorageService.uploadImageWithBuffer(file.buffer);
 
     try {
       await this.userRepository.updateAvatar(user_id, avatar);
@@ -76,18 +71,9 @@ export class UserService {
   }
 
   async handleUpdateBackground(user_id: number, file: Express.Multer.File): Promise<string> {
-    const matched_user = await this.userRepository.getById(user_id);
+    await this.handleGetExistedUser(user_id);
 
-    if (!matched_user) {
-      throw new Exception(UserError.USER_NOT_FOUND);
-    }
-    let background = '';
-
-    const imageUploadResults: ImageUploadResult[] = await this.imageStorageService.uploadImages({
-      images: [file],
-    });
-
-    background = imageUploadResults[0].url;
+    const { url: background } = await this.imageStorageService.uploadImageWithBuffer(file.buffer);
 
     try {
       await this.userRepository.updateBackground(user_id, background);

@@ -1,7 +1,7 @@
 import { createConnection } from 'mysql2/promise';
 import { drizzle, MySql2Database } from 'drizzle-orm/mysql2';
 import * as schema from './schema';
-import { DatabaseConfig } from 'src/infrastructure/config/DatabaseConfig';
+import { DatabaseConfig } from '@infrastructure/config/DatabaseConfig';
 
 export const DrizzleAsyncProvider = 'drizzleProvider';
 

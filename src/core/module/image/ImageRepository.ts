@@ -21,9 +21,19 @@ export class ImageRepository extends BaseRepository {
     await this.database.delete(images).where(eq(images.id, id));
   }
 
-  async getByUserId(userId: number): Promise<Image[]> {
+  async getByUserId(
+    user_id: number,
+    visibility: boolean = true,
+    is_ignore_visibility: boolean = false,
+  ): Promise<Image[]> {
+    if (is_ignore_visibility) {
+      return this.database.query.images.findMany({
+        where: (image, { eq }) => eq(image.userId, user_id),
+      });
+    }
+
     return this.database.query.images.findMany({
-      where: (image, { eq }) => eq(image.userId, userId),
+      where: (image, { eq }) => eq(image.userId, user_id) && eq(image.visibility, visibility),
     });
   }
 
@@ -88,5 +98,30 @@ export class ImageRepository extends BaseRepository {
       );
 
     return result[0].count;
+  }
+
+  async countTotalRecordByUserId(user_id: number, visibility: boolean): Promise<number> {
+    const result = await this.database
+      .select({ count: count() })
+      .from(images)
+      .where(and(eq(images.userId, user_id), eq(images.visibility, visibility)));
+
+    return result[0].count;
+  }
+
+  async updateVisibilityById(image_id: number, visibility: boolean): Promise<void> {
+    await this.database.update(images).set({ visibility }).where(eq(images.id, image_id));
+  }
+
+  async getByUserIdWithPaginition(
+    user_id: number,
+    visibility: boolean,
+    pagination: QueryPagination,
+  ): Promise<Image[]> {
+    return this.database.query.images.findMany({
+      where: (image, { eq }) => eq(image.userId, user_id) && eq(image.visibility, visibility),
+      limit: pagination.limit,
+      offset: (pagination.page - 1) * pagination.limit,
+    });
   }
 }
