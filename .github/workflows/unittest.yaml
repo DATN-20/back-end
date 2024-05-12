@@ -26,14 +26,21 @@ jobs:
       - run: npm install
       - run: npm run test
       - run: npm run test:cov
+      - name: Create coverage directory
+        run: mkdir -p coverage
+      - name: Move coverage files
+        run: mv ./coverage/* ./coverage/
   deploy-unittest-coverage-page:
     needs: unittest-with-coverage
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Deploy coverage report to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: ../coverage
+          FOLDER: ./coverage
           CLEAN: true
