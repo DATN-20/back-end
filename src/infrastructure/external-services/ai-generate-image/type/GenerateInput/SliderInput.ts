@@ -24,6 +24,7 @@ export class SliderInput extends GenerateInput {
     return {
       max: this.max,
       min: this.min,
+      step: this.step,
     };
   }
 

@@ -11,6 +11,7 @@ import { InputControlnet } from './control-net/types/InputControlnet';
 import { ControlNetType } from './control-net/types/ControlNetType';
 import { ControlNetError } from '@core/common/resource/error/ControlNetError';
 import { ComfyUIControlNetInfo } from './control-net/ComfyUIControlNetInfo';
+import { IpadapterStyleTranferInput } from '../type/Ipadapter/IpadapterStyleTranferInput';
 
 @Injectable()
 export class ComfyUIValidator {
@@ -109,7 +110,7 @@ export class ComfyUIValidator {
     }
   }
 
-  imageByImagesStylePromptValidate(
+  imageByImagesStyleByUnclipPromptValidate(
     info: ComfyUIGenerateImageByImagesStyleInputsInfo,
     input_prompts: GenerateByImagesStyleInputPromts,
   ) {
@@ -217,6 +218,100 @@ export class ComfyUIValidator {
       }
 
       this.validateInput(control_net_info.controlNetStrengthInput, control_nets[_index].strength);
+    }
+  }
+
+  imageByImagesStyleByIpadapterValidate(
+    info: ComfyUIGenerateImageByImagesStyleInputsInfo,
+    input_prompts: GenerateByImagesStyleInputPromts,
+  ) {
+    if (input_prompts.positivePrompt == null) {
+      throw new Exception(
+        AIGenerateImageError.INVALID_INPUT_VALUE(info.inputs.positivePrompt.name),
+      );
+    } else {
+      this.validateInput(info.inputs.positivePrompt, input_prompts.positivePrompt);
+    }
+
+    if (input_prompts.negativePrompt == null) {
+      throw new Exception(
+        AIGenerateImageError.INVALID_INPUT_VALUE(info.inputs.negativePrompt.name),
+      );
+    } else {
+      this.validateInput(info.inputs.negativePrompt, input_prompts.negativePrompt);
+    }
+
+    if (input_prompts.width == null) {
+      input_prompts.width = info.inputs.width.default;
+    } else {
+      this.validateInput(info.inputs.width, input_prompts.width);
+    }
+
+    if (input_prompts.height == null) {
+      input_prompts.height = info.inputs.height.default;
+    } else {
+      this.validateInput(info.inputs.height, input_prompts.height);
+    }
+
+    if (input_prompts.numberOfImage == null) {
+      input_prompts.numberOfImage = info.inputs.size.default;
+    } else {
+      this.validateInput(info.inputs.size, input_prompts.numberOfImage);
+    }
+
+    if (input_prompts.steps == null) {
+      input_prompts.steps = info.inputs.steps.default;
+    } else {
+      this.validateInput(info.inputs.steps, input_prompts.steps);
+    }
+
+    if (input_prompts.sampleMethos == null) {
+      input_prompts.sampleMethos = info.inputs.sampler.default;
+    } else {
+      this.validateInput(info.inputs.sampler, input_prompts.sampleMethos);
+    }
+
+    if (input_prompts.cfg == null) {
+      input_prompts.cfg = info.inputs.cfg.default;
+    } else {
+      this.validateInput(info.inputs.cfg, input_prompts.cfg);
+    }
+
+    let weight_input = info.imageForIpadapterWeightInput;
+    let crop_position_input = info.imageForIpadapterCropPositionInput;
+    if (input_prompts.ipadapterStyleTranferInputs == null) {
+      throw new Exception(
+        AIGenerateImageError.INVALID_INPUT_VALUE(info.inputs.ipadapterStyleTranferInputs?.name),
+      );
+    }
+    for (let i = 0; i < input_prompts.ipadapterStyleTranferInputs?.length; i++) {
+      this.validateImageForIpAdapterStyleTransferInput(
+        input_prompts.ipadapterStyleTranferInputs[i],
+        weight_input,
+        crop_position_input,
+      );
+    }
+  }
+
+  validateImageForIpAdapterStyleTransferInput(
+    input: IpadapterStyleTranferInput,
+    weight_input: GenerateInput,
+    crop_position_input: GenerateInput,
+  ) {
+    if (input.image == null) {
+      throw new Exception(AIGenerateImageError.INVALID_INPUT_VALUE('image'));
+    }
+
+    if (input.weight == null) {
+      input.weight = weight_input.default;
+    } else {
+      this.validateInput(weight_input, input.weight);
+    }
+
+    if (input.cropPosition == null) {
+      input.cropPosition = crop_position_input.default;
+    } else {
+      this.validateInput(crop_position_input, input.cropPosition);
     }
   }
 }

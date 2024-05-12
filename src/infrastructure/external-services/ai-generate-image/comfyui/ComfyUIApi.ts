@@ -6,6 +6,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import * as FormData from 'form-data';
 import { ComfyUISokcet } from './ComfyUISocket';
+import { FileUtil } from '@core/common/util/FileUtil';
 
 @Injectable()
 export class ComfyUIApi {
@@ -65,7 +66,6 @@ export class ComfyUIApi {
           },
         },
       );
-
       return response.data;
     } catch (error) {
       throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
@@ -96,6 +96,7 @@ export class ComfyUIApi {
 
   async queuePrompt(prompt: any, client_id: string): Promise<string> {
     const payload = { prompt, client_id: client_id };
+    FileUtil.writeLog(JSON.stringify(payload));
     const headers = { 'Content-Type': 'application/json' };
     try {
       const response = await this.httpService.axiosRef.post(

@@ -5,6 +5,7 @@ import { InputPromts } from '../type/InputPrompts';
 import { ComfyUIFeature } from './ComfyUIFeature';
 import { GenerateByImagesStyleInputPromts } from '../type/GenerateByImagesStyleInputPromts';
 import { ComfyUIUtil } from './ComfyUIUtil';
+import { FileUtil } from '@core/common/util/FileUtil';
 
 @Injectable()
 export class ComfyUIConverter {
@@ -128,6 +129,62 @@ export class ComfyUIConverter {
       workflow = ComfyUIUtil.appendWorkflow(workflow, image_to_unclip_components.workflow);
 
       workflow[ksampler_node_id]['inputs']['positive'][0] = image_to_unclip_components.output_id;
+    }
+
+    return workflow;
+  }
+
+  async convertToComfyUIImg2ImgIpadapterStyleTransfer(
+    input_prompts: GenerateByImagesStyleInputPromts,
+  ): Promise<any> {
+    const workflow_data = fs.readFileSync(
+      COMFYUI_JSON_FILE_PATH + 'ipadapter_style_tranfer_workflow.json',
+      {
+        encoding: 'utf-8',
+      },
+    );
+    let workflow = JSON.parse(workflow_data);
+    const start_id = ComfyUIUtil.getMaximumIdOfWorkflow(workflow);
+    const load_checkpoint_model_node_id = '1';
+    const positive_prompt_node_id = '2';
+    const negative_prompt_node_id = '3';
+    const ksampler_node_id = '4';
+    const save_image_node_id = '6';
+    const lantent_image_node_id = '7';
+    const ipadapter_loader_node_id = '8';
+
+    workflow[positive_prompt_node_id]['inputs']['text'] = input_prompts.positivePrompt;
+    workflow[negative_prompt_node_id]['inputs']['text'] = input_prompts.negativePrompt;
+    if (input_prompts.seed != null) {
+      workflow[ksampler_node_id]['inputs']['seed'] = input_prompts.seed;
+    } else {
+      const seed = Math.floor(Math.random() * 1000000000) + 1;
+      workflow[ksampler_node_id]['inputs']['seed'] = seed;
+    }
+    workflow[ksampler_node_id]['inputs']['steps'] = input_prompts.steps;
+    workflow[ksampler_node_id]['inputs']['cfg'] = parseFloat(input_prompts.cfg.toString());
+    workflow[ksampler_node_id]['inputs']['sampler_name'] = input_prompts.sampleMethos;
+
+    workflow[lantent_image_node_id]['inputs']['width'] = input_prompts.width;
+    workflow[lantent_image_node_id]['inputs']['height'] = input_prompts.height;
+    workflow[lantent_image_node_id]['inputs']['batch_size'] = input_prompts.numberOfImage;
+
+    workflow[save_image_node_id]['inputs']['filename_prefix'] = input_prompts.filename;
+
+    if (input_prompts.ipadapterStyleTranferInputs.length > 0) {
+      let ipadpter_style_transfer_component =
+        await this.comfyUIFeature.addMultipleStyleTransferComponent(
+          start_id,
+          ipadapter_loader_node_id,
+          ipadapter_loader_node_id,
+          input_prompts.ipadapterStyleTranferInputs,
+        );
+
+      workflow = ComfyUIUtil.appendWorkflow(workflow, ipadpter_style_transfer_component.workflow);
+      workflow[ksampler_node_id]['inputs']['model'] = [
+        ipadpter_style_transfer_component.output_id.toString(),
+        0,
+      ];
     }
 
     return workflow;

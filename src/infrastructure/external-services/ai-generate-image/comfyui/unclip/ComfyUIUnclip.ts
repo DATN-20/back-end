@@ -1,8 +1,6 @@
-import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import { COMFYUI_JSON_FILE_PATH } from '../ComfyUIConstant';
 import { NodeImageUnclipEnum } from '../../type/Unclip/NodeImageUnclipEnum';
-import { ImageToUnclipInput } from '../../type/Unclip/ImageToUnClipInput';
 
 export class ComfyUIUnclip {
   public generateImageToUnclipComponent(

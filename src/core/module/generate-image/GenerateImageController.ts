@@ -63,13 +63,24 @@ export class GenerateImageController {
   }
 
   @Post('/image-by-images-style')
-  @UseInterceptors(FileFieldsInterceptor([{ name: 'imageToUnclipsImages', maxCount: 10 }]))
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'imageToUnclipsImages', maxCount: 10 },
+      { name: 'controlNetImages', maxCount: 10 },
+      { name: 'imageForIpadapter', maxCount: 10 },
+    ]),
+  )
   async generateImageByImagesStyle(
     @User() user: UserFromAuthGuard,
     @Body() generate_inputs: GenerateByImagesStyleInputs,
-    @UploadedFiles() files: { imageToUnclipsImages: Express.Multer.File[] },
+    @UploadedFiles()
+    files: {
+      imageToUnclipsImages: Express.Multer.File[];
+      imageForIpadapter: Express.Multer.File[];
+    },
   ) {
-    generate_inputs.imageToUnclipsImages = files.imageToUnclipsImages;
+    //generate_inputs.imageToUnclipsImages = files.imageToUnclipsImages;
+    generate_inputs.imageForIpadapters = files.imageForIpadapter;
     return await this.generateImageService.handleGenerateImageByImagesStyle(
       user.id,
       generate_inputs,

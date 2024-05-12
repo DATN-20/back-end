@@ -2,6 +2,7 @@ import { GenerateByImagesStyleInputs } from '@core/module/generate-image/entity/
 import { GenerateInputs } from '@core/module/generate-image/entity/request/GenerateInputs';
 import { GenerateByImagesStyleInputPromts } from '@infrastructure/external-services/ai-generate-image/type/GenerateByImagesStyleInputPromts';
 import { InputPromts } from '@infrastructure/external-services/ai-generate-image/type/InputPrompts';
+import { IpadapterStyleTranferInput } from '@infrastructure/external-services/ai-generate-image/type/Ipadapter/IpadapterStyleTranferInput';
 import { ImageToUnclipInput } from '@infrastructure/external-services/ai-generate-image/type/Unclip/ImageToUnClipInput';
 
 export class ConverterUtil {
@@ -50,6 +51,23 @@ export class ConverterUtil {
       return result;
     });
 
+    const ipadapterStyleTranferInputs = generate_inputs.imageForIpadapters?.map((image, index) => {
+      const weight =
+        generate_inputs.imageForIpadapterWeight?.[index] !== undefined
+          ? generate_inputs.imageForIpadapterWeight[index]
+          : null;
+      const cropPosition =
+        generate_inputs.imageForIPAdapterCropPosition?.[index] !== undefined
+          ? generate_inputs.imageForIPAdapterCropPosition[index]
+          : null;
+      const result: IpadapterStyleTranferInput = {
+        image: image,
+        weight: weight,
+        cropPosition: cropPosition,
+      };
+      return result;
+    });
+
     const result: GenerateByImagesStyleInputPromts = {
       positivePrompt: generate_inputs.positivePrompt,
       negativePrompt: generate_inputs.negativePrompt,
@@ -65,6 +83,7 @@ export class ConverterUtil {
       controlNets: generate_inputs.controlNets ?? [],
       imageToUnclips: imageToUnlips,
       isUpscale: generate_inputs.isUpscale ?? false,
+      ipadapterStyleTranferInputs: ipadapterStyleTranferInputs,
     };
 
     return result;
