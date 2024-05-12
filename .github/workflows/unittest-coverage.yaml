@@ -9,7 +9,7 @@ on:
       - '*'
 
 jobs: 
-  unittest:
+  unittest-coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,4 +18,10 @@ jobs:
         with:
           node-version: '20.x'
       - run: npm install
-      - run: npm run test
+      - run: npm run test:cov
+      - name: Deploy coverage report to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: coverage
