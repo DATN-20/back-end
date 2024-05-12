@@ -1,5 +1,11 @@
 name: unittest
 
+permissions:
+  checks: write
+  contents: write
+  issues: write
+  pull-requests: write
+
 on:
   push:
     branches:
@@ -10,6 +16,7 @@ on:
 
 jobs: 
   unittest-coverage:
+    needs: unittest
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
