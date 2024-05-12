@@ -9,7 +9,7 @@ export class ConverterUtil {
   public static convertGenerateInputsToInputPromts(
     generate_inputs: GenerateInputs,
     user_id: number,
-  ) {
+  ): InputPromts {
     const result: InputPromts = {
       style: generate_inputs.style,
       positivePrompt: generate_inputs.positivePrompt,

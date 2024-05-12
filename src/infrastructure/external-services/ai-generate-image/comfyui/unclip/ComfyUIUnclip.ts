@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import { COMFYUI_JSON_FILE_PATH } from '../ComfyUIConstant';
 import { NodeImageUnclipEnum } from '../../type/Unclip/NodeImageUnclipEnum';
+import { WorkflowResultJson } from '../../type/WorkflowResult';
 
 export class ComfyUIUnclip {
   public generateImageToUnclipComponent(
@@ -10,7 +11,7 @@ export class ComfyUIUnclip {
     strength: number,
     noise_augmentation: number,
     condition_pre_node_id: string,
-  ) {
+  ): WorkflowResultJson {
     let workflow_data_string = fs.readFileSync(
       COMFYUI_JSON_FILE_PATH + 'image-to-unclip-component.json',
       {

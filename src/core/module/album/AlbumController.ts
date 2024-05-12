@@ -18,7 +18,6 @@ import { AlbumMessage } from '@core/common/resource/message/AlbumMessage';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { EditAlbumReq } from './entity/request/EditAlbumReq';
 import { ImageAlbumRequest } from '../images-album/entity/request/ImageAlbumRequest';
-import { Image } from '../image/entity/Image';
 import { ImageAlbumService } from '../images-album/ImageAlbumService';
 import { ImageAlbumMessage } from '@core/common/resource/message/ImageAlbumMessage';
 import { ImageAlbumResponse } from '../images-album/entity/response/ImageAlbumResponse';
@@ -67,6 +66,7 @@ export class AlbumController {
   async getFullInfo(@User() user: UserFromAuthGuard): Promise<AlbumWithImageResponse[]> {
     return this.albumService.getFullInfo(user.id);
   }
+
   @Post(':albumId')
   addImageToAlbum(
     @User() user: UserFromAuthGuard,
@@ -75,6 +75,7 @@ export class AlbumController {
   ): Promise<ImageAlbumResponse[]> {
     return this.imageAlbumService.addImageToAlbum(user.id, album_id, imageAlbumRequest);
   }
+
   @Delete(':albumId')
   async removeImageFromAlbum(
     @User() user: UserFromAuthGuard,

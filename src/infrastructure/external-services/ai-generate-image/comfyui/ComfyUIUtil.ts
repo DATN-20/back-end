@@ -1,6 +1,6 @@
 export class ComfyUIUtil {
   public static findIdByTitle(workflow: any, title: string): string {
-    for (let id in workflow) {
+    for (const id in workflow) {
       if (workflow[id]['_meta']['title'] === title) {
         return id;
       }

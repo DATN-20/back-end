@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { DashboardImageRepository } from './DashboardImageRepository';
 import { InteractionType } from '@core/common/enum/InteractionType';
 import { DashboardImageType } from '@core/common/enum/DashboardImageType';
-import { DashboardResponse } from './entity/response/DashboardResponse';
 import { ImageResponse } from '../image/entity/response/ImageResponse';
 import { UserRepository } from '../user/UserRepository';
 import { Image } from '../image/entity/Image';
+import { ImageResponseJson } from '../image/entity/response/ImageResponseJson';
+import { ImageFilter } from '../image/entity/filter/ImageFilter';
 
 @Injectable()
 export class DashboardImageService {
@@ -15,90 +16,125 @@ export class DashboardImageService {
   ) {}
   public async getImagesByType(
     type: DashboardImageType,
-    limit: number,
-    page: number,
     user_id: number,
-  ): Promise<DashboardResponse> {
-    const offset = (page - 1) * limit;
+    pagination: QueryPagination,
+    filter: ImageFilter,
+  ): Promise<QueryPaginationResponse<ImageResponseJson>> {
     switch (type) {
       case DashboardImageType.TOPLIKED:
-        return await this.getTopImageLiked(limit, offset, user_id);
+        return await this.getTopImageLiked(user_id, pagination, filter);
       case DashboardImageType.TRENDING:
-        return await this.getTopImageByWeek(InteractionType.LIKE, limit, offset, user_id);
+        return await this.getTopImageByWeek(InteractionType.LIKE, user_id, pagination, filter);
       case DashboardImageType.LATEST:
-        return await this.getLatestImage(limit, offset, user_id);
-      case DashboardImageType.RANDOM:
-        return await this.getRandomImage(limit, offset, user_id);
+        return await this.getLatestImage(user_id, pagination, filter);
+      default:
+        return await this.getRandomImage(user_id, pagination, filter);
     }
   }
 
   async getTopImageByWeek(
     type: InteractionType,
-    limit: number,
-    offset: number,
     user_id: number,
-  ): Promise<DashboardResponse> {
+    pagination: QueryPagination,
+    filter: ImageFilter,
+  ): Promise<QueryPaginationResponse<ImageResponseJson>> {
     const from_date = new Date();
     const to_date = new Date();
     to_date.setDate(to_date.getDate() + 1);
     from_date.setDate(to_date.getDate() - 8);
-    const data = {
-      from_date: from_date,
-      to_date: to_date,
-      type: type,
-      limit: limit,
-      offset: offset,
-    };
-    const total_count = await this.repository.getTotalCountInteractionsWithinTimeRange(data);
-    const main_query_result = await this.repository.getInteractionsWithinTimeRange(data);
+
+    const total_count = await this.repository.getTotalCountInteractionsWithinTimeRange({
+      from_date,
+      to_date,
+      type,
+      filter,
+    });
+
+    const main_query_result = await this.repository.getInteractionsWithinTimeRange({
+      from_date,
+      to_date,
+      type,
+      pagination,
+      filter,
+    });
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
 
-    return new DashboardResponse(total_count, result);
+    return {
+      page: pagination.page,
+      limit: pagination.limit,
+      total: total_count,
+      data: result,
+    };
   }
+
   async getTopImageLiked(
-    limit: number,
-    offset: number,
     user_id: number,
-  ): Promise<DashboardResponse> {
-    const total_count = await this.repository.getTotalImage();
+    pagination: QueryPagination,
+    filter: ImageFilter,
+  ): Promise<QueryPaginationResponse<ImageResponseJson>> {
+    const total_count = await this.repository.getTotalImage(filter);
     const main_query_result = await this.repository.getTopInteraction(
       InteractionType.LIKE,
-      limit,
-      offset,
+      pagination,
+      filter,
     );
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
 
-    return new DashboardResponse(total_count, result);
+    return {
+      page: pagination.page,
+      limit: pagination.limit,
+      total: total_count,
+      data: result,
+    };
   }
-  async getLatestImage(limit: number, offset: number, user_id: number): Promise<DashboardResponse> {
-    const total_count = await this.repository.getTotalImage();
-    const main_query_result = await this.repository.getLatestImage(limit, offset);
+
+  async getLatestImage(
+    user_id: number,
+    pagination: QueryPagination,
+    filter: ImageFilter,
+  ): Promise<QueryPaginationResponse<ImageResponseJson>> {
+    const total_count = await this.repository.getTotalImage(filter);
+    const main_query_result = await this.repository.getLatestImage(pagination, filter);
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
 
-    return new DashboardResponse(total_count, result);
+    return {
+      page: pagination.page,
+      limit: pagination.limit,
+      total: total_count,
+      data: result,
+    };
   }
-  async getRandomImage(limit: number, offset: number, user_id: number): Promise<DashboardResponse> {
-    const total_count = await this.repository.getTotalImage();
-    const main_query_result = await this.repository.getRandomImage(limit, offset);
+  async getRandomImage(
+    user_id: number,
+    pagination: QueryPagination,
+    filter: ImageFilter,
+  ): Promise<QueryPaginationResponse<ImageResponseJson>> {
+    const total_count = await this.repository.getTotalImage(filter);
+    const main_query_result = await this.repository.getRandomImage(pagination, filter);
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
 
-    return new DashboardResponse(total_count, result);
+    return {
+      page: pagination.page,
+      limit: pagination.limit,
+      total: total_count,
+      data: result,
+    };
   }
 
   private async mainQueryResultToDashboardResponse(
     images_with_count: { image: Image; count: number }[],
     user_id: number,
-  ): Promise<ImageResponse[]> {
-    let result: ImageResponse[] = [];
-    for (let { image, count } of images_with_count) {
+  ): Promise<ImageResponseJson[]> {
+    const result: ImageResponseJson[] = [];
+    for (const { image, count } of images_with_count) {
       const owner = await this.userRepository.getById(image.userId);
       const is_liked = !!(await this.repository.getByImageIdAndUserId(user_id, image.id));
 
-      result.push(new ImageResponse(image, owner, count, is_liked));
+      result.push(new ImageResponse(image, owner, count, is_liked).toJson());
     }
 
     return result;

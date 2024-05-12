@@ -27,7 +27,7 @@ export class CloudinaryService implements IImageStorageService {
     return uploadResults;
   }
 
-  async deleteImage(imageDelete: ImageDelete) {
+  async deleteImage(imageDelete: ImageDelete): Promise<void> {
     try {
       await cloudinary.uploader.destroy(imageDelete.storageIds);
     } catch (error) {
@@ -41,7 +41,7 @@ export class CloudinaryService implements IImageStorageService {
       const uploadResult = await new Promise<UploadApiResponse | UploadApiErrorResponse>(
         resolve => {
           cloudinary.uploader
-            .upload_stream((error, uploadResult) => {
+            .upload_stream((_error, uploadResult) => {
               return resolve(uploadResult);
             })
             .end(image_buffer);

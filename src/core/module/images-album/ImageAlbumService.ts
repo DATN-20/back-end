@@ -31,8 +31,13 @@ export class ImageAlbumService {
         throw new Exception(AlbumError.IMAGE_NOT_EXITS);
       }
     }
-    return this.imageAlbumRepository.getAllImageInAlbum(album_id);
+    const result = await this.imageAlbumRepository.getAllImageInAlbum(album_id);
+    const response = result.map(image => {
+      return ImageAlbumResponse.convertFromImageAlbumDTO(image);
+    });
+    return response;
   }
+
   public async removeImageFromAlbum(
     user_id: number,
     album_id: number,
@@ -43,12 +48,26 @@ export class ImageAlbumService {
       await this.imageAlbumRepository.removeImageFromAlbum(album_id, image_id);
     }
   }
+
   public async getAllImagesInAlbum(
     user_id: number,
     album_id: number,
   ): Promise<ImageAlbumResponse[]> {
     await this.albumService.isAlbumOfUser(user_id, album_id);
     const result = await this.imageAlbumRepository.getAllImageInAlbum(album_id);
-    return result;
+
+    const response = result.map(image => {
+      return ImageAlbumResponse.convertFromImageAlbumDTO(image);
+    });
+    return response;
+  }
+
+  async getAllImagesInAlbumGuest(album_id: number): Promise<ImageAlbumResponse[]> {
+    const result = await this.imageAlbumRepository.getAllImageInAlbumByGuest(album_id);
+
+    const response = result.map(image => {
+      return ImageAlbumResponse.convertFromImageAlbumDTO(image);
+    });
+    return response;
   }
 }

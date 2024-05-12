@@ -7,13 +7,15 @@ import { MultipleInputs } from '../../type/GenerateInput/MultipleInputs';
 import { SliderInput } from '../../type/GenerateInput/SliderInput';
 import { ControlNetType } from './types/ControlNetType';
 
+export const CONTROL_NET_DEFAULT_STRENGTH = 1;
+
 export class ComfyUIControlNetInfo {
   private controlNetStrengthName = 'Strength';
   private controlNetStrengthDesc =
     ' This sets the influence strength of the prompt. The larger the number, the closer it is to the description of the prompt..';
   private controlNetStrengthMin = 0;
   private controlNetStrengthMax = 2;
-  private controlNetStrengthDefault = 1;
+  private controlNetStrengthDefault = CONTROL_NET_DEFAULT_STRENGTH;
   private controlNetStrengthStep = 0.1;
   private controlNetStrengthInputPropertyName = 'strength';
   public controlNetStrengthInput = new SliderInput(

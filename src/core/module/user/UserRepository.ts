@@ -1,7 +1,7 @@
 import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { users } from '@infrastructure/orm/schema';
 import { User } from './entity/User';
-import { SQL, eq, sql } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
 
@@ -78,6 +78,26 @@ export class UserRepository extends BaseRepository {
         socials: sql`NULL`,
         address: profile.address,
         description: profile.description,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, id));
+  }
+
+  async updateAvatar(id: number, avatar: string): Promise<void> {
+    await this.database
+      .update(users)
+      .set({
+        avatar: avatar,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, id));
+  }
+
+  async updateBackground(id: number, background: string): Promise<void> {
+    await this.database
+      .update(users)
+      .set({
+        background: background,
         updatedAt: new Date(),
       })
       .where(eq(users.id, id));

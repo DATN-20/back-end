@@ -6,7 +6,11 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import * as FormData from 'form-data';
 import { ComfyUISokcet } from './ComfyUISocket';
+<<<<<<< HEAD
 import { FileUtil } from '@core/common/util/FileUtil';
+=======
+import { OutputPropertyWebSocket } from './ComfyUIConstant';
+>>>>>>> main
 
 @Injectable()
 export class ComfyUIApi {
@@ -76,21 +80,39 @@ export class ComfyUIApi {
     const prompt_id = await this.queuePrompt(prompt, web_socket.getClientId());
 
     return new Promise<Buffer[]>((resolve, reject) => {
-      web_socket.getExecutedResultFromMessage(prompt_id, async output_images => {
-        const list_image_buffer = [];
+      web_socket.getExecutedResultFromMessage(
+        prompt_id,
+        OutputPropertyWebSocket.IMAGES,
+        async output_images => {
+          const list_image_buffer = [];
 
-        for (const image_data of output_images) {
-          const image_buffer = await this.getImage(
-            image_data.filename,
-            image_data.type,
-            image_data.subfolder,
-          );
+          for (const image_data of output_images) {
+            const image_buffer = await this.getImage(
+              image_data.filename,
+              image_data.type,
+              image_data.subfolder,
+            );
 
-          list_image_buffer.push(image_buffer);
-        }
+            list_image_buffer.push(image_buffer);
+          }
 
-        resolve(list_image_buffer);
-      });
+          resolve(list_image_buffer);
+        },
+      );
+    });
+  }
+
+  async getTags(web_socket: ComfyUISokcet, prompt: object): Promise<string> {
+    const prompt_id = await this.queuePrompt(prompt, web_socket.getClientId());
+
+    return new Promise<string>((resolve, reject) => {
+      web_socket.getExecutedResultFromMessage(
+        prompt_id,
+        OutputPropertyWebSocket.TAGS,
+        async output_tags => {
+          resolve(output_tags[0]);
+        },
+      );
     });
   }
 

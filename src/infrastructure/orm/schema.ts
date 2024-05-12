@@ -29,6 +29,8 @@ export const users = mysqlTable('users', {
   accessToken: varchar('access_token', { length: 256 }),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
+  avatar: text('avatar'),
+  background: text('background'),
 });
 
 export const users_relations = relations(users, ({ many }) => ({
@@ -53,7 +55,7 @@ export const images = mysqlTable('images', {
   aiName: text('ai_name'),
   style: text('model_name'),
   additionInfo: text('addition_info'),
-  visibility: boolean('visibility').default(true),
+  visibility: boolean('visibility').default(false),
   createdAt: timestamp('created_at').defaultNow(),
   storageId: text('storage_id'),
   generateId: int('generate_id'),
