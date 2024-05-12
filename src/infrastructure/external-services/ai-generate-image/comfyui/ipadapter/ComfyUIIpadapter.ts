@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import { COMFYUI_JSON_FILE_PATH } from '../ComfyUIConstant';
 import { IpadapterEnum } from '../../type/Ipadapter/IpadapterEnum';
+import { IpadapterStyleTransferWorkflow } from '../../type/IpadapterStyleTransferWorkflowResponse';
 export class ComfyUIIpadapter {
   public generateIpadapterStyleTransferComponent(
     start_id: string,
@@ -9,7 +10,7 @@ export class ComfyUIIpadapter {
     image_name: string,
     weight: number,
     crop_position: string,
-  ) {
+  ): IpadapterStyleTransferWorkflow {
     let workflow_data_string = fs.readFileSync(
       COMFYUI_JSON_FILE_PATH + 'ipadapter-style-transfer-component.json',
       {

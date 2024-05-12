@@ -199,7 +199,7 @@ export class ComfyUIFeature {
       ipdater_style_tranfer_input.image.buffer,
       `${Date.now()}.png`,
     );
-    let ipadapter_styletranfer_component =
+    const ipadapter_styletranfer_component =
       this.comfyUIIpadapter.generateIpadapterStyleTransferComponent(
         start_id,
         pre_model_node_id,
@@ -222,7 +222,7 @@ export class ComfyUIFeature {
     pre_model_node_id: string,
     ip_adapter_node_id: string,
     ipdater_style_transfer_inputs: IpadapterStyleTranferInput[],
-  ) {
+  ): Promise<WorkflowResultJson> {
     let workflow = {};
     let final_model;
     for (let i = 0; i < ipdater_style_transfer_inputs.length; i++) {
@@ -232,7 +232,7 @@ export class ComfyUIFeature {
         `${Date.now()}_input`,
       );
 
-      let ip_adapter_style_transfer_component =
+      const ip_adapter_style_transfer_component =
         this.comfyUIIpadapter.generateIpadapterStyleTransferComponent(
           start_id,
           pre_model_node_id,
