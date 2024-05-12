@@ -78,8 +78,32 @@ export class ComfyUIService
   async generateImageByImagesStyle(
     input_prompts: GenerateByImagesStyleInputPromts,
   ): Promise<Buffer[]> {
-    this.comfyUIValidator.imageByImagesStylePromptValidate(
-      this.info.generateImageToUnclipComponentInputsInfo,
+    return this.generateImageByImagesStyleUseIPAdapter(input_prompts);
+  }
+
+  async generateImageByImagesStyleUseIPAdapter(
+    input_prompts: GenerateByImagesStyleInputPromts,
+  ): Promise<Buffer[]> {
+    //validate
+    this.comfyUIValidator.imageByImagesStyleByIpadapterValidate(
+      this.info.generateImageByImagesStyleInputsInfo,
+      input_prompts,
+    );
+    let comfyui_prompt = await this.comfyUIConverter.convertToComfyUIImg2ImgIpadapterStyleTransfer(
+      input_prompts,
+    );
+
+    const comfyui_socket = new ComfyUISokcet();
+    const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);
+
+    return list_image_buffer;
+  }
+
+  async generateImageByImagesStyleUseUnclipModel(
+    input_prompts: GenerateByImagesStyleInputPromts,
+  ): Promise<Buffer[]> {
+    this.comfyUIValidator.imageByImagesStyleByUnclipPromptValidate(
+      this.info.generateImageByImagesStyleInputsInfo,
       input_prompts,
     );
     const comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptImg2ImgUnclip(
@@ -95,7 +119,7 @@ export class ComfyUIService
   getAIGenerateImageByImagesStyleInfo() {
     return {
       ai_name: this.info.ai_name,
-      inputs: Object.values(this.info.generateImageToUnclipComponentInputsInfo.inputs).map(input =>
+      inputs: Object.values(this.info.generateImageByImagesStyleInputsInfo.inputs).map(input =>
         JSON.parse(input.toJson()),
       ),
     };

@@ -10,6 +10,7 @@ import { ComfyUIService } from './ComfyUIService';
 import { ComfyUIUnclip } from './unclip/ComfyUIUnclip';
 import { ComfyUIRemoveBackground } from './remove-background/ComfyUIRemoveBackground';
 import { ControlNetModelMapping } from './control-net/ControlNetModelMapping';
+import { ComfyUIIpadapter } from './ipadapter/ComfyUIIpadapter';
 
 @Module({
   imports: [HttpModule],
@@ -24,6 +25,7 @@ import { ControlNetModelMapping } from './control-net/ControlNetModelMapping';
     ComfyUIUnclip,
     ComfyUIRemoveBackground,
     ControlNetModelMapping,
+    ComfyUIIpadapter,
   ],
   exports: [ComfyUIService],
 })

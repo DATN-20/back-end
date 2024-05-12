@@ -34,4 +34,10 @@ export class GenerateByImagesStyleInputs {
   imageToUnclipsStrengths: number[];
   @IsOptional()
   imageToUnclipsNoiseAugmentations: number[];
+  @IsOptional()
+  imageForIpadapters: Express.Multer.File[];
+  @IsOptional()
+  imageForIpadapterWeight: number[];
+  @IsOptional()
+  imageForIPAdapterCropPosition: string[];
 }

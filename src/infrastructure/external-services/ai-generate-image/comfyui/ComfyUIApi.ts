@@ -66,7 +66,6 @@ export class ComfyUIApi {
           },
         },
       );
-
       return response.data;
     } catch (error) {
       throw new Exception(AIGenerateImageError.COMFYUI_ERROR);

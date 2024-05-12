@@ -12,6 +12,8 @@ import { ComfyUIUnclip } from './unclip/ComfyUIUnclip';
 import { ImageToUnclipInput } from '../type/Unclip/ImageToUnClipInput';
 import { ControlNetModelMapping } from './control-net/ControlNetModelMapping';
 import { WorkflowResultJson } from '../type/WorkflowResult';
+import { IpadapterStyleTranferInput } from '../type/Ipadapter/IpadapterStyleTranferInput';
+import { ComfyUIIpadapter } from './ipadapter/ComfyUIIpadapter';
 
 @Injectable()
 export class ComfyUIFeature {
@@ -22,6 +24,7 @@ export class ComfyUIFeature {
     private readonly comfyUIRemoveBackground: ComfyUIRemoveBackground,
     private readonly comfyUIUnclip: ComfyUIUnclip,
     private readonly controlNetModelMapping: ControlNetModelMapping,
+    private readonly comfyUIIpadapter: ComfyUIIpadapter,
   ) {}
 
   async applyControlNet(
@@ -183,5 +186,70 @@ export class ComfyUIFeature {
       result_uploaded_image.name,
       DEFAULT_UPSCALE_PROPERTY,
     ).workflow;
+  }
+
+  async addIpAdapterStyleTransferComponent(
+    start_id: string,
+    pre_model_node_id: string,
+    ip_adapter_node_id: string,
+    ipdater_style_tranfer_input: IpadapterStyleTranferInput,
+  ): Promise<WorkflowResultJson> {
+    let workflow = {};
+    const uploaded_image_result = await this.comfyUIApi.uploadImage(
+      ipdater_style_tranfer_input.image.buffer,
+      `${Date.now()}.png`,
+    );
+    const ipadapter_styletranfer_component =
+      this.comfyUIIpadapter.generateIpadapterStyleTransferComponent(
+        start_id,
+        pre_model_node_id,
+        ip_adapter_node_id,
+        uploaded_image_result.name,
+        ipdater_style_tranfer_input.weight,
+        ipdater_style_tranfer_input.cropPosition,
+      );
+
+    workflow = { ...workflow, ...ipadapter_styletranfer_component.workflow };
+
+    return {
+      workflow: workflow,
+      output_id: ipadapter_styletranfer_component.output_last_id,
+    };
+  }
+
+  async addMultipleStyleTransferComponent(
+    start_id: string,
+    pre_model_node_id: string,
+    ip_adapter_node_id: string,
+    ipdater_style_transfer_inputs: IpadapterStyleTranferInput[],
+  ): Promise<WorkflowResultJson> {
+    let workflow = {};
+    let final_model;
+    for (let i = 0; i < ipdater_style_transfer_inputs.length; i++) {
+      let ipadapter_style_transfer_input = ipdater_style_transfer_inputs[i];
+      const uploaded_image_result = await this.comfyUIApi.uploadImage(
+        ipadapter_style_transfer_input.image.buffer,
+        `${Date.now()}_input`,
+      );
+
+      const ip_adapter_style_transfer_component =
+        this.comfyUIIpadapter.generateIpadapterStyleTransferComponent(
+          start_id,
+          pre_model_node_id,
+          ip_adapter_node_id,
+          uploaded_image_result.name,
+          ipadapter_style_transfer_input.weight,
+          ipadapter_style_transfer_input.cropPosition,
+        );
+
+      workflow = { ...workflow, ...ip_adapter_style_transfer_component.workflow };
+      start_id = ip_adapter_style_transfer_component.output_last_id;
+      pre_model_node_id = ip_adapter_style_transfer_component.output_id;
+    }
+
+    return {
+      workflow: workflow,
+      output_id: pre_model_node_id,
+    };
   }
 }

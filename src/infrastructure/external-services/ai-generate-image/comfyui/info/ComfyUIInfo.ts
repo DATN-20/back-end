@@ -5,7 +5,6 @@ import { ComfyUIGenerateImageByImagesStyleInputsInfo } from './ComfyUIGenerateIm
 export class ComfyUIInfo {
   public ai_name = 'comfy_ui';
   public generateImageBasicInputsInfo = new ComfyUIGenerateImageBasicInputsInfo();
-  public generateImageToUnclipComponentInputsInfo =
-    new ComfyUIGenerateImageByImagesStyleInputsInfo();
+  public generateImageByImagesStyleInputsInfo = new ComfyUIGenerateImageByImagesStyleInputsInfo();
   public controlNetInputsInfo = new ComfyUIControlNetInfo();
 }
