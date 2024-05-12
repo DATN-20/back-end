@@ -33,6 +33,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - run: npm install
       - name: Build test coverage
         run: npm run test:cov
 
