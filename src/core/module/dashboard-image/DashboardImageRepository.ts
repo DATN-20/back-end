@@ -85,15 +85,16 @@ export class DashboardImageRepository extends BaseRepository {
       .from(images)
       .leftJoin(
         images_interaction,
+        and(eq(images.id, images_interaction.imageId), eq(images_interaction.type, type)),
+      )
+      .where(
         and(
-          eq(images.id, images_interaction.imageId),
-          eq(images_interaction.type, type),
+          eq(images.visibility, true),
           filter.aiName != 'ALL' ? eq(images.aiName, filter.aiName) : sql`1=1`,
           filter.imageType != 'ALL' ? eq(images.type, ImageType[filter.imageType]) : sql`1=1`,
           filter.style != 'ALL' ? eq(images.style, filter.style) : sql`1=1`,
         ),
       )
-      .where(eq(images.visibility, true))
       .groupBy(sql`${images.id}`)
       .orderBy(desc(sql`IFNULL(count(${images_interaction.imageId}),0)`))
       .limit(pagination.limit)
@@ -117,12 +118,16 @@ export class DashboardImageRepository extends BaseRepository {
         and(
           eq(images.id, images_interaction.imageId),
           eq(images_interaction.type, InteractionType.LIKE),
+        ),
+      )
+      .where(
+        and(
+          eq(images.visibility, true),
           filter.aiName != 'ALL' ? eq(images.aiName, filter.aiName) : sql`1=1`,
           filter.imageType != 'ALL' ? eq(images.type, ImageType[filter.imageType]) : sql`1=1`,
           filter.style != 'ALL' ? eq(images.style, filter.style) : sql`1=1`,
         ),
       )
-      .where(eq(images.visibility, true))
       .groupBy(sql`${images.id}`)
       .orderBy(desc(images.createdAt))
       .limit(pagination.limit)
@@ -166,12 +171,16 @@ export class DashboardImageRepository extends BaseRepository {
         and(
           eq(images.id, images_interaction.imageId),
           eq(images_interaction.type, InteractionType.LIKE),
+        ),
+      )
+      .where(
+        and(
+          eq(images.visibility, true),
           filter.aiName != 'ALL' ? eq(images.aiName, filter.aiName) : sql`1=1`,
           filter.imageType != 'ALL' ? eq(images.type, ImageType[filter.imageType]) : sql`1=1`,
           filter.style != 'ALL' ? eq(images.style, filter.style) : sql`1=1`,
         ),
       )
-      .where(eq(images.visibility, true))
       .groupBy(sql`${images.id}`)
       .orderBy(asc(sql`RAND()`))
       .limit(pagination.limit)

@@ -21,16 +21,20 @@ export class ImageRepository extends BaseRepository {
     await this.database.delete(images).where(eq(images.id, id));
   }
 
-  async getByUserId(user_id: number, visibility: boolean = null): Promise<Image[]> {
-    if (visibility === null) {
+  async getByUserId(
+    user_id: number,
+    visibility: boolean = true,
+    is_ignore_visibility: boolean = false,
+  ): Promise<Image[]> {
+    if (is_ignore_visibility) {
       return this.database.query.images.findMany({
         where: (image, { eq }) => eq(image.userId, user_id),
       });
-    } else {
-      return this.database.query.images.findMany({
-        where: (image, { eq }) => eq(image.userId, user_id) && eq(image.visibility, visibility),
-      });
     }
+
+    return this.database.query.images.findMany({
+      where: (image, { eq }) => eq(image.userId, user_id) && eq(image.visibility, visibility),
+    });
   }
 
   async getByUserIdAndImageTypes(user_id: number, types: ImageType[]): Promise<Image[]> {
