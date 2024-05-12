@@ -27,7 +27,7 @@ jobs:
       - run: npm run test
 
   deploy-unittest-coverage-page:
-    needs: unittest-with-coverage
+    needs: unittest
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
