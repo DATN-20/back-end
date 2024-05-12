@@ -38,14 +38,13 @@ describe('UserService', () => {
   let imageStorageService: IImageStorageService;
 
   beforeEach(async () => {
-    const moduleRef = await Test.createTestingModule({
-      imports: [UserModule, ImageStorageModule, InfrastructureModule],
-      providers: [UserRepository, UserService, CloudinaryService],
-    }).compile();
+    const mockUserRepository: Partial<UserRepository> = {
+      getById: jest.fn(),
+    };
 
-    imageStorageService = moduleRef.get<CloudinaryService>(CloudinaryService);
-    userRepository = moduleRef.get<UserRepository>(UserRepository);
-    userService = moduleRef.get<UserService>(UserService);
+    userRepository = mockUserRepository as UserRepository;
+    imageStorageService = {} as CloudinaryService;
+    userService = new UserService(userRepository, imageStorageService);
   });
 
   describe('handleGetExistedUser', () => {
