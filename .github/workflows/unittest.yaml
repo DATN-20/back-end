@@ -30,9 +30,6 @@ jobs:
     needs: unittest-with-coverage
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
       - name: Deploy coverage report to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
