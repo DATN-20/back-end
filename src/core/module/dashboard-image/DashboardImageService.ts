@@ -6,6 +6,7 @@ import { ImageResponse } from '../image/entity/response/ImageResponse';
 import { UserRepository } from '../user/UserRepository';
 import { Image } from '../image/entity/Image';
 import { ImageResponseJson } from '../image/entity/response/ImageResponseJson';
+import { ImageFilter } from '../image/entity/filter/ImageFilter';
 
 @Injectable()
 export class DashboardImageService {
@@ -17,16 +18,17 @@ export class DashboardImageService {
     type: DashboardImageType,
     user_id: number,
     pagination: QueryPagination,
+    filter: ImageFilter,
   ): Promise<QueryPaginationResponse<ImageResponseJson>> {
     switch (type) {
       case DashboardImageType.TOPLIKED:
-        return await this.getTopImageLiked(user_id, pagination);
+        return await this.getTopImageLiked(user_id, pagination, filter);
       case DashboardImageType.TRENDING:
-        return await this.getTopImageByWeek(InteractionType.LIKE, user_id, pagination);
+        return await this.getTopImageByWeek(InteractionType.LIKE, user_id, pagination, filter);
       case DashboardImageType.LATEST:
-        return await this.getLatestImage(user_id, pagination);
+        return await this.getLatestImage(user_id, pagination, filter);
       default:
-        return await this.getRandomImage(user_id, pagination);
+        return await this.getRandomImage(user_id, pagination, filter);
     }
   }
 
@@ -34,6 +36,7 @@ export class DashboardImageService {
     type: InteractionType,
     user_id: number,
     pagination: QueryPagination,
+    filter: ImageFilter,
   ): Promise<QueryPaginationResponse<ImageResponseJson>> {
     const from_date = new Date();
     const to_date = new Date();
@@ -44,6 +47,7 @@ export class DashboardImageService {
       from_date,
       to_date,
       type,
+      filter,
     });
 
     const main_query_result = await this.repository.getInteractionsWithinTimeRange({
@@ -51,6 +55,7 @@ export class DashboardImageService {
       to_date,
       type,
       pagination,
+      filter,
     });
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
@@ -66,11 +71,13 @@ export class DashboardImageService {
   async getTopImageLiked(
     user_id: number,
     pagination: QueryPagination,
+    filter: ImageFilter,
   ): Promise<QueryPaginationResponse<ImageResponseJson>> {
-    const total_count = await this.repository.getTotalImage();
+    const total_count = await this.repository.getTotalImage(filter);
     const main_query_result = await this.repository.getTopInteraction(
       InteractionType.LIKE,
       pagination,
+      filter,
     );
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
@@ -86,9 +93,10 @@ export class DashboardImageService {
   async getLatestImage(
     user_id: number,
     pagination: QueryPagination,
+    filter: ImageFilter,
   ): Promise<QueryPaginationResponse<ImageResponseJson>> {
-    const total_count = await this.repository.getTotalImage();
-    const main_query_result = await this.repository.getLatestImage(pagination);
+    const total_count = await this.repository.getTotalImage(filter);
+    const main_query_result = await this.repository.getLatestImage(pagination, filter);
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
 
@@ -102,9 +110,10 @@ export class DashboardImageService {
   async getRandomImage(
     user_id: number,
     pagination: QueryPagination,
+    filter: ImageFilter,
   ): Promise<QueryPaginationResponse<ImageResponseJson>> {
-    const total_count = await this.repository.getTotalImage();
-    const main_query_result = await this.repository.getRandomImage(pagination);
+    const total_count = await this.repository.getTotalImage(filter);
+    const main_query_result = await this.repository.getRandomImage(pagination, filter);
 
     const result = await this.mainQueryResultToDashboardResponse(main_query_result, user_id);
 

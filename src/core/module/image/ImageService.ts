@@ -44,6 +44,7 @@ export class ImageService {
           userId,
           url: imageUpload.url,
           storageId: imageUpload.id,
+          type: ImageType.UPLOADED,
         });
         result.push(ImageResponse.convertFromImage(image).toJson());
       }
@@ -359,5 +360,43 @@ export class ImageService {
     }
 
     return ImageResponse.convertFromImage(detail_image).toJson();
+  }
+
+  async changeVisibilityImage(user_id: number, image_id: number): Promise<void> {
+    const image = await this.imageRepository.getById(image_id);
+
+    if (!image) {
+      throw new Exception(ImageError.IMAGE_NOT_FOUND);
+    }
+
+    if (image.userId !== user_id) {
+      throw new Exception(ImageError.FORBIDDEN_IMAGES);
+    }
+
+    const new_visibility = !image.visibility;
+
+    try {
+      await this.imageRepository.updateVisibilityById(image_id, new_visibility);
+    } catch (error) {
+      throw new Exception(ImageError.FAIL_TO_CHANGE_VISIBILITY);
+    }
+  }
+
+  async handleGetImagesByUserId(
+    user_id: number,
+    pagination: QueryPagination,
+  ): Promise<QueryPaginationResponse<ImageResponseJson>> {
+    const images = await this.imageRepository.getByUserIdWithPaginition(user_id, true, pagination);
+
+    const result: ImageResponseJson[] = images.map(image =>
+      ImageResponse.convertFromImage(image).toJson(),
+    );
+    const total_count = await this.imageRepository.countTotalRecordByUserId(user_id, true);
+    return {
+      page: pagination.page,
+      limit: pagination.limit,
+      total: total_count,
+      data: result,
+    };
   }
 }

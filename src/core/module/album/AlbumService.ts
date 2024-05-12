@@ -81,14 +81,17 @@ export class AlbumService {
 
     return responseAlbum;
   }
-  async getFullInfo(user_id: number): Promise<AlbumWithImageResponse[]> {
+  async getFullInfo(user_id: number, is_guest: boolean = false): Promise<AlbumWithImageResponse[]> {
     const albums = await this.albumRepository.getByUserId(user_id);
     const albumResponses = [];
     for (let i = 0; i < albums.length; i++) {
       const album = albums[i];
-      const allImages = await this.imageAlbumService.getAllImagesInAlbum(user_id, album.id);
 
-      const responseAlbum = new AlbumWithImageResponse(album, allImages);
+      const all_images = is_guest
+        ? await this.imageAlbumService.getAllImagesInAlbumGuest(album.id)
+        : await this.imageAlbumService.getAllImagesInAlbum(user_id, album.id);
+
+      const responseAlbum = new AlbumWithImageResponse(album, all_images);
       albumResponses.push(responseAlbum);
     }
 

@@ -38,4 +38,18 @@ export class ImageAlbumRepository extends BaseRepository {
 
     return result[0].count > 0;
   }
+
+  public async getAllImageInAlbumByGuest(album_id: number): Promise<ImageAlbumDTO[]> {
+    const result = await this.database
+      .select({
+        image: images,
+        like: sql<number>`IFNULL(count(${images_interaction.imageId}),0)`.mapWith(Number),
+      })
+      .from(images_album)
+      .innerJoin(images, eq(images.id, images_album.imageId))
+      .leftJoin(images_interaction, eq(images_interaction.imageId, images.id))
+      .where(and(eq(images_album.albumId, album_id), eq(images.visibility, true)))
+      .groupBy(images.id);
+    return result;
+  }
 }

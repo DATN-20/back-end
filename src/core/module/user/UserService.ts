@@ -32,6 +32,7 @@ export class UserService {
     if (!matched_user) {
       throw new Exception(UserError.USER_NOT_FOUND);
     }
+    ProfileRequest.updateFields(profile, matched_user);
     await this.userRepository.updateProfile(user_id, profile);
     profile.socials.forEach(async social => {
       await this.userRepository.addSocial(user_id, social);

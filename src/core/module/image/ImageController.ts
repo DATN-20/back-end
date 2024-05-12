@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Query,
   UploadedFiles,
@@ -24,6 +25,7 @@ import { ProcessImageRequest } from './entity/request/ProcessImageRequest';
 import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
 import { ImageResponseJson } from './entity/response/ImageResponseJson';
 import { DashboardImageQueryRequest } from './entity/request/DashboardImageQueryRequest';
+import { ImageFilter, ImageFilterType } from './entity/filter/ImageFilter';
 
 @UseGuards(AuthGuard)
 @Controller('images')
@@ -32,6 +34,30 @@ export class ImageController {
     private readonly imageService: ImageService,
     private readonly dashboardService: DashboardImageService,
   ) {}
+
+  @Get('dashboard')
+  async getDashboardImages(
+    @Query() query_data: DashboardImageQueryRequest,
+    @User() user: UserFromAuthGuard,
+  ): Promise<Promise<QueryPaginationResponse<ImageResponseJson>>> {
+    const image_filter = {
+      aiName: query_data.aiName,
+      style: query_data.style,
+      imageType: query_data.imageType,
+    };
+
+    const pagination = {
+      page: query_data.page,
+      limit: query_data.limit,
+    };
+
+    return this.dashboardService.getImagesByType(
+      query_data.type,
+      user.id,
+      pagination,
+      image_filter,
+    );
+  }
 
   @Post()
   @HttpCode(HttpStatus.OK)
@@ -70,17 +96,6 @@ export class ImageController {
     return this.imageService.handleInteractImage(user.id, data);
   }
 
-  @Get('dashboard')
-  async getDashboardImages(
-    @Query() query_data: DashboardImageQueryRequest,
-    @User() user: UserFromAuthGuard,
-  ): Promise<any> {
-    return this.dashboardService.getImagesByType(query_data.type, user.id, {
-      page: query_data.page,
-      limit: query_data.limit,
-    });
-  }
-
   @Get('generate-history')
   async getGenerateHistoryImages(@User() user: UserFromAuthGuard): Promise<ImageResponseJson[]> {
     return this.imageService.handleGetGenerateImageHistory(user.id);
@@ -100,5 +115,25 @@ export class ImageController {
     @Query() query_data: SearchPromptRequest,
   ): Promise<QueryPaginationResponse<ImageResponseJson>> {
     return this.imageService.handleSearchPrompt(query_data);
+  }
+
+  @Patch('visibility/:id')
+  async changeVisibility(
+    @User() user: UserFromAuthGuard,
+    @Param('id') image_id: number,
+  ): Promise<string> {
+    await this.imageService.changeVisibilityImage(user.id, image_id);
+    return ImageMessage.CHANGE_VISIBILITY_SUCCESS;
+  }
+
+  @Get('user/:userId')
+  async getImageByUserId(
+    @Param('userId') user_id: number,
+    @Query() query_data: DashboardImageQueryRequest,
+  ): Promise<Promise<QueryPaginationResponse<ImageResponseJson>>> {
+    return this.imageService.handleGetImagesByUserId(user_id, {
+      page: query_data.page,
+      limit: query_data.limit,
+    });
   }
 }

@@ -82,4 +82,10 @@ export class ImageError {
     message: 'This image is private by their owner. You dont have permission to view!',
     status_code: HttpStatus.BAD_REQUEST,
   };
+
+  public static FAIL_TO_CHANGE_VISIBILITY: ErrorBase = {
+    error_code: '03011',
+    message: 'Fail to change visibility of image',
+    status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+  };
 }

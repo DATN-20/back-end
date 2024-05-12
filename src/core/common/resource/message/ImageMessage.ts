@@ -8,4 +8,5 @@ export class ImageMessage {
       ? `Un${type} image sucessfully!`
       : `${StringUtil.capitalize(type)} image sucessfully!`;
   }
+  public static CHANGE_VISIBILITY_SUCCESS = 'Change visibility success';
 }
