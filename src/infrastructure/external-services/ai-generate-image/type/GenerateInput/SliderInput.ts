@@ -20,7 +20,7 @@ export class SliderInput extends GenerateInput {
     this.step = step;
   }
 
-  additionInfo(): { max: number; min: number } {
+  additionInfo(): { max: number; min: number; step: number } {
     return {
       max: this.max,
       min: this.min,
