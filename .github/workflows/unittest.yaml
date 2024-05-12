@@ -38,5 +38,5 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages  
-          FOLDER: coverage
+          FOLDER: back-end/coverage
           CLEAN: true
