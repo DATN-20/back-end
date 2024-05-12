@@ -26,10 +26,6 @@ jobs:
       - run: npm install
       - run: npm run test
       - run: npm run test:cov
-      - name: Create coverage directory
-        run: mkdir -p coverage
-      - name: Move coverage files
-        run: mv ./coverage/* ./coverage/
   deploy-unittest-coverage-page:
     needs: unittest-with-coverage
     runs-on: ubuntu-latest
