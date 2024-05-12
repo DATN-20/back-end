@@ -40,10 +40,13 @@ jobs:
     needs: unittest-coverage
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
       - name: Deploy coverage report to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: main 
+          BRANCH: gh-pages  # Adjust branch name as needed
           FOLDER: coverage
-          CLEAN: true 
+          CLEAN: true
