@@ -13,7 +13,7 @@ import { GenerateInputs } from './entity/request/GenerateInputs';
 import { GenerateImageService } from './GenerateImageService';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { GenerateByImagesStyleInputs } from './entity/request/GenerateImageByImagesStyleInputs';
-import { InputControlnet } from '@infrastructure/external-services/ai-generate-image/comfyui/control-net/types/InputControlnet';
+import { CONTROL_NET_DEFAULT_STRENGTH } from '@infrastructure/external-services/ai-generate-image/comfyui/control-net/ComfyUIControlNetInfo';
 
 @UseGuards(AuthGuard)
 @Controller('generate-image')
@@ -26,11 +26,32 @@ export class GenerateImageController {
   }
 
   @Post('/text-to-image')
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'controlNetImages', maxCount: 10 }]))
   async generateTextToImage(
     @User() user: UserFromAuthGuard,
+    @UploadedFiles()
+    data_images: { controlNetImages?: Express.Multer.File[] },
     @Body() generate_inputs: GenerateInputs,
   ) {
-    generate_inputs.isUpscale = generate_inputs.isUpscale?.toString() === 'true';
+    generate_inputs.isUpscale ??= false;
+    generate_inputs.controlNets ??= [];
+    data_images.controlNetImages ??= [];
+
+    if (data_images.controlNetImages.length > 0 && generate_inputs.controlNets.length > 0) {
+      generate_inputs.controlNets = generate_inputs.controlNets.map((control_net, _index) => {
+        return {
+          controlNetType: control_net.controlNetType,
+          image: data_images.controlNetImages[_index].buffer,
+          strength: control_net.strength
+            ? parseInt(control_net.strength.toString())
+            : CONTROL_NET_DEFAULT_STRENGTH,
+          isPreprocessor: control_net.isPreprocessor
+            ? control_net.isPreprocessor.toString() === 'true'
+            : false,
+        };
+      });
+    }
+
     return await this.generateImageService.handleGenerateTextToImg(user.id, generate_inputs);
   }
 
@@ -48,7 +69,7 @@ export class GenerateImageController {
     @Body() generate_inputs: GenerateInputs,
   ) {
     generate_inputs.isUpscale ??= false;
-    generate_inputs.image = data_images.image[0];
+    generate_inputs.image = data_images.image ? data_images.image[0] : null;
     generate_inputs.controlNets ??= [];
     data_images.controlNetImages ??= [];
 
@@ -57,7 +78,9 @@ export class GenerateImageController {
         return {
           controlNetType: control_net.controlNetType,
           image: data_images.controlNetImages[_index].buffer,
-          strength: control_net.strength ? parseInt(control_net.strength.toString()) : 1,
+          strength: control_net.strength
+            ? parseInt(control_net.strength.toString())
+            : CONTROL_NET_DEFAULT_STRENGTH,
           isPreprocessor: control_net.isPreprocessor
             ? control_net.isPreprocessor.toString() === 'true'
             : false,

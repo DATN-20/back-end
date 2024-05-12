@@ -1,6 +1,9 @@
-import { PAGINATION_MIN_LIMIT, PAGINATION_MIN_PAGE } from '@core/common/constant/Constant';
+import {
+  DEFAULT_ALL,
+  PAGINATION_MIN_LIMIT,
+  PAGINATION_MIN_PAGE,
+} from '@core/common/constant/Constant';
 import { DashboardImageType } from '@core/common/enum/DashboardImageType';
-import { ImageType } from '@core/common/enum/ImageType';
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional, Min } from 'class-validator';
 import { ImageFilterType } from '../filter/ImageFilter';
 
@@ -20,11 +23,11 @@ export class DashboardImageQueryRequest {
   page: number;
 
   @IsOptional()
-  style: string = 'ALL';
+  style: string = DEFAULT_ALL;
 
   @IsOptional()
-  aiName: string = 'ALL';
+  aiName: string = DEFAULT_ALL;
 
   @IsOptional()
-  imageType: ImageFilterType;
+  imageType: ImageFilterType = ImageFilterType.ALL;
 }

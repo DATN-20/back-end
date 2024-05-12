@@ -25,7 +25,6 @@ import { ProcessImageRequest } from './entity/request/ProcessImageRequest';
 import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
 import { ImageResponseJson } from './entity/response/ImageResponseJson';
 import { DashboardImageQueryRequest } from './entity/request/DashboardImageQueryRequest';
-import { ImageFilter, ImageFilterType } from './entity/filter/ImageFilter';
 
 @UseGuards(AuthGuard)
 @Controller('images')
@@ -34,6 +33,45 @@ export class ImageController {
     private readonly imageService: ImageService,
     private readonly dashboardService: DashboardImageService,
   ) {}
+
+  @Post()
+  @HttpCode(HttpStatus.OK)
+  @UseInterceptors(FilesInterceptor('files'))
+  async uploadImage(
+    @UploadedFiles() files: Express.Multer.File[],
+    @User() user: UserFromAuthGuard,
+  ): Promise<ImageResponseJson[]> {
+    return this.imageService.handleUploadImages(user.id, files);
+  }
+
+  @Delete()
+  @HttpCode(HttpStatus.OK)
+  async deleteImages(@Body() images: DeleteImageRequest): Promise<string> {
+    await this.imageService.handleDeleteImages(images.ids);
+    return ImageMessage.DELETE_SUCCESS;
+  }
+
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  async getUserImages(@User() user: UserFromAuthGuard): Promise<ImageResponseJson[]> {
+    return this.imageService.handleGetImagesOfUser(user.id);
+  }
+
+  @Post('interact')
+  @HttpCode(HttpStatus.OK)
+  async interact(
+    @User() user: UserFromAuthGuard,
+    @Body() data: InteractImageRequest,
+  ): Promise<string> {
+    return this.imageService.handleInteractImage(user.id, data);
+  }
+
+  @Get('search-prompt')
+  async searchPrompt(
+    @Query() query_data: SearchPromptRequest,
+  ): Promise<QueryPaginationResponse<ImageResponseJson>> {
+    return this.imageService.handleSearchPrompt(query_data);
+  }
 
   @Get('dashboard')
   async getDashboardImages(
@@ -59,46 +97,14 @@ export class ImageController {
     );
   }
 
-  @Post()
-  @HttpCode(HttpStatus.OK)
-  @UseInterceptors(FilesInterceptor('files'))
-  async uploadImage(
-    @UploadedFiles() files: Express.Multer.File[],
-    @User() user: UserFromAuthGuard,
-  ): Promise<ImageResponseJson[]> {
-    return this.imageService.handleUploadImages(user.id, files);
-  }
-
-  @Delete()
-  @HttpCode(HttpStatus.OK)
-  async deleteImages(@Body() images: DeleteImageRequest): Promise<string> {
-    await this.imageService.handleDeleteImages(images.ids);
-    return ImageMessage.DELETE_SUCCESS;
-  }
-
-  @Get()
-  @HttpCode(HttpStatus.OK)
-  async getUserImages(@User() user: UserFromAuthGuard): Promise<ImageResponseJson[]> {
-    return this.imageService.handleGetImagesOfUser(user.id);
+  @Get('generate-history')
+  async getGenerateHistoryImages(@User() user: UserFromAuthGuard): Promise<ImageResponseJson[]> {
+    return this.imageService.handleGetGenerateImageHistory(user.id);
   }
 
   @Get(':imageId')
   async getImageById(@Param('imageId') image_id: number) {
     return this.imageService.handleGetImageById(image_id);
-  }
-
-  @Post('interact')
-  @HttpCode(HttpStatus.OK)
-  async interact(
-    @User() user: UserFromAuthGuard,
-    @Body() data: InteractImageRequest,
-  ): Promise<string> {
-    return this.imageService.handleInteractImage(user.id, data);
-  }
-
-  @Get('generate-history')
-  async getGenerateHistoryImages(@User() user: UserFromAuthGuard): Promise<ImageResponseJson[]> {
-    return this.imageService.handleGetGenerateImageHistory(user.id);
   }
 
   @Post('/:id/image-processing')
@@ -108,13 +114,6 @@ export class ImageController {
     @Body() data: ProcessImageRequest,
   ): Promise<ImageResponseJson> {
     return this.imageService.handleImageProcessing(user.id, data.processType, image_id);
-  }
-
-  @Get('search-prompt')
-  async searchPrompt(
-    @Query() query_data: SearchPromptRequest,
-  ): Promise<QueryPaginationResponse<ImageResponseJson>> {
-    return this.imageService.handleSearchPrompt(query_data);
   }
 
   @Patch('visibility/:id')
