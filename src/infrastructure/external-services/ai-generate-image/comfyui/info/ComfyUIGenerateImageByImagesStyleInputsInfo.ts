@@ -52,11 +52,11 @@ export class ComfyUIGenerateImageByImagesStyleInputsInfo {
   private stepsInputPropertyName = 'steps';
 
   private samplerChoices: { [key: string]: string } = {
-    Euler: 'euler',
+    Dpmpp_2m: 'dpmpp_2m',
   };
   private samplerDesc = '';
   private samplerName = 'Sampling Method';
-  private samplerDefault = this.samplerChoices.Euler;
+  private samplerDefault = this.samplerChoices.Dpmpp_2m;
   private sampleMethosInputPropertyName = 'sampleMethos';
 
   private cfgName = 'CFG';
@@ -67,6 +67,7 @@ export class ComfyUIGenerateImageByImagesStyleInputsInfo {
   private cfgStep = 0.5;
   private cfgInputPropertyName = 'cfg';
 
+  //unclip info
   private imageToUnclipsName = 'Image To Get Styles';
   private imageToUnclipsDesc = '';
   private imageToUnclipsInputPropertyName = 'imageToUnclips';
@@ -133,6 +134,77 @@ export class ComfyUIGenerateImageByImagesStyleInputsInfo {
     this.imageToUnclipInputPropertyName,
     this.imageToUnclipInputProps,
   );
+  //end of unclip info
+
+  //ipdapter info
+
+  private imageForIpadapterWeightName = 'Weight';
+  private imageForIpadapterWeightDesc = 'This represents the weight assigned to the image adapter.';
+  private imageForIpadapterWeightMin = 0;
+  private imageForIpadapterWeightMax = 1;
+  private imageForIpadapterWeightDefault = 1;
+  private imageForIpadapterWeightStep = 0.01;
+  private imageForIpadapterWeightInputPropertyName = 'imageForIpadapterWeight';
+
+  public imageForIpadapterWeightInput = new SliderInput(
+    this.imageForIpadapterWeightName,
+    this.imageForIpadapterWeightDesc,
+    this.imageForIpadapterWeightDefault,
+    this.imageForIpadapterWeightInputPropertyName,
+    this.imageForIpadapterWeightMin,
+    this.imageForIpadapterWeightMax,
+    this.imageForIpadapterWeightStep,
+  );
+
+  private cropPositionChoices: { [key: string]: string } = {
+    Center: 'center',
+    Top: 'top',
+    Bottom: 'bottom',
+    Left: 'left',
+    Right: 'right',
+    Pad: 'pad',
+  };
+
+  private cropPositionDesc = 'Crop the image.';
+  private cropPositionName = 'Crop Position';
+  private cropPositionDefault = this.cropPositionChoices.Center;
+  private cropPositionInputPropertyName = 'imageForIPAdapterCropPosition';
+
+  public imageForIpadapterCropPositionInput = new ChoiceInput(
+    this.cropPositionName,
+    this.cropPositionDesc,
+    this.cropPositionDefault,
+    this.cropPositionInputPropertyName,
+    this.cropPositionChoices,
+  );
+
+  private imageForIpadapterName = 'Image';
+  private imageForIpadapterDesc = '';
+  private imageForIpadapterInputPropertyName = 'imageForIpadapter';
+  private imageForIpadapterInput = new ImageInput(
+    this.imageForIpadapterName,
+    this.imageForIpadapterDesc,
+    null,
+    this.imageForIpadapterInputPropertyName,
+  );
+
+  private imageDataForIpadapterName = 'Image To Get Styles';
+  private imageDataForIpadapterDesc = '';
+  private imageDataForIpadapterInputPropertyName = 'ipadapterStyleTranferInputs';
+
+  private imageDataForIpadapterInputProps = [
+    this.imageForIpadapterInput,
+    this.imageForIpadapterWeightInput,
+    this.imageForIpadapterCropPositionInput,
+  ];
+  private imageDataForIpadapterInput = new MultipleInputs(
+    this.imageDataForIpadapterName,
+    this.imageDataForIpadapterDesc,
+    null,
+    this.imageDataForIpadapterInputPropertyName,
+    this.imageDataForIpadapterInputProps,
+  );
+  //end of adapter info
 
   public inputs: { [key: string]: GenerateInput } = {
     positivePrompt: new TextInput(
@@ -199,12 +271,19 @@ export class ComfyUIGenerateImageByImagesStyleInputsInfo {
       this.cfgMax,
       this.cfgStep,
     ),
-    imageToUnclipsName: new ArrayInputs(
-      this.imageToUnclipsName,
-      this.imageToUnclipsDesc,
+    // imageToUnclipsName: new ArrayInputs(
+    //   this.imageToUnclipsName,
+    //   this.imageToUnclipsDesc,
+    //   [],
+    //   this.imageToUnclipsInputPropertyName,
+    //   this.imageToUnclipInput,
+    // ),
+    ipadapterStyleTranferInputs: new ArrayInputs(
+      this.imageDataForIpadapterName,
+      this.imageDataForIpadapterDesc,
       [],
-      this.imageToUnclipsInputPropertyName,
-      this.imageToUnclipInput,
+      this.imageDataForIpadapterInputPropertyName,
+      this.imageDataForIpadapterInput,
     ),
   };
 }

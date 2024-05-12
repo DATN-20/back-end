@@ -1,4 +1,5 @@
 import { InputControlnet } from '../comfyui/control-net/types/InputControlnet';
+import { IpadapterStyleTranferInput } from './Ipadapter/IpadapterStyleTranferInput';
 import { ImageToUnclipInput } from './Unclip/ImageToUnClipInput';
 
 export class GenerateByImagesStyleInputPromts {
@@ -15,5 +16,6 @@ export class GenerateByImagesStyleInputPromts {
   filename: string;
   controlNets: InputControlnet[];
   imageToUnclips: ImageToUnclipInput[];
+  ipadapterStyleTranferInputs: IpadapterStyleTranferInput[];
   isUpscale: boolean;
 }

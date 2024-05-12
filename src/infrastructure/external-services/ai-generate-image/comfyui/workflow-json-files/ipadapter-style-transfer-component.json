@@ -1,0 +1,41 @@
+{
+  "%%ipadapter_advanced_node%%": {
+    "inputs": {
+      "weight": "%%ipadapter_advanced_weight%%",
+      "weight_type": "style transfer",
+      "combine_embeds": "concat",
+      "start_at": 0,
+      "end_at": 1,
+      "embeds_scaling": "K+V",
+      "model": ["%%ipadapter_advance_pre_model%%", 0],
+      "ipadapter": ["%%ipadapter_advance_ipadapter_model%%", 1],
+      "image": ["%%prep_image_for_clipvision_node%%", 0]
+    },
+    "class_type": "IPAdapterAdvanced",
+    "_meta": {
+      "title": "IPAdapter Advanced"
+    }
+  },
+  "%%load_image_node%%": {
+    "inputs": {
+      "image": "%%load_image_image_input%%",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "%%prep_image_for_clipvision_node%%": {
+    "inputs": {
+      "interpolation": "LANCZOS",
+      "crop_position": "%%prep_image_crop_position%%",
+      "sharpening": 0,
+      "image": ["%%load_image_node%%", 0]
+    },
+    "class_type": "PrepImageForClipVision",
+    "_meta": {
+      "title": "Prep Image For ClipVision"
+    }
+  }
+}
