@@ -21,7 +21,7 @@ export class ImageRepository extends BaseRepository {
     await this.database.delete(images).where(eq(images.id, id));
   }
 
-  async getByUserId(user_id: number, visibility: boolean): Promise<Image[]> {
+  async getByUserId(user_id: number, visibility: boolean = null): Promise<Image[]> {
     if (visibility === null) {
       return this.database.query.images.findMany({
         where: (image, { eq }) => eq(image.userId, user_id),

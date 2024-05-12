@@ -72,7 +72,7 @@ export class ImageService {
 
   async handleGetImagesOfUser(userId: number): Promise<ImageResponseJson[]> {
     try {
-      const images = await this.imageRepository.getByUserId(userId, null);
+      const images = await this.imageRepository.getByUserId(userId);
       const result: ImageResponseJson[] = images.map(image =>
         ImageResponse.convertFromImage(image).toJson(),
       );
@@ -376,10 +376,7 @@ export class ImageService {
     const new_visibility = !image.visibility;
 
     try {
-      const updated_image = await this.imageRepository.updateVisibilityById(
-        image_id,
-        new_visibility,
-      );
+      await this.imageRepository.updateVisibilityById(image_id, new_visibility);
     } catch (error) {
       throw new Exception(ImageError.FAIL_TO_CHANGE_VISIBILITY);
     }

@@ -40,7 +40,7 @@ export class ImageController {
     @Query() query_data: DashboardImageQueryRequest,
     @User() user: UserFromAuthGuard,
   ): Promise<Promise<QueryPaginationResponse<ImageResponseJson>>> {
-    const imageFilter = {
+    const image_filter = {
       aiName: query_data.aiName,
       style: query_data.style,
       imageType: query_data.imageType,
@@ -51,7 +51,12 @@ export class ImageController {
       limit: query_data.limit,
     };
 
-    return this.dashboardService.getImagesByType(query_data.type, user.id, pagination, imageFilter);
+    return this.dashboardService.getImagesByType(
+      query_data.type,
+      user.id,
+      pagination,
+      image_filter,
+    );
   }
 
   @Post()

@@ -1,10 +1,11 @@
 import { InteractionType } from '@core/common/enum/InteractionType';
 import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { images, images_interaction } from '@infrastructure/orm/schema';
-import { and, asc, between, desc, eq, sql } from 'drizzle-orm';
+import { and, asc, between, desc, eq, ilike, like, sql } from 'drizzle-orm';
 import { Injectable } from '@nestjs/common';
 import { Image } from '../image/entity/Image';
 import { ImageFilter, ImageFilterType } from '../image/entity/filter/ImageFilter';
+import { ImageType } from '@core/common/enum/ImageType';
 
 @Injectable()
 export class DashboardImageRepository extends BaseRepository {
@@ -25,8 +26,11 @@ export class DashboardImageRepository extends BaseRepository {
           eq(images_interaction.type, data.type),
           between(images_interaction.updatedAt, data.from_date, data.to_date),
           eq(images.visibility, true),
-          sql` ai_name like ${data.filter.aiName} and role like 
-          ${ImageFilterType[data.filter.imageType]} and model_name like ${data.filter.style} `,
+          data.filter.aiName != 'ALL' ? eq(images.aiName, data.filter.aiName) : sql`1=1`,
+          data.filter.imageType != 'ALL'
+            ? eq(images.type, ImageType[data.filter.imageType])
+            : sql`1=1`,
+          data.filter.style != 'ALL' ? eq(images.style, data.filter.style) : sql`1=1`,
         ),
       );
 
@@ -54,8 +58,11 @@ export class DashboardImageRepository extends BaseRepository {
           eq(images_interaction.type, data.type),
           between(images_interaction.updatedAt, data.from_date, data.to_date),
           eq(images.visibility, true),
-          sql` ai_name like ${data.filter.aiName} and role like 
-          ${ImageFilterType[data.filter.imageType]} and model_name like ${data.filter.style} `,
+          data.filter.aiName != 'ALL' ? eq(images.aiName, data.filter.aiName) : sql`1=1`,
+          data.filter.imageType != 'ALL'
+            ? eq(images.type, ImageType[data.filter.imageType])
+            : sql`1=1`,
+          data.filter.style != 'ALL' ? eq(images.style, data.filter.style) : sql`1=1`,
         ),
       )
       .orderBy(desc(sql`count(${images.id})`))
@@ -81,8 +88,9 @@ export class DashboardImageRepository extends BaseRepository {
         and(
           eq(images.id, images_interaction.imageId),
           eq(images_interaction.type, type),
-          sql` ai_name like ${filter.aiName} and role like 
-          ${ImageFilterType[filter.imageType]} and model_name like ${filter.style} `,
+          filter.aiName != 'ALL' ? eq(images.aiName, filter.aiName) : sql`1=1`,
+          filter.imageType != 'ALL' ? eq(images.type, ImageType[filter.imageType]) : sql`1=1`,
+          filter.style != 'ALL' ? eq(images.style, filter.style) : sql`1=1`,
         ),
       )
       .where(eq(images.visibility, true))
@@ -109,8 +117,9 @@ export class DashboardImageRepository extends BaseRepository {
         and(
           eq(images.id, images_interaction.imageId),
           eq(images_interaction.type, InteractionType.LIKE),
-          sql` ai_name like ${filter.aiName} and role like 
-           ${ImageFilterType[filter.imageType]} and model_name like ${filter.style} `,
+          filter.aiName != 'ALL' ? eq(images.aiName, filter.aiName) : sql`1=1`,
+          filter.imageType != 'ALL' ? eq(images.type, ImageType[filter.imageType]) : sql`1=1`,
+          filter.style != 'ALL' ? eq(images.style, filter.style) : sql`1=1`,
         ),
       )
       .where(eq(images.visibility, true))
@@ -131,8 +140,9 @@ export class DashboardImageRepository extends BaseRepository {
       .where(
         and(
           eq(images.visibility, true),
-          sql` ai_name like ${filter.aiName} and role like 
-           ${ImageFilterType[filter.imageType]} and model_name like ${filter.style} `,
+          filter.aiName != 'ALL' ? eq(images.aiName, filter.aiName) : sql`1=1`,
+          filter.imageType != 'ALL' ? eq(images.type, ImageType[filter.imageType]) : sql`1=1`,
+          filter.style != 'ALL' ? eq(images.style, filter.style) : sql`1=1`,
         ),
       )
       .orderBy(asc(sql`RAND()`));
@@ -156,8 +166,9 @@ export class DashboardImageRepository extends BaseRepository {
         and(
           eq(images.id, images_interaction.imageId),
           eq(images_interaction.type, InteractionType.LIKE),
-          sql` ai_name like ${filter.aiName} and role like 
-           ${ImageFilterType[filter.imageType]} and model_name like ${filter.style} `,
+          filter.aiName != 'ALL' ? eq(images.aiName, filter.aiName) : sql`1=1`,
+          filter.imageType != 'ALL' ? eq(images.type, ImageType[filter.imageType]) : sql`1=1`,
+          filter.style != 'ALL' ? eq(images.style, filter.style) : sql`1=1`,
         ),
       )
       .where(eq(images.visibility, true))

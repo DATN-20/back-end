@@ -20,10 +20,10 @@ export class DashboardImageQueryRequest {
   page: number;
 
   @IsOptional()
-  style: string = '%';
+  style: string = 'ALL';
 
   @IsOptional()
-  aiName: string = '%';
+  aiName: string = 'ALL';
 
   @IsOptional()
   imageType: ImageFilterType;
