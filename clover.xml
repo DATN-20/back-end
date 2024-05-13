@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1715524532244" clover="3.2.0">
-  <project timestamp="1715524532244" name="All files">
-    <metrics statements="2297" coveredstatements="134" conditionals="309" coveredconditionals="8" methods="381" coveredmethods="15" elements="2987" coveredelements="157" complexity="0" loc="2297" ncloc="2297" packages="62" files="166" classes="166"/>
+<coverage generated="1715580757646" clover="3.2.0">
+  <project timestamp="1715580757646" name="All files">
+    <metrics statements="2308" coveredstatements="134" conditionals="313" coveredconditionals="8" methods="384" coveredmethods="15" elements="3005" coveredelements="157" complexity="0" loc="2308" ncloc="2308" packages="62" files="167" classes="167"/>
     <package name="src">
       <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="main.ts" path="/home/runner/work/back-end/back-end/src/main.ts">
@@ -2721,7 +2721,7 @@
       </file>
     </package>
     <package name="src.infrastructure.external-services.ai-generate-image.type.GenerateInput">
-      <metrics statements="39" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="16" coveredmethods="0"/>
+      <metrics statements="50" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="19" coveredmethods="0"/>
       <file name="ArrayInputs.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/GenerateInput/ArrayInputs.ts">
         <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -2774,6 +2774,20 @@
         <line num="19" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
+      </file>
+      <file name="SliderInput.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/GenerateInput/SliderInput.ts">
+        <metrics statements="11" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="32" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
       </file>
       <file name="TextInput.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/GenerateInput/TextInput.ts">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
