@@ -122,6 +122,7 @@ export const generations = mysqlTable('generations', {
     GenerationStatus.WAITING,
     GenerationStatus.PROCESSING,
     GenerationStatus.FINISHED,
+    GenerationStatus.CANCELED,
   ]),
   userId: int('user_id')
     .notNull()

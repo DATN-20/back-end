@@ -14,4 +14,10 @@ export class GenerationError {
     message: `You reached to maximum the number of times generation. Maximum is ${MAXIMUM_THE_NUMBER_OF_GENERATIONS}!`,
     status_code: HttpStatus.FORBIDDEN,
   };
+
+  public static GENERATION_NOT_FOUND: ErrorBase = {
+    error_code: '09003',
+    message: `The generation processing is not found!`,
+    status_code: HttpStatus.NOT_FOUND,
+  };
 }

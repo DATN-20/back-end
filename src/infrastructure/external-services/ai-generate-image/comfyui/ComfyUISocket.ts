@@ -3,9 +3,9 @@ import { ComfyUIConfig } from '@infrastructure/config/ComfyUIConfig';
 import { BaseSocketClient } from '@infrastructure/socket/BaseSocketClient';
 import { v4 as uuidv4 } from 'uuid';
 import { OutputPropertyWebSocket } from './ComfyUIConstant';
-import { EventEmitterService } from '@infrastructure/event-emitter/EventEmitterService';
-import { EventEmitter2 } from '@nestjs/event-emitter';
 import { GenerationStatus } from '@core/common/enum/GenerationStatus';
+import { GenerationService } from '@core/module/generation/GenerationService';
+import { Injectable } from '@nestjs/common';
 
 export enum ComfyUITypeMessageSocket {
   EXECUTING = 'executing',
@@ -13,11 +13,12 @@ export enum ComfyUITypeMessageSocket {
   EXECUTED = 'executed',
 }
 
+@Injectable()
 export class ComfyUISokcet extends BaseSocketClient {
   private clientId: string;
-  private eventEmitterService: EventEmitterService;
+  private generationService: GenerationService;
 
-  constructor(client_id: string = uuidv4()) {
+  constructor(generation_service: GenerationService, client_id: string = uuidv4()) {
     super(
       ComfyUIConfig.COMFYUI_NAME,
       `${EnvironmentConverter.convertWebSocketInSuitableEnvironment(
@@ -25,7 +26,7 @@ export class ComfyUISokcet extends BaseSocketClient {
       )}/ws?clientId=${client_id}`,
     );
     this.clientId = client_id;
-    this.eventEmitterService = new EventEmitterService(new EventEmitter2());
+    this.generationService = generation_service;
   }
 
   public getClientId(): string {
@@ -46,17 +47,23 @@ export class ComfyUISokcet extends BaseSocketClient {
             const output_data = data.output[property];
 
             callback(output_data);
-            this.eventEmitterService.emitterGenerationStatusEvent(
-              this.clientId,
-              GenerationStatus.FINISHED,
-            );
+            if (this.generationService) {
+              this.generationService.handleChangeStatusOfGeneration(
+                this.clientId,
+                GenerationStatus.FINISHED,
+              );
+            }
 
             break;
           case ComfyUITypeMessageSocket.EXECUTING:
-            this.eventEmitterService.emitterGenerationStatusEvent(
-              this.clientId,
-              GenerationStatus.PROCESSING,
-            );
+          case ComfyUITypeMessageSocket.PROGRESS:
+            if (this.generationService) {
+              this.generationService.handleChangeStatusOfGeneration(
+                this.clientId,
+                GenerationStatus.PROCESSING,
+              );
+            }
+
             break;
           default:
             break;

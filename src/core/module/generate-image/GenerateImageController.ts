@@ -60,7 +60,11 @@ export class GenerateImageController {
     const generation = await this.generationService.handleCreateGenerationForUser(user.id);
     generate_inputs.generationId = generation.id;
 
-    this.generateImageService.handleGenerateTextToImg(user.id, generate_inputs).then(data => {});
+    this.generateImageService
+      .handleGenerateTextToImg(user.id, generate_inputs)
+      .catch(async (_error: any) => {
+        await this.generationService.handleDeleteById(generation.id);
+      });
 
     return generation;
   }

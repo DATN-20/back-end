@@ -6,7 +6,6 @@ import { ImageService } from '../image/ImageService';
 import { ImageType } from '@core/common/enum/ImageType';
 import { AIGenerateImageByImagesStyleServiceManager } from '@infrastructure/external-services/ai-generate-image/AIGenerateImageByImagesStyleServiceManager';
 import { GenerateByImagesStyleInputs } from './entity/request/GenerateImageByImagesStyleInputs';
-import { EventEmitterService } from '@infrastructure/event-emitter/EventEmitterService';
 import { GenerationStatus } from '@core/common/enum/GenerationStatus';
 
 @Injectable()
@@ -15,7 +14,6 @@ export class GenerateImageService {
     private aIGenerateImageServiceManger: AIGenerateImageServiceManger,
     private aIGenerateImageByImagesStyleServiceManager: AIGenerateImageByImagesStyleServiceManager,
     private imageService: ImageService,
-    private eventEmitterService: EventEmitterService,
   ) {}
 
   async handleGenerateTextToImg(user_id: number, generate_inputs: GenerateInputs) {
@@ -24,16 +22,12 @@ export class GenerateImageService {
       generate_inputs.aiName,
       input_promts,
     );
+
     const list_image_response = await this.imageService.handleCreateGenerateImages(
       user_id,
       list_image_buffer,
       ImageType.TEXT_TO_IMG,
       generate_inputs,
-    );
-
-    this.eventEmitterService.emitterGenerationStatusEvent(
-      generate_inputs.generationId,
-      GenerationStatus.FINISHED,
     );
 
     const result = list_image_response.map(image => image.getUrl());

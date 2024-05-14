@@ -2,9 +2,7 @@ import { DrizzleModule } from '@infrastructure/orm/DrizzleModule';
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { EventEmitterModule } from '@nestjs/event-emitter';
 import { JwtUtil } from '@core/common/util/jwt/JwtUtil';
-import { EventEmitterService } from '@infrastructure/event-emitter/EventEmitterService';
 
 @Global()
 @Module({
@@ -18,10 +16,9 @@ import { EventEmitterService } from '@infrastructure/event-emitter/EventEmitterS
         expiresIn: '1d',
       },
     }),
-    EventEmitterModule.forRoot(),
   ],
   controllers: [],
-  providers: [JwtUtil, EventEmitterService],
-  exports: [JwtUtil, EventEmitterService],
+  providers: [JwtUtil],
+  exports: [JwtUtil],
 })
 export class InfrastructureModule {}
