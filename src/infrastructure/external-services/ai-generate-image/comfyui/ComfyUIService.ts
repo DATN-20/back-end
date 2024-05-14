@@ -96,7 +96,7 @@ export class ComfyUIService
       input_prompts,
     );
 
-    const comfyui_socket = new ComfyUISokcet(this.generationService);
+    const comfyui_socket = new ComfyUISokcet(this.generationService, input_prompts.generationId);
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);
 
     return list_image_buffer;
@@ -113,7 +113,7 @@ export class ComfyUIService
       input_prompts,
     );
 
-    const comfyui_socket = new ComfyUISokcet(this.generationService);
+    const comfyui_socket = new ComfyUISokcet(this.generationService, input_prompts.generationId);
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);
 
     return list_image_buffer;

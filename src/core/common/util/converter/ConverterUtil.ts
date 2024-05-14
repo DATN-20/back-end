@@ -85,6 +85,7 @@ export class ConverterUtil {
       imageToUnclips: imageToUnlips,
       isUpscale: generate_inputs.isUpscale ?? false,
       ipadapterStyleTranferInputs: ipadapterStyleTranferInputs,
+      generationId: generate_inputs.generationId,
     };
 
     return result;
