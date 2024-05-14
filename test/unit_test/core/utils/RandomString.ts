@@ -7,4 +7,8 @@ export class RandomString {
       charset,
     });
   }
+
+  public static randomUrl(): string {
+    return `https://${this.randomString()}.com/${this.randomString()}.jpeg`;
+  }
 }

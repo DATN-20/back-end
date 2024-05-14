@@ -34,16 +34,18 @@ export class ImageService {
     if (images == null) {
       throw new Exception(ImageError.IMAGES_LIST_EMPTY);
     }
+
     const result: ImageResponseJson[] = [];
-    const imageUploadResults: ImageUploadResult[] = await this.imageStorageService.uploadImages({
+    const image_upload_results: ImageUploadResult[] = await this.imageStorageService.uploadImages({
       images,
     });
+
     try {
-      for (const imageUpload of imageUploadResults) {
+      for (const image_upload of image_upload_results) {
         const image = await this.imageRepository.create({
           userId,
-          url: imageUpload.url,
-          storageId: imageUpload.id,
+          url: image_upload.url,
+          storageId: image_upload.id,
           type: ImageType.UPLOADED,
         });
         result.push(ImageResponse.convertFromImage(image).toJson());
@@ -57,15 +59,17 @@ export class ImageService {
 
   async handleDeleteImages(imageIds: number[]): Promise<void> {
     for (const id of imageIds) {
-      this.deleteImage(id);
+      this.handleDeleteImage(id);
     }
   }
 
-  async deleteImage(id: number): Promise<void> {
+  async handleDeleteImage(id: number): Promise<void> {
     const image = await this.imageRepository.getById(id);
+
     if (!image) {
       throw new Exception(ImageError.IMAGE_NOT_FOUND);
     }
+
     await this.imageStorageService.deleteImage({ storageIds: image.storageId });
     await this.imageRepository.deleteById(id);
   }
