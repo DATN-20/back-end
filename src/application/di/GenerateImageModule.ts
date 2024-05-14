@@ -8,6 +8,7 @@ import { Module } from '@nestjs/common';
 import { UserModule } from './UserModule';
 import { ImageModule } from './ImageModule';
 import { AIGenerateImageByImagesStyleModule } from '@infrastructure/external-services/ai-generate-image/AIGenerateImageByImagesStyleModule';
+import { GenerationModule } from './GenerationModule';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AIGenerateImageByImagesStyleModule } from '@infrastructure/external-ser
     UserModule,
     ImageModule,
     AIGenerateImageByImagesStyleModule,
+    GenerationModule,
   ],
   providers: [JwtUtil, GenerateImageService],
   controllers: [GenerateImageController],

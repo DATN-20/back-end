@@ -12,6 +12,7 @@ import {
   timestamp,
   varchar,
 } from 'drizzle-orm/mysql-core';
+import { GenerationStatus } from '@core/common/enum/GenerationStatus';
 
 export const users = mysqlTable('users', {
   id: int('id').primaryKey().autoincrement(),
@@ -37,6 +38,7 @@ export const users_relations = relations(users, ({ many }) => ({
   images: many(images),
   albums: many(albums),
   images_interaction: many(images_interaction),
+  generations: many(generations),
 }));
 
 export const images = mysqlTable('images', {
@@ -111,5 +113,23 @@ export const images_interaction = mysqlTable('images_interaction', {
 
 export const images_interaction_relations = relations(images_interaction, ({ one }) => ({
   images: one(images),
+  users: one(users),
+}));
+
+export const generations = mysqlTable('generations', {
+  id: varchar('id', { length: 128 }).notNull().primaryKey(),
+  status: mysqlEnum('status', [
+    GenerationStatus.WAITING,
+    GenerationStatus.PROCESSING,
+    GenerationStatus.FINISHED,
+  ]),
+  userId: int('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  isSentMail: boolean('is_sent_mail').default(false),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+export const generations_user_relations = relations(users, ({ one }) => ({
   users: one(users),
 }));

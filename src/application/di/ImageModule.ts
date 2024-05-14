@@ -20,7 +20,7 @@ import { AIFeatureServiceModule } from '@infrastructure/external-services/ai-gen
     AIFeatureServiceModule,
   ],
   controllers: [ImageController],
-  providers: [ImageService, ImageRepository, JwtUtil],
+  providers: [ImageService, ImageRepository],
   exports: [ImageService, ImageRepository],
 })
 export class ImageModule {}

@@ -41,13 +41,14 @@ export class ComfyUIService
 
     return list_image_buffer;
   }
+
   async generateTextToImage(input_promts: InputPromts): Promise<Buffer[]> {
     this.comfyUIValidator.textToImagePromptValidate(
       this.info.generateImageBasicInputsInfo,
       input_promts,
     );
     const comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptText2Img(input_promts);
-    const comfyui_socket = new ComfyUISokcet();
+    const comfyui_socket = new ComfyUISokcet(input_promts.generationId);
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);
 
     return list_image_buffer;
@@ -59,7 +60,7 @@ export class ComfyUIService
       input_promts,
     );
     const comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptImg2Img(input_promts);
-    const comfyui_socket = new ComfyUISokcet();
+    const comfyui_socket = new ComfyUISokcet(input_promts.generationId);
     await this.comfyUIApi.uploadImage(input_promts.image.buffer, input_promts.filename);
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);
 
