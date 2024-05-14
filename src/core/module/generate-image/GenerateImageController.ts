@@ -81,7 +81,7 @@ export class GenerateImageController {
     @UploadedFiles()
     data_images: { image: Express.Multer.File[]; controlNetImages?: Express.Multer.File[] },
     @Body() generate_inputs: GenerateInputs,
-  ) {
+  ): Promise<GenerationResponseJson> {
     generate_inputs.isUpscale ??= false;
     generate_inputs.image = data_images.image ? data_images.image[0] : null;
     generate_inputs.controlNets ??= [];
@@ -102,7 +102,16 @@ export class GenerateImageController {
       });
     }
 
-    return this.generateImageService.handleGenerateImageToImage(user.id, generate_inputs);
+    const generation = await this.generationService.handleCreateGenerationForUser(user.id);
+    generate_inputs.generationId = generation.id;
+
+    this.generateImageService
+      .handleGenerateImageToImage(user.id, generate_inputs)
+      .catch(async (_error: any) => {
+        await this.generationService.handleDeleteById(generation.id);
+      });
+
+    return generation;
   }
 
   @Post('/image-by-images-style')
@@ -121,10 +130,20 @@ export class GenerateImageController {
       imageToUnclipsImages: Express.Multer.File[];
       imageForIpadapter: Express.Multer.File[];
     },
-  ) {
+  ): Promise<GenerationResponseJson> {
     //generate_inputs.imageToUnclipsImages = files.imageToUnclipsImages;
     generate_inputs.imageForIpadapters = files.imageForIpadapter;
-    return this.generateImageService.handleGenerateImageByImagesStyle(user.id, generate_inputs);
+
+    const generation = await this.generationService.handleCreateGenerationForUser(user.id);
+    generate_inputs.generationId = generation.id;
+
+    this.generateImageService
+      .handleGenerateImageByImagesStyle(user.id, generate_inputs)
+      .catch(async (_error: any) => {
+        await this.generationService.handleDeleteById(generation.id);
+      });
+
+    return generation;
   }
 
   @Get('/ai-generate-by-images-style-info')
