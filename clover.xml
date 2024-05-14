@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1715580757646" clover="3.2.0">
-  <project timestamp="1715580757646" name="All files">
-    <metrics statements="2308" coveredstatements="134" conditionals="313" coveredconditionals="8" methods="384" coveredmethods="15" elements="3005" coveredelements="157" complexity="0" loc="2308" ncloc="2308" packages="62" files="167" classes="167"/>
-    <package name="src">
+<coverage generated="1715661447686" clover="3.2.0">
+  <project timestamp="1715661447686" name="All files">
+    <metrics statements="2322" coveredstatements="695" conditionals="313" coveredconditionals="48" methods="388" coveredmethods="55" elements="3023" coveredelements="798" complexity="0" loc="2322" ncloc="2322" packages="64" files="171" classes="171"/>
+    <package name="back-end">
+      <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name=".eslintrc.js" path="/home/runner/work/back-end/back-end/.eslintrc.js">
+        <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+      </file>
+      <file name="drizzle.config.ts" path="/home/runner/work/back-end/back-end/drizzle.config.ts">
+        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="0" type="stmt"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="back-end.src">
       <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="main.ts" path="/home/runner/work/back-end/back-end/src/main.ts">
         <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
@@ -14,7 +27,7 @@
         <line num="10" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.application">
+    <package name="back-end.src.application">
       <metrics statements="20" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
       <file name="ServerApplication.ts" path="/home/runner/work/back-end/back-end/src/application/ServerApplication.ts">
         <metrics statements="20" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
@@ -40,7 +53,7 @@
         <line num="45" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.application.di">
+    <package name="back-end.src.application.di">
       <metrics statements="83" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="AlbumModule.ts" path="/home/runner/work/back-end/back-end/src/application/di/AlbumModule.ts">
         <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -156,7 +169,7 @@
         <line num="14" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.common.constant">
+    <package name="back-end.src.core.common.constant">
       <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="Constant.ts" path="/home/runner/work/back-end/back-end/src/core/common/constant/Constant.ts">
         <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -165,7 +178,7 @@
         <line num="3" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.common.decorator">
+    <package name="back-end.src.core.common.decorator">
       <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="UserDecorator.ts" path="/home/runner/work/back-end/back-end/src/core/common/decorator/UserDecorator.ts">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -175,8 +188,8 @@
         <line num="6" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.common.enum">
-      <metrics statements="31" coveredstatements="11" conditionals="16" coveredconditionals="6" methods="8" coveredmethods="3"/>
+    <package name="back-end.src.core.common.enum">
+      <metrics statements="31" coveredstatements="14" conditionals="16" coveredconditionals="8" methods="8" coveredmethods="4"/>
       <file name="DashboardImageType.ts" path="/home/runner/work/back-end/back-end/src/core/common/enum/DashboardImageType.ts">
         <metrics statements="5" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -186,23 +199,23 @@
         <line num="5" count="0" type="stmt"/>
       </file>
       <file name="EvironmentType.ts" path="/home/runner/work/back-end/back-end/src/core/common/enum/EvironmentType.ts">
-        <metrics statements="3" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-      </file>
-      <file name="ImageType.ts" path="/home/runner/work/back-end/back-end/src/core/common/enum/ImageType.ts">
-        <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
+      </file>
+      <file name="ImageType.ts" path="/home/runner/work/back-end/back-end/src/core/common/enum/ImageType.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
       </file>
       <file name="InteractionType.ts" path="/home/runner/work/back-end/back-end/src/core/common/enum/InteractionType.ts">
         <metrics statements="2" coveredstatements="2" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
-        <line num="2" count="1" type="stmt"/>
+        <line num="1" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="2" type="stmt"/>
       </file>
       <file name="MailSubject.ts" path="/home/runner/work/back-end/back-end/src/core/common/enum/MailSubject.ts">
         <metrics statements="4" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -220,10 +233,10 @@
       </file>
       <file name="UserRole.ts" path="/home/runner/work/back-end/back-end/src/core/common/enum/UserRole.ts">
         <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
+        <line num="1" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
       </file>
       <file name="VisibilityType.ts" path="/home/runner/work/back-end/back-end/src/core/common/enum/VisibilityType.ts">
         <metrics statements="4" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -233,16 +246,16 @@
         <line num="4" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.common.exception">
+    <package name="back-end.src.core.common.exception">
       <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="Exception.ts" path="/home/runner/work/back-end/back-end/src/core/common/exception/Exception.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="7" count="8" type="stmt"/>
-        <line num="8" count="8" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="7" count="16" type="stmt"/>
+        <line num="8" count="16" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.common.exception-filter">
+    <package name="back-end.src.core.common.exception-filter">
       <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="ExceptionFilterGlobal.ts" path="/home/runner/work/back-end/back-end/src/core/common/exception-filter/ExceptionFilterGlobal.ts">
         <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -256,7 +269,7 @@
         <line num="14" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.common.guard">
+    <package name="back-end.src.core.common.guard">
       <metrics statements="18" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="AuthGuard.ts" path="/home/runner/work/back-end/back-end/src/core/common/guard/AuthGuard.ts">
         <metrics statements="18" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="2" coveredmethods="0"/>
@@ -280,25 +293,25 @@
         <line num="30" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.common.repository">
+    <package name="back-end.src.core.common.repository">
       <metrics statements="4" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="BaseRepository.ts" path="/home/runner/work/back-end/back-end/src/core/common/repository/BaseRepository.ts">
         <metrics statements="4" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.common.resource.error">
-      <metrics statements="52" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+    <package name="back-end.src.core.common.resource.error">
+      <metrics statements="52" coveredstatements="34" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="AIGenerateImageError.ts" path="/home/runner/work/back-end/back-end/src/core/common/resource/error/AIGenerateImageError.ts">
-        <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
+        <metrics statements="5" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
       </file>
       <file name="AlbumError.ts" path="/home/runner/work/back-end/back-end/src/core/common/resource/error/AlbumError.ts">
         <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -320,39 +333,39 @@
         <line num="20" count="0" type="stmt"/>
       </file>
       <file name="ControlNetError.ts" path="/home/runner/work/back-end/back-end/src/core/common/resource/error/ControlNetError.ts">
-        <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
       </file>
       <file name="ErrorBase.ts" path="/home/runner/work/back-end/back-end/src/core/common/resource/error/ErrorBase.ts">
-        <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
       </file>
       <file name="ImageError.ts" path="/home/runner/work/back-end/back-end/src/core/common/resource/error/ImageError.ts">
-        <metrics statements="16" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
+        <metrics statements="16" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
         <line num="49" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="68" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="80" count="0" type="stmt"/>
-        <line num="86" count="0" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="62" count="1" type="stmt"/>
+        <line num="68" count="1" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="80" count="1" type="stmt"/>
+        <line num="86" count="1" type="stmt"/>
       </file>
       <file name="MailError.ts" path="/home/runner/work/back-end/back-end/src/core/common/resource/error/MailError.ts">
         <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -369,8 +382,8 @@
         <line num="17" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.common.resource.message">
-      <metrics statements="16" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+    <package name="back-end.src.core.common.resource.message">
+      <metrics statements="16" coveredstatements="4" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="AlbumMessage.ts" path="/home/runner/work/back-end/back-end/src/core/common/resource/message/AlbumMessage.ts">
         <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -392,22 +405,22 @@
         <line num="2" count="0" type="stmt"/>
       </file>
       <file name="ImageMessage.ts" path="/home/runner/work/back-end/back-end/src/core/common/resource/message/ImageMessage.ts">
-        <metrics statements="5" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
+        <metrics statements="5" coveredstatements="4" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
         <line num="7" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="11" count="0" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.common.type">
+    <package name="back-end.src.core.common.type">
       <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="type.d.ts" path="/home/runner/work/back-end/back-end/src/core/common/type/type.d.ts">
         <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       </file>
     </package>
-    <package name="src.core.common.util">
-      <metrics statements="21" coveredstatements="3" conditionals="3" coveredconditionals="1" methods="6" coveredmethods="1"/>
+    <package name="back-end.src.core.common.util">
+      <metrics statements="21" coveredstatements="8" conditionals="3" coveredconditionals="1" methods="6" coveredmethods="1"/>
       <file name="DateUtil.ts" path="/home/runner/work/back-end/back-end/src/core/common/util/DateUtil.ts">
         <metrics statements="3" coveredstatements="3" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
@@ -422,16 +435,16 @@
         <line num="8" count="0" type="stmt"/>
       </file>
       <file name="StringUtil.ts" path="/home/runner/work/back-end/back-end/src/core/common/util/StringUtil.ts">
-        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
+        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
       </file>
       <file name="UrlUtil.ts" path="/home/runner/work/back-end/back-end/src/core/common/util/UrlUtil.ts">
-        <metrics statements="12" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
+        <metrics statements="12" coveredstatements="4" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
@@ -442,8 +455,8 @@
         <line num="23" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.common.util.converter">
-      <metrics statements="23" coveredstatements="0" conditionals="18" coveredconditionals="0" methods="6" coveredmethods="0"/>
+    <package name="back-end.src.core.common.util.converter">
+      <metrics statements="23" coveredstatements="2" conditionals="18" coveredconditionals="0" methods="6" coveredmethods="0"/>
       <file name="ConverterUtil.ts" path="/home/runner/work/back-end/back-end/src/core/common/util/converter/ConverterUtil.ts">
         <metrics statements="15" coveredstatements="0" conditionals="16" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="8" count="0" type="stmt"/>
@@ -463,9 +476,9 @@
         <line num="89" count="0" type="stmt"/>
       </file>
       <file name="EnvironmentConverter.ts" path="/home/runner/work/back-end/back-end/src/core/common/util/converter/EnvironmentConverter.ts">
-        <metrics statements="8" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
+        <metrics statements="8" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
         <line num="5" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="6" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
@@ -474,7 +487,7 @@
         <line num="17" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.common.util.hash">
+    <package name="back-end.src.core.common.util.hash">
       <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
       <file name="BcryptHash.ts" path="/home/runner/work/back-end/back-end/src/core/common/util/hash/BcryptHash.ts">
         <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
@@ -488,7 +501,7 @@
         <line num="17" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.common.util.jwt">
+    <package name="back-end.src.core.common.util.jwt">
       <metrics statements="19" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="4" coveredmethods="0"/>
       <file name="JwtUtil.ts" path="/home/runner/work/back-end/back-end/src/core/common/util/jwt/JwtUtil.ts">
         <metrics statements="19" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="4" coveredmethods="0"/>
@@ -513,7 +526,7 @@
         <line num="47" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.album">
+    <package name="back-end.src.core.module.album">
       <metrics statements="95" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="26" coveredmethods="0"/>
       <file name="AlbumController.ts" path="/home/runner/work/back-end/back-end/src/core/module/album/AlbumController.ts">
         <metrics statements="32" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="0"/>
@@ -620,7 +633,7 @@
         <line num="98" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.album.entity.request">
+    <package name="back-end.src.core.module.album.entity.request">
       <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="CreateAlbumReq.ts" path="/home/runner/work/back-end/back-end/src/core/module/album/entity/request/CreateAlbumReq.ts">
         <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -641,7 +654,7 @@
         <line num="5" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.album.entity.response">
+    <package name="back-end.src.core.module.album.entity.response">
       <metrics statements="14" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="0"/>
       <file name="AlbumResponse.ts" path="/home/runner/work/back-end/back-end/src/core/module/album/entity/response/AlbumResponse.ts">
         <metrics statements="11" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="0"/>
@@ -664,7 +677,7 @@
         <line num="10" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.auth">
+    <package name="back-end.src.core.module.auth">
       <metrics statements="85" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="16" coveredmethods="0"/>
       <file name="AuthConstant.ts" path="/home/runner/work/back-end/back-end/src/core/module/auth/AuthConstant.ts">
         <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -761,7 +774,7 @@
         <line num="142" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.auth.entity.request">
+    <package name="back-end.src.core.module.auth.entity.request">
       <metrics statements="23" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="ChangePasswordRequest.ts" path="/home/runner/work/back-end/back-end/src/core/module/auth/entity/request/ChangePasswordRequest.ts">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -802,7 +815,7 @@
         <line num="5" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.auth.entity.response">
+    <package name="back-end.src.core.module.auth.entity.response">
       <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
       <file name="SignInResponse.ts" path="/home/runner/work/back-end/back-end/src/core/module/auth/entity/response/SignInResponse.ts">
         <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
@@ -813,7 +826,7 @@
         <line num="17" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.dashboard-image">
+    <package name="back-end.src.core.module.dashboard-image">
       <metrics statements="63" coveredstatements="0" conditionals="45" coveredconditionals="0" methods="15" coveredmethods="0"/>
       <file name="DashboardImageRepository.ts" path="/home/runner/work/back-end/back-end/src/core/module/dashboard-image/DashboardImageRepository.ts">
         <metrics statements="23" coveredstatements="0" conditionals="41" coveredconditionals="0" methods="8" coveredmethods="0"/>
@@ -885,7 +898,7 @@
         <line num="140" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.generate-image">
+    <package name="back-end.src.core.module.generate-image">
       <metrics statements="61" coveredstatements="0" conditionals="16" coveredconditionals="0" methods="17" coveredmethods="0"/>
       <file name="GenerateImageController.ts" path="/home/runner/work/back-end/back-end/src/core/module/generate-image/GenerateImageController.ts">
         <metrics statements="34" coveredstatements="0" conditionals="16" coveredconditionals="0" methods="8" coveredmethods="0"/>
@@ -955,7 +968,7 @@
         <line num="83" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.generate-image.entity.request">
+    <package name="back-end.src.core.module.generate-image.entity.request">
       <metrics statements="38" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="GenerateImageByImagesStyleInputs.ts" path="/home/runner/work/back-end/back-end/src/core/module/generate-image/entity/request/GenerateImageByImagesStyleInputs.ts">
         <metrics statements="21" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -1002,8 +1015,8 @@
         <line num="34" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.image">
-      <metrics statements="210" coveredstatements="0" conditionals="35" coveredconditionals="0" methods="52" coveredmethods="0"/>
+    <package name="back-end.src.core.module.image">
+      <metrics statements="210" coveredstatements="44" conditionals="35" coveredconditionals="2" methods="52" coveredmethods="6"/>
       <file name="ImageController.ts" path="/home/runner/work/back-end/back-end/src/core/module/image/ImageController.ts">
         <metrics statements="41" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -1049,11 +1062,11 @@
         <line num="133" count="0" type="stmt"/>
       </file>
       <file name="ImageRepository.ts" path="/home/runner/work/back-end/back-end/src/core/module/image/ImageRepository.ts">
-        <metrics statements="33" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="18" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
+        <metrics statements="33" coveredstatements="4" conditionals="10" coveredconditionals="0" methods="18" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
@@ -1085,155 +1098,155 @@
         <line num="122" count="0" type="cond" truecount="0" falsecount="2"/>
       </file>
       <file name="ImageService.ts" path="/home/runner/work/back-end/back-end/src/core/module/image/ImageService.ts">
-        <metrics statements="136" coveredstatements="0" conditionals="25" coveredconditionals="0" methods="22" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="34" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="65" count="0" type="stmt"/>
-        <line num="66" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="69" count="0" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
-        <line num="77" count="0" type="stmt"/>
-        <line num="80" count="0" type="stmt"/>
-        <line num="82" count="0" type="stmt"/>
-        <line num="87" count="0" type="stmt"/>
-        <line num="93" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="94" count="0" type="stmt"/>
-        <line num="100" count="0" type="stmt"/>
-        <line num="103" count="0" type="stmt"/>
-        <line num="109" count="0" type="stmt"/>
-        <line num="119" count="0" type="stmt"/>
-        <line num="121" count="0" type="stmt"/>
+        <metrics statements="136" coveredstatements="40" conditionals="25" coveredconditionals="2" methods="22" coveredmethods="6"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="34" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="45" count="3" type="stmt"/>
+        <line num="51" count="2" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="62" count="3" type="stmt"/>
+        <line num="67" count="2" type="stmt"/>
+        <line num="69" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="70" count="1" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="78" count="2" type="stmt"/>
+        <line num="79" count="2" type="stmt"/>
+        <line num="80" count="1" type="stmt"/>
+        <line num="81" count="2" type="stmt"/>
+        <line num="84" count="1" type="stmt"/>
+        <line num="86" count="1" type="stmt"/>
+        <line num="91" count="0" type="stmt"/>
+        <line num="97" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="98" count="0" type="stmt"/>
+        <line num="104" count="0" type="stmt"/>
+        <line num="107" count="0" type="stmt"/>
+        <line num="113" count="0" type="stmt"/>
         <line num="123" count="0" type="stmt"/>
-        <line num="124" count="0" type="stmt"/>
-        <line num="132" count="0" type="stmt"/>
-        <line num="135" count="0" type="stmt"/>
-        <line num="145" count="0" type="stmt"/>
-        <line num="147" count="0" type="stmt"/>
-        <line num="157" count="0" type="stmt"/>
-        <line num="159" count="0" type="stmt"/>
+        <line num="125" count="0" type="stmt"/>
+        <line num="127" count="0" type="stmt"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="136" count="0" type="stmt"/>
+        <line num="139" count="0" type="stmt"/>
+        <line num="149" count="0" type="stmt"/>
+        <line num="151" count="0" type="stmt"/>
         <line num="161" count="0" type="stmt"/>
-        <line num="171" count="0" type="stmt"/>
-        <line num="173" count="0" type="stmt"/>
+        <line num="163" count="0" type="stmt"/>
+        <line num="165" count="0" type="stmt"/>
         <line num="175" count="0" type="stmt"/>
-        <line num="176" count="0" type="stmt"/>
-        <line num="184" count="0" type="stmt"/>
-        <line num="187" count="0" type="stmt"/>
-        <line num="197" count="0" type="stmt"/>
-        <line num="199" count="0" type="stmt"/>
-        <line num="208" count="0" type="stmt"/>
-        <line num="210" count="0" type="stmt"/>
+        <line num="177" count="0" type="stmt"/>
+        <line num="179" count="0" type="stmt"/>
+        <line num="180" count="0" type="stmt"/>
+        <line num="188" count="0" type="stmt"/>
+        <line num="191" count="0" type="stmt"/>
+        <line num="201" count="0" type="stmt"/>
+        <line num="203" count="0" type="stmt"/>
         <line num="212" count="0" type="stmt"/>
+        <line num="214" count="0" type="stmt"/>
         <line num="216" count="0" type="stmt"/>
-        <line num="217" count="0" type="stmt"/>
-        <line num="222" count="0" type="stmt"/>
-        <line num="224" count="0" type="stmt"/>
+        <line num="220" count="0" type="stmt"/>
+        <line num="221" count="0" type="stmt"/>
         <line num="226" count="0" type="stmt"/>
-        <line num="227" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="231" count="0" type="stmt"/>
+        <line num="228" count="0" type="stmt"/>
+        <line num="230" count="0" type="stmt"/>
+        <line num="231" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="235" count="0" type="stmt"/>
-        <line num="236" count="0" type="stmt"/>
         <line num="239" count="0" type="stmt"/>
-        <line num="241" count="0" type="stmt"/>
-        <line num="249" count="0" type="stmt"/>
-        <line num="251" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="252" count="0" type="stmt"/>
-        <line num="255" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="240" count="0" type="stmt"/>
+        <line num="243" count="0" type="stmt"/>
+        <line num="245" count="0" type="stmt"/>
+        <line num="253" count="0" type="stmt"/>
+        <line num="255" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="256" count="0" type="stmt"/>
         <line num="259" count="0" type="cond" truecount="0" falsecount="3"/>
-        <line num="261" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="262" count="0" type="stmt"/>
-        <line num="264" count="0" type="stmt"/>
-        <line num="267" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="260" count="0" type="stmt"/>
+        <line num="263" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="265" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="266" count="0" type="stmt"/>
         <line num="268" count="0" type="stmt"/>
-        <line num="270" count="0" type="stmt"/>
+        <line num="271" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="272" count="0" type="stmt"/>
-        <line num="275" count="0" type="stmt"/>
-        <line num="278" count="0" type="cond" truecount="0" falsecount="3"/>
-        <line num="280" count="0" type="stmt"/>
+        <line num="274" count="0" type="stmt"/>
+        <line num="276" count="0" type="stmt"/>
+        <line num="279" count="0" type="stmt"/>
+        <line num="282" count="0" type="cond" truecount="0" falsecount="3"/>
         <line num="284" count="0" type="stmt"/>
-        <line num="286" count="0" type="stmt"/>
+        <line num="288" count="0" type="stmt"/>
         <line num="290" count="0" type="stmt"/>
-        <line num="292" count="0" type="stmt"/>
-        <line num="295" count="0" type="stmt"/>
-        <line num="301" count="0" type="stmt"/>
-        <line num="309" count="0" type="stmt"/>
-        <line num="313" count="0" type="cond" truecount="0" falsecount="3"/>
-        <line num="315" count="0" type="stmt"/>
+        <line num="294" count="0" type="stmt"/>
+        <line num="296" count="0" type="stmt"/>
+        <line num="299" count="0" type="stmt"/>
+        <line num="305" count="0" type="stmt"/>
+        <line num="313" count="0" type="stmt"/>
+        <line num="317" count="0" type="cond" truecount="0" falsecount="3"/>
         <line num="319" count="0" type="stmt"/>
-        <line num="321" count="0" type="stmt"/>
+        <line num="323" count="0" type="stmt"/>
         <line num="325" count="0" type="stmt"/>
-        <line num="327" count="0" type="stmt"/>
-        <line num="330" count="0" type="stmt"/>
-        <line num="332" count="0" type="stmt"/>
-        <line num="338" count="0" type="stmt"/>
-        <line num="343" count="0" type="stmt"/>
-        <line num="344" count="0" type="stmt"/>
-        <line num="345" count="0" type="stmt"/>
+        <line num="329" count="0" type="stmt"/>
+        <line num="331" count="0" type="stmt"/>
+        <line num="334" count="0" type="stmt"/>
+        <line num="336" count="0" type="stmt"/>
+        <line num="342" count="0" type="stmt"/>
         <line num="347" count="0" type="stmt"/>
         <line num="348" count="0" type="stmt"/>
+        <line num="349" count="0" type="stmt"/>
+        <line num="351" count="0" type="stmt"/>
         <line num="352" count="0" type="stmt"/>
-        <line num="354" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="355" count="0" type="stmt"/>
+        <line num="356" count="0" type="stmt"/>
         <line num="358" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="359" count="0" type="stmt"/>
-        <line num="362" count="0" type="stmt"/>
+        <line num="362" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="363" count="0" type="stmt"/>
         <line num="366" count="0" type="stmt"/>
-        <line num="368" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="369" count="0" type="stmt"/>
+        <line num="370" count="0" type="stmt"/>
         <line num="372" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="373" count="0" type="stmt"/>
-        <line num="376" count="0" type="stmt"/>
-        <line num="378" count="0" type="stmt"/>
-        <line num="379" count="0" type="stmt"/>
-        <line num="381" count="0" type="stmt"/>
-        <line num="389" count="0" type="stmt"/>
-        <line num="391" count="0" type="stmt"/>
-        <line num="392" count="0" type="stmt"/>
-        <line num="394" count="0" type="stmt"/>
+        <line num="376" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="377" count="0" type="stmt"/>
+        <line num="380" count="0" type="stmt"/>
+        <line num="382" count="0" type="stmt"/>
+        <line num="383" count="0" type="stmt"/>
+        <line num="385" count="0" type="stmt"/>
+        <line num="393" count="0" type="stmt"/>
         <line num="395" count="0" type="stmt"/>
+        <line num="396" count="0" type="stmt"/>
+        <line num="398" count="0" type="stmt"/>
+        <line num="399" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.image.entity">
-      <metrics statements="3" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+    <package name="back-end.src.core.module.image.entity">
+      <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
       <file name="ProcessType.ts" path="/home/runner/work/back-end/back-end/src/core/module/image/entity/ProcessType.ts">
-        <metrics statements="3" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
+        <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.image.entity.filter">
+    <package name="back-end.src.core.module.image.entity.filter">
       <metrics statements="10" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="ImageFilter.ts" path="/home/runner/work/back-end/back-end/src/core/module/image/entity/filter/ImageFilter.ts">
         <metrics statements="10" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
@@ -1249,7 +1262,7 @@
         <line num="20" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.image.entity.request">
+    <package name="back-end.src.core.module.image.entity.request">
       <metrics statements="29" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="DashboardImageQueryRequest.ts" path="/home/runner/work/back-end/back-end/src/core/module/image/entity/request/DashboardImageQueryRequest.ts">
         <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -1296,11 +1309,11 @@
         <line num="16" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.image.entity.response">
-      <metrics statements="30" coveredstatements="0" conditionals="9" coveredconditionals="0" methods="11" coveredmethods="0"/>
+    <package name="back-end.src.core.module.image.entity.response">
+      <metrics statements="30" coveredstatements="20" conditionals="9" coveredconditionals="8" methods="11" coveredmethods="4"/>
       <file name="GenerateImageListResponse.ts" path="/home/runner/work/back-end/back-end/src/core/module/image/entity/response/GenerateImageListResponse.ts">
-        <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="5" count="0" type="stmt"/>
+        <metrics statements="9" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
+        <line num="5" count="1" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
@@ -1311,31 +1324,31 @@
         <line num="31" count="0" type="stmt"/>
       </file>
       <file name="ImageResponse.ts" path="/home/runner/work/back-end/back-end/src/core/module/image/entity/response/ImageResponse.ts">
-        <metrics statements="21" coveredstatements="0" conditionals="9" coveredconditionals="0" methods="5" coveredmethods="0"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="36" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="45" count="0" type="cond" truecount="0" falsecount="2"/>
+        <metrics statements="21" coveredstatements="19" conditionals="9" coveredconditionals="8" methods="5" coveredmethods="4"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="24" count="8" type="stmt"/>
+        <line num="25" count="8" type="stmt"/>
+        <line num="26" count="8" type="stmt"/>
+        <line num="27" count="8" type="stmt"/>
+        <line num="28" count="8" type="stmt"/>
+        <line num="29" count="8" type="stmt"/>
+        <line num="30" count="8" type="stmt"/>
+        <line num="31" count="8" type="stmt"/>
+        <line num="32" count="8" type="stmt"/>
+        <line num="33" count="8" type="stmt"/>
+        <line num="34" count="8" type="stmt"/>
+        <line num="35" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="36" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="37" count="8" type="stmt"/>
+        <line num="41" count="8" type="stmt"/>
+        <line num="45" count="8" type="cond" truecount="1" falsecount="1"/>
         <line num="46" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
+        <line num="54" count="8" type="stmt"/>
+        <line num="59" count="8" type="stmt"/>
         <line num="77" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.images-album">
+    <package name="back-end.src.core.module.images-album">
       <metrics statements="45" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="14" coveredmethods="0"/>
       <file name="ImageAlbumRepository.ts" path="/home/runner/work/back-end/back-end/src/core/module/images-album/ImageAlbumRepository.ts">
         <metrics statements="12" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
@@ -1389,14 +1402,14 @@
         <line num="71" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.images-album.entity.dto">
+    <package name="back-end.src.core.module.images-album.entity.dto">
       <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="ImageAlbumDTO.ts" path="/home/runner/work/back-end/back-end/src/core/module/images-album/entity/dto/ImageAlbumDTO.ts">
         <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="3" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.images-album.entity.request">
+    <package name="back-end.src.core.module.images-album.entity.request">
       <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="ImageAlbumRequest.ts" path="/home/runner/work/back-end/back-end/src/core/module/images-album/entity/request/ImageAlbumRequest.ts">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -1406,7 +1419,7 @@
         <line num="8" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.images-album.entity.response">
+    <package name="back-end.src.core.module.images-album.entity.response">
       <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="ImageAlbumResponse.ts" path="/home/runner/work/back-end/back-end/src/core/module/images-album/entity/response/ImageAlbumResponse.ts">
         <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -1414,14 +1427,14 @@
         <line num="21" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.images-interaction">
-      <metrics statements="12" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
+    <package name="back-end.src.core.module.images-interaction">
+      <metrics statements="12" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
       <file name="ImageInteractionRepository.ts" path="/home/runner/work/back-end/back-end/src/core/module/images-interaction/ImageInteractionRepository.ts">
-        <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
+        <metrics statements="8" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
@@ -1435,7 +1448,7 @@
         <line num="6" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.user">
+    <package name="back-end.src.core.module.user">
       <metrics statements="76" coveredstatements="42" conditionals="3" coveredconditionals="1" methods="25" coveredmethods="8"/>
       <file name="UserController.ts" path="/home/runner/work/back-end/back-end/src/core/module/user/UserController.ts">
         <metrics statements="20" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
@@ -1523,7 +1536,7 @@
         <line num="81" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.user.entity.request">
+    <package name="back-end.src.core.module.user.entity.request">
       <metrics statements="22" coveredstatements="21" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
       <file name="ProfileRequest.ts" path="/home/runner/work/back-end/back-end/src/core/module/user/entity/request/ProfileRequest.ts">
         <metrics statements="18" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
@@ -1554,7 +1567,7 @@
         <line num="10" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.core.module.user.entity.response">
+    <package name="back-end.src.core.module.user.entity.response">
       <metrics statements="16" coveredstatements="16" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="UserProfileResponse.ts" path="/home/runner/work/back-end/back-end/src/core/module/user/entity/response/UserProfileResponse.ts">
         <metrics statements="16" coveredstatements="16" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
@@ -1576,8 +1589,8 @@
         <line num="32" count="6" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.config">
-      <metrics statements="32" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.config">
+      <metrics statements="32" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="ApiServerConfig.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/config/ApiServerConfig.ts">
         <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -1595,21 +1608,21 @@
         <line num="10" count="0" type="stmt"/>
       </file>
       <file name="ComfyUIConfig.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/config/ComfyUIConfig.ts">
-        <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-      </file>
-      <file name="DatabaseConfig.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/config/DatabaseConfig.ts">
-        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
+      </file>
+      <file name="DatabaseConfig.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/config/DatabaseConfig.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
       </file>
       <file name="FrontEndConfig.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/config/FrontEndConfig.ts">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -1629,13 +1642,13 @@
         <line num="12" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image">
-      <metrics statements="57" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="12" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image">
+      <metrics statements="57" coveredstatements="3" conditionals="4" coveredconditionals="0" methods="12" coveredmethods="0"/>
       <file name="AIFeatureServiceManager.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/AIFeatureServiceManager.ts">
-        <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
+        <metrics statements="7" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
@@ -1707,19 +1720,19 @@
         <line num="45" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.comfyui">
-      <metrics statements="449" coveredstatements="0" conditionals="101" coveredconditionals="0" methods="55" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.comfyui">
+      <metrics statements="449" coveredstatements="57" conditionals="101" coveredconditionals="4" methods="55" coveredmethods="2"/>
       <file name="ComfyUIApi.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/ComfyUIApi.ts">
-        <metrics statements="44" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="11" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
+        <metrics statements="44" coveredstatements="9" conditionals="3" coveredconditionals="0" methods="11" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
@@ -1757,20 +1770,20 @@
         <line num="127" count="0" type="stmt"/>
       </file>
       <file name="ComfyUIConstant.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/ComfyUIConstant.ts">
-        <metrics statements="4" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="5" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
+        <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="5" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
       </file>
       <file name="ComfyUIConverter.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/ComfyUIConverter.ts">
-        <metrics statements="104" coveredstatements="0" conditionals="14" coveredconditionals="0" methods="5" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
+        <metrics statements="104" coveredstatements="6" conditionals="14" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
@@ -1871,20 +1884,20 @@
         <line num="190" count="0" type="stmt"/>
       </file>
       <file name="ComfyUIFeature.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/ComfyUIFeature.ts">
-        <metrics statements="74" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="9" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
+        <metrics statements="74" coveredstatements="13" conditionals="2" coveredconditionals="0" methods="9" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
@@ -1965,15 +1978,15 @@
         <line num="32" count="0" type="stmt"/>
       </file>
       <file name="ComfyUIService.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/ComfyUIService.ts">
-        <metrics statements="47" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="0"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
+        <metrics statements="47" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="0"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
@@ -2015,16 +2028,16 @@
         <line num="123" count="0" type="stmt"/>
       </file>
       <file name="ComfyUISocket.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/ComfyUISocket.ts">
-        <metrics statements="18" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="5" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="7" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
+        <metrics statements="18" coveredstatements="9" conditionals="5" coveredconditionals="2" methods="5" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="7" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
@@ -2036,8 +2049,8 @@
         <line num="41" count="0" type="stmt"/>
       </file>
       <file name="ComfyUIUtil.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/ComfyUIUtil.ts">
-        <metrics statements="9" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="4" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
+        <metrics statements="9" coveredstatements="1" conditionals="1" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
         <line num="4" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="5" count="0" type="stmt"/>
@@ -2048,14 +2061,14 @@
         <line num="18" count="0" type="stmt"/>
       </file>
       <file name="ComfyUIValidator.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/ComfyUIValidator.ts">
-        <metrics statements="135" coveredstatements="0" conditionals="74" coveredconditionals="0" methods="8" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
+        <metrics statements="135" coveredstatements="7" conditionals="74" coveredconditionals="0" methods="8" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
         <line num="19" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="20" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
@@ -2186,16 +2199,16 @@
         <line num="314" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.comfyui.control-net">
-      <metrics statements="89" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.comfyui.control-net">
+      <metrics statements="89" coveredstatements="49" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="1"/>
       <file name="ComfyUIControlNet.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/control-net/ComfyUIControlNet.ts">
-        <metrics statements="42" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
+        <metrics statements="42" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
@@ -2234,309 +2247,309 @@
         <line num="132" count="0" type="stmt"/>
       </file>
       <file name="ComfyUIControlNetInfo.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/control-net/ComfyUIControlNetInfo.ts">
-        <metrics statements="39" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="50" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="61" count="0" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="63" count="0" type="stmt"/>
-        <line num="64" count="0" type="stmt"/>
-        <line num="71" count="0" type="stmt"/>
-        <line num="72" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="80" count="0" type="stmt"/>
-        <line num="88" count="0" type="stmt"/>
+        <metrics statements="39" coveredstatements="39" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="10" type="stmt"/>
+        <line num="14" count="10" type="stmt"/>
+        <line num="16" count="10" type="stmt"/>
+        <line num="17" count="10" type="stmt"/>
+        <line num="18" count="10" type="stmt"/>
+        <line num="19" count="10" type="stmt"/>
+        <line num="20" count="10" type="stmt"/>
+        <line num="21" count="10" type="stmt"/>
+        <line num="31" count="10" type="stmt"/>
+        <line num="32" count="10" type="stmt"/>
+        <line num="33" count="10" type="stmt"/>
+        <line num="39" count="10" type="stmt"/>
+        <line num="40" count="10" type="stmt"/>
+        <line num="41" count="10" type="stmt"/>
+        <line num="49" count="10" type="stmt"/>
+        <line num="50" count="10" type="stmt"/>
+        <line num="51" count="10" type="stmt"/>
+        <line num="52" count="10" type="stmt"/>
+        <line num="53" count="10" type="stmt"/>
+        <line num="60" count="10" type="stmt"/>
+        <line num="61" count="10" type="stmt"/>
+        <line num="62" count="10" type="stmt"/>
+        <line num="63" count="10" type="stmt"/>
+        <line num="64" count="10" type="stmt"/>
+        <line num="71" count="10" type="stmt"/>
+        <line num="72" count="10" type="stmt"/>
+        <line num="73" count="10" type="stmt"/>
+        <line num="74" count="10" type="stmt"/>
+        <line num="80" count="10" type="stmt"/>
+        <line num="88" count="10" type="stmt"/>
       </file>
       <file name="ControlNetModelMapping.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/control-net/ControlNetModelMapping.ts">
-        <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
+        <metrics statements="8" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
         <line num="29" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.comfyui.control-net.types">
-      <metrics statements="25" coveredstatements="0" conditionals="8" coveredconditionals="0" methods="4" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.comfyui.control-net.types">
+      <metrics statements="25" coveredstatements="24" conditionals="8" coveredconditionals="8" methods="4" coveredmethods="4"/>
       <file name="AIOPreprocessorType.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/control-net/types/AIOPreprocessorType.ts">
-        <metrics statements="5" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
+        <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
       </file>
       <file name="ControlNetType.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/control-net/types/ControlNetType.ts">
-        <metrics statements="5" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
+        <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
       </file>
       <file name="ControlnetNameEnum.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/control-net/types/ControlnetNameEnum.ts">
-        <metrics statements="5" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
+        <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
       </file>
       <file name="InputControlnet.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/control-net/types/InputControlnet.ts">
         <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="3" count="0" type="stmt"/>
       </file>
       <file name="NodeControlnetEnum.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/control-net/types/NodeControlnetEnum.ts">
-        <metrics statements="9" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
+        <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.comfyui.info">
-      <metrics statements="187" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.comfyui.info">
+      <metrics statements="187" coveredstatements="187" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
       <file name="ComfyUIGenerateImageBasicInputsInfo.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/info/ComfyUIGenerateImageBasicInputsInfo.ts">
-        <metrics statements="71" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="50" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="65" count="0" type="stmt"/>
-        <line num="66" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="68" count="0" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="71" count="0" type="stmt"/>
-        <line num="72" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
-        <line num="78" count="0" type="stmt"/>
-        <line num="79" count="0" type="stmt"/>
-        <line num="80" count="0" type="stmt"/>
-        <line num="81" count="0" type="stmt"/>
-        <line num="82" count="0" type="stmt"/>
-        <line num="83" count="0" type="stmt"/>
-        <line num="84" count="0" type="stmt"/>
-        <line num="86" count="0" type="stmt"/>
-        <line num="87" count="0" type="stmt"/>
-        <line num="88" count="0" type="stmt"/>
-        <line num="90" count="0" type="stmt"/>
+        <metrics statements="71" coveredstatements="71" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="5" type="stmt"/>
+        <line num="13" count="5" type="stmt"/>
+        <line num="14" count="5" type="stmt"/>
+        <line num="15" count="5" type="stmt"/>
+        <line num="16" count="5" type="stmt"/>
+        <line num="18" count="5" type="stmt"/>
+        <line num="19" count="5" type="stmt"/>
+        <line num="20" count="5" type="stmt"/>
+        <line num="22" count="5" type="stmt"/>
+        <line num="23" count="5" type="stmt"/>
+        <line num="24" count="5" type="stmt"/>
+        <line num="26" count="5" type="stmt"/>
+        <line num="27" count="5" type="stmt"/>
+        <line num="28" count="5" type="stmt"/>
+        <line num="29" count="5" type="stmt"/>
+        <line num="30" count="5" type="stmt"/>
+        <line num="31" count="5" type="stmt"/>
+        <line num="32" count="5" type="stmt"/>
+        <line num="34" count="5" type="stmt"/>
+        <line num="35" count="5" type="stmt"/>
+        <line num="36" count="5" type="stmt"/>
+        <line num="37" count="5" type="stmt"/>
+        <line num="38" count="5" type="stmt"/>
+        <line num="39" count="5" type="stmt"/>
+        <line num="40" count="5" type="stmt"/>
+        <line num="42" count="5" type="stmt"/>
+        <line num="43" count="5" type="stmt"/>
+        <line num="44" count="5" type="stmt"/>
+        <line num="45" count="5" type="stmt"/>
+        <line num="46" count="5" type="stmt"/>
+        <line num="47" count="5" type="stmt"/>
+        <line num="48" count="5" type="stmt"/>
+        <line num="50" count="5" type="stmt"/>
+        <line num="51" count="5" type="stmt"/>
+        <line num="52" count="5" type="stmt"/>
+        <line num="54" count="5" type="stmt"/>
+        <line num="55" count="5" type="stmt"/>
+        <line num="56" count="5" type="stmt"/>
+        <line num="57" count="5" type="stmt"/>
+        <line num="58" count="5" type="stmt"/>
+        <line num="59" count="5" type="stmt"/>
+        <line num="60" count="5" type="stmt"/>
+        <line num="62" count="5" type="stmt"/>
+        <line num="65" count="5" type="stmt"/>
+        <line num="66" count="5" type="stmt"/>
+        <line num="67" count="5" type="stmt"/>
+        <line num="68" count="5" type="stmt"/>
+        <line num="70" count="5" type="stmt"/>
+        <line num="71" count="5" type="stmt"/>
+        <line num="72" count="5" type="stmt"/>
+        <line num="73" count="5" type="stmt"/>
+        <line num="74" count="5" type="stmt"/>
+        <line num="75" count="5" type="stmt"/>
+        <line num="76" count="5" type="stmt"/>
+        <line num="78" count="5" type="stmt"/>
+        <line num="79" count="5" type="stmt"/>
+        <line num="80" count="5" type="stmt"/>
+        <line num="81" count="5" type="stmt"/>
+        <line num="82" count="5" type="stmt"/>
+        <line num="83" count="5" type="stmt"/>
+        <line num="84" count="5" type="stmt"/>
+        <line num="86" count="5" type="stmt"/>
+        <line num="87" count="5" type="stmt"/>
+        <line num="88" count="5" type="stmt"/>
+        <line num="90" count="5" type="stmt"/>
       </file>
       <file name="ComfyUIGenerateImageByImagesStyleInputsInfo.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/info/ComfyUIGenerateImageByImagesStyleInputsInfo.ts">
-        <metrics statements="108" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="50" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="63" count="0" type="stmt"/>
-        <line num="64" count="0" type="stmt"/>
-        <line num="65" count="0" type="stmt"/>
-        <line num="66" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="68" count="0" type="stmt"/>
-        <line num="71" count="0" type="stmt"/>
-        <line num="72" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
-        <line num="78" count="0" type="stmt"/>
-        <line num="79" count="0" type="stmt"/>
-        <line num="80" count="0" type="stmt"/>
-        <line num="81" count="0" type="stmt"/>
-        <line num="82" count="0" type="stmt"/>
-        <line num="84" count="0" type="stmt"/>
-        <line num="94" count="0" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
-        <line num="97" count="0" type="stmt"/>
-        <line num="98" count="0" type="stmt"/>
-        <line num="99" count="0" type="stmt"/>
-        <line num="100" count="0" type="stmt"/>
-        <line num="101" count="0" type="stmt"/>
-        <line num="102" count="0" type="stmt"/>
-        <line num="112" count="0" type="stmt"/>
-        <line num="113" count="0" type="stmt"/>
-        <line num="114" count="0" type="stmt"/>
-        <line num="115" count="0" type="stmt"/>
-        <line num="122" count="0" type="stmt"/>
-        <line num="123" count="0" type="stmt"/>
-        <line num="124" count="0" type="stmt"/>
-        <line num="125" count="0" type="stmt"/>
-        <line num="130" count="0" type="stmt"/>
-        <line num="141" count="0" type="stmt"/>
-        <line num="142" count="0" type="stmt"/>
-        <line num="143" count="0" type="stmt"/>
-        <line num="144" count="0" type="stmt"/>
-        <line num="145" count="0" type="stmt"/>
-        <line num="146" count="0" type="stmt"/>
-        <line num="147" count="0" type="stmt"/>
-        <line num="149" count="0" type="stmt"/>
-        <line num="159" count="0" type="stmt"/>
-        <line num="168" count="0" type="stmt"/>
-        <line num="169" count="0" type="stmt"/>
-        <line num="170" count="0" type="stmt"/>
-        <line num="171" count="0" type="stmt"/>
-        <line num="173" count="0" type="stmt"/>
-        <line num="181" count="0" type="stmt"/>
-        <line num="182" count="0" type="stmt"/>
-        <line num="183" count="0" type="stmt"/>
-        <line num="184" count="0" type="stmt"/>
-        <line num="191" count="0" type="stmt"/>
-        <line num="192" count="0" type="stmt"/>
-        <line num="193" count="0" type="stmt"/>
-        <line num="195" count="0" type="stmt"/>
-        <line num="200" count="0" type="stmt"/>
-        <line num="209" count="0" type="stmt"/>
+        <metrics statements="108" coveredstatements="108" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="5" type="stmt"/>
+        <line num="11" count="5" type="stmt"/>
+        <line num="12" count="5" type="stmt"/>
+        <line num="14" count="5" type="stmt"/>
+        <line num="15" count="5" type="stmt"/>
+        <line num="16" count="5" type="stmt"/>
+        <line num="18" count="5" type="stmt"/>
+        <line num="19" count="5" type="stmt"/>
+        <line num="20" count="5" type="stmt"/>
+        <line num="21" count="5" type="stmt"/>
+        <line num="22" count="5" type="stmt"/>
+        <line num="23" count="5" type="stmt"/>
+        <line num="24" count="5" type="stmt"/>
+        <line num="26" count="5" type="stmt"/>
+        <line num="27" count="5" type="stmt"/>
+        <line num="28" count="5" type="stmt"/>
+        <line num="29" count="5" type="stmt"/>
+        <line num="30" count="5" type="stmt"/>
+        <line num="31" count="5" type="stmt"/>
+        <line num="32" count="5" type="stmt"/>
+        <line num="34" count="5" type="stmt"/>
+        <line num="35" count="5" type="stmt"/>
+        <line num="36" count="5" type="stmt"/>
+        <line num="37" count="5" type="stmt"/>
+        <line num="38" count="5" type="stmt"/>
+        <line num="39" count="5" type="stmt"/>
+        <line num="40" count="5" type="stmt"/>
+        <line num="42" count="5" type="stmt"/>
+        <line num="43" count="5" type="stmt"/>
+        <line num="44" count="5" type="stmt"/>
+        <line num="46" count="5" type="stmt"/>
+        <line num="47" count="5" type="stmt"/>
+        <line num="48" count="5" type="stmt"/>
+        <line num="49" count="5" type="stmt"/>
+        <line num="50" count="5" type="stmt"/>
+        <line num="51" count="5" type="stmt"/>
+        <line num="52" count="5" type="stmt"/>
+        <line num="54" count="5" type="stmt"/>
+        <line num="57" count="5" type="stmt"/>
+        <line num="58" count="5" type="stmt"/>
+        <line num="59" count="5" type="stmt"/>
+        <line num="60" count="5" type="stmt"/>
+        <line num="62" count="5" type="stmt"/>
+        <line num="63" count="5" type="stmt"/>
+        <line num="64" count="5" type="stmt"/>
+        <line num="65" count="5" type="stmt"/>
+        <line num="66" count="5" type="stmt"/>
+        <line num="67" count="5" type="stmt"/>
+        <line num="68" count="5" type="stmt"/>
+        <line num="71" count="5" type="stmt"/>
+        <line num="72" count="5" type="stmt"/>
+        <line num="73" count="5" type="stmt"/>
+        <line num="75" count="5" type="stmt"/>
+        <line num="76" count="5" type="stmt"/>
+        <line num="78" count="5" type="stmt"/>
+        <line num="79" count="5" type="stmt"/>
+        <line num="80" count="5" type="stmt"/>
+        <line num="81" count="5" type="stmt"/>
+        <line num="82" count="5" type="stmt"/>
+        <line num="84" count="5" type="stmt"/>
+        <line num="94" count="5" type="stmt"/>
+        <line num="95" count="5" type="stmt"/>
+        <line num="97" count="5" type="stmt"/>
+        <line num="98" count="5" type="stmt"/>
+        <line num="99" count="5" type="stmt"/>
+        <line num="100" count="5" type="stmt"/>
+        <line num="101" count="5" type="stmt"/>
+        <line num="102" count="5" type="stmt"/>
+        <line num="112" count="5" type="stmt"/>
+        <line num="113" count="5" type="stmt"/>
+        <line num="114" count="5" type="stmt"/>
+        <line num="115" count="5" type="stmt"/>
+        <line num="122" count="5" type="stmt"/>
+        <line num="123" count="5" type="stmt"/>
+        <line num="124" count="5" type="stmt"/>
+        <line num="125" count="5" type="stmt"/>
+        <line num="130" count="5" type="stmt"/>
+        <line num="141" count="5" type="stmt"/>
+        <line num="142" count="5" type="stmt"/>
+        <line num="143" count="5" type="stmt"/>
+        <line num="144" count="5" type="stmt"/>
+        <line num="145" count="5" type="stmt"/>
+        <line num="146" count="5" type="stmt"/>
+        <line num="147" count="5" type="stmt"/>
+        <line num="149" count="5" type="stmt"/>
+        <line num="159" count="5" type="stmt"/>
+        <line num="168" count="5" type="stmt"/>
+        <line num="169" count="5" type="stmt"/>
+        <line num="170" count="5" type="stmt"/>
+        <line num="171" count="5" type="stmt"/>
+        <line num="173" count="5" type="stmt"/>
+        <line num="181" count="5" type="stmt"/>
+        <line num="182" count="5" type="stmt"/>
+        <line num="183" count="5" type="stmt"/>
+        <line num="184" count="5" type="stmt"/>
+        <line num="191" count="5" type="stmt"/>
+        <line num="192" count="5" type="stmt"/>
+        <line num="193" count="5" type="stmt"/>
+        <line num="195" count="5" type="stmt"/>
+        <line num="200" count="5" type="stmt"/>
+        <line num="209" count="5" type="stmt"/>
       </file>
       <file name="ComfyUIInfo.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/info/ComfyUIInfo.ts">
-        <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="5" type="stmt"/>
+        <line num="7" count="5" type="stmt"/>
+        <line num="8" count="5" type="stmt"/>
+        <line num="9" count="5" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.comfyui.ipadapter">
-      <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.comfyui.ipadapter">
+      <metrics statements="17" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="ComfyUIIpadapter.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/ipadapter/ComfyUIIpadapter.ts">
-        <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
+        <metrics statements="17" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
@@ -2552,15 +2565,15 @@
         <line num="59" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.comfyui.remove-background">
-      <metrics statements="26" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.comfyui.remove-background">
+      <metrics statements="26" coveredstatements="5" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="ComfyUIRemoveBackground.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/remove-background/ComfyUIRemoveBackground.ts">
-        <metrics statements="26" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
+        <metrics statements="26" coveredstatements="5" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
@@ -2584,44 +2597,44 @@
         <line num="59" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.comfyui.remove-background.types">
-      <metrics statements="18" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.comfyui.remove-background.types">
+      <metrics statements="18" coveredstatements="18" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
       <file name="NodeRemoveBackground.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/remove-background/types/NodeRemoveBackground.ts">
-        <metrics statements="7" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
+        <metrics statements="7" coveredstatements="7" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
       </file>
       <file name="RemoveBackgroundModel.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/remove-background/types/RemoveBackgroundModel.ts">
-        <metrics statements="2" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="2" count="0" type="stmt"/>
+        <metrics statements="2" coveredstatements="2" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="1" type="stmt"/>
       </file>
       <file name="constant.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/remove-background/types/constant.ts">
-        <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
+        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.comfyui.unclip">
-      <metrics statements="14" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.comfyui.unclip">
+      <metrics statements="14" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="ComfyUIUnclip.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/unclip/ComfyUIUnclip.ts">
-        <metrics statements="14" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
+        <metrics statements="14" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
         <line num="27" count="0" type="stmt"/>
@@ -2634,16 +2647,16 @@
         <line num="62" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.comfyui.upscale">
-      <metrics statements="32" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="4" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.comfyui.upscale">
+      <metrics statements="32" coveredstatements="6" conditionals="1" coveredconditionals="0" methods="4" coveredmethods="0"/>
       <file name="ComfyUIUpscale.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/upscale/ComfyUIUpscale.ts">
-        <metrics statements="32" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="4" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
+        <metrics statements="32" coveredstatements="6" conditionals="1" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
@@ -2672,34 +2685,34 @@
         <line num="104" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.comfyui.upscale.types">
-      <metrics statements="15" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.comfyui.upscale.types">
+      <metrics statements="15" coveredstatements="15" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
       <file name="NodeUpscaleInfo.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/upscale/types/NodeUpscaleInfo.ts">
-        <metrics statements="10" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
+        <metrics statements="10" coveredstatements="10" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
       </file>
       <file name="UpscaleModelName.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/upscale/types/UpscaleModelName.ts">
-        <metrics statements="3" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
+        <metrics statements="3" coveredstatements="3" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
       </file>
       <file name="constant.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/upscale/types/constant.ts">
-        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.type">
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.type">
       <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="GenerateByImagesStyleInputPromts.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/GenerateByImagesStyleInputPromts.ts">
         <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -2720,122 +2733,122 @@
         <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.type.GenerateInput">
-      <metrics statements="50" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="19" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.type.GenerateInput">
+      <metrics statements="50" coveredstatements="38" conditionals="4" coveredconditionals="0" methods="19" coveredmethods="8"/>
       <file name="ArrayInputs.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/GenerateInput/ArrayInputs.ts">
-        <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
+        <metrics statements="6" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="13" count="15" type="stmt"/>
+        <line num="14" count="15" type="stmt"/>
+        <line num="15" count="15" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
       </file>
       <file name="BooleanInput.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/GenerateInput/BooleanInput.ts">
-        <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="10" type="stmt"/>
+        <line num="6" count="10" type="stmt"/>
       </file>
       <file name="ChoiceInput.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/GenerateInput/ChoiceInput.ts">
-        <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
+        <metrics statements="7" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="12" count="30" type="stmt"/>
+        <line num="13" count="30" type="stmt"/>
+        <line num="14" count="30" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
       </file>
       <file name="GenerateInput.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/GenerateInput/GenerateInput.ts">
-        <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
+        <metrics statements="6" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="9" count="200" type="stmt"/>
+        <line num="10" count="200" type="stmt"/>
+        <line num="11" count="200" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
       </file>
       <file name="ImageInput.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/GenerateInput/ImageInput.ts">
-        <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="25" type="stmt"/>
+        <line num="6" count="25" type="stmt"/>
       </file>
       <file name="MultipleInputs.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/GenerateInput/MultipleInputs.ts">
-        <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
+        <metrics statements="8" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="13" count="20" type="stmt"/>
+        <line num="14" count="20" type="stmt"/>
+        <line num="15" count="20" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
       </file>
       <file name="SliderInput.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/GenerateInput/SliderInput.ts">
-        <metrics statements="11" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
+        <metrics statements="11" coveredstatements="7" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="16" count="80" type="stmt"/>
+        <line num="17" count="80" type="stmt"/>
+        <line num="18" count="80" type="stmt"/>
+        <line num="19" count="80" type="stmt"/>
+        <line num="20" count="80" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
         <line num="32" count="0" type="cond" truecount="0" falsecount="4"/>
         <line num="33" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
       </file>
       <file name="TextInput.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/GenerateInput/TextInput.ts">
-        <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="20" type="stmt"/>
+        <line num="6" count="20" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.type.Ipadapter">
-      <metrics statements="10" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.type.Ipadapter">
+      <metrics statements="10" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
       <file name="IpadapterEnum.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/Ipadapter/IpadapterEnum.ts">
-        <metrics statements="9" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
+        <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
       </file>
       <file name="IpadapterStyleTranferInput.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/Ipadapter/IpadapterStyleTranferInput.ts">
         <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.ai-generate-image.type.Unclip">
-      <metrics statements="10" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.external-services.ai-generate-image.type.Unclip">
+      <metrics statements="10" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
       <file name="ImageToUnClipInput.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/Unclip/ImageToUnClipInput.ts">
         <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
       </file>
       <file name="NodeImageUnclipEnum.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/type/Unclip/NodeImageUnclipEnum.ts">
-        <metrics statements="9" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
+        <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.image-storage">
+    <package name="back-end.src.infrastructure.external-services.image-storage">
       <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="ImageStorageModule.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/image-storage/ImageStorageModule.ts">
         <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -2844,7 +2857,7 @@
         <line num="13" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.image-storage.cloudinary">
+    <package name="back-end.src.infrastructure.external-services.image-storage.cloudinary">
       <metrics statements="27" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="0"/>
       <file name="CloudinaryProvider.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/image-storage/cloudinary/CloudinaryProvider.ts">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -2880,7 +2893,7 @@
         <line num="56" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.image-storage.type">
+    <package name="back-end.src.infrastructure.external-services.image-storage.type">
       <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="ImagesDelete.d.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/image-storage/type/ImagesDelete.d.ts">
         <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -2889,7 +2902,7 @@
         <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       </file>
     </package>
-    <package name="src.infrastructure.external-services.mail">
+    <package name="back-end.src.infrastructure.external-services.mail">
       <metrics statements="16" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="MailModule.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/mail/MailModule.ts">
         <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -2914,7 +2927,7 @@
         <line num="21" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.orm">
+    <package name="back-end.src.infrastructure.orm">
       <metrics statements="33" coveredstatements="21" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="0"/>
       <file name="DrizzleModule.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/orm/DrizzleModule.ts">
         <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -2924,48 +2937,48 @@
       </file>
       <file name="DrizzleProvider.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/orm/DrizzleProvider.ts">
         <metrics statements="9" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
       </file>
       <file name="schema.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/orm/schema.ts">
         <metrics statements="21" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="11" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="42" count="1" type="stmt"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="36" count="2" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
         <line num="46" count="0" type="stmt"/>
-        <line num="66" count="1" type="stmt"/>
+        <line num="66" count="2" type="stmt"/>
         <line num="70" count="0" type="stmt"/>
-        <line num="76" count="1" type="stmt"/>
-        <line num="80" count="1" type="stmt"/>
-        <line num="87" count="1" type="stmt"/>
+        <line num="76" count="2" type="stmt"/>
+        <line num="80" count="2" type="stmt"/>
+        <line num="87" count="2" type="stmt"/>
         <line num="90" count="0" type="stmt"/>
         <line num="93" count="0" type="stmt"/>
-        <line num="97" count="1" type="stmt"/>
-        <line num="101" count="1" type="stmt"/>
+        <line num="97" count="2" type="stmt"/>
+        <line num="101" count="2" type="stmt"/>
         <line num="104" count="0" type="stmt"/>
         <line num="107" count="0" type="stmt"/>
-        <line num="112" count="1" type="stmt"/>
+        <line num="112" count="2" type="stmt"/>
       </file>
     </package>
-    <package name="src.infrastructure.socket">
-      <metrics statements="15" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
+    <package name="back-end.src.infrastructure.socket">
+      <metrics statements="15" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
       <file name="BaseSocketClient.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/socket/BaseSocketClient.ts">
-        <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
+        <metrics statements="11" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
@@ -2983,18 +2996,37 @@
         <line num="5" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="src.test.unit_test.core.utils">
-      <metrics statements="5" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <file name="MockFile.ts" path="/home/runner/work/back-end/back-end/src/test/unit_test/core/utils/MockFile.ts">
+    <package name="back-end.test.unit_test.core.mock-entity">
+      <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="ImageMock.ts" path="/home/runner/work/back-end/back-end/test/unit_test/core/mock-entity/ImageMock.ts">
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="10" count="5" type="stmt"/>
+      </file>
+    </package>
+    <package name="back-end.test.unit_test.core.utils">
+      <metrics statements="9" coveredstatements="8" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="3"/>
+      <file name="MockFile.ts" path="/home/runner/work/back-end/back-end/test/unit_test/core/utils/MockFile.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+      </file>
+      <file name="RandomNumber.ts" path="/home/runner/work/back-end/back-end/test/unit_test/core/utils/RandomNumber.ts">
+        <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="5" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+      </file>
+      <file name="RandomString.ts" path="/home/runner/work/back-end/back-end/test/unit_test/core/utils/RandomString.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
-      </file>
-      <file name="RandomString.ts" path="/home/runner/work/back-end/back-end/src/test/unit_test/core/utils/RandomString.ts">
-        <metrics statements="3" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
+        <line num="5" count="30" type="stmt"/>
+        <line num="12" count="5" type="stmt"/>
       </file>
     </package>
   </project>
