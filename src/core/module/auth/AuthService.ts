@@ -153,6 +153,10 @@ export class AuthService {
   async handleLockedUser(user_id: number): Promise<void> {
     const matched_locked_user = await this.lockedUserRepository.getByUserId(user_id);
 
+    if (!matched_locked_user) {
+      return;
+    }
+
     const current_date = new Date();
     if (matched_locked_user.expiredAt < current_date) {
       await this.lockedUserRepository.delete(matched_locked_user.userId);
