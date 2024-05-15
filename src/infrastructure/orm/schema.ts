@@ -13,6 +13,7 @@ import {
   varchar,
 } from 'drizzle-orm/mysql-core';
 import { GenerationStatus } from '@core/common/enum/GenerationStatus';
+import { NotificationType } from '@core/common/enum/NotificationType';
 
 export const users = mysqlTable('users', {
   id: int('id').primaryKey().autoincrement(),
@@ -39,6 +40,7 @@ export const users_relations = relations(users, ({ many }) => ({
   albums: many(albums),
   images_interaction: many(images_interaction),
   generations: many(generations),
+  notifactions: many(notifcations),
 }));
 
 export const images = mysqlTable('images', {
@@ -131,6 +133,25 @@ export const generations = mysqlTable('generations', {
   createdAt: timestamp('created_at').defaultNow(),
 });
 
-export const generations_user_relations = relations(users, ({ one }) => ({
-  users: one(users),
+export const generations_relations = relations(users, ({ one }) => ({
+  user: one(users),
+}));
+
+export const notifcations = mysqlTable('notifications', {
+  id: int('id').primaryKey().autoincrement(),
+  title: text('title').notNull(),
+  type: mysqlEnum('type', [NotificationType.GENERATION, NotificationType.OTHER]).default(
+    NotificationType.OTHER,
+  ),
+  userId: int('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  isRead: boolean('is_read').default(false),
+  redirectUrl: text('redirect_url'),
+  content: text('content'),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+export const notifcations_relations = relations(notifcations, ({ one }) => ({
+  user: one(users, { fields: [notifcations.userId], references: [users.id] }),
 }));

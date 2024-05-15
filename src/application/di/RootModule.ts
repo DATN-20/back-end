@@ -12,6 +12,7 @@ import { ImageInteractionModule } from './ImageInteractionModule';
 import { DashboardImageModule } from './DashboardImageModule';
 import { AIFeatureServiceModule } from '@infrastructure/external-services/ai-generate-image/AIFeatureServiceModule';
 import { GenerationModule } from './GenerationModule';
+import { NotificationModule } from './NotificationModule';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { GenerationModule } from './GenerationModule';
     DashboardImageModule,
     AIFeatureServiceModule,
     GenerationModule,
+    NotificationModule,
   ],
   controllers: [],
   providers: [],
