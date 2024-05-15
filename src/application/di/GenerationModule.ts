@@ -4,9 +4,10 @@ import { GenerationService } from '@core/module/generation/GenerationService';
 import { Module } from '@nestjs/common';
 import { UserModule } from './UserModule';
 import { MailModule } from '@infrastructure/external-services/mail/MailModule';
+import { NotificationModule } from './NotificationModule';
 
 @Module({
-  imports: [UserModule, MailModule],
+  imports: [UserModule, MailModule, NotificationModule],
   controllers: [GenerationController],
   providers: [GenerationService, GenerationRepository],
   exports: [GenerationService, GenerationRepository],

@@ -15,6 +15,8 @@ import { MailSubject } from '@core/common/enum/MailSubject';
 import { MailTemplate } from '@core/common/enum/MailTemplate';
 import { FrontEndConfig } from '@infrastructure/config/FrontEndConfig';
 import { DateUtil } from '@core/common/util/DateUtil';
+import { NotificationRepository } from '../notifications/NotificationRepository';
+import { NotificationType } from '@core/common/enum/NotificationType';
 
 @Injectable()
 export class GenerationService {
@@ -22,6 +24,7 @@ export class GenerationService {
     private readonly generationRepository: GenerationRepository,
     private readonly mailService: MailService,
     private readonly userRepository: UserRepository,
+    private readonly notificationRepository: NotificationRepository,
   ) {}
 
   async handleGetGenerationsOfUser(user_id: number): Promise<GenerationResponseJson[]> {
@@ -90,41 +93,66 @@ export class GenerationService {
     }
 
     const matched_user = await this.userRepository.getById(matched_generation.userId);
-    if (matched_generation.status === status && !matched_generation.isSentMail) {
-      await this.mailService.sendMail<{ user: User; generation: Generation; urlRedirect: string }>(
-        matched_user.email,
-        MailSubject.GENERATION_STATUS.replace('%%status%%', matched_generation.status),
-        MailTemplate.GENERATION_STATUS,
-        {
-          user: matched_user,
-          generation: matched_generation,
-          urlRedirect: FrontEndConfig.FRONT_END_URL,
-        },
-      );
 
-      await this.generationRepository.updateIsSentMail(matched_generation.id, true);
+    if (
+      matched_generation.status === GenerationStatus.FINISHED ||
+      matched_generation.status === GenerationStatus.CANCELED
+    ) {
+      return;
+    }
+
+    if (matched_generation.status === status) {
+      if (!matched_generation.isSentMail) {
+        await this.sendMailAndUpdate(matched_user, matched_generation);
+      }
+
+      if (!matched_generation.isNotification) {
+        await this.sendNotificationAndUpdate(matched_user, matched_generation);
+      }
       return;
     }
 
     const updated_generation = await this.generationRepository.updateStatus(generation_id, status);
 
-    if (!updated_generation.isSentMail) {
-      await this.mailService.sendMail<{ user: User; generation: Generation; urlRedirect: string }>(
-        matched_user.email,
-        MailSubject.GENERATION_STATUS.replace('%%status%%', updated_generation.status),
-        MailTemplate.GENERATION_STATUS,
-        {
-          user: matched_user,
-          generation: updated_generation,
-          urlRedirect: FrontEndConfig.FRONT_END_URL,
-        },
-      );
+    await Promise.all([
+      this.sendMailAndUpdate(matched_user, updated_generation),
+      this.sendNotificationAndUpdate(matched_user, updated_generation),
+    ]);
 
-      await this.generationRepository.updateIsSentMail(updated_generation.id, true);
-    }
-
-    if (updated_generation.status === GenerationStatus.FINISHED) {
+    if (status === GenerationStatus.FINISHED) {
       await this.generationRepository.deleteById(updated_generation.id);
     }
+  }
+
+  async sendMailAndUpdate(user: User, generation: Generation): Promise<void> {
+    await this.mailService.sendMail<{ user: User; generation: Generation; urlRedirect: string }>(
+      user.email,
+      MailSubject.GENERATION_STATUS.replace('%%status%%', generation.status),
+      MailTemplate.GENERATION_STATUS,
+      {
+        user: user,
+        generation: generation,
+        urlRedirect: FrontEndConfig.FRONT_END_URL,
+      },
+    );
+
+    await this.generationRepository.updateIsSentMail(generation.id, true);
+  }
+
+  async sendNotificationAndUpdate(user: User, generation: Generation): Promise<void> {
+    const content =
+      generation.status === GenerationStatus.PROCESSING
+        ? 'We will notify you soon if your generation is finished!'
+        : 'Click to view the result of your generation!';
+
+    await this.notificationRepository.create(
+      user.id,
+      `Your generation at ${DateUtil.formatDate(generation.createdAt)} is ${generation.status}`,
+      content,
+      NotificationType.GENERATION,
+      'generate',
+    );
+
+    await this.generationRepository.updateIsNotification(generation.id, true);
   }
 }

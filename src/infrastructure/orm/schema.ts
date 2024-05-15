@@ -130,11 +130,12 @@ export const generations = mysqlTable('generations', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   isSentMail: boolean('is_sent_mail').default(false),
+  isNotification: boolean('is_notification').default(false),
   createdAt: timestamp('created_at').defaultNow(),
 });
 
-export const generations_relations = relations(users, ({ one }) => ({
-  user: one(users),
+export const generations_relations = relations(generations, ({ one }) => ({
+  user: one(users, { fields: [generations.userId], references: [users.id] }),
 }));
 
 export const notifcations = mysqlTable('notifications', {

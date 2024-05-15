@@ -46,6 +46,15 @@ export class GenerationRepository extends BaseRepository {
       .where(eq(generations.id, id));
   }
 
+  async updateIsNotification(id: string, is_notification: boolean): Promise<void> {
+    await this.database
+      .update(generations)
+      .set({
+        isNotification: is_notification,
+      })
+      .where(eq(generations.id, id));
+  }
+
   async deleteById(id: string): Promise<void> {
     await this.database.delete(generations).where(eq(generations.id, id));
   }

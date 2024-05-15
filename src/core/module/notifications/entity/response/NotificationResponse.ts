@@ -3,6 +3,7 @@ import { User } from '@core/module/user/entity/User';
 import { NotificationEntity } from '../Notification';
 import { UserProfileResponse } from '@core/module/user/entity/response/UserProfileResponse';
 import { NotifcationResponseJson } from './NotificationResponseJson';
+import { FrontEndConfig } from '@infrastructure/config/FrontEndConfig';
 
 export class NotifcationResponse {
   private id: number;
@@ -55,7 +56,7 @@ export class NotifcationResponse {
       type: this.type,
       user: this.user ? UserProfileResponse.convertFromEntity(this.user).toShortJson() : null,
       is_read: this.isRead,
-      redirect_url: this.redirectUrl,
+      redirect_url: `${FrontEndConfig.FRONT_END_URL}/${this.redirectUrl}`,
       created_at: this.createdAt,
     };
   }

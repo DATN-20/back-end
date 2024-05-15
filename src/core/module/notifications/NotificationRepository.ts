@@ -1,7 +1,7 @@
 import { NotificationType } from '@core/common/enum/NotificationType';
 import { BaseRepository } from '@core/common/repository/BaseRepository';
-import { notifcations, users } from '@infrastructure/orm/schema';
-import { and, eq } from 'drizzle-orm';
+import { notifcations } from '@infrastructure/orm/schema';
+import { and, desc, eq } from 'drizzle-orm';
 import { NotificationEntity } from './entity/Notification';
 
 export class NotificationRepository extends BaseRepository {
@@ -43,6 +43,7 @@ export class NotificationRepository extends BaseRepository {
         with: {
           user: true,
         },
+        orderBy: [desc(notifcations.createdAt)],
       });
     }
 
