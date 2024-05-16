@@ -40,4 +40,6 @@ export class GenerateByImagesStyleInputs {
   imageForIpadapterWeight: number[];
   @IsOptional()
   imageForIPAdapterCropPosition: string[];
+  @IsOptional()
+  generationId: string;
 }

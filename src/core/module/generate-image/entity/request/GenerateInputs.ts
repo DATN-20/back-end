@@ -32,4 +32,6 @@ export class GenerateInputs {
   controlNets: InputControlnet[];
   @IsOptional()
   isUpscale: boolean;
+  @IsOptional()
+  generationId: string;
 }

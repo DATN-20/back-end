@@ -26,6 +26,7 @@ export class ConverterUtil {
       filename: `${user_id}_${Date.now()}.png`,
       controlNets: generate_inputs.controlNets ?? [],
       isUpscale: generate_inputs.isUpscale ?? false,
+      generationId: generate_inputs.generationId,
     };
     return result;
   }
@@ -84,6 +85,7 @@ export class ConverterUtil {
       imageToUnclips: imageToUnlips,
       isUpscale: generate_inputs.isUpscale ?? false,
       ipadapterStyleTranferInputs: ipadapterStyleTranferInputs,
+      generationId: generate_inputs.generationId,
     };
 
     return result;

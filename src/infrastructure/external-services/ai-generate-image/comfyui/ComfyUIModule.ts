@@ -11,9 +11,10 @@ import { ComfyUIUnclip } from './unclip/ComfyUIUnclip';
 import { ComfyUIRemoveBackground } from './remove-background/ComfyUIRemoveBackground';
 import { ControlNetModelMapping } from './control-net/ControlNetModelMapping';
 import { ComfyUIIpadapter } from './ipadapter/ComfyUIIpadapter';
+import { GenerationModule } from '@application/di/GenerationModule';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpModule, GenerationModule],
   providers: [
     ComfyUIApi,
     ComfyUIValidator,

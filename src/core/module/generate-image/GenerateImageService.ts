@@ -5,8 +5,8 @@ import { ConverterUtil } from '@core/common/util/converter/ConverterUtil';
 import { ImageService } from '../image/ImageService';
 import { ImageType } from '@core/common/enum/ImageType';
 import { AIGenerateImageByImagesStyleServiceManager } from '@infrastructure/external-services/ai-generate-image/AIGenerateImageByImagesStyleServiceManager';
-import { GenerateByImagesStyleInputPromts } from '@infrastructure/external-services/ai-generate-image/type/GenerateByImagesStyleInputPromts';
 import { GenerateByImagesStyleInputs } from './entity/request/GenerateImageByImagesStyleInputs';
+import { GenerationStatus } from '@core/common/enum/GenerationStatus';
 
 @Injectable()
 export class GenerateImageService {
@@ -22,12 +22,14 @@ export class GenerateImageService {
       generate_inputs.aiName,
       input_promts,
     );
+
     const list_image_response = await this.imageService.handleCreateGenerateImages(
       user_id,
       list_image_buffer,
       ImageType.TEXT_TO_IMG,
       generate_inputs,
     );
+
     const result = list_image_response.map(image => image.getUrl());
     return result;
   }

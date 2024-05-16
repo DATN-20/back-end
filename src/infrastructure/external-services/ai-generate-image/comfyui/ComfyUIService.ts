@@ -10,6 +10,7 @@ import { ComfyUIFeature } from './ComfyUIFeature';
 import { IAIFeatureService } from '@core/common/interface/IAIFeatureService';
 import { IAIGenerateImageByImagesStyleService } from '@core/common/interface/IAIGenerateImageByImagesStyleService';
 import { GenerateByImagesStyleInputPromts } from '../type/GenerateByImagesStyleInputPromts';
+import { GenerationService } from '@core/module/generation/GenerationService';
 
 @Injectable()
 export class ComfyUIService
@@ -22,13 +23,14 @@ export class ComfyUIService
     private readonly comfyUIValidator: ComfyUIValidator,
     private readonly comfyUIApi: ComfyUIApi,
     private readonly comfyUIFeature: ComfyUIFeature,
+    private readonly generationService: GenerationService,
   ) {
     this.info = new ComfyUIInfo();
   }
 
   async upscale(image_buffer: Buffer): Promise<Buffer[]> {
     const comfyui_workflow = await this.comfyUIFeature.upscaleWorkflow(image_buffer);
-    const comfyui_socket = new ComfyUISokcet();
+    const comfyui_socket = new ComfyUISokcet(this.generationService);
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_workflow);
 
     return list_image_buffer;
@@ -36,18 +38,19 @@ export class ComfyUIService
 
   async removeBackground(image_buffer: Buffer): Promise<Buffer[]> {
     const comfyui_workflow = await this.comfyUIFeature.removeBackgroundWorkflow(image_buffer);
-    const comfyui_socket = new ComfyUISokcet();
+    const comfyui_socket = new ComfyUISokcet(this.generationService);
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_workflow);
 
     return list_image_buffer;
   }
+
   async generateTextToImage(input_promts: InputPromts): Promise<Buffer[]> {
     this.comfyUIValidator.textToImagePromptValidate(
       this.info.generateImageBasicInputsInfo,
       input_promts,
     );
     const comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptText2Img(input_promts);
-    const comfyui_socket = new ComfyUISokcet();
+    const comfyui_socket = new ComfyUISokcet(this.generationService, input_promts.generationId);
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);
 
     return list_image_buffer;
@@ -59,7 +62,7 @@ export class ComfyUIService
       input_promts,
     );
     const comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptImg2Img(input_promts);
-    const comfyui_socket = new ComfyUISokcet();
+    const comfyui_socket = new ComfyUISokcet(this.generationService, input_promts.generationId);
     await this.comfyUIApi.uploadImage(input_promts.image.buffer, input_promts.filename);
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);
 
@@ -93,7 +96,7 @@ export class ComfyUIService
       input_prompts,
     );
 
-    const comfyui_socket = new ComfyUISokcet();
+    const comfyui_socket = new ComfyUISokcet(this.generationService, input_prompts.generationId);
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);
 
     return list_image_buffer;
@@ -110,7 +113,7 @@ export class ComfyUIService
       input_prompts,
     );
 
-    const comfyui_socket = new ComfyUISokcet();
+    const comfyui_socket = new ComfyUISokcet(this.generationService, input_prompts.generationId);
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);
 
     return list_image_buffer;

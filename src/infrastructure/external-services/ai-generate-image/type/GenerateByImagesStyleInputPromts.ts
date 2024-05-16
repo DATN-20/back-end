@@ -18,4 +18,5 @@ export class GenerateByImagesStyleInputPromts {
   imageToUnclips: ImageToUnclipInput[];
   ipadapterStyleTranferInputs: IpadapterStyleTranferInput[];
   isUpscale: boolean;
+  generationId: string;
 }

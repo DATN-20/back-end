@@ -28,7 +28,7 @@ export class UserService {
   async handleGetLoggedInUserProfile(user_id: number): Promise<UserProfileResponse> {
     const matched_user = await this.handleGetExistedUser(user_id);
 
-    return UserProfileResponse.convertToResponseFromUserEntity(matched_user);
+    return UserProfileResponse.convertFromEntity(matched_user);
   }
 
   async handleUpdateProfile(
@@ -45,7 +45,7 @@ export class UserService {
     });
 
     const updated_user = await this.userRepository.getById(user_id);
-    return UserProfileResponse.convertToResponseFromUserEntity(updated_user);
+    return UserProfileResponse.convertFromEntity(updated_user);
   }
 
   async handleAddSocial(user_id: number, social: SocialRequest): Promise<UserProfileResponse> {
@@ -53,7 +53,7 @@ export class UserService {
 
     await this.userRepository.addSocial(user_id, social);
     const updated_user = await this.userRepository.getById(user_id);
-    return UserProfileResponse.convertToResponseFromUserEntity(updated_user);
+    return UserProfileResponse.convertFromEntity(updated_user);
   }
 
   async handleUpdateAvatar(user_id: number, file: Express.Multer.File): Promise<string> {
