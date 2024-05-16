@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Patch, Query, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Patch, Query, UseGuards } from '@nestjs/common';
 import { NotificationService } from './NotificationService';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { User } from '@core/common/decorator/UserDecorator';
@@ -17,6 +17,12 @@ export class NotifiationController {
     @Query() query_data: GetNotificationsQuery,
   ): Promise<NotifcationResponseJson[]> {
     return this.notificationService.handleGetNotificationOfUser(user.id, query_data);
+  }
+
+  @Delete()
+  async deleteNotifications(@User() user: UserFromAuthGuard): Promise<string> {
+    await this.notificationService.handleDeleteNotifications(user.id);
+    return NotificationMessage.DELETE_NOTIFICATIONS_SUCCESSFULLY;
   }
 
   @Patch(':notificationId/change-status')

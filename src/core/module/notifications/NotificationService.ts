@@ -37,4 +37,8 @@ export class NotificationService {
 
     await this.notificationRepository.changeStatus(notification_id, !matched_notification.isRead);
   }
+
+  async handleDeleteNotifications(user_id: number): Promise<void> {
+    await this.notificationRepository.deleteAllOfUser(user_id);
+  }
 }

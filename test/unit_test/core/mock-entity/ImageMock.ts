@@ -6,6 +6,10 @@ import { ComfyUIInfo } from '@infrastructure/external-services/ai-generate-image
 import { RandomNumber } from '../utils/RandomNumber';
 
 export class ImageMock implements IMockEntity<Image> {
+  mockArray(length: number): Image[] {
+    throw new Error('Method not implemented.');
+  }
+
   mock(): Image {
     return {
       userId: 1,
