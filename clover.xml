@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1715865584240" clover="3.2.0">
-  <project timestamp="1715865584240" name="All files">
-    <metrics statements="942" coveredstatements="157" conditionals="160" coveredconditionals="7" methods="246" coveredmethods="19" elements="1348" coveredelements="183" complexity="0" loc="942" ncloc="942" packages="17" files="36" classes="36"/>
+<coverage generated="1715867837629" clover="3.2.0">
+  <project timestamp="1715867837629" name="All files">
+    <metrics statements="942" coveredstatements="163" conditionals="160" coveredconditionals="7" methods="246" coveredmethods="21" elements="1348" coveredelements="191" complexity="0" loc="942" ncloc="942" packages="17" files="36" classes="36"/>
     <package name="core.common.repository">
       <metrics statements="4" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="BaseRepository.ts" path="/home/runner/work/back-end/back-end/src/core/common/repository/BaseRepository.ts">
@@ -1087,20 +1087,20 @@
       </file>
     </package>
     <package name="infrastructure.external-services.mail">
-      <metrics statements="11" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="MailService.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/mail/MailService.ts">
-        <metrics statements="11" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
+        <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="15" count="2" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
       </file>
     </package>
   </project>
