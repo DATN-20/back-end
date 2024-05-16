@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20.4% </span>
+                <span class="strong">21.56% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/49</span>
+                <span class='fraction'>11/51</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.02% </span>
+                <span class="strong">18.36% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/47</span>
+                <span class='fraction'>9/49</span>
             </div>
         
             
@@ -190,7 +190,10 @@
 <a name='L125'></a><a href='#L125'>125</a>
 <a name='L126'></a><a href='#L126'>126</a>
 <a name='L127'></a><a href='#L127'>127</a>
-<a name='L128'></a><a href='#L128'>128</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -202,6 +205,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -214,13 +218,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -232,6 +229,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -329,6 +335,7 @@ import { ComfyUIFeature } from './ComfyUIFeature';
 import { IAIFeatureService } from '@core/common/interface/IAIFeatureService';
 import { IAIGenerateImageByImagesStyleService } from '@core/common/interface/IAIGenerateImageByImagesStyleService';
 import { GenerateByImagesStyleInputPromts } from '../type/GenerateByImagesStyleInputPromts';
+import { GenerationService } from '@core/module/generation/GenerationService';
 &nbsp;
 @Injectable()
 export class ComfyUIService
@@ -341,13 +348,14 @@ export class ComfyUIService
     private readonly <span class="cstat-no" title="statement not covered" >comfyUIValidator: C</span>omfyUIValidator,
     private readonly <span class="cstat-no" title="statement not covered" >comfyUIApi: C</span>omfyUIApi,
     private readonly <span class="cstat-no" title="statement not covered" >comfyUIFeature: C</span>omfyUIFeature,
+    private readonly <span class="cstat-no" title="statement not covered" >generationService: G</span>enerationService,
   ) {
 <span class="cstat-no" title="statement not covered" >    this.info = new ComfyUIInfo();</span>
   }
 &nbsp;
 <span class="fstat-no" title="function not covered" >  async </span>upscale(image_buffer: Buffer): Promise&lt;Buffer[]&gt; {
     const comfyui_workflow = <span class="cstat-no" title="statement not covered" >await this.comfyUIFeature.upscaleWorkflow(image_buffer);</span>
-    const comfyui_socket = <span class="cstat-no" title="statement not covered" >new ComfyUISokcet();</span>
+    const comfyui_socket = <span class="cstat-no" title="statement not covered" >new ComfyUISokcet(this.generationService);</span>
     const list_image_buffer = <span class="cstat-no" title="statement not covered" >await this.comfyUIApi.getImages(comfyui_socket, comfyui_workflow);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return list_image_buffer;</span>
@@ -355,18 +363,19 @@ export class ComfyUIService
 &nbsp;
 <span class="fstat-no" title="function not covered" >  async </span>removeBackground(image_buffer: Buffer): Promise&lt;Buffer[]&gt; {
     const comfyui_workflow = <span class="cstat-no" title="statement not covered" >await this.comfyUIFeature.removeBackgroundWorkflow(image_buffer);</span>
-    const comfyui_socket = <span class="cstat-no" title="statement not covered" >new ComfyUISokcet();</span>
+    const comfyui_socket = <span class="cstat-no" title="statement not covered" >new ComfyUISokcet(this.generationService);</span>
     const list_image_buffer = <span class="cstat-no" title="statement not covered" >await this.comfyUIApi.getImages(comfyui_socket, comfyui_workflow);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return list_image_buffer;</span>
   }
+&nbsp;
 <span class="fstat-no" title="function not covered" >  async </span>generateTextToImage(input_promts: InputPromts): Promise&lt;Buffer[]&gt; {
 <span class="cstat-no" title="statement not covered" >    this.comfyUIValidator.textToImagePromptValidate(</span>
       this.info.generateImageBasicInputsInfo,
       input_promts,
     );
     const comfyui_prompt = <span class="cstat-no" title="statement not covered" >await this.comfyUIConverter.convertToComfyUIPromptText2Img(input_promts);</span>
-    const comfyui_socket = <span class="cstat-no" title="statement not covered" >new ComfyUISokcet();</span>
+    const comfyui_socket = <span class="cstat-no" title="statement not covered" >new ComfyUISokcet(this.generationService, input_promts.generationId);</span>
     const list_image_buffer = <span class="cstat-no" title="statement not covered" >await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return list_image_buffer;</span>
@@ -378,7 +387,7 @@ export class ComfyUIService
       input_promts,
     );
     const comfyui_prompt = <span class="cstat-no" title="statement not covered" >await this.comfyUIConverter.convertToComfyUIPromptImg2Img(input_promts);</span>
-    const comfyui_socket = <span class="cstat-no" title="statement not covered" >new ComfyUISokcet();</span>
+    const comfyui_socket = <span class="cstat-no" title="statement not covered" >new ComfyUISokcet(this.generationService, input_promts.generationId);</span>
 <span class="cstat-no" title="statement not covered" >    await this.comfyUIApi.uploadImage(input_promts.image.buffer, input_promts.filename);</span>
     const list_image_buffer = <span class="cstat-no" title="statement not covered" >await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);</span>
 &nbsp;
@@ -412,7 +421,7 @@ export class ComfyUIService
       input_prompts,
     );
 &nbsp;
-    const comfyui_socket = <span class="cstat-no" title="statement not covered" >new ComfyUISokcet();</span>
+    const comfyui_socket = <span class="cstat-no" title="statement not covered" >new ComfyUISokcet(this.generationService, input_prompts.generationId);</span>
     const list_image_buffer = <span class="cstat-no" title="statement not covered" >await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return list_image_buffer;</span>
@@ -429,7 +438,7 @@ export class ComfyUIService
       input_prompts,
     );
 &nbsp;
-    const comfyui_socket = <span class="cstat-no" title="statement not covered" >new ComfyUISokcet();</span>
+    const comfyui_socket = <span class="cstat-no" title="statement not covered" >new ComfyUISokcet(this.generationService, input_prompts.generationId);</span>
     const list_image_buffer = <span class="cstat-no" title="statement not covered" >await this.comfyUIApi.getImages(comfyui_socket, comfyui_prompt);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return list_image_buffer;</span>
@@ -451,7 +460,7 @@ export class ComfyUIService
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-05-16T10:22:02.483Z
+                at 2024-05-16T13:19:44.198Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
