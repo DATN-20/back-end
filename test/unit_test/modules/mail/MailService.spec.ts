@@ -4,17 +4,14 @@ import { Exception } from '@core/common/exception/Exception';
 import { MailError } from '@core/common/resource/error/MailError';
 import { MailService } from '@infrastructure/external-services/mail/MailService';
 import { MailerService as ExternalMailService } from '@nestjs-modules/mailer';
+import { MockExternalMailService } from '@unittest/core/mock-di/external/MailServiceMock';
 
 describe(MailService.name, () => {
   let externalMailService: ExternalMailService;
   let mailService: MailService;
 
   beforeAll(() => {
-    const mock_external_mail_service: Partial<ExternalMailService> = {
-      sendMail: jest.fn(),
-    };
-
-    externalMailService = mock_external_mail_service as ExternalMailService;
+    externalMailService = MockExternalMailService as ExternalMailService;
     mailService = new MailService(externalMailService);
   });
 

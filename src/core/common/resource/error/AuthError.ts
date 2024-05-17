@@ -22,4 +22,9 @@ export class AuthError {
     message: 'Invalid token!',
     status_code: HttpStatus.FORBIDDEN,
   };
+  public static INVALID_VERIFY_TOKEN: ErrorBase = {
+    error_code: '01005',
+    message: 'Invalid verify token!',
+    status_code: HttpStatus.FORBIDDEN,
+  };
 }

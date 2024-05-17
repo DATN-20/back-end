@@ -95,7 +95,8 @@
     "moduleNameMapper": {
       "^@core/(.*)$": "<rootDir>/src/core/$1",
       "^@infrastructure/(.*)$": "<rootDir>/src/infrastructure/$1",
-      "^@application/(.*)$": "<rootDir>/src/application/$1"
+      "^@application/(.*)$": "<rootDir>/src/application/$1",
+      "^@unittest/(.*)$": "<rootDir>/test/unit_test/$1"
     },
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
