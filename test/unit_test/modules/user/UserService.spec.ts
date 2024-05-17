@@ -10,7 +10,7 @@ import { UserRepository } from '@core/module/user/UserRepository';
 import { UserService } from '@core/module/user/UserService';
 import { CloudinaryService } from '@infrastructure/external-services/image-storage/cloudinary/CloudinaryService';
 import { SINGLE_FILE_MOCK } from '../../core/utils/MockFile';
-import { MockUserRepository } from '@unittest/core/mock-di/internal/respositories/UserRepositoryMock';
+import { MockUserRepository } from '@unittest/core/mock-di/internal/repositories/UserRepositoryMock';
 
 const USER_ENTITY: User = {
   id: 1,

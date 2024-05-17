@@ -8,7 +8,7 @@ import { LoginUserRequest } from '@core/module/auth/entity/request/LoginUserRequ
 import { SignInResponse } from '@core/module/auth/entity/response/SignInResponse';
 import { UserRepository } from '@core/module/user/UserRepository';
 import { MailService } from '@infrastructure/external-services/mail/MailService';
-import { MockUserRepository } from '@unittest/core/mock-di/internal/respositories/UserRepositoryMock';
+import { MockUserRepository } from '@unittest/core/mock-di/internal/repositories/UserRepositoryMock';
 import { MockBcryptHash } from '@unittest/core/mock-di/internal/services/BcryptHashMock';
 import { MockMailService } from '@unittest/core/mock-di/internal/services/MailServiceMock';
 import { MockJwtUtilL } from '@unittest/core/mock-di/internal/utils/JwtUtilMock';
