@@ -10,6 +10,7 @@ import { UserRepository } from '@core/module/user/UserRepository';
 import { UserService } from '@core/module/user/UserService';
 import { CloudinaryService } from '@infrastructure/external-services/image-storage/cloudinary/CloudinaryService';
 import { SINGLE_FILE_MOCK } from '../../core/utils/MockFile';
+import { MockUserRepository } from '@unittest/core/mock-di/internal/repositories/UserRepositoryMock';
 
 const USER_ENTITY: User = {
   id: 1,
@@ -37,19 +38,11 @@ describe('UserService', () => {
   let imageStorageService: IImageStorageService;
 
   beforeEach(async () => {
-    const mockUserRepository: Partial<UserRepository> = {
-      getById: jest.fn(),
-      updateProfile: jest.fn(),
-      addSocial: jest.fn(),
-      updateAvatar: jest.fn(),
-      updateBackground: jest.fn(),
-    };
-
     const mockImageStorageService: Partial<IImageStorageService> = {
       uploadImageWithBuffer: jest.fn(),
     };
 
-    userRepository = mockUserRepository as UserRepository;
+    userRepository = MockUserRepository as UserRepository;
     imageStorageService = mockImageStorageService as CloudinaryService;
     userService = new UserService(userRepository, imageStorageService);
   });

@@ -7,7 +7,14 @@ import { RandomNumber } from '../utils/RandomNumber';
 
 export class ImageMock implements IMockEntity<Image> {
   mockArray(length: number): Image[] {
-    throw new Error('Method not implemented.');
+    const result = [];
+
+    for (let i = 0; i < length; i++) {
+      const entity = this.mock();
+      result.push(entity);
+    }
+
+    return result;
   }
 
   mock(): Image {

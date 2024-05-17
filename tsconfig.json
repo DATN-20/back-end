@@ -14,6 +14,7 @@
       "@core/*": ["src/core/*"],
       "@infrastructure/*": ["src/infrastructure/*"],
       "@application/*": ["src/application/*"],
+      "@unittest/*": ["test/unit_test/*"],
     },
     "incremental": true,
     "skipLibCheck": true
