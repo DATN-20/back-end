@@ -1,7 +1,7 @@
 import { GenerateInput } from './GenerateInput';
 
 export class ImageInput extends GenerateInput {
-  public accept;
+  private accept: string;
 
   constructor(
     name: string,

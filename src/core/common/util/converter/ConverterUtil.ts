@@ -11,19 +11,20 @@ export class ConverterUtil {
     generate_inputs: GenerateInputs,
     user_id: number,
   ): InputPromts {
-    const controlNetInputs = generate_inputs.controlNetImages?.map((image, index) => {
+    const controlnet_inputs = generate_inputs.controlNetImages?.map((image, index) => {
       const strength = this.getValueFromArrayInput(generate_inputs.controlnetImageStrengths, index);
-      const isPreprocessorValue = this.getValueFromArrayInput(
+      const is_preprocessor_value = this.getValueFromArrayInput(
         generate_inputs.controlnetIsPreprocessors,
         index,
       );
-      const isPreprocessor = isPreprocessorValue !== null ? isPreprocessorValue === 'true' : false;
+      const is_preprocessor =
+        is_preprocessor_value !== null ? is_preprocessor_value === 'true' : false;
 
-      const controlnetType = this.getValueFromArrayInput(generate_inputs.controlNetTypes, index);
+      const controlnet_type = this.getValueFromArrayInput(generate_inputs.controlNetTypes, index);
       const result: InputControlnet = {
-        controlNetType: controlnetType,
+        controlNetType: controlnet_type,
         image: image.buffer,
-        isPreprocessor: isPreprocessor,
+        isPreprocessor: is_preprocessor,
         strength: strength,
       };
       return result;
@@ -43,7 +44,7 @@ export class ConverterUtil {
       image: generate_inputs.image,
       noise: generate_inputs.noise,
       filename: `${user_id}_${Date.now()}.png`,
-      controlNets: controlNetInputs ?? [],
+      controlNets: controlnet_inputs ?? [],
       isUpscale: generate_inputs.isUpscale ?? false,
       generationId: generate_inputs.generationId,
     };
@@ -54,51 +55,54 @@ export class ConverterUtil {
     generate_inputs: GenerateByImagesStyleInputs,
     user_id: number,
   ): GenerateByImagesStyleInputPromts {
-    const imageToUnlips = generate_inputs.imageToUnclipsImages?.map((image, index) => {
+    const image_to_unlips = generate_inputs.imageToUnclipsImages?.map((image, index) => {
       const strength =
         generate_inputs.imageToUnclipsStrengths?.[index] !== undefined
           ? generate_inputs.imageToUnclipsStrengths[index]
           : null;
-      const noiseAugmentation =
+      const noise_augmentation =
         generate_inputs.imageToUnclipsNoiseAugmentations?.[index] !== undefined
           ? generate_inputs.imageToUnclipsNoiseAugmentations[index]
           : null;
       const result: ImageToUnclipInput = {
         image: image,
         strength: strength,
-        noiseAugmentation: noiseAugmentation,
+        noiseAugmentation: noise_augmentation,
       };
       return result;
     });
 
-    const ipadapterStyleTranferInputs = generate_inputs.imageForIpadapters?.map((image, index) => {
-      const weight = this.getValueFromArrayInput(generate_inputs.imageForIpadapterWeight, index);
+    const ipadapter_style_tranfer_inputs = generate_inputs.imageForIpadapters?.map(
+      (image, index) => {
+        const weight = this.getValueFromArrayInput(generate_inputs.imageForIpadapterWeight, index);
 
-      const cropPosition = this.getValueFromArrayInput(
-        generate_inputs.imageForIPAdapterCropPosition,
-        index,
-      );
-      const result: IpadapterStyleTranferInput = {
-        image: image,
-        weight: weight,
-        cropPosition: cropPosition,
-      };
-      return result;
-    });
+        const crop_position = this.getValueFromArrayInput(
+          generate_inputs.imageForIPAdapterCropPosition,
+          index,
+        );
+        const result: IpadapterStyleTranferInput = {
+          image: image,
+          weight: weight,
+          cropPosition: crop_position,
+        };
+        return result;
+      },
+    );
 
-    const controlNetInputs = generate_inputs.controlNetImages?.map((image, index) => {
+    const controlnet_inputs = generate_inputs.controlNetImages?.map((image, index) => {
       const strength = this.getValueFromArrayInput(generate_inputs.controlnetImageStrengths, index);
-      const isPreprocessorValue = this.getValueFromArrayInput(
+      const is_preprocessor_value = this.getValueFromArrayInput(
         generate_inputs.controlnetIsPreprocessors,
         index,
       );
-      const isPreprocessor = isPreprocessorValue !== null ? isPreprocessorValue === 'true' : false;
+      const is_preprocessor =
+        is_preprocessor_value !== null ? is_preprocessor_value === 'true' : false;
 
-      const controlnetType = this.getValueFromArrayInput(generate_inputs.controlNetTypes, index);
+      const controlnet_type = this.getValueFromArrayInput(generate_inputs.controlNetTypes, index);
       const result: InputControlnet = {
-        controlNetType: controlnetType,
+        controlNetType: controlnet_type,
         image: image.buffer,
-        isPreprocessor: isPreprocessor,
+        isPreprocessor: is_preprocessor,
         strength: strength,
       };
       return result;
@@ -116,10 +120,10 @@ export class ConverterUtil {
       cfg: generate_inputs.cfg,
       noise: generate_inputs.noise,
       filename: `${user_id}_${Date.now()}.png`,
-      controlNets: controlNetInputs ?? [],
-      imageToUnclips: imageToUnlips,
+      controlNets: controlnet_inputs ?? [],
+      imageToUnclips: image_to_unlips,
       isUpscale: generate_inputs.isUpscale ?? false,
-      ipadapterStyleTranferInputs: ipadapterStyleTranferInputs,
+      ipadapterStyleTranferInputs: ipadapter_style_tranfer_inputs,
       generationId: generate_inputs.generationId,
     };
 
