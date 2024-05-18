@@ -1,5 +1,5 @@
 import { AdminGuard } from '@core/common/guard/AdminGuard';
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { UserManagementService } from './UserManagementService';
 import { LockUserRequest } from './entity/request/LockUserRequest';
 import { UnlockUserRequest } from './entity/request/UnlockUserRequest';
@@ -32,7 +32,7 @@ export class UserManagementController {
     return this.userManagementService.handleLockUser(data);
   }
 
-  @Post('unlock')
+  @Patch('unlock')
   async unlockUser(@Body() data: UnlockUserRequest): Promise<string> {
     await this.userManagementService.handleUnlockUser(data.lockedUserId);
 
@@ -66,7 +66,7 @@ export class UserManagementController {
   ): Promise<AnalysisWithQueryJson> {
     DateUtil.validateRangeDate(query_data.startDate, query_data.endDate);
     const result = await this.userManagementService.handleGetApiRequestTimesOfUser(
-      query_data.user_id,
+      query_data.userId,
       query_data.endpoint,
       query_data.startDate,
       query_data.endDate,

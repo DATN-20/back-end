@@ -104,7 +104,8 @@ export class UserManagementService {
     });
 
     return {
-      ...pagination,
+      limit: pagination.limit ?? Number.MAX_SAFE_INTEGER,
+      page: pagination.page ?? 0,
       total: total_record,
       data: converted_users,
     };

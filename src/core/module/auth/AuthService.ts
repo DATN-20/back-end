@@ -164,16 +164,17 @@ export class AuthService {
     return SignInResponse.convertFromUser(matched_user);
   }
 
-  async handleLockedUser(user_id: number): Promise<void> {
+  async handleLockedUser(user_id: number): Promise<boolean> {
     const matched_locked_user = await this.lockedUserRepository.getByUserId(user_id);
 
     if (!matched_locked_user) {
-      return;
+      return false;
     }
 
     const current_date = new Date();
     if (matched_locked_user.expiredAt < current_date) {
       await this.lockedUserRepository.delete(matched_locked_user.userId);
+      return true;
     } else {
       throw new Exception(LockedUserError.USER_IS_LOCKED(matched_locked_user.lockedAt));
     }
