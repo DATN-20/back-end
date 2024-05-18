@@ -98,7 +98,7 @@ export class UserManagementService {
       }
 
       return {
-        user: UserProfileResponse.convertToResponseFromUserEntity(user_information.user).toJson(),
+        user: UserProfileResponse.convertFromEntity(user_information.user).toJson(),
         locked_information: null,
       };
     });
