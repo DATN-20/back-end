@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsOptional } from 'class-validator';
 import { InputControlnet } from '@infrastructure/external-services/ai-generate-image/comfyui/control-net/types/InputControlnet';
+import { ControlNetType } from '@infrastructure/external-services/ai-generate-image/comfyui/control-net/types/ControlNetType';
 
 export class GenerateByImagesStyleInputs {
   @IsNotEmpty()
@@ -42,4 +43,12 @@ export class GenerateByImagesStyleInputs {
   imageForIPAdapterCropPosition: string[];
   @IsOptional()
   generationId: string;
+  @IsOptional()
+  controlNetImages: Express.Multer.File[];
+  @IsOptional()
+  controlnetImageStrengths: number[];
+  @IsOptional()
+  controlnetIsPreprocessors: string[];
+  @IsOptional()
+  controlNetTypes: ControlNetType[];
 }

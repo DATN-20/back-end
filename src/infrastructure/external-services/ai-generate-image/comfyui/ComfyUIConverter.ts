@@ -187,6 +187,13 @@ export class ComfyUIConverter {
       ];
     }
 
+    if (input_prompts.controlNets.length !== 0) {
+      workflow = await this.comfyUIFeature.applyMultipleControlNet(
+        workflow,
+        input_prompts.controlNets,
+      );
+    }
+
     return workflow;
   }
 }
