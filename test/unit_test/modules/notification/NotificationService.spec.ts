@@ -5,6 +5,7 @@ import { NotificationMock } from '../../core/mock-entity/NotificationMock';
 import { GetNotificationsQuery } from '@core/module/notifications/entity/request/GetNotificationsQuery';
 import { Exception } from '@core/common/exception/Exception';
 import { NotificationError } from '@core/common/resource/error/NotificationError';
+import { MockNotificationRepository } from '@unittest/core/mock-di/internal/repositories/NotificationRepositoryMock';
 
 describe(NotificationService.name, () => {
   let notificationService: NotificationService;
@@ -12,13 +13,7 @@ describe(NotificationService.name, () => {
   let notificationEntityMock: NotificationMock;
 
   beforeAll(() => {
-    const mock_notification_repository: Partial<NotificationRepository> = {
-      getByUserId: jest.fn(),
-      getById: jest.fn(),
-      changeStatus: jest.fn(),
-      deleteAllOfUser: jest.fn(),
-    };
-    notificationRepository = mock_notification_repository as NotificationRepository;
+    notificationRepository = MockNotificationRepository as NotificationRepository;
     notificationService = new NotificationService(notificationRepository);
     notificationEntityMock = new NotificationMock();
   });
