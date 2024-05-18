@@ -40,22 +40,7 @@ export class GenerateImageController {
   ): Promise<GenerationResponseJson> {
     generate_inputs.isUpscale ??= false;
     generate_inputs.controlNets ??= [];
-    data_images.controlNetImages ??= [];
-
-    if (data_images.controlNetImages.length > 0 && generate_inputs.controlNets.length > 0) {
-      generate_inputs.controlNets = generate_inputs.controlNets.map((control_net, _index) => {
-        return {
-          controlNetType: control_net.controlNetType,
-          image: data_images.controlNetImages[_index].buffer,
-          strength: control_net.strength
-            ? parseFloat(control_net.strength.toString())
-            : CONTROL_NET_DEFAULT_STRENGTH,
-          isPreprocessor: control_net.isPreprocessor
-            ? control_net.isPreprocessor.toString() === 'true'
-            : false,
-        };
-      });
-    }
+    generate_inputs.controlNetImages = data_images?.controlNetImages;
 
     const generation = await this.generationService.handleCreateGenerationForUser(user.id);
     generate_inputs.generationId = generation.id;
@@ -84,23 +69,7 @@ export class GenerateImageController {
   ): Promise<GenerationResponseJson> {
     generate_inputs.isUpscale ??= false;
     generate_inputs.image = data_images.image ? data_images.image[0] : null;
-    generate_inputs.controlNets ??= [];
-    data_images.controlNetImages ??= [];
-
-    if (data_images.controlNetImages.length > 0 && generate_inputs.controlNets.length > 0) {
-      generate_inputs.controlNets = generate_inputs.controlNets.map((control_net, _index) => {
-        return {
-          controlNetType: control_net.controlNetType,
-          image: data_images.controlNetImages[_index].buffer,
-          strength: control_net.strength
-            ? parseFloat(control_net.strength.toString())
-            : CONTROL_NET_DEFAULT_STRENGTH,
-          isPreprocessor: control_net.isPreprocessor
-            ? control_net.isPreprocessor.toString() === 'true'
-            : false,
-        };
-      });
-    }
+    generate_inputs.controlNetImages = data_images.controlNetImages;
 
     const generation = await this.generationService.handleCreateGenerationForUser(user.id);
     generate_inputs.generationId = generation.id;
@@ -129,11 +98,12 @@ export class GenerateImageController {
     files: {
       imageToUnclipsImages: Express.Multer.File[];
       imageForIpadapter: Express.Multer.File[];
+      controlNetImages: Express.Multer.File[];
     },
   ): Promise<GenerationResponseJson> {
     //generate_inputs.imageToUnclipsImages = files.imageToUnclipsImages;
     generate_inputs.imageForIpadapters = files.imageForIpadapter;
-
+    generate_inputs.controlNetImages = files.controlNetImages;
     const generation = await this.generationService.handleCreateGenerationForUser(user.id);
     generate_inputs.generationId = generation.id;
 

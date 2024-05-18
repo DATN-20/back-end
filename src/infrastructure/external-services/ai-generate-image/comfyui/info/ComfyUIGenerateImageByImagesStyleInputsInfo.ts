@@ -5,6 +5,7 @@ import { ImageInput } from '../../type/GenerateInput/ImageInput';
 import { MultipleInputs } from '../../type/GenerateInput/MultipleInputs';
 import { SliderInput } from '../../type/GenerateInput/SliderInput';
 import { TextInput } from '../../type/GenerateInput/TextInput';
+import { ComfyUIControlNetForIpadapterInfo } from '../control-net/ComfyUIControlNetForIpadapterInfo';
 
 export class ComfyUIGenerateImageByImagesStyleInputsInfo {
   private positivePrompDesc = '';
@@ -181,11 +182,13 @@ export class ComfyUIGenerateImageByImagesStyleInputsInfo {
   private imageForIpadapterName = 'Image';
   private imageForIpadapterDesc = '';
   private imageForIpadapterInputPropertyName = 'imageForIpadapter';
+  private imageForIpadapterAccepted = '.png';
   private imageForIpadapterInput = new ImageInput(
     this.imageForIpadapterName,
     this.imageForIpadapterDesc,
     null,
     this.imageForIpadapterInputPropertyName,
+    this.imageForIpadapterAccepted,
   );
 
   private imageDataForIpadapterName = 'Image To Get Styles';
@@ -285,5 +288,7 @@ export class ComfyUIGenerateImageByImagesStyleInputsInfo {
       this.imageDataForIpadapterInputPropertyName,
       this.imageDataForIpadapterInput,
     ),
+
+    controlNets: new ComfyUIControlNetForIpadapterInfo().inputs.controlNet,
   };
 }
