@@ -1,4 +1,5 @@
 export interface UserProfileResponseJson {
+  id: number;
   first_name: string;
   last_name: string;
   phone: string;
@@ -9,6 +10,6 @@ export interface UserProfileResponseJson {
   role: string;
   avatar: string;
   background: string;
-  created_at: string;
-  updated_at: string;
+  created_at: Date;
+  updated_at: Date;
 }

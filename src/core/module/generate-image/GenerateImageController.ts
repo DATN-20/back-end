@@ -16,11 +16,16 @@ import { GenerateByImagesStyleInputs } from './entity/request/GenerateImageByIma
 import ApiLogger from '@core/common/logger/ApiLoggerService';
 import { ImageType } from '@core/common/enum/ImageType';
 import { CONTROL_NET_DEFAULT_STRENGTH } from '@infrastructure/external-services/ai-generate-image/comfyui/control-net/ComfyUIControlNetInfo';
+import { GenerationService } from '../generation/GenerationService';
+import { GenerationResponseJson } from '../generation/entity/response/GenerationResponseJson';
 
 @UseGuards(AuthGuard)
 @Controller('generate-image')
 export class GenerateImageController {
-  constructor(private readonly generateImageService: GenerateImageService) {}
+  constructor(
+    private readonly generateImageService: GenerateImageService,
+    private readonly generationService: GenerationService,
+  ) {}
 
   @Get('/ai-info')
   async getAtInfo() {
@@ -34,13 +39,11 @@ export class GenerateImageController {
     @UploadedFiles()
     data_images: { controlNetImages?: Express.Multer.File[] },
     @Body() generate_inputs: GenerateInputs,
-  ) {
+  ): Promise<GenerationResponseJson> {
     ApiLogger.info(ImageType.TEXT_TO_IMG, {
       user_id: user.id,
       api_endpoint: '/generate-image/text-to-image',
     });
-
-    generate_inputs.isUpscale = generate_inputs.isUpscale?.toString() === 'true';
     generate_inputs.isUpscale ??= false;
     generate_inputs.controlNets ??= [];
     data_images.controlNetImages ??= [];
@@ -60,7 +63,16 @@ export class GenerateImageController {
       });
     }
 
-    return await this.generateImageService.handleGenerateTextToImg(user.id, generate_inputs);
+    const generation = await this.generationService.handleCreateGenerationForUser(user.id);
+    generate_inputs.generationId = generation.id;
+
+    this.generateImageService
+      .handleGenerateTextToImg(user.id, generate_inputs)
+      .catch(async (_error: any) => {
+        await this.generationService.handleDeleteById(generation.id);
+      });
+
+    return generation;
   }
 
   @Post('/image-to-image')
@@ -75,12 +87,11 @@ export class GenerateImageController {
     @UploadedFiles()
     data_images: { image: Express.Multer.File[]; controlNetImages?: Express.Multer.File[] },
     @Body() generate_inputs: GenerateInputs,
-  ) {
+  ): Promise<GenerationResponseJson> {
     ApiLogger.info(ImageType.IMG_TO_IMG, {
       user_id: user.id,
       api_endpoint: '/generate-image/image-to-image',
     });
-
     generate_inputs.isUpscale ??= false;
     generate_inputs.image = data_images.image ? data_images.image[0] : null;
     generate_inputs.controlNets ??= [];
@@ -101,7 +112,16 @@ export class GenerateImageController {
       });
     }
 
-    return await this.generateImageService.handleGenerateImageToImage(user.id, generate_inputs);
+    const generation = await this.generationService.handleCreateGenerationForUser(user.id);
+    generate_inputs.generationId = generation.id;
+
+    this.generateImageService
+      .handleGenerateImageToImage(user.id, generate_inputs)
+      .catch(async (_error: any) => {
+        await this.generationService.handleDeleteById(generation.id);
+      });
+
+    return generation;
   }
 
   @Post('/image-by-images-style')
@@ -120,19 +140,24 @@ export class GenerateImageController {
       imageToUnclipsImages: Express.Multer.File[];
       imageForIpadapter: Express.Multer.File[];
     },
-  ) {
+  ): Promise<GenerationResponseJson> {
     ApiLogger.info(ImageType.IMG_BY_IMAGES_STYLE, {
       user_id: user.id,
       api_endpoint: '/generate-image/image-by-images-style',
     });
-
-    generate_inputs.imageToUnclipsImages = files.imageToUnclipsImages;
     //generate_inputs.imageToUnclipsImages = files.imageToUnclipsImages;
     generate_inputs.imageForIpadapters = files.imageForIpadapter;
-    return await this.generateImageService.handleGenerateImageByImagesStyle(
-      user.id,
-      generate_inputs,
-    );
+
+    const generation = await this.generationService.handleCreateGenerationForUser(user.id);
+    generate_inputs.generationId = generation.id;
+
+    this.generateImageService
+      .handleGenerateImageByImagesStyle(user.id, generate_inputs)
+      .catch(async (_error: any) => {
+        await this.generationService.handleDeleteById(generation.id);
+      });
+
+    return generation;
   }
 
   @Get('/ai-generate-by-images-style-info')

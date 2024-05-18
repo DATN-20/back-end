@@ -10,7 +10,7 @@ import { UserRepository } from '@core/module/user/UserRepository';
 import { UserService } from '@core/module/user/UserService';
 import { CloudinaryService } from '@infrastructure/external-services/image-storage/cloudinary/CloudinaryService';
 import { SINGLE_FILE_MOCK } from '../../core/utils/MockFile';
-import { url } from 'inspector';
+import { MockUserRepository } from '@unittest/core/mock-di/internal/repositories/UserRepositoryMock';
 
 const USER_ENTITY: User = {
   id: 1,
@@ -38,19 +38,11 @@ describe('UserService', () => {
   let imageStorageService: IImageStorageService;
 
   beforeEach(async () => {
-    const mockUserRepository: Partial<UserRepository> = {
-      getById: jest.fn(),
-      updateProfile: jest.fn(),
-      addSocial: jest.fn(),
-      updateAvatar: jest.fn(),
-      updateBackground: jest.fn(),
-    };
-
     const mockImageStorageService: Partial<IImageStorageService> = {
       uploadImageWithBuffer: jest.fn(),
     };
 
-    userRepository = mockUserRepository as UserRepository;
+    userRepository = MockUserRepository as UserRepository;
     imageStorageService = mockImageStorageService as CloudinaryService;
     userService = new UserService(userRepository, imageStorageService);
   });
@@ -76,7 +68,7 @@ describe('UserService', () => {
       jest.spyOn(userRepository, 'getById').mockResolvedValue(USER_ENTITY);
 
       await expect(userService.handleGetLoggedInUserProfile(1)).resolves.toEqual(
-        UserProfileResponse.convertToResponseFromUserEntity(USER_ENTITY),
+        UserProfileResponse.convertFromEntity(USER_ENTITY),
       );
     });
   });
@@ -120,7 +112,7 @@ describe('UserService', () => {
       jest.spyOn(userRepository, 'getById').mockResolvedValue(updated_user);
 
       await expect(userService.handleUpdateProfile(1, updated_profile)).resolves.toEqual(
-        UserProfileResponse.convertToResponseFromUserEntity(updated_user),
+        UserProfileResponse.convertFromEntity(updated_user),
       );
     });
   });
@@ -148,9 +140,7 @@ describe('UserService', () => {
       const actual_result = await userService.handleAddSocial(1, new_social);
 
       expect(userRepository.addSocial).toHaveBeenCalledWith(1, new_social);
-      expect(actual_result).toEqual(
-        UserProfileResponse.convertToResponseFromUserEntity(updated_user),
-      );
+      expect(actual_result).toEqual(UserProfileResponse.convertFromEntity(updated_user));
     });
   });
 

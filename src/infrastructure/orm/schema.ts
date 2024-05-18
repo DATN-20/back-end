@@ -13,6 +13,8 @@ import {
   timestamp,
   varchar,
 } from 'drizzle-orm/mysql-core';
+import { GenerationStatus } from '@core/common/enum/GenerationStatus';
+import { NotificationType } from '@core/common/enum/NotificationType';
 
 export const users = mysqlTable('users', {
   id: int('id').primaryKey().autoincrement(),
@@ -53,8 +55,10 @@ export const locked_users = mysqlTable('locked_users', {
   expiredAt: timestamp('expired_at').default(null),
 });
 
-export const users_lock_relation = relations(users, ({ one }) => ({
+export const users_lock_relation = relations(users, ({ one, many }) => ({
   user: one(users),
+  generations: many(generations),
+  notifactions: many(notifcations),
 }));
 
 export const images = mysqlTable('images', {
@@ -130,4 +134,43 @@ export const images_interaction = mysqlTable('images_interaction', {
 export const images_interaction_relations = relations(images_interaction, ({ one }) => ({
   images: one(images),
   users: one(users),
+}));
+
+export const generations = mysqlTable('generations', {
+  id: varchar('id', { length: 128 }).notNull().primaryKey(),
+  status: mysqlEnum('status', [
+    GenerationStatus.WAITING,
+    GenerationStatus.PROCESSING,
+    GenerationStatus.FINISHED,
+    GenerationStatus.CANCELED,
+  ]),
+  userId: int('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  isSentMail: boolean('is_sent_mail').default(false),
+  isNotification: boolean('is_notification').default(false),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+export const generations_relations = relations(generations, ({ one }) => ({
+  user: one(users, { fields: [generations.userId], references: [users.id] }),
+}));
+
+export const notifcations = mysqlTable('notifications', {
+  id: int('id').primaryKey().autoincrement(),
+  title: text('title').notNull(),
+  type: mysqlEnum('type', [NotificationType.GENERATION, NotificationType.OTHER]).default(
+    NotificationType.OTHER,
+  ),
+  userId: int('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  isRead: boolean('is_read').default(false),
+  redirectUrl: text('redirect_url'),
+  content: text('content'),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+export const notifcations_relations = relations(notifcations, ({ one }) => ({
+  user: one(users, { fields: [notifcations.userId], references: [users.id] }),
 }));

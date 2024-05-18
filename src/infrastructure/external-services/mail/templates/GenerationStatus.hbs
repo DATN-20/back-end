@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Status Update</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .status-image {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello {{ data.user.firstName }},</h1>
+        <p>Welcome to our community! We are thrilled to have you on board and look forward to connecting with you.</p>
+        <!-- Add more content as needed -->
+
+        <p>We wanted to inform you that your status has been updated to <strong>{{data.generation.status}}</strong>. Please find more details below:</p>
+        <img src="https://via.placeholder.com/600x200" alt="Status Update Image" class="status-image">
+        <p>You can track the progress and find more information by visiting the link below:</p>
+        <p><a href={{data.urlRedirect}}>Check Your Status</a></p>
+
+        <p>If you have any questions or need assistance, feel free to <a href="mailto:support@example.com">contact our support team</a>.</p>
+
+        <p>Thank you for joining us!</p>
+        <p>If you did not request this email, you can safely ignore it.</p>
+    </div>
+</body>
+</html>

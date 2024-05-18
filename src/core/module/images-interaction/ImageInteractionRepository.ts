@@ -1,6 +1,6 @@
 import { InteractionType } from '@core/common/enum/InteractionType';
 import { BaseRepository } from '@core/common/repository/BaseRepository';
-import { images, images_interaction } from '@infrastructure/orm/schema';
+import { images_interaction } from '@infrastructure/orm/schema';
 import { ImageInteraction } from './entity/ImageInteraction';
 import { and, eq } from 'drizzle-orm';
 
