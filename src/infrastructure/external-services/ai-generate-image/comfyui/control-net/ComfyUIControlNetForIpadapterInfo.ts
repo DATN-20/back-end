@@ -9,7 +9,7 @@ import { ControlNetType } from './types/ControlNetType';
 
 export const CONTROL_NET_DEFAULT_STRENGTH = 1;
 
-export class ComfyUIControlNetInfo {
+export class ComfyUIControlNetForIpadapterInfo {
   private controlNetStrengthName = 'Strength';
   private controlNetStrengthDesc =
     ' This sets the influence strength of the prompt. The larger the number, the closer it is to the description of the prompt..';
@@ -31,10 +31,11 @@ export class ComfyUIControlNetInfo {
   private controlNetTypeName = 'Type ControlNet';
   private controlNetTypeDesc = 'This is type of controlnet.';
   private controlNetTypeChoices: { [key: string]: string } = {
-    pose: ControlNetType.POSE,
-    depth: ControlNetType.DEPTH,
-    sketch: ControlNetType.SKETCH,
-    color: ControlNetType.COLOR,
+    pose: ControlNetType.POSE_SDXL,
+    depth: ControlNetType.DEPTH_SDXL,
+    sketch: ControlNetType.SKETCH_SDXL,
+    canny: ControlNetType.CANNY_SDXL,
+    lineart: ControlNetType.LINEART_SDXL,
   };
   private controlNetTypeDefault = this.controlNetTypeChoices.pose;
   private controlNetTypeInputPropertyName = 'controlNetTypes';

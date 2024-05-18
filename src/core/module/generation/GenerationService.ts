@@ -56,7 +56,14 @@ export class GenerationService {
     }
 
     const id = uuidv4();
-    return this.generationRepository.create(id, GenerationStatus.WAITING, user_id);
+    const new_generation: Generation = await this.generationRepository.create(
+      id,
+      GenerationStatus.WAITING,
+      user_id,
+    );
+    const generation_response = GenerationResponse.convertFromEntity(new_generation);
+
+    return generation_response.toJson();
   }
 
   async handleDeleteById(generation_id: string): Promise<void> {
