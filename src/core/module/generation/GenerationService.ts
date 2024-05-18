@@ -95,43 +95,26 @@ export class GenerationService {
       throw new Exception(GenerationError.GENERATION_NOT_FOUND);
     }
 
-    if (matched_generation.status === status) {
-      return;
-    }
-
-    const matched_user = await this.userRepository.getById(matched_generation.userId);
-
     if (
+      matched_generation.status === status ||
       matched_generation.status === GenerationStatus.FINISHED ||
       matched_generation.status === GenerationStatus.CANCELED
     ) {
       return;
     }
 
-    if (matched_generation.status === status) {
-      if (!matched_generation.isSentMail) {
-        await this.sendMailAndUpdate(matched_user, matched_generation);
-      }
-
-      if (!matched_generation.isNotification) {
-        await this.sendNotificationAndUpdate(matched_user, matched_generation);
-      }
-      return;
-    }
-
+    const matched_user = await this.userRepository.getById(matched_generation.userId);
     const updated_generation = await this.generationRepository.updateStatus(generation_id, status);
 
-    await Promise.all([
-      this.sendMailAndUpdate(matched_user, updated_generation),
-      this.sendNotificationAndUpdate(matched_user, updated_generation),
-    ]);
+    await this.handleSendMailAndUpdate(matched_user, updated_generation);
+    await this.handleSendNotificationAndUpdate(matched_user, updated_generation);
 
     if (status === GenerationStatus.FINISHED) {
       await this.generationRepository.deleteById(updated_generation.id);
     }
   }
 
-  async sendMailAndUpdate(user: User, generation: Generation): Promise<void> {
+  async handleSendMailAndUpdate(user: User, generation: Generation): Promise<void> {
     await this.mailService.sendMail<{ user: User; generation: Generation; urlRedirect: string }>(
       user.email,
       MailSubject.GENERATION_STATUS.replace('%%status%%', generation.status),
@@ -146,7 +129,7 @@ export class GenerationService {
     await this.generationRepository.updateIsSentMail(generation.id, true);
   }
 
-  async sendNotificationAndUpdate(user: User, generation: Generation): Promise<void> {
+  async handleSendNotificationAndUpdate(user: User, generation: Generation): Promise<void> {
     const content =
       generation.status === GenerationStatus.PROCESSING
         ? 'We will notify you soon if your generation is finished!'
