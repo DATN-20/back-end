@@ -33,13 +33,15 @@ export class ImageRepository extends BaseRepository {
     }
 
     return this.database.query.images.findMany({
-      where: (image, { eq }) => eq(image.userId, user_id) && eq(image.visibility, visibility),
+      where: (image, { eq, and }) =>
+        and(eq(image.userId, user_id), eq(image.visibility, visibility)),
     });
   }
 
   async getByUserIdAndImageTypes(user_id: number, types: ImageType[]): Promise<Image[]> {
     return this.database.query.images.findMany({
-      where: (image, { eq, inArray }) => eq(image.userId, user_id) && inArray(images.type, types),
+      where: (image, { eq, and, inArray }) =>
+        and(eq(image.userId, user_id), inArray(images.type, types)),
     });
   }
 
@@ -119,7 +121,8 @@ export class ImageRepository extends BaseRepository {
     pagination: QueryPagination,
   ): Promise<Image[]> {
     return this.database.query.images.findMany({
-      where: (image, { eq }) => eq(image.userId, user_id) && eq(image.visibility, visibility),
+      where: (image, { eq, and }) =>
+        and(eq(image.userId, user_id), eq(image.visibility, visibility)),
       limit: pagination.limit,
       offset: (pagination.page - 1) * pagination.limit,
     });

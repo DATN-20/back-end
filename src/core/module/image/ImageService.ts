@@ -217,7 +217,11 @@ export class ImageService {
   }
 
   async handleGetGenerateImageHistory(user_id: number): Promise<ImageResponseJson[]> {
-    const generatedImageTypes = [ImageType.IMG_TO_IMG, ImageType.TEXT_TO_IMG];
+    const generatedImageTypes = [
+      ImageType.IMG_TO_IMG,
+      ImageType.TEXT_TO_IMG,
+      ImageType.IMG_BY_IMAGES_STYLE,
+    ];
     const images = await this.imageRepository.getByUserIdAndImageTypes(
       user_id,
       generatedImageTypes,
