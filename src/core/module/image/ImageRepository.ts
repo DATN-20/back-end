@@ -3,6 +3,8 @@ import { Image, NewImage } from './entity/Image';
 import { images } from '@infrastructure/orm/schema';
 import { and, count, eq, max, sql } from 'drizzle-orm';
 import { ImageType } from '@core/common/enum/ImageType';
+import { ImageFilter } from './entity/filter/ImageFilter';
+import { DateQueryScript } from '../image-statistics/entity/type/DateQueryScript';
 
 export class ImageRepository extends BaseRepository {
   async create(newImage: NewImage): Promise<Image> {
@@ -123,5 +125,55 @@ export class ImageRepository extends BaseRepository {
       limit: pagination.limit,
       offset: (pagination.page - 1) * pagination.limit,
     });
+  }
+
+  async countGeneratedImagesByDateRange(
+    start_date: Date,
+    end_date: Date,
+    filter: ImageFilter,
+    type,
+  ): Promise<any> {
+    const result = await this.database
+      .select({
+        label: sql`DATE(created_at)`,
+        count: sql<number>`count(*) as count`.mapWith(Number),
+      })
+      .from(images)
+      .where(
+        and(
+          sql`DATE(${images.createdAt}) >= ${start_date}`,
+          sql`DATE(${images.createdAt}) <= ${end_date}`,
+        ),
+      );
+
+    return result;
+  }
+
+  async countGeneratedImages(
+    start_date: Date,
+    end_date: Date,
+    filter: ImageFilter,
+    type: string,
+  ): Promise<any> {
+    const query = new DateQueryScript(type, images, start_date, end_date);
+    const result = await this.database
+      .select({
+        date: query.getDay,
+        total: sql<number>`count(*) as count`.mapWith(Number),
+      })
+      .from(images)
+      .where(
+        and(
+          filter.aiName != 'ALL' ? eq(images.aiName, filter.aiName) : sql`1=1`,
+          filter.imageType != 'ALL' ? eq(images.type, ImageType[filter.imageType]) : sql`1=1`,
+          filter.style != 'ALL' ? eq(images.style, filter.style) : sql`1=1`,
+          query.comparesLessDay,
+          query.compareGreaterDay,
+        ),
+      )
+      .groupBy(and(query.getDay))
+      .orderBy(query.getDay);
+
+    return result;
   }
 }

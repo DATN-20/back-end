@@ -14,6 +14,7 @@ import { AIFeatureServiceModule } from '@infrastructure/external-services/ai-gen
 import { UserManagementModule } from './UserManagementModule';
 import { MyElasticsearchModule } from '@infrastructure/external-services/elasticsearch/ElasticsearchModule';
 import { LogMonitoringModule } from './LogMonitoringModule';
+import { ImageStatisticsModule } from './ImageStatisticsModule';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { LogMonitoringModule } from './LogMonitoringModule';
     UserManagementModule,
     MyElasticsearchModule,
     LogMonitoringModule,
+    ImageStatisticsModule,
   ],
   controllers: [],
   providers: [],
