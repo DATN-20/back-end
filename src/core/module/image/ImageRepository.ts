@@ -127,28 +127,6 @@ export class ImageRepository extends BaseRepository {
     });
   }
 
-  async countGeneratedImagesByDateRange(
-    start_date: Date,
-    end_date: Date,
-    filter: ImageFilter,
-    type,
-  ): Promise<any> {
-    const result = await this.database
-      .select({
-        label: sql`DATE(created_at)`,
-        count: sql<number>`count(*) as count`.mapWith(Number),
-      })
-      .from(images)
-      .where(
-        and(
-          sql`DATE(${images.createdAt}) >= ${start_date}`,
-          sql`DATE(${images.createdAt}) <= ${end_date}`,
-        ),
-      );
-
-    return result;
-  }
-
   async countGeneratedImages(
     start_date: Date,
     end_date: Date,
