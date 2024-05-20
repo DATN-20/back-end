@@ -1,7 +1,7 @@
 import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { Image, NewImage } from './entity/Image';
 import { images } from '@infrastructure/orm/schema';
-import { and, count, eq, max, sql } from 'drizzle-orm';
+import { and, count, eq, like, max, or, sql } from 'drizzle-orm';
 import { ImageType } from '@core/common/enum/ImageType';
 
 export class ImageRepository extends BaseRepository {
@@ -33,13 +33,15 @@ export class ImageRepository extends BaseRepository {
     }
 
     return this.database.query.images.findMany({
-      where: (image, { eq }) => eq(image.userId, user_id) && eq(image.visibility, visibility),
+      where: (image, { eq, and }) =>
+        and(eq(image.userId, user_id), eq(image.visibility, visibility)),
     });
   }
 
   async getByUserIdAndImageTypes(user_id: number, types: ImageType[]): Promise<Image[]> {
     return this.database.query.images.findMany({
-      where: (image, { eq, inArray }) => eq(image.userId, user_id) && inArray(images.type, types),
+      where: (image, { eq, and, inArray }) =>
+        and(eq(image.userId, user_id), inArray(images.type, types)),
     });
   }
 
@@ -78,7 +80,10 @@ export class ImageRepository extends BaseRepository {
       .from(images)
       .where(
         and(
-          sql`MATCH (${images.prompt}) AGAINST (${search_data} IN NATURAL LANGUAGE MODE)`,
+          or(
+            sql`MATCH (${images.prompt}) AGAINST (${search_data} IN NATURAL LANGUAGE MODE)`,
+            like(images.prompt, `%${search_data}%`),
+          ),
           eq(images.visibility, true),
         ),
       )
@@ -119,7 +124,8 @@ export class ImageRepository extends BaseRepository {
     pagination: QueryPagination,
   ): Promise<Image[]> {
     return this.database.query.images.findMany({
-      where: (image, { eq }) => eq(image.userId, user_id) && eq(image.visibility, visibility),
+      where: (image, { eq, and }) =>
+        and(eq(image.userId, user_id), eq(image.visibility, visibility)),
       limit: pagination.limit,
       offset: (pagination.page - 1) * pagination.limit,
     });
