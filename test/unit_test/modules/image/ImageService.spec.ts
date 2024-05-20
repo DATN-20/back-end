@@ -8,6 +8,13 @@ import { AIFeatureServiceManager } from '@infrastructure/external-services/ai-ge
 import { SINGLE_FILE_MOCK } from '../../core/utils/MockFile';
 import { ImageMock } from '../../core/mock-entity/ImageMock';
 import { ImageResponse } from '@core/module/image/entity/response/ImageResponse';
+import { MockImageRepository } from '@unittest/core/mock-di/internal/repositories/ImageRepositoryMock';
+import { MockImageStorageService } from '@unittest/core/mock-di/internal/services/ImageStorageServiceMock';
+import { MockImageInteractionRepository } from '@unittest/core/mock-di/internal/repositories/ImageInteractionRepositoryMock';
+import { InteractImageRequest } from '@core/module/image/entity/request/InteractImageRequest';
+import { InteractionType } from '@core/common/enum/InteractionType';
+import { ImageMessage } from '@core/common/resource/message/ImageMessage';
+import { ImageInteractionMock } from '@unittest/core/mock-entity/ImageInteractionMock';
 
 describe(ImageService.name, () => {
   let imageService: ImageService;
@@ -16,22 +23,12 @@ describe(ImageService.name, () => {
   let imageInteractRepository: ImageInteractionRepository;
   let aiFeatureService: AIFeatureServiceManager;
   let imageEntityMock: ImageMock;
+  let imageInteractionEntityMock: ImageInteractionMock;
 
   beforeAll(() => {
-    const mock_image_repository: Partial<ImageRepository> = {
-      create: jest.fn(),
-      getById: jest.fn(),
-      deleteById: jest.fn(),
-      getByUserId: jest.fn(),
-    };
-    const mock_image_interaction_repositoru: Partial<ImageInteractionRepository> = {};
-    const mockImageStorageService: Partial<IImageStorageService> = {
-      uploadImages: jest.fn(),
-      deleteImage: jest.fn(),
-    };
-    imageRepository = mock_image_repository as ImageRepository;
-    imageStorageService = mockImageStorageService as IImageStorageService;
-    imageInteractRepository = mock_image_interaction_repositoru as ImageInteractionRepository;
+    imageRepository = MockImageRepository as ImageRepository;
+    imageStorageService = MockImageStorageService as IImageStorageService;
+    imageInteractRepository = MockImageInteractionRepository as ImageInteractionRepository;
     aiFeatureService = {} as AIFeatureServiceManager;
     imageEntityMock = new ImageMock();
     imageService = new ImageService(
@@ -40,6 +37,7 @@ describe(ImageService.name, () => {
       imageInteractRepository,
       aiFeatureService,
     );
+    imageInteractionEntityMock = new ImageInteractionMock();
   });
 
   afterEach(() => {
@@ -160,6 +158,31 @@ describe(ImageService.name, () => {
         ImageResponse.convertFromImage(image_1).toJson(),
         ImageResponse.convertFromImage(image_2).toJson(),
       ]);
+    });
+  });
+
+  describe('handleInteractImage', () => {
+    let interactImageRequest: InteractImageRequest;
+    beforeAll(() => {
+      interactImageRequest = {
+        imageId: 1,
+        type: InteractionType.LIKE,
+      };
+    });
+
+    it('should unlike the image if liked image before', async () => {
+      jest.spyOn(imageInteractRepository, 'getPrimaryKey').mockResolvedValue(null);
+      await expect(imageService.handleInteractImage(1, interactImageRequest)).resolves.toEqual(
+        ImageMessage.INTERACTION_IMAGE(interactImageRequest.type, false),
+      );
+    });
+
+    it('should like the image if do not like image before', async () => {
+      const image_interaction = imageInteractionEntityMock.mock();
+      jest.spyOn(imageInteractRepository, 'getPrimaryKey').mockResolvedValue(image_interaction);
+      await expect(imageService.handleInteractImage(1, interactImageRequest)).resolves.toEqual(
+        ImageMessage.INTERACTION_IMAGE(interactImageRequest.type, true),
+      );
     });
   });
 });

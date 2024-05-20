@@ -35,7 +35,7 @@ export class ImageInteractionRepository extends BaseRepository {
     userId: number;
     imageId: number;
     type: InteractionType;
-  }): Promise<ImageInteraction | null> {
+  }): Promise<ImageInteraction> {
     return this.database.query.images_interaction.findFirst({
       where: and(
         eq(images_interaction.userId, data.userId),

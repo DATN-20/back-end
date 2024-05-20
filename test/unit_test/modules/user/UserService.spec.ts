@@ -11,6 +11,8 @@ import { UserService } from '@core/module/user/UserService';
 import { CloudinaryService } from '@infrastructure/external-services/image-storage/cloudinary/CloudinaryService';
 import { SINGLE_FILE_MOCK } from '../../core/utils/MockFile';
 import { MockUserRepository } from '@unittest/core/mock-di/internal/repositories/UserRepositoryMock';
+import { MockImageStorageService } from '@unittest/core/mock-di/internal/services/ImageStorageServiceMock';
+import { UserMock } from '@unittest/core/mock-entity/UserMock';
 
 const USER_ENTITY: User = {
   id: 1,
@@ -36,15 +38,20 @@ describe('UserService', () => {
   let userService: UserService;
   let userRepository: UserRepository;
   let imageStorageService: IImageStorageService;
+  let userEntityMock: UserMock;
+  let userEntity: User;
 
-  beforeEach(async () => {
-    const mockImageStorageService: Partial<IImageStorageService> = {
-      uploadImageWithBuffer: jest.fn(),
-    };
-
+  beforeAll(async () => {
     userRepository = MockUserRepository as UserRepository;
-    imageStorageService = mockImageStorageService as CloudinaryService;
+    imageStorageService = MockImageStorageService as CloudinaryService;
     userService = new UserService(userRepository, imageStorageService);
+    userEntityMock = new UserMock();
+    userEntity = userEntityMock.mock();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   describe('handleGetExistedUser', () => {
