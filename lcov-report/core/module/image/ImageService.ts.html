@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30% </span>
+                <span class="strong">34.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>42/140</span>
+                <span class='fraction'>48/140</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">8% </span>
+                <span class="strong">12% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/25</span>
+                <span class='fraction'>3/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.27% </span>
+                <span class="strong">31.81% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/22</span>
+                <span class='fraction'>7/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">29.41% </span>
+                <span class="strong">33.82% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>40/136</span>
+                <span class='fraction'>46/136</span>
             </div>
         
             
@@ -563,29 +563,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -972,30 +972,30 @@ export class ImageService {
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async </span>handleInteractImage(user_id: number, data: InteractImageRequest): Promise&lt;string&gt; {
-    const is_interacted = <span class="cstat-no" title="statement not covered" >!!(await this.imageInteractRepository.getPrimaryKey({</span>
+  async handleInteractImage(user_id: number, data: InteractImageRequest): Promise&lt;string&gt; {
+    const is_interacted = !!(await this.imageInteractRepository.getPrimaryKey({
       userId: user_id,
       imageId: data.imageId,
       type: data.type,
     }));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (is_interacted) {</span>
-<span class="cstat-no" title="statement not covered" >      await this.imageInteractRepository.delete({</span>
+    if (is_interacted) {
+      await this.imageInteractRepository.delete({
         userId: user_id,
         imageId: data.imageId,
         type: data.type,
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return ImageMessage.INTERACTION_IMAGE(data.type, true);</span>
+      return ImageMessage.INTERACTION_IMAGE(data.type, true);
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    await this.imageInteractRepository.create({</span>
+    await this.imageInteractRepository.create({
       userId: user_id,
       imageId: data.imageId,
       type: data.type,
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return ImageMessage.INTERACTION_IMAGE(data.type, false);</span>
+    return ImageMessage.INTERACTION_IMAGE(data.type, false);
   }
 &nbsp;
   //Save image genrated basic by AI to database
@@ -1300,7 +1300,7 @@ export class ImageService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-05-20T06:23:11.898Z
+                at 2024-05-20T13:14:52.326Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
