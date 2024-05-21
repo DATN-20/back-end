@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1716210892369" clover="3.2.0">
-  <project timestamp="1716210892369" name="All files">
-    <metrics statements="956" coveredstatements="278" conditionals="146" coveredconditionals="29" methods="247" coveredmethods="42" elements="1349" coveredelements="349" complexity="0" loc="956" ncloc="956" packages="17" files="36" classes="36"/>
+<coverage generated="1716302580619" clover="3.2.0">
+  <project timestamp="1716302580620" name="All files">
+    <metrics statements="957" coveredstatements="278" conditionals="146" coveredconditionals="29" methods="247" coveredmethods="42" elements="1350" coveredelements="349" complexity="0" loc="957" ncloc="957" packages="17" files="36" classes="36"/>
     <package name="core.common.repository">
       <metrics statements="4" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="BaseRepository.ts" path="/home/runner/work/back-end/back-end/src/core/common/repository/BaseRepository.ts">
@@ -90,28 +90,29 @@
       </file>
     </package>
     <package name="core.common.util.jwt">
-      <metrics statements="19" coveredstatements="11" conditionals="3" coveredconditionals="2" methods="4" coveredmethods="1"/>
+      <metrics statements="20" coveredstatements="11" conditionals="3" coveredconditionals="2" methods="4" coveredmethods="1"/>
       <file name="JwtUtil.ts" path="/home/runner/work/back-end/back-end/src/core/common/util/jwt/JwtUtil.ts">
-        <metrics statements="19" coveredstatements="11" conditionals="3" coveredconditionals="2" methods="4" coveredmethods="1"/>
+        <metrics statements="20" coveredstatements="11" conditionals="3" coveredconditionals="2" methods="4" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
-        <line num="18" count="1" type="cond" truecount="2" falsecount="0"/>
-        <line num="19" count="1" type="stmt"/>
+        <line num="19" count="1" type="cond" truecount="2" falsecount="0"/>
         <line num="20" count="1" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
         <line num="29" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="46" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="47" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="55" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="56" count="0" type="stmt"/>
       </file>
     </package>
     <package name="core.module.album">
