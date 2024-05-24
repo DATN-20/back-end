@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.12% </span>
+                <span class="strong">13.79% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/33</span>
+                <span class='fraction'>4/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.12% </span>
+                <span class="strong">13.79% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/33</span>
+                <span class='fraction'>4/29</span>
             </div>
         
             
@@ -190,13 +190,7 @@
 <a name='L125'></a><a href='#L125'>125</a>
 <a name='L126'></a><a href='#L126'>126</a>
 <a name='L127'></a><a href='#L127'>127</a>
-<a name='L128'></a><a href='#L128'>128</a>
-<a name='L129'></a><a href='#L129'>129</a>
-<a name='L130'></a><a href='#L130'>130</a>
-<a name='L131'></a><a href='#L131'>131</a>
-<a name='L132'></a><a href='#L132'>132</a>
-<a name='L133'></a><a href='#L133'>133</a>
-<a name='L134'></a><a href='#L134'>134</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L128'></a><a href='#L128'>128</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -244,17 +238,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -332,7 +320,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { Image, NewImage } from './entity/Image';
 import { images } from '@infrastructure/orm/schema';
-import { and, count, eq, like, max, or, sql } from 'drizzle-orm';
+import { and, count, desc, eq, like, max, or, sql } from 'drizzle-orm';
 import { ImageType } from '@core/common/enum/ImageType';
 &nbsp;
 export class ImageRepository extends BaseRepository {
@@ -373,21 +361,15 @@ export class ImageRepository extends BaseRepository {
 <span class="cstat-no" title="statement not covered" >    return this.database.query.images.findMany({</span>
       where: <span class="fstat-no" title="function not covered" >(i</span>mage, { eq, and, inArray }) =&gt;
 <span class="cstat-no" title="statement not covered" >        and(eq(image.userId, user_id), inArray(images.type, types)),</span>
+      orderBy: desc(images.createdAt),
     });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async </span>getUserMaxGenerateID(user_id: number): Promise&lt;number&gt; {
-    let result = <span class="cstat-no" title="statement not covered" >0;</span>
-    const query_result = <span class="cstat-no" title="statement not covered" >await this.database</span>
-      .select({ value: max(images.generateId) })
-      .from(images)
-      .where(eq(images.userId, user_id));
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (query_result.length &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >      result = query_result[0].value;</span>
-    }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    return result;</span>
+<span class="fstat-no" title="function not covered" >  async </span>getImagesByGenerationIdOfUser(user_id: number, generation_id: string): Promise&lt;Image[]&gt; {
+<span class="cstat-no" title="statement not covered" >    return this.database.query.images.findMany({</span>
+      where: and(eq(images.userId, user_id), eq(images.generateId, generation_id)),
+      orderBy: desc(images.createdAt),
+    });
   }
 &nbsp;
 <span class="fstat-no" title="function not covered" >  async </span>updateRemoveBackgroundImageById(image_id: number, url: string): Promise&lt;Image&gt; {
@@ -469,7 +451,7 @@ export class ImageRepository extends BaseRepository {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-05-21T14:43:00.578Z
+                at 2024-05-24T13:52:40.321Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
