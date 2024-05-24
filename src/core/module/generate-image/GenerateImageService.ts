@@ -6,7 +6,6 @@ import { ImageService } from '../image/ImageService';
 import { ImageType } from '@core/common/enum/ImageType';
 import { AIGenerateImageByImagesStyleServiceManager } from '@infrastructure/external-services/ai-generate-image/AIGenerateImageByImagesStyleServiceManager';
 import { GenerateByImagesStyleInputs } from './entity/request/GenerateImageByImagesStyleInputs';
-import { GenerationStatus } from '@core/common/enum/GenerationStatus';
 
 @Injectable()
 export class GenerateImageService {
