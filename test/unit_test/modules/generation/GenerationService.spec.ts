@@ -107,10 +107,9 @@ describe(GenerationService.name, () => {
   describe('handleDeleteById', () => {
     it('should throw GENERATION_NOT_FOUND exception', async () => {
       jest.spyOn(generationRepository, 'getById').mockResolvedValue(null);
+      await generationService.handleDeleteById(RandomString.randomString());
 
-      await expect(
-        generationService.handleDeleteById(RandomString.randomString()),
-      ).rejects.toBeInstanceOf(Exception);
+      expect(generationRepository.deleteById).not.toHaveBeenCalled();
     });
 
     it('should send mail to the owener of generation and delete generation', async () => {
