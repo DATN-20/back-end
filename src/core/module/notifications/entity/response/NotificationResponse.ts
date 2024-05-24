@@ -14,6 +14,7 @@ export class NotifcationResponse {
   private isRead: boolean;
   private redirectUrl: string;
   private createdAt: Date;
+  private referenceData: string;
 
   constructor(
     id: number,
@@ -24,6 +25,7 @@ export class NotifcationResponse {
     redirect_url: string,
     created_at: Date,
     user: User = null,
+    reference_data: string = null,
   ) {
     this.id = id;
     this.title = title;
@@ -33,6 +35,7 @@ export class NotifcationResponse {
     this.redirectUrl = redirect_url;
     this.createdAt = created_at;
     this.user = user;
+    this.referenceData = reference_data;
   }
 
   public static convertFromEntity(notification: NotificationEntity): NotifcationResponse {
@@ -45,6 +48,7 @@ export class NotifcationResponse {
       notification.redirectUrl,
       notification.createdAt,
       notification['user'] ?? null,
+      notification.referenceData,
     );
   }
 
@@ -56,7 +60,7 @@ export class NotifcationResponse {
       type: this.type,
       user: this.user ? UserProfileResponse.convertFromEntity(this.user).toShortJson() : null,
       is_read: this.isRead,
-      redirect_url: `${FrontEndConfig.FRONT_END_URL}/${this.redirectUrl}`,
+      reference_data: this.referenceData,
       created_at: this.createdAt,
     };
   }

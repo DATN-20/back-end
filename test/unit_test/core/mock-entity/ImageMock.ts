@@ -30,7 +30,7 @@ export class ImageMock implements IMockEntity<Image> {
       additionInfo: RandomString.randomString(),
       visibility: true,
       storageId: RandomString.randomString(),
-      generateId: RandomNumber.randomNumber(),
+      generateId: RandomString.randomString(),
       removeBackground: null,
       upscale: null,
     };

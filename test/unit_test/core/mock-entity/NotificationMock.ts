@@ -28,6 +28,7 @@ export class NotificationMock implements IMockEntity<NotificationEntity> {
       redirectUrl: RandomString.randomString(),
       isRead: false,
       type: NotificationType.GENERATION,
+      referenceData: null,
     };
   }
 }

@@ -25,6 +25,7 @@ import { ProcessImageRequest } from './entity/request/ProcessImageRequest';
 import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
 import { ImageResponseJson } from './entity/response/ImageResponseJson';
 import { DashboardImageQueryRequest } from './entity/request/DashboardImageQueryRequest';
+import { GenerateImageListResponseJson } from './entity/response/GenerateImageListResponseJson';
 
 @UseGuards(AuthGuard)
 @Controller('images')
@@ -98,13 +99,23 @@ export class ImageController {
   }
 
   @Get('generate-history')
-  async getGenerateHistoryImages(@User() user: UserFromAuthGuard): Promise<ImageResponseJson[]> {
+  async getGenerateHistoryImages(
+    @User() user: UserFromAuthGuard,
+  ): Promise<GenerateImageListResponseJson[]> {
     return this.imageService.handleGetGenerateImageHistory(user.id);
   }
 
   @Get(':imageId')
   async getImageById(@Param('imageId') image_id: number) {
     return this.imageService.handleGetImageById(image_id);
+  }
+
+  @Get('generate-history/:generationId')
+  async getGeneratedImagesByGenerationId(
+    @User() user: UserFromAuthGuard,
+    @Param('generationId') generation_id: string,
+  ): Promise<GenerateImageListResponseJson> {
+    return this.imageService.handleGetGeneratedImagesByGenerationId(user.id, generation_id);
   }
 
   @Post('/:id/image-processing')

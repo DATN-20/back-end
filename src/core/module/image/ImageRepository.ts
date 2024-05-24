@@ -1,7 +1,7 @@
 import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { Image, NewImage } from './entity/Image';
 import { images } from '@infrastructure/orm/schema';
-import { and, count, eq, like, max, or, sql } from 'drizzle-orm';
+import { and, count, desc, eq, like, max, or, sql } from 'drizzle-orm';
 import { ImageType } from '@core/common/enum/ImageType';
 
 export class ImageRepository extends BaseRepository {
@@ -42,21 +42,15 @@ export class ImageRepository extends BaseRepository {
     return this.database.query.images.findMany({
       where: (image, { eq, and, inArray }) =>
         and(eq(image.userId, user_id), inArray(images.type, types)),
+      orderBy: desc(images.createdAt),
     });
   }
 
-  async getUserMaxGenerateID(user_id: number): Promise<number> {
-    let result = 0;
-    const query_result = await this.database
-      .select({ value: max(images.generateId) })
-      .from(images)
-      .where(eq(images.userId, user_id));
-
-    if (query_result.length > 0) {
-      result = query_result[0].value;
-    }
-
-    return result;
+  async getImagesByGenerationIdOfUser(user_id: number, generation_id: string): Promise<Image[]> {
+    return this.database.query.images.findMany({
+      where: and(eq(images.userId, user_id), eq(images.generateId, generation_id)),
+      orderBy: desc(images.createdAt),
+    });
   }
 
   async updateRemoveBackgroundImageById(image_id: number, url: string): Promise<Image> {
