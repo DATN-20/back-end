@@ -127,4 +127,16 @@ export class ComfyUIService
       ),
     };
   }
+
+  async generateTagByImage(image_buffer: Buffer): Promise<string> {
+    const imageInput = await this.comfyUIApi.uploadImage(image_buffer, `${Date.now()}.png`);
+    const comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptImageToTag(
+      imageInput.name,
+    );
+    const comfyui_socket = new ComfyUISokcet(this.generationService);
+
+    // const tags = 'ok';
+    const tags = await this.comfyUIApi.getTags(comfyui_socket, comfyui_prompt);
+    return tags;
+  }
 }
