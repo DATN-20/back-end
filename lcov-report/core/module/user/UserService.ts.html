@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">95.23% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>40/40</span>
+                <span class='fraction'>40/42</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>8/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">95% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>38/38</span>
+                <span class='fraction'>38/40</span>
             </div>
         
             
@@ -147,13 +147,21 @@
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -229,6 +237,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Inject, Injectable } from '@nestjs/common';
@@ -240,6 +254,7 @@ import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
 import { User } from './entity/User';
+import { UserProfileResponseJson } from './entity/response/UserProfileResponseJson';
 &nbsp;
 @Injectable()
 export class UserService {
@@ -258,16 +273,16 @@ export class UserService {
     return matched_user;
   }
 &nbsp;
-  async handleGetLoggedInUserProfile(user_id: number): Promise&lt;UserProfileResponse&gt; {
+  async handleGetLoggedInUserProfile(user_id: number): Promise&lt;UserProfileResponseJson&gt; {
     const matched_user = await this.handleGetExistedUser(user_id);
 &nbsp;
-    return UserProfileResponse.convertFromEntity(matched_user);
+    return UserProfileResponse.convertFromEntity(matched_user).toJson();
   }
 &nbsp;
   async handleUpdateProfile(
     user_id: number,
     profile: ProfileRequest,
-  ): Promise&lt;UserProfileResponse&gt; {
+  ): Promise&lt;UserProfileResponseJson&gt; {
     const matched_user = await this.handleGetExistedUser(user_id);
 &nbsp;
     ProfileRequest.updateFields(profile, matched_user);
@@ -278,15 +293,15 @@ export class UserService {
     });
 &nbsp;
     const updated_user = await this.userRepository.getById(user_id);
-    return UserProfileResponse.convertFromEntity(updated_user);
+    return UserProfileResponse.convertFromEntity(updated_user).toJson();
   }
 &nbsp;
-  async handleAddSocial(user_id: number, social: SocialRequest): Promise&lt;UserProfileResponse&gt; {
+  async handleAddSocial(user_id: number, social: SocialRequest): Promise&lt;UserProfileResponseJson&gt; {
     await this.handleGetExistedUser(user_id);
 &nbsp;
     await this.userRepository.addSocial(user_id, social);
     const updated_user = await this.userRepository.getById(user_id);
-    return UserProfileResponse.convertFromEntity(updated_user);
+    return UserProfileResponse.convertFromEntity(updated_user).toJson();
   }
 &nbsp;
   async handleUpdateAvatar(user_id: number, file: Express.Multer.File): Promise&lt;string&gt; {
@@ -314,6 +329,12 @@ export class UserService {
       throw new Exception(UserError.FAILED_TO_UPDATE_BACKGROUND);
     }
   }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  async </span>handleGetUserProfileById(user_id: number): Promise&lt;UserProfileResponseJson&gt; {
+    const matched_user = <span class="cstat-no" title="statement not covered" >await this.handleGetExistedUser(user_id);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return UserProfileResponse.convertFromEntity(matched_user).toJson();</span>
+  }
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -322,7 +343,7 @@ export class UserService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-05-24T13:52:40.321Z
+                at 2024-05-25T11:03:27.737Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

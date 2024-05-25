@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for core/common/util/UrlUtil.ts</title>
+    <title>Code coverage report for core/module/generate-tag/GenerateTagController.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">core/common/util</a> UrlUtil.ts</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">core/module/generate-tag</a> GenerateTagController.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/12</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/12</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
@@ -83,21 +83,10 @@
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -105,40 +94,33 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import axios from 'axios';
-import { Exception } from '../exception/Exception';
-import { ErrorBaseSystem } from '../resource/error/ErrorBase';
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { AuthGuard } from '@core/common/guard/AuthGuard';</span>
+<span class="cstat-no" title="statement not covered" >import { Controller, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';</span>
+<span class="cstat-no" title="statement not covered" >import { GenerateTagService } from './GenerateTagService';</span>
+<span class="cstat-no" title="statement not covered" >import { User } from '@core/common/decorator/UserDecorator';</span>
+<span class="cstat-no" title="statement not covered" >import { FileInterceptor } from '@nestjs/platform-express';</span>
 &nbsp;
-export class UrlUtil {
-  // check the string is url of image or base64 content: true -&gt; url, false -&gt; base64
-  public <span class="fstat-no" title="function not covered" >static </span>isUrlImage(value: string): boolean {
-    const regexUrl = <span class="cstat-no" title="statement not covered" >/^(ftp|http|https):\/\/[^ "]+$/;</span>
+@UseGuards(AuthGuard)
+@Controller('generate-tag')
+export <span class="cstat-no" title="statement not covered" >class <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >GenerateTagController </span>{</span></span>
+<span class="fstat-no" title="function not covered" >  constructor(private readonly <span class="cstat-no" title="statement not covered" >g</span>enerateTagService: G</span>enerateTagService) {}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return regexUrl.test(value);</span>
-  }
-&nbsp;
-  public <span class="fstat-no" title="function not covered" >static </span>async urlImageToBuffer(url_image: string): Promise&lt;Buffer&gt; {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const response = <span class="cstat-no" title="statement not covered" >await axios.get(url_image, { responseType: 'arraybuffer' });</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      if (response.status === 200) {</span>
-<span class="cstat-no" title="statement not covered" >        return Buffer.from(response.data, 'binary');</span>
-      } else {
-<span class="cstat-no" title="statement not covered" >        throw new Exception(ErrorBaseSystem.INTERNAL_SERVER_ERROR);</span>
-      }
-    } catch (error) {
-<span class="cstat-no" title="statement not covered" >      throw new Exception(ErrorBaseSystem.INTERNAL_SERVER_ERROR);</span>
-    }
+  @Post()
+  @UseInterceptors(FileInterceptor('image'))
+<span class="fstat-no" title="function not covered" >  async <span class="cstat-no" title="statement not covered" ></span>generateTag(</span>
+    @User() user: UserFromAuthGuard,
+    @UploadedFile() image: Express.Multer.File,
+  ): Promise&lt;string&gt; {
+<span class="cstat-no" title="statement not covered" >    return this.generateTagService.handleGenerateTag(image?.buffer);</span>
   }
 }
 &nbsp;</pre></td></tr></table></pre>
