@@ -8,6 +8,7 @@ import { ProfileRequest } from './entity/request/ProfileRequest';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
 import { UserProfileResponseJson } from './entity/response/UserProfileResponseJson';
 import { User } from './entity/User';
+import { UserProfileResponseJson } from './entity/response/UserProfileResponseJson';
 
 @Injectable()
 export class UserService {
@@ -80,5 +81,11 @@ export class UserService {
     } catch (error) {
       throw new Exception(UserError.FAILED_TO_UPDATE_BACKGROUND);
     }
+  }
+
+  async handleGetUserProfileById(user_id: number): Promise<UserProfileResponseJson> {
+    const matched_user = await this.handleGetExistedUser(user_id);
+
+    return UserProfileResponse.convertFromEntity(matched_user).toJson();
   }
 }

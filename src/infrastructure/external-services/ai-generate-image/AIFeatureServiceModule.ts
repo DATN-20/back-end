@@ -4,7 +4,6 @@ import { ComfyUIModule } from './comfyui/ComfyUIModule';
 
 @Module({
   imports: [ComfyUIModule],
-  controllers: [],
   providers: [AIFeatureServiceManager],
   exports: [AIFeatureServiceManager],
 })

@@ -16,10 +16,12 @@ import { MyElasticsearchModule } from '@infrastructure/external-services/elastic
 import { LogMonitoringModule } from './LogMonitoringModule';
 import { GenerationModule } from './GenerationModule';
 import { NotificationModule } from './NotificationModule';
+import { GenerateTagModule } from './GenerateTagModule';
 
 @Module({
   imports: [
     InfrastructureModule,
+    AIFeatureServiceModule,
     UserModule,
     AuthModule,
     AlbumModule,
@@ -34,6 +36,7 @@ import { NotificationModule } from './NotificationModule';
     UserManagementModule,
     MyElasticsearchModule,
     LogMonitoringModule,
+    GenerateTagModule,
     GenerationModule,
     NotificationModule,
   ],

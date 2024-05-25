@@ -19,4 +19,8 @@ export class AIFeatureServiceManager {
   async upscale(ai_name: string, image_buffer: Buffer): Promise<Buffer[]> {
     return this.aIList[ai_name].upscale(image_buffer);
   }
+
+  async generateTagByImage(ai_name: string, image_buffer: Buffer): Promise<string> {
+    return this.aIList[ai_name].generateTagByImage(image_buffer);
+  }
 }

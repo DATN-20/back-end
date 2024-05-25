@@ -8,6 +8,6 @@ export interface NotifcationResponseJson {
   type: NotificationType;
   user: UserResponseJson;
   is_read: boolean;
-  redirect_url: string;
+  reference_data: string | null;
   created_at: Date;
 }

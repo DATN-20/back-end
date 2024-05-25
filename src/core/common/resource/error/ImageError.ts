@@ -88,4 +88,10 @@ export class ImageError {
     message: 'Fail to change visibility of image',
     status_code: HttpStatus.INTERNAL_SERVER_ERROR,
   };
+
+  public static NO_IMAGES_BELONG_TO_GENERATION: ErrorBase = {
+    error_code: '03012',
+    message: 'No images are belong to this generation!',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
 }

@@ -80,7 +80,7 @@ export const images = mysqlTable('images', {
   visibility: boolean('visibility').default(false),
   createdAt: timestamp('created_at').defaultNow(),
   storageId: text('storage_id'),
-  generateId: int('generate_id'),
+  generateId: text('generate_id'),
   removeBackground: text('remove_background_url'),
   upscale: text('upscale_url'),
 });
@@ -168,6 +168,7 @@ export const notifcations = mysqlTable('notifications', {
   isRead: boolean('is_read').default(false),
   redirectUrl: text('redirect_url'),
   content: text('content'),
+  referenceData: text('reference_data').default(null),
   createdAt: timestamp('created_at').defaultNow(),
 });
 

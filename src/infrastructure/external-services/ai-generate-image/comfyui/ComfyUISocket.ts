@@ -17,6 +17,7 @@ export enum ComfyUITypeMessageSocket {
 export class ComfyUISokcet extends BaseSocketClient {
   private clientId: string;
   private generationService: GenerationService;
+  private isSkipStatus: boolean = false;
 
   constructor(generation_service: GenerationService, client_id: string = uuidv4()) {
     super(
@@ -27,6 +28,10 @@ export class ComfyUISokcet extends BaseSocketClient {
     );
     this.clientId = client_id;
     this.generationService = generation_service;
+  }
+
+  public skipStatus(): void {
+    this.isSkipStatus = true;
   }
 
   public getClientId(): string {
@@ -45,19 +50,11 @@ export class ComfyUISokcet extends BaseSocketClient {
         switch (type) {
           case ComfyUITypeMessageSocket.EXECUTED:
             const output_data = data.output[property];
-
             callback(output_data);
-            if (this.generationService) {
-              this.generationService.handleChangeStatusOfGeneration(
-                this.clientId,
-                GenerationStatus.FINISHED,
-              );
-            }
-
             break;
           case ComfyUITypeMessageSocket.EXECUTING:
           case ComfyUITypeMessageSocket.PROGRESS:
-            if (this.generationService) {
+            if (this.generationService && !this.isSkipStatus) {
               this.generationService.handleChangeStatusOfGeneration(
                 this.clientId,
                 GenerationStatus.PROCESSING,

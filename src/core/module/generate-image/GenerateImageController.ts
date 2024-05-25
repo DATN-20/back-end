@@ -18,6 +18,7 @@ import { ImageType } from '@core/common/enum/ImageType';
 import { CONTROL_NET_DEFAULT_STRENGTH } from '@infrastructure/external-services/ai-generate-image/comfyui/control-net/ComfyUIControlNetInfo';
 import { GenerationService } from '../generation/GenerationService';
 import { GenerationResponseJson } from '../generation/entity/response/GenerationResponseJson';
+import { GenerationStatus } from '@core/common/enum/GenerationStatus';
 
 @UseGuards(AuthGuard)
 @Controller('generate-image')
@@ -53,6 +54,12 @@ export class GenerateImageController {
 
     this.generateImageService
       .handleGenerateTextToImg(user.id, generate_inputs)
+      .then(async () => {
+        await this.generationService.handleChangeStatusOfGeneration(
+          generation.id,
+          GenerationStatus.FINISHED,
+        );
+      })
       .catch(async (_error: any) => {
         await this.generationService.handleDeleteById(generation.id);
       });

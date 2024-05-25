@@ -11,6 +11,7 @@ export class NotificationRepository extends BaseRepository {
     content: string,
     type: NotificationType,
     redirect_url: string,
+    reference_data: string = null,
   ): Promise<NotificationEntity> {
     const result = await this.database.insert(notifcations).values({
       type,
@@ -18,6 +19,7 @@ export class NotificationRepository extends BaseRepository {
       redirectUrl: redirect_url,
       content,
       title,
+      referenceData: reference_data,
     });
 
     return this.getById(result[0].insertId);
