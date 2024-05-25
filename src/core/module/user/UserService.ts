@@ -7,6 +7,7 @@ import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
 import { User } from './entity/User';
+import { UserProfileResponseJson } from './entity/response/UserProfileResponseJson';
 
 @Injectable()
 export class UserService {
@@ -25,16 +26,16 @@ export class UserService {
     return matched_user;
   }
 
-  async handleGetLoggedInUserProfile(user_id: number): Promise<UserProfileResponse> {
+  async handleGetLoggedInUserProfile(user_id: number): Promise<UserProfileResponseJson> {
     const matched_user = await this.handleGetExistedUser(user_id);
 
-    return UserProfileResponse.convertFromEntity(matched_user);
+    return UserProfileResponse.convertFromEntity(matched_user).toJson();
   }
 
   async handleUpdateProfile(
     user_id: number,
     profile: ProfileRequest,
-  ): Promise<UserProfileResponse> {
+  ): Promise<UserProfileResponseJson> {
     const matched_user = await this.handleGetExistedUser(user_id);
 
     ProfileRequest.updateFields(profile, matched_user);
@@ -45,15 +46,15 @@ export class UserService {
     });
 
     const updated_user = await this.userRepository.getById(user_id);
-    return UserProfileResponse.convertFromEntity(updated_user);
+    return UserProfileResponse.convertFromEntity(updated_user).toJson();
   }
 
-  async handleAddSocial(user_id: number, social: SocialRequest): Promise<UserProfileResponse> {
+  async handleAddSocial(user_id: number, social: SocialRequest): Promise<UserProfileResponseJson> {
     await this.handleGetExistedUser(user_id);
 
     await this.userRepository.addSocial(user_id, social);
     const updated_user = await this.userRepository.getById(user_id);
-    return UserProfileResponse.convertFromEntity(updated_user);
+    return UserProfileResponse.convertFromEntity(updated_user).toJson();
   }
 
   async handleUpdateAvatar(user_id: number, file: Express.Multer.File): Promise<string> {
@@ -80,5 +81,11 @@ export class UserService {
     } catch (error) {
       throw new Exception(UserError.FAILED_TO_UPDATE_BACKGROUND);
     }
+  }
+
+  async handleGetUserProfileById(user_id: number): Promise<UserProfileResponseJson> {
+    const matched_user = await this.handleGetExistedUser(user_id);
+
+    return UserProfileResponse.convertFromEntity(matched_user).toJson();
   }
 }

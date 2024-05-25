@@ -196,4 +196,17 @@ export class ComfyUIConverter {
 
     return workflow;
   }
+
+  async convertToComfyUIPromptImageToTag(image_name: string): Promise<any> {
+    const workflow_data = fs.readFileSync(COMFYUI_JSON_FILE_PATH + 'image-to-tag.json', {
+      encoding: 'utf-8',
+    });
+    let workflow = JSON.parse(workflow_data);
+    const loaded_image_node_id = '88';
+    const tagger_node_id = '80';
+
+    workflow[loaded_image_node_id]['inputs']['image'] = image_name;
+
+    return workflow;
+  }
 }

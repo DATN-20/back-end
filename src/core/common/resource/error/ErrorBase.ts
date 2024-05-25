@@ -33,4 +33,11 @@ export class ErrorBaseSystem {
     message: 'Internal server error!',
     status_code: HttpStatus.INTERNAL_SERVER_ERROR,
   };
+  public static INVALID_PARAM = (field: string): ErrorBase => {
+    return {
+      error_code: '00006',
+      message: `${field} is invalid!`,
+      status_code: HttpStatus.BAD_REQUEST,
+    };
+  };
 }

@@ -412,11 +412,11 @@ export class ImageService {
     pagination: QueryPagination,
   ): Promise<QueryPaginationResponse<ImageResponseJson>> {
     const images = await this.imageRepository.getByUserIdWithPaginition(user_id, true, pagination);
-
     const result: ImageResponseJson[] = images.map(image =>
       ImageResponse.convertFromImage(image).toJson(),
     );
     const total_count = await this.imageRepository.countTotalRecordByUserId(user_id, true);
+
     return {
       page: pagination.page,
       limit: pagination.limit,

@@ -13,10 +13,12 @@ import { DashboardImageModule } from './DashboardImageModule';
 import { AIFeatureServiceModule } from '@infrastructure/external-services/ai-generate-image/AIFeatureServiceModule';
 import { GenerationModule } from './GenerationModule';
 import { NotificationModule } from './NotificationModule';
+import { GenerateTagModule } from './GenerateTagModule';
 
 @Module({
   imports: [
     InfrastructureModule,
+    AIFeatureServiceModule,
     UserModule,
     AuthModule,
     AlbumModule,
@@ -27,7 +29,7 @@ import { NotificationModule } from './NotificationModule';
     AIGenerateImageModule,
     ImageInteractionModule,
     DashboardImageModule,
-    AIFeatureServiceModule,
+    GenerateTagModule,
     GenerationModule,
     NotificationModule,
   ],
