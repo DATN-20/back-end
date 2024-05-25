@@ -8,4 +8,5 @@ type QueryPaginationResponse<T> = {
   limit: number;
   total: number;
   data: T[];
+  profile?: any;
 };

@@ -136,7 +136,6 @@ export class ComfyUIService
     const comfyui_socket = new ComfyUISokcet(this.generationService);
     comfyui_socket.skipStatus();
 
-    // const tags = 'ok';
     const tags = await this.comfyUIApi.getTags(comfyui_socket, comfyui_prompt);
     return tags;
   }

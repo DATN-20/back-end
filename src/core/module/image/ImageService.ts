@@ -18,6 +18,9 @@ import { GenerateByImagesStyleInputs } from '../generate-image/entity/request/Ge
 import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
 import { ImageResponseJson } from './entity/response/ImageResponseJson';
 import { GenerateImageListResponseJson } from './entity/response/GenerateImageListResponseJson';
+import { UserError } from '@core/common/resource/error/UserError';
+import { UserProfileResponse } from '../user/entity/response/UserProfileResponse';
+import { UserRepository } from '../user/UserRepository';
 
 @Injectable()
 export class ImageService {
@@ -26,6 +29,7 @@ export class ImageService {
     @Inject('ImageStorageService') private readonly imageStorageService: IImageStorageService,
     private readonly imageInteractRepository: ImageInteractionRepository,
     private readonly aiFeatureService: AIFeatureServiceManager,
+    private readonly userRepository: UserRepository,
   ) {}
 
   async handleUploadImages(
@@ -411,17 +415,24 @@ export class ImageService {
     user_id: number,
     pagination: QueryPagination,
   ): Promise<QueryPaginationResponse<ImageResponseJson>> {
-    const images = await this.imageRepository.getByUserIdWithPaginition(user_id, true, pagination);
+    const matched_user = await this.userRepository.getById(user_id);
+    if (!matched_user) {
+      throw new Exception(UserError.USER_NOT_FOUND);
+    }
 
+    const images = await this.imageRepository.getByUserIdWithPaginition(user_id, true, pagination);
     const result: ImageResponseJson[] = images.map(image =>
       ImageResponse.convertFromImage(image).toJson(),
     );
     const total_count = await this.imageRepository.countTotalRecordByUserId(user_id, true);
+    const userProfile = UserProfileResponse.convertFromEntity(matched_user);
+
     return {
       page: pagination.page,
       limit: pagination.limit,
       total: total_count,
       data: result,
+      profile: userProfile.toJson(),
     };
   }
 }

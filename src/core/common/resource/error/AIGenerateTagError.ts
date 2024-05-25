@@ -2,9 +2,9 @@ import { HttpStatus } from '@nestjs/common';
 import { ErrorBase } from './ErrorBase';
 
 export class AIGenerateTagError extends Error {
-  public static IMAGE_NOT_FOUND: ErrorBase = {
+  public static IMAGE_IS_REQUIRED: ErrorBase = {
     error_code: '10001',
-    message: 'Image not found',
-    status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+    message: 'Image is required to generate tags',
+    status_code: HttpStatus.BAD_REQUEST,
   };
 }

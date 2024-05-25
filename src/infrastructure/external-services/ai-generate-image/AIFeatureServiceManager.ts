@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ComfyUIService } from './comfyui/ComfyUIService';
 import { IAIFeatureService } from '@core/common/interface/IAIFeatureService';
-import { InputPromts } from './type/InputPrompts';
 
 @Injectable()
 export class AIFeatureServiceManager {
