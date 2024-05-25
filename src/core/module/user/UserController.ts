@@ -28,7 +28,7 @@ export class UserController {
 
   @Get('me')
   async getLoggedInUserProfile(@User() user: UserFromAuthGuard): Promise<UserProfileResponseJson> {
-    return await this.userService.handleGetLoggedInUserProfile(user.id);
+    return this.userService.handleGetLoggedInUserProfile(user.id);
   }
 
   @Get(':guestId')
@@ -51,7 +51,7 @@ export class UserController {
     @User() user: UserFromAuthGuard,
     @Body() profile: ProfileRequest,
   ): Promise<UserProfileResponseJson> {
-    return await this.userService.handleUpdateProfile(user.id, profile);
+    return this.userService.handleUpdateProfile(user.id, profile);
   }
 
   @Post('me/social')
@@ -59,7 +59,7 @@ export class UserController {
     @User() user: UserFromAuthGuard,
     @Body() social: SocialRequest,
   ): Promise<UserProfileResponseJson> {
-    return await this.userService.handleAddSocial(user.id, social);
+    return this.userService.handleAddSocial(user.id, social);
   }
 
   @Post('me/avatar')
@@ -68,7 +68,7 @@ export class UserController {
     @User() user: UserFromAuthGuard,
     @UploadedFile() file: Express.Multer.File,
   ): Promise<string> {
-    return await this.userService.handleUpdateAvatar(user.id, file);
+    return this.userService.handleUpdateAvatar(user.id, file);
   }
 
   @UseInterceptors(FileInterceptor('file'))
@@ -77,6 +77,6 @@ export class UserController {
     @User() user: UserFromAuthGuard,
     @UploadedFile() file: Express.Multer.File,
   ): Promise<string> {
-    return await this.userService.handleUpdateBackground(user.id, file);
+    return this.userService.handleUpdateBackground(user.id, file);
   }
 }

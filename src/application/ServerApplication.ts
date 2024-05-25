@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { RootModule } from './di/RootModule';
 import { ApiServerConfig } from '@infrastructure/config/ApiServerConfig';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationError, ValidationPipe } from '@nestjs/common';
 import { Exception } from '@core/common/exception/Exception';
 import { ErrorBaseSystem } from '@core/common/resource/error/ErrorBase';
 import { ExceptionFilterGlobal } from '@core/common/exception-filter/ExceptionFilterGlobal';
@@ -30,8 +30,8 @@ export class ServerApplication {
         transformOptions: {
           enableImplicitConversion: true,
         },
-        exceptionFactory(_errors) {
-          throw new Exception(ErrorBaseSystem.VALIDATION_REQUEST_DATA_FAILED);
+        exceptionFactory(_errors: ValidationError[]) {
+          throw new Exception(ErrorBaseSystem.DYNAMIC_ENTITY_VALIDATION_ERROR(_errors[0]));
         },
       }),
     );

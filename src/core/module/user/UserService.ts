@@ -6,8 +6,8 @@ import { UserError } from '@core/common/resource/error/UserError';
 import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
-import { User } from './entity/User';
 import { UserProfileResponseJson } from './entity/response/UserProfileResponseJson';
+import { User } from './entity/User';
 
 @Injectable()
 export class UserService {
@@ -51,7 +51,6 @@ export class UserService {
 
   async handleAddSocial(user_id: number, social: SocialRequest): Promise<UserProfileResponseJson> {
     await this.handleGetExistedUser(user_id);
-
     await this.userRepository.addSocial(user_id, social);
     const updated_user = await this.userRepository.getById(user_id);
     return UserProfileResponse.convertFromEntity(updated_user).toJson();

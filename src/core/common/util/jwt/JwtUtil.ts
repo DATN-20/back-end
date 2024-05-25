@@ -1,9 +1,9 @@
+import { UserRole } from '@core/common/enum/UserRole';
 import { Exception } from '@core/common/exception/Exception';
 import { ErrorBaseSystem } from '@core/common/resource/error/ErrorBase';
 import { Global, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { classToPlain } from 'class-transformer';
 
 export interface TokenPayload {
   id: number;
@@ -14,6 +14,7 @@ export interface CreateUserPayload {
   firstName: string;
   lastName: string;
   password: string;
+  role?: UserRole;
 }
 
 export enum JwtType {

@@ -11,6 +11,8 @@ import { MailService } from '@infrastructure/external-services/mail/MailService'
 import { MailTemplate } from '@core/common/enum/MailTemplate';
 import { MailSubject } from '@core/common/enum/MailSubject';
 import { FrontEndConfig } from '@infrastructure/config/FrontEndConfig';
+import { LockedUserRepository } from '../user-management/repositories/LockedUserRepository';
+import { LockedUserError } from '@core/common/resource/error/LockedUserError';
 
 @Injectable()
 export class AuthService {
@@ -19,6 +21,7 @@ export class AuthService {
     private readonly hashService: BcryptHash,
     private readonly jwtUtil: JwtUtil,
     private readonly mailService: MailService,
+    private readonly lockedUserRepository: LockedUserRepository,
   ) {}
 
   async handleSignUp(data: CreateNewUserRequest): Promise<void> {
@@ -43,6 +46,8 @@ export class AuthService {
     if (!user) {
       throw new Exception(AuthError.WRONG_USERNAME_OR_PASSWORD);
     }
+
+    await this.handleLockedUser(user.id);
 
     const is_matched_password = await this.hashService.compare(data.password, user.password);
 
@@ -92,6 +97,8 @@ export class AuthService {
       throw new Exception(AuthError.MAIL_NOT_MATCHED_WITH_ANY_USER);
     }
 
+    await this.handleLockedUser(matched_user.id);
+
     const token_forget_password = this.jwtUtil.signToken<TokenPayload>(
       {
         id: matched_user.id,
@@ -134,6 +141,8 @@ export class AuthService {
       throw new Exception(AuthError.INVALID_TOKEN_USER);
     }
 
+    await this.handleLockedUser(matched_user.id);
+
     const access_token = await this.jwtUtil.signToken<TokenPayload>(
       {
         id: matched_user.id,
@@ -153,5 +162,21 @@ export class AuthService {
     );
 
     return SignInResponse.convertFromUser(matched_user);
+  }
+
+  async handleLockedUser(user_id: number): Promise<boolean> {
+    const matched_locked_user = await this.lockedUserRepository.getByUserId(user_id);
+
+    if (!matched_locked_user) {
+      return false;
+    }
+
+    const current_date = new Date();
+    if (matched_locked_user.expiredAt < current_date) {
+      await this.lockedUserRepository.delete(matched_locked_user.userId);
+      return true;
+    } else {
+      throw new Exception(LockedUserError.USER_IS_LOCKED(matched_locked_user.lockedAt));
+    }
   }
 }

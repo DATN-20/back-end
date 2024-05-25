@@ -1,5 +1,6 @@
 import { ImageType } from '@core/common/enum/ImageType';
 import { InteractionType } from '@core/common/enum/InteractionType';
+import { LockUserType } from '@core/common/enum/LockUserType';
 import { UserRole } from '@core/common/enum/UserRole';
 import { relations } from 'drizzle-orm';
 import {
@@ -35,10 +36,27 @@ export const users = mysqlTable('users', {
   background: text('background'),
 });
 
-export const users_relations = relations(users, ({ many }) => ({
+export const users_relations = relations(users, ({ many, one }) => ({
   images: many(images),
   albums: many(albums),
   images_interaction: many(images_interaction),
+  locked_user: one(locked_users),
+}));
+
+export const locked_users = mysqlTable('locked_users', {
+  userId: int('user_id')
+    .primaryKey()
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  lockedAt: timestamp('locked_at').defaultNow(),
+  type: mysqlEnum('type', [LockUserType.TEMPARORY, LockUserType.PERMANENT]).default(
+    LockUserType.TEMPARORY,
+  ),
+  expiredAt: timestamp('expired_at').default(null),
+});
+
+export const users_lock_relation = relations(users, ({ one, many }) => ({
+  user: one(users),
   generations: many(generations),
   notifactions: many(notifcations),
 }));

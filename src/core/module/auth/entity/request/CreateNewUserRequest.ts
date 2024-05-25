@@ -1,5 +1,6 @@
-import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
 import { AuthConstant } from '../../AuthConstant';
+import { UserRole } from '@core/common/enum/UserRole';
 
 export class CreateNewUserRequest {
   @IsNotEmpty()
@@ -18,4 +19,8 @@ export class CreateNewUserRequest {
   @IsString()
   @Length(AuthConstant.MIN_LENGTH_PASSWORD)
   password: string;
+
+  @IsOptional()
+  @IsEnum(UserRole)
+  role: UserRole;
 }

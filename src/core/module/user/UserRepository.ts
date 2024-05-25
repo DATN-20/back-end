@@ -1,9 +1,10 @@
 import { BaseRepository } from '@core/common/repository/BaseRepository';
-import { users } from '@infrastructure/orm/schema';
-import { User } from './entity/User';
-import { eq, sql } from 'drizzle-orm';
+import { locked_users, users } from '@infrastructure/orm/schema';
+import { User, UserWithLockedInformation } from './entity/User';
+import { count, eq, sql } from 'drizzle-orm';
 import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
+import { UserRole } from '@core/common/enum/UserRole';
 
 export class UserRepository extends BaseRepository {
   async create(user: {
@@ -11,6 +12,7 @@ export class UserRepository extends BaseRepository {
     password: string;
     firstName: string;
     lastName: string;
+    role?: UserRole;
   }): Promise<User> {
     const result = await this.database.insert(users).values(user);
 
@@ -101,5 +103,34 @@ export class UserRepository extends BaseRepository {
         updatedAt: new Date(),
       })
       .where(eq(users.id, id));
+  }
+
+  async getAll(pagination?: QueryPagination): Promise<UserWithLockedInformation[]> {
+    const query_sql = this.database
+      .select({
+        user: users,
+        lockedInformation: locked_users,
+      })
+      .from(users)
+      .leftJoin(locked_users, eq(users.id, locked_users.userId));
+
+    if (pagination) {
+      query_sql.limit(pagination.limit).offset((pagination.page - 1) * pagination.limit);
+    }
+
+    return query_sql;
+  }
+
+  async countNewUserInDate(date: Date): Promise<number> {
+    const result = await this.database
+      .select({ count: count() })
+      .from(users)
+      .where(
+        sql`DAY(${users.createdAt}) = ${date.getDate()} and MONTH(${users.createdAt}) = ${
+          date.getMonth() + 1
+        } and YEAR(${users.createdAt}) = ${date.getFullYear()}`,
+      );
+
+    return result[0].count;
   }
 }
