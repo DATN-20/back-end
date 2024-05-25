@@ -8,7 +8,6 @@ import { ProfileRequest } from './entity/request/ProfileRequest';
 import { IImageStorageService } from '@core/common/interface/IImageStorageService';
 import { UserProfileResponseJson } from './entity/response/UserProfileResponseJson';
 import { User } from './entity/User';
-import { UserProfileResponseJson } from './entity/response/UserProfileResponseJson';
 
 @Injectable()
 export class UserService {
