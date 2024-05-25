@@ -81,4 +81,10 @@ export class UserService {
       throw new Exception(UserError.FAILED_TO_UPDATE_BACKGROUND);
     }
   }
+
+  async handleGetUserProfileById(user_id: number): Promise<UserProfileResponse> {
+    const matched_user = await this.handleGetExistedUser(user_id);
+
+    return UserProfileResponse.convertFromEntity(matched_user);
+  }
 }

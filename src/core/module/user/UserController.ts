@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Put,
   UploadedFile,
@@ -26,6 +27,11 @@ export class UserController {
   @Get('me')
   async getLoggedInUserProfile(@User() user: UserFromAuthGuard): Promise<UserProfileResponse> {
     return await this.userService.handleGetLoggedInUserProfile(user.id);
+  }
+
+  @Get(':id')
+  async getUserProfile(@Param('id') user_id: number): Promise<UserProfileResponse> {
+    return this.userService.handleGetUserProfileById(user_id);
   }
 
   @Put('me')

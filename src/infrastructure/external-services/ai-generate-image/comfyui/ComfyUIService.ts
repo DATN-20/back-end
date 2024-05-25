@@ -129,9 +129,9 @@ export class ComfyUIService
   }
 
   async generateTagByImage(image_buffer: Buffer): Promise<string> {
-    const imageInput = await this.comfyUIApi.uploadImage(image_buffer, `${Date.now()}.png`);
+    const image_input = await this.comfyUIApi.uploadImage(image_buffer, `${Date.now()}.png`);
     const comfyui_prompt = await this.comfyUIConverter.convertToComfyUIPromptImageToTag(
-      imageInput.name,
+      image_input.name,
     );
     const comfyui_socket = new ComfyUISokcet(this.generationService);
     comfyui_socket.skipStatus();

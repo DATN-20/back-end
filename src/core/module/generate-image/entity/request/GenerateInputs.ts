@@ -7,7 +7,7 @@ export class GenerateInputs {
   aiName: string;
   @IsOptional()
   style: string;
-  // @IsNotEmpty()
+  @IsNotEmpty()
   positivePrompt: string;
   @IsOptional()
   negativePrompt: string;

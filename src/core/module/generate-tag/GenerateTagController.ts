@@ -15,6 +15,6 @@ export class GenerateTagController {
     @User() user: UserFromAuthGuard,
     @UploadedFile() image: Express.Multer.File,
   ): Promise<string> {
-    return await this.generateTagService.handleGenerateTag(image?.buffer);
+    return this.generateTagService.handleGenerateTag(image?.buffer);
   }
 }
