@@ -70,7 +70,7 @@ export class GenerationService {
     const matched_generation = await this.generationRepository.getById(generation_id);
 
     if (!matched_generation) {
-      throw new Exception(GenerationError.GENERATION_NOT_FOUND);
+      return;
     }
 
     const matched_user = await this.userRepository.getById(matched_generation.userId);
@@ -122,7 +122,10 @@ export class GenerationService {
       {
         user: user,
         generation: generation,
-        urlRedirect: FrontEndConfig.FRONT_END_URL,
+        urlRedirect:
+          generation.status === GenerationStatus.FINISHED
+            ? `${FrontEndConfig.FRONT_END_URL}/generate?generationId=${generation.id}`
+            : `${FrontEndConfig.FRONT_END_URL}/generate`,
       },
     );
 
@@ -141,6 +144,7 @@ export class GenerationService {
       content,
       NotificationType.GENERATION,
       'generate',
+      generation.status === GenerationStatus.FINISHED ? generation.id : null,
     );
 
     await this.generationRepository.updateIsNotification(generation.id, true);

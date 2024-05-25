@@ -3,6 +3,7 @@ import { ErrorBaseSystem } from '@core/common/resource/error/ErrorBase';
 import { Global, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { classToPlain } from 'class-transformer';
 
 export interface TokenPayload {
   id: number;
@@ -26,13 +27,21 @@ export enum JwtType {
 @Injectable()
 export class JwtUtil {
   private TOKEN_EXPIRED_ERROR = 'TokenExpiredError';
-  constructor(private jwtService: JwtService, private configService: ConfigService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {}
 
   signToken<T extends TokenPayload | CreateUserPayload>(payload: T, type: JwtType): string {
-    return this.jwtService.sign(payload, {
-      secret: this.configService.get(`JWT_${type}_KEY`),
-      expiresIn: this.configService.get(`JWT_${type}_EXPIRED_TIME`),
-    });
+    return this.jwtService.sign(
+      {
+        ...payload,
+      },
+      {
+        secret: this.configService.get(`JWT_${type}_KEY`),
+        expiresIn: this.configService.get(`JWT_${type}_EXPIRED_TIME`),
+      },
+    );
   }
 
   verify<T extends TokenPayload | CreateUserPayload>(token: string, type: JwtType): T {

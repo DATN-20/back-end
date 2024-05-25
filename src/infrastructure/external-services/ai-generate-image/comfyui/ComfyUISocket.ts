@@ -45,15 +45,7 @@ export class ComfyUISokcet extends BaseSocketClient {
         switch (type) {
           case ComfyUITypeMessageSocket.EXECUTED:
             const output_data = data.output[property];
-
             callback(output_data);
-            if (this.generationService) {
-              this.generationService.handleChangeStatusOfGeneration(
-                this.clientId,
-                GenerationStatus.FINISHED,
-              );
-            }
-
             break;
           case ComfyUITypeMessageSocket.EXECUTING:
           case ComfyUITypeMessageSocket.PROGRESS:

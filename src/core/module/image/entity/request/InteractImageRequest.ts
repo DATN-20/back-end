@@ -1,9 +1,9 @@
 import { InteractionType } from '@core/common/enum/InteractionType';
-import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class InteractImageRequest {
   @IsNotEmpty()
-  @IsNumberString()
+  @IsNumber()
   imageId: number;
 
   @IsEnum(InteractionType)
