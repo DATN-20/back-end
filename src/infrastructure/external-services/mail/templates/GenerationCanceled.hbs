@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error: Generation Process Canceled</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #ff3333;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Oops! Something went wrong.</h1>
+        <p>We regret to inform you that there was an error processing your generation request at {{data.requestedAt}}. Unfortunately, the generation process has been canceled due to the following reason:</p>
+        <p><strong>Server error or some chosen inputs are invalid at this time!</strong></p>
+        <img src="https://via.placeholder.com/600x200" alt="Error Image" class="error-image">
+        <p>If you have any questions or need assistance, please feel free to <a href="mailto:support@example.com">contact our support team</a>.</p>
+        <p>Thank you for your understanding.</p>
+        <p>If you did not request this email, you can safely ignore it.</p>
+    </div>
+</body>
+</html>

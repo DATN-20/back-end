@@ -1,10 +1,9 @@
 import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { Image, NewImage } from './entity/Image';
 import { images } from '@infrastructure/orm/schema';
-import { and, count, eq, max, sql } from 'drizzle-orm';
+import { and, count, desc, eq, like, or, sql } from 'drizzle-orm';
 import { ImageType } from '@core/common/enum/ImageType';
 import { ImageFilter } from './entity/filter/ImageFilter';
-import { DateQueryScript } from '../image-statistics/entity/type/DateQueryScript';
 
 export class ImageRepository extends BaseRepository {
   async create(newImage: NewImage): Promise<Image> {
@@ -35,28 +34,24 @@ export class ImageRepository extends BaseRepository {
     }
 
     return this.database.query.images.findMany({
-      where: (image, { eq }) => eq(image.userId, user_id) && eq(image.visibility, visibility),
+      where: (image, { eq, and }) =>
+        and(eq(image.userId, user_id), eq(image.visibility, visibility)),
     });
   }
 
   async getByUserIdAndImageTypes(user_id: number, types: ImageType[]): Promise<Image[]> {
     return this.database.query.images.findMany({
-      where: (image, { eq, inArray }) => eq(image.userId, user_id) && inArray(images.type, types),
+      where: (image, { eq, and, inArray }) =>
+        and(eq(image.userId, user_id), inArray(images.type, types)),
+      orderBy: desc(images.createdAt),
     });
   }
 
-  async getUserMaxGenerateID(user_id: number): Promise<number> {
-    let result = 0;
-    const query_result = await this.database
-      .select({ value: max(images.generateId) })
-      .from(images)
-      .where(eq(images.userId, user_id));
-
-    if (query_result.length > 0) {
-      result = query_result[0].value;
-    }
-
-    return result;
+  async getImagesByGenerationIdOfUser(user_id: number, generation_id: string): Promise<Image[]> {
+    return this.database.query.images.findMany({
+      where: and(eq(images.userId, user_id), eq(images.generateId, generation_id)),
+      orderBy: desc(images.createdAt),
+    });
   }
 
   async updateRemoveBackgroundImageById(image_id: number, url: string): Promise<Image> {
@@ -80,7 +75,10 @@ export class ImageRepository extends BaseRepository {
       .from(images)
       .where(
         and(
-          sql`MATCH (${images.prompt}) AGAINST (${search_data} IN NATURAL LANGUAGE MODE)`,
+          or(
+            sql`MATCH (${images.prompt}) AGAINST (${search_data} IN NATURAL LANGUAGE MODE)`,
+            like(images.prompt, `%${search_data}%`),
+          ),
           eq(images.visibility, true),
         ),
       )
@@ -121,22 +119,16 @@ export class ImageRepository extends BaseRepository {
     pagination: QueryPagination,
   ): Promise<Image[]> {
     return this.database.query.images.findMany({
-      where: (image, { eq }) => eq(image.userId, user_id) && eq(image.visibility, visibility),
+      where: (image, { eq, and }) =>
+        and(eq(image.userId, user_id), eq(image.visibility, visibility)),
       limit: pagination.limit,
       offset: (pagination.page - 1) * pagination.limit,
     });
   }
 
-  async countGeneratedImages(
-    start_date: Date,
-    end_date: Date,
-    filter: ImageFilter,
-    type: string,
-  ): Promise<any> {
-    const query = new DateQueryScript(type, images, start_date, end_date);
+  async countGeneratedImages(date: Date, filter: ImageFilter): Promise<number> {
     const result = await this.database
       .select({
-        date: query.getDay,
         total: sql<number>`count(*) as count`.mapWith(Number),
       })
       .from(images)
@@ -145,13 +137,17 @@ export class ImageRepository extends BaseRepository {
           filter.aiName != 'ALL' ? eq(images.aiName, filter.aiName) : sql`1=1`,
           filter.imageType != 'ALL' ? eq(images.type, ImageType[filter.imageType]) : sql`1=1`,
           filter.style != 'ALL' ? eq(images.style, filter.style) : sql`1=1`,
-          query.comparesLessDay,
-          query.compareGreaterDay,
+          sql`DAY(${images.createdAt}) = ${date.getDate()} and MONTH(${images.createdAt}) = ${
+            date.getMonth() + 1
+          } and YEAR(${images.createdAt}) = ${date.getFullYear()}`,
         ),
       )
-      .groupBy(and(query.getDay))
-      .orderBy(query.getDay);
+      .groupBy(sql`DATE(${images.createdAt})`)
+      .orderBy(sql`DATE(${images.createdAt})`);
 
-    return result;
+    if (result.length === 0) {
+      return 0;
+    }
+    return result[0]?.total;
   }
 }

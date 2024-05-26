@@ -1,6 +1,6 @@
 import { InteractionType } from '@core/common/enum/InteractionType';
 import { BaseRepository } from '@core/common/repository/BaseRepository';
-import { images, images_interaction } from '@infrastructure/orm/schema';
+import { images_interaction } from '@infrastructure/orm/schema';
 import { ImageInteraction } from './entity/ImageInteraction';
 import { and, eq } from 'drizzle-orm';
 
@@ -35,7 +35,7 @@ export class ImageInteractionRepository extends BaseRepository {
     userId: number;
     imageId: number;
     type: InteractionType;
-  }): Promise<ImageInteraction | null> {
+  }): Promise<ImageInteraction> {
     return this.database.query.images_interaction.findFirst({
       where: and(
         eq(images_interaction.userId, data.userId),

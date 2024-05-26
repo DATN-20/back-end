@@ -29,7 +29,7 @@ export class UserService {
   async handleGetLoggedInUserProfile(user_id: number): Promise<UserProfileResponseJson> {
     const matched_user = await this.handleGetExistedUser(user_id);
 
-    return UserProfileResponse.convertToResponseFromUserEntity(matched_user).toJson();
+    return UserProfileResponse.convertFromEntity(matched_user).toJson();
   }
 
   async handleUpdateProfile(
@@ -46,15 +46,14 @@ export class UserService {
     });
 
     const updated_user = await this.userRepository.getById(user_id);
-    return UserProfileResponse.convertToResponseFromUserEntity(updated_user).toJson();
+    return UserProfileResponse.convertFromEntity(updated_user).toJson();
   }
 
   async handleAddSocial(user_id: number, social: SocialRequest): Promise<UserProfileResponseJson> {
     await this.handleGetExistedUser(user_id);
-
     await this.userRepository.addSocial(user_id, social);
-    const res = await this.userRepository.getById(user_id);
-    return UserProfileResponse.convertToResponseFromUserEntity(res).toJson();
+    const updated_user = await this.userRepository.getById(user_id);
+    return UserProfileResponse.convertFromEntity(updated_user).toJson();
   }
 
   async handleUpdateAvatar(user_id: number, file: Express.Multer.File): Promise<string> {
@@ -81,5 +80,11 @@ export class UserService {
     } catch (error) {
       throw new Exception(UserError.FAILED_TO_UPDATE_BACKGROUND);
     }
+  }
+
+  async handleGetUserProfileById(user_id: number): Promise<UserProfileResponseJson> {
+    const matched_user = await this.handleGetExistedUser(user_id);
+
+    return UserProfileResponse.convertFromEntity(matched_user).toJson();
   }
 }

@@ -17,6 +17,7 @@ import { ProcessType } from './entity/ProcessType';
 import { GenerateByImagesStyleInputs } from '../generate-image/entity/request/GenerateImageByImagesStyleInputs';
 import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
 import { ImageResponseJson } from './entity/response/ImageResponseJson';
+import { GenerateImageListResponseJson } from './entity/response/GenerateImageListResponseJson';
 
 @Injectable()
 export class ImageService {
@@ -34,16 +35,18 @@ export class ImageService {
     if (images == null) {
       throw new Exception(ImageError.IMAGES_LIST_EMPTY);
     }
+
     const result: ImageResponseJson[] = [];
-    const imageUploadResults: ImageUploadResult[] = await this.imageStorageService.uploadImages({
+    const image_upload_results: ImageUploadResult[] = await this.imageStorageService.uploadImages({
       images,
     });
+
     try {
-      for (const imageUpload of imageUploadResults) {
+      for (const image_upload of image_upload_results) {
         const image = await this.imageRepository.create({
           userId,
-          url: imageUpload.url,
-          storageId: imageUpload.id,
+          url: image_upload.url,
+          storageId: image_upload.id,
           type: ImageType.UPLOADED,
         });
         result.push(ImageResponse.convertFromImage(image).toJson());
@@ -57,15 +60,17 @@ export class ImageService {
 
   async handleDeleteImages(imageIds: number[]): Promise<void> {
     for (const id of imageIds) {
-      this.deleteImage(id);
+      this.handleDeleteImage(id);
     }
   }
 
-  async deleteImage(id: number): Promise<void> {
+  async handleDeleteImage(id: number): Promise<void> {
     const image = await this.imageRepository.getById(id);
+
     if (!image) {
       throw new Exception(ImageError.IMAGE_NOT_FOUND);
     }
+
     await this.imageStorageService.deleteImage({ storageIds: image.storageId });
     await this.imageRepository.deleteById(id);
   }
@@ -118,15 +123,13 @@ export class ImageService {
   ) {
     const result: ImageResponse[] = [];
 
-    const generate_id = (await this.imageRepository.getUserMaxGenerateID(user_id)) + 1;
-
     for (const image_buffer of list_image_buffer) {
       const image_response = await this.handleCreateGenerateImage(
         user_id,
         image_buffer,
         image_type,
         prompt,
-        generate_id,
+        prompt.generationId,
       );
 
       result.push(image_response);
@@ -139,8 +142,8 @@ export class ImageService {
     user_id: number,
     image_buffer: Buffer,
     image_type: ImageType,
-    promts: GenerateInputs,
-    generate_id: number,
+    prompts: GenerateInputs,
+    generate_id: string,
   ): Promise<ImageResponse> {
     const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
 
@@ -149,11 +152,12 @@ export class ImageService {
       url: image_upload_result.url,
       storageId: image_upload_result.id,
       type: image_type,
-      prompt: promts.positivePrompt,
-      aiName: promts.aiName,
-      style: promts.style,
+      prompt: prompts.positivePrompt,
+      aiName: prompts.aiName,
+      style: prompts.style,
       generateId: generate_id,
     };
+
     const image = await this.imageRepository.create(new_image);
 
     const image_response = ImageResponse.convertFromImage(image);
@@ -170,15 +174,13 @@ export class ImageService {
   ): Promise<ImageResponse[]> {
     const result: ImageResponse[] = [];
 
-    const generate_id = (await this.imageRepository.getUserMaxGenerateID(user_id)) + 1;
-
     for (const image_buffer of list_image_buffer) {
       const image_response = await this.handleCreateGenerateImageByImagesStyle(
         user_id,
         image_buffer,
         image_type,
         prompt,
-        generate_id,
+        prompt.generationId,
       );
 
       result.push(image_response);
@@ -192,7 +194,7 @@ export class ImageService {
     image_buffer: Buffer,
     image_type: ImageType,
     promts: GenerateByImagesStyleInputs,
-    generate_id: number,
+    generate_id: string,
   ): Promise<ImageResponse> {
     const image_upload_result = await this.imageStorageService.uploadImageWithBuffer(image_buffer);
 
@@ -212,14 +214,16 @@ export class ImageService {
     return image_response;
   }
 
-  async handleGetGenerateImageHistory(user_id: number): Promise<ImageResponseJson[]> {
-    const generatedImageTypes = [ImageType.IMG_TO_IMG, ImageType.TEXT_TO_IMG];
+  async handleGetGenerateImageHistory(user_id: number): Promise<GenerateImageListResponseJson[]> {
+    const generatedImageTypes = [
+      ImageType.IMG_TO_IMG,
+      ImageType.TEXT_TO_IMG,
+      ImageType.IMG_BY_IMAGES_STYLE,
+    ];
     const images = await this.imageRepository.getByUserIdAndImageTypes(
       user_id,
       generatedImageTypes,
     );
-
-    images.sort((a, b) => b.generateId - a.generateId);
 
     const generateImagesList = [];
 
@@ -239,6 +243,27 @@ export class ImageService {
     const result = generateImagesList.map(generateImages => generateImages.toJson());
 
     return result;
+  }
+
+  async handleGetGeneratedImagesByGenerationId(
+    user_id: number,
+    generation_id: string,
+  ): Promise<GenerateImageListResponseJson> {
+    const images = await this.imageRepository.getImagesByGenerationIdOfUser(user_id, generation_id);
+
+    if (images.length === 0) {
+      throw new Exception(ImageError.NO_IMAGES_BELONG_TO_GENERATION);
+    }
+
+    const generationImage = new GenerateImageListResponse(
+      images[0].style,
+      images[0].prompt,
+      generation_id,
+    );
+
+    images.forEach(image => generationImage.addImage(ImageResponse.convertFromImage(image)));
+
+    return generationImage.toJson();
   }
 
   async handleImageProcessing(
@@ -387,11 +412,11 @@ export class ImageService {
     pagination: QueryPagination,
   ): Promise<QueryPaginationResponse<ImageResponseJson>> {
     const images = await this.imageRepository.getByUserIdWithPaginition(user_id, true, pagination);
-
     const result: ImageResponseJson[] = images.map(image =>
       ImageResponse.convertFromImage(image).toJson(),
     );
     const total_count = await this.imageRepository.countTotalRecordByUserId(user_id, true);
+
     return {
       page: pagination.page,
       limit: pagination.limit,

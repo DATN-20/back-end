@@ -17,7 +17,7 @@ export class ComfyUIControlNetInfo {
   private controlNetStrengthMax = 2;
   private controlNetStrengthDefault = CONTROL_NET_DEFAULT_STRENGTH;
   private controlNetStrengthStep = 0.1;
-  private controlNetStrengthInputPropertyName = 'strength';
+  private controlNetStrengthInputPropertyName = 'controlnetImageStrengths';
   public controlNetStrengthInput = new SliderInput(
     this.controlNetStrengthName,
     this.controlNetStrengthDesc,
@@ -37,7 +37,7 @@ export class ComfyUIControlNetInfo {
     color: ControlNetType.COLOR,
   };
   private controlNetTypeDefault = this.controlNetTypeChoices.pose;
-  private controlNetTypeInputPropertyName = 'controlNetType';
+  private controlNetTypeInputPropertyName = 'controlNetTypes';
   public controlNetTypeInput = new ChoiceInput(
     this.controlNetTypeName,
     this.controlNetTypeDesc,
@@ -49,7 +49,7 @@ export class ComfyUIControlNetInfo {
   private controlNetPreprocessorName = 'Preprocessor';
   private controlNetPreprocessorDesc = 'This controlnet need preprocess or not?';
   private controlNetPreprocessorDefault = false;
-  private controlNetPreprocessorInputPropertyName = 'isPreprocessor';
+  private controlNetPreprocessorInputPropertyName = 'controlnetIsPreprocessors';
   public controlNetPreprocessorInput = new BooleanInput(
     this.controlNetPreprocessorName,
     this.controlNetPreprocessorDesc,

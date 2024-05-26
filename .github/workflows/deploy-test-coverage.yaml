@@ -11,7 +11,7 @@ on:
     branches:
       - 'main'
 
-jobs: 
+jobs:
   deploy-unittest-coverage-page:
     runs-on: ubuntu-latest
     steps:
@@ -28,4 +28,3 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: coverage
-

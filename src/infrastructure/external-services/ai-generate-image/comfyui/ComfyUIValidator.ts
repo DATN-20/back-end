@@ -73,13 +73,11 @@ export class ComfyUIValidator {
     } else {
       this.validateInput(info.inputs.cfg, input_promts.cfg);
     }
-
     if (input_promts.style == null) {
       input_promts.style = info.inputs.style.default;
     } else {
       this.validateInput(info.inputs.style, input_promts.style);
     }
-
     if (input_promts.controlNets.length > 0) {
       this.controlNetValidate(input_promts.controlNets);
     }
@@ -217,7 +215,20 @@ export class ComfyUIValidator {
         throw new Exception(ControlNetError.INVALID_CONTROL_NET_TYPE);
       }
 
-      this.validateInput(control_net_info.controlNetStrengthInput, control_nets[_index].strength);
+      if (control_nets[_index].strength == null) {
+        control_nets[_index].strength = control_net_info.controlNetStrengthInput.default;
+      } else {
+        this.validateInput(control_net_info.controlNetStrengthInput, control_nets[_index].strength);
+      }
+
+      if (control_nets[_index].isPreprocessor == null) {
+        control_nets[_index].isPreprocessor = control_net_info.controlNetPreprocessorInput.default;
+      } else {
+        this.validateInput(
+          control_net_info.controlNetPreprocessorInput,
+          control_nets[_index].isPreprocessor,
+        );
+      }
     }
   }
 
@@ -290,6 +301,10 @@ export class ComfyUIValidator {
         weight_input,
         crop_position_input,
       );
+    }
+
+    if (input_prompts.controlNets.length > 0) {
+      this.controlNetValidate(input_prompts.controlNets);
     }
   }
 

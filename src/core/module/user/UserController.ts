@@ -2,10 +2,11 @@ import {
   Body,
   Controller,
   Get,
+  Param,
+  ParseIntPipe,
   Post,
   Put,
   UploadedFile,
-  UploadedFiles,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './UserService';
@@ -13,10 +14,11 @@ import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { User } from '@core/common/decorator/UserDecorator';
 import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
-import { UserProfileResponse } from './entity/response/UserProfileResponse';
 import { Express } from 'express';
 import { UseInterceptors } from '@nestjs/common/decorators/core/use-interceptors.decorator';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Exception } from '@core/common/exception/Exception';
+import { ErrorBaseSystem } from '@core/common/resource/error/ErrorBase';
 import { UserProfileResponseJson } from './entity/response/UserProfileResponseJson';
 
 @UseGuards(AuthGuard)
@@ -27,6 +29,21 @@ export class UserController {
   @Get('me')
   async getLoggedInUserProfile(@User() user: UserFromAuthGuard): Promise<UserProfileResponseJson> {
     return this.userService.handleGetLoggedInUserProfile(user.id);
+  }
+
+  @Get(':guestId')
+  async getUserProfile(
+    @Param(
+      'guestId',
+      new ParseIntPipe({
+        exceptionFactory: () => {
+          throw new Exception(ErrorBaseSystem.INVALID_PARAM('guestId'));
+        },
+      }),
+    )
+    guest_id: number,
+  ): Promise<UserProfileResponseJson> {
+    return this.userService.handleGetUserProfileById(guest_id);
   }
 
   @Put('me')

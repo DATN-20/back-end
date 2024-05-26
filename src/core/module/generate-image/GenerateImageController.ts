@@ -15,12 +15,17 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { GenerateByImagesStyleInputs } from './entity/request/GenerateImageByImagesStyleInputs';
 import ApiLogger from '@core/common/logger/ApiLoggerService';
 import { ImageType } from '@core/common/enum/ImageType';
-import { CONTROL_NET_DEFAULT_STRENGTH } from '@infrastructure/external-services/ai-generate-image/comfyui/control-net/ComfyUIControlNetInfo';
+import { GenerationService } from '../generation/GenerationService';
+import { GenerationResponseJson } from '../generation/entity/response/GenerationResponseJson';
+import { GenerationStatus } from '@core/common/enum/GenerationStatus';
 
 @UseGuards(AuthGuard)
 @Controller('generate-image')
 export class GenerateImageController {
-  constructor(private readonly generateImageService: GenerateImageService) {}
+  constructor(
+    private readonly generateImageService: GenerateImageService,
+    private readonly generationService: GenerationService,
+  ) {}
 
   @Get('/ai-info')
   async getAtInfo() {
@@ -34,33 +39,31 @@ export class GenerateImageController {
     @UploadedFiles()
     data_images: { controlNetImages?: Express.Multer.File[] },
     @Body() generate_inputs: GenerateInputs,
-  ) {
+  ): Promise<GenerationResponseJson> {
     ApiLogger.info(ImageType.TEXT_TO_IMG, {
       user_id: user.id,
       api_endpoint: '/generate-image/text-to-image',
     });
-
-    generate_inputs.isUpscale = generate_inputs.isUpscale?.toString() === 'true';
     generate_inputs.isUpscale ??= false;
     generate_inputs.controlNets ??= [];
-    data_images.controlNetImages ??= [];
+    generate_inputs.controlNetImages = data_images?.controlNetImages;
 
-    if (data_images.controlNetImages.length > 0 && generate_inputs.controlNets.length > 0) {
-      generate_inputs.controlNets = generate_inputs.controlNets.map((control_net, _index) => {
-        return {
-          controlNetType: control_net.controlNetType,
-          image: data_images.controlNetImages[_index].buffer,
-          strength: control_net.strength
-            ? parseFloat(control_net.strength.toString())
-            : CONTROL_NET_DEFAULT_STRENGTH,
-          isPreprocessor: control_net.isPreprocessor
-            ? control_net.isPreprocessor.toString() === 'true'
-            : false,
-        };
+    const generation = await this.generationService.handleCreateGenerationForUser(user.id);
+    generate_inputs.generationId = generation.id;
+
+    this.generateImageService
+      .handleGenerateTextToImg(user.id, generate_inputs)
+      .then(async () => {
+        await this.generationService.handleChangeStatusOfGeneration(
+          generation.id,
+          GenerationStatus.FINISHED,
+        );
+      })
+      .catch(async (_error: any) => {
+        await this.generationService.handleDeleteById(generation.id);
       });
-    }
 
-    return await this.generateImageService.handleGenerateTextToImg(user.id, generate_inputs);
+    return generation;
   }
 
   @Post('/image-to-image')
@@ -75,33 +78,31 @@ export class GenerateImageController {
     @UploadedFiles()
     data_images: { image: Express.Multer.File[]; controlNetImages?: Express.Multer.File[] },
     @Body() generate_inputs: GenerateInputs,
-  ) {
+  ): Promise<GenerationResponseJson> {
     ApiLogger.info(ImageType.IMG_TO_IMG, {
       user_id: user.id,
       api_endpoint: '/generate-image/image-to-image',
     });
-
     generate_inputs.isUpscale ??= false;
     generate_inputs.image = data_images.image ? data_images.image[0] : null;
-    generate_inputs.controlNets ??= [];
-    data_images.controlNetImages ??= [];
+    generate_inputs.controlNetImages = data_images.controlNetImages;
 
-    if (data_images.controlNetImages.length > 0 && generate_inputs.controlNets.length > 0) {
-      generate_inputs.controlNets = generate_inputs.controlNets.map((control_net, _index) => {
-        return {
-          controlNetType: control_net.controlNetType,
-          image: data_images.controlNetImages[_index].buffer,
-          strength: control_net.strength
-            ? parseFloat(control_net.strength.toString())
-            : CONTROL_NET_DEFAULT_STRENGTH,
-          isPreprocessor: control_net.isPreprocessor
-            ? control_net.isPreprocessor.toString() === 'true'
-            : false,
-        };
+    const generation = await this.generationService.handleCreateGenerationForUser(user.id);
+    generate_inputs.generationId = generation.id;
+
+    this.generateImageService
+      .handleGenerateImageToImage(user.id, generate_inputs)
+      .then(async () => {
+        await this.generationService.handleChangeStatusOfGeneration(
+          generation.id,
+          GenerationStatus.FINISHED,
+        );
+      })
+      .catch(async (_error: any) => {
+        await this.generationService.handleDeleteById(generation.id);
       });
-    }
 
-    return await this.generateImageService.handleGenerateImageToImage(user.id, generate_inputs);
+    return generation;
   }
 
   @Post('/image-by-images-style')
@@ -119,20 +120,32 @@ export class GenerateImageController {
     files: {
       imageToUnclipsImages: Express.Multer.File[];
       imageForIpadapter: Express.Multer.File[];
+      controlNetImages: Express.Multer.File[];
     },
-  ) {
+  ): Promise<GenerationResponseJson> {
     ApiLogger.info(ImageType.IMG_BY_IMAGES_STYLE, {
       user_id: user.id,
       api_endpoint: '/generate-image/image-by-images-style',
     });
-
-    generate_inputs.imageToUnclipsImages = files.imageToUnclipsImages;
     //generate_inputs.imageToUnclipsImages = files.imageToUnclipsImages;
     generate_inputs.imageForIpadapters = files.imageForIpadapter;
-    return await this.generateImageService.handleGenerateImageByImagesStyle(
-      user.id,
-      generate_inputs,
-    );
+    generate_inputs.controlNetImages = files.controlNetImages;
+    const generation = await this.generationService.handleCreateGenerationForUser(user.id);
+    generate_inputs.generationId = generation.id;
+
+    this.generateImageService
+      .handleGenerateImageByImagesStyle(user.id, generate_inputs)
+      .then(async () => {
+        await this.generationService.handleChangeStatusOfGeneration(
+          generation.id,
+          GenerationStatus.FINISHED,
+        );
+      })
+      .catch(async (_error: any) => {
+        await this.generationService.handleDeleteById(generation.id);
+      });
+
+    return generation;
   }
 
   @Get('/ai-generate-by-images-style-info')

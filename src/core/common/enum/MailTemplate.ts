@@ -4,4 +4,6 @@ export enum MailTemplate {
   FORGET_PASSWORD = 'ForgetPassword',
   LOCKED_USER = 'LockedUser',
   UNLOCKED_USER = 'UnlockedUser',
+  GENERATION_STATUS = 'GenerationStatus',
+  GENERATION_CANCELED = 'GenerationCanceled',
 }

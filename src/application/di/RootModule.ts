@@ -15,10 +15,14 @@ import { UserManagementModule } from './UserManagementModule';
 import { MyElasticsearchModule } from '@infrastructure/external-services/elasticsearch/ElasticsearchModule';
 import { LogMonitoringModule } from './LogMonitoringModule';
 import { ImageStatisticsModule } from './ImageStatisticsModule';
+import { GenerationModule } from './GenerationModule';
+import { NotificationModule } from './NotificationModule';
+import { GenerateTagModule } from './GenerateTagModule';
 
 @Module({
   imports: [
     InfrastructureModule,
+    AIFeatureServiceModule,
     UserModule,
     AuthModule,
     AlbumModule,
@@ -34,6 +38,9 @@ import { ImageStatisticsModule } from './ImageStatisticsModule';
     MyElasticsearchModule,
     LogMonitoringModule,
     ImageStatisticsModule,
+    GenerateTagModule,
+    GenerationModule,
+    NotificationModule,
   ],
   controllers: [],
   providers: [],

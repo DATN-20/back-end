@@ -1,6 +1,8 @@
 export enum AIOPreprocessorType {
   DEPTH = 'DepthAnythingPreprocessor',
-  POSE = 'DepthAnythingPreprocessor',
-  SKETCH = 'DepthAnythingPreprocessor',
+  POSE = 'OpenposePreprocessor',
+  SKETCH = 'FakeScribblePreprocessor',
   COLOR = 'DepthAnythingPreprocessor',
+  CANNY = 'CannyEdgePreprocessor',
+  LINEART = 'LineArtPreprocessor',
 }

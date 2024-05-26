@@ -16,4 +16,5 @@ export class InputPromts {
   filename: string;
   controlNets: InputControlnet[];
   isUpscale: boolean;
+  generationId: string;
 }

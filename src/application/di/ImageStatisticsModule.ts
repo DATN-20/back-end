@@ -2,9 +2,10 @@ import { ImageStatisticsController } from '@core/module/image-statistics/ImageSt
 import { ImageStatisticsService } from '@core/module/image-statistics/ImageStatisticsService';
 import { Module } from '@nestjs/common';
 import { ImageModule } from './ImageModule';
+import { UserModule } from './UserModule';
 
 @Module({
-  imports: [ImageModule],
+  imports: [ImageModule, UserModule],
   controllers: [ImageStatisticsController],
   providers: [ImageStatisticsService],
 })

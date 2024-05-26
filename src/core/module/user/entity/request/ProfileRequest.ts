@@ -31,7 +31,8 @@ export class ProfileRequest {
   @IsArray()
   @Type(() => SocialRequest)
   @ValidateNested({ each: true })
-  socials: SocialRequest[];
+  @IsOptional()
+  socials: SocialRequest[] = [];
 
   public static updateFields(profile: ProfileRequest, user: User) {
     profile.firstName ??= user.firstName;

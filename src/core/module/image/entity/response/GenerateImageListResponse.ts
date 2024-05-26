@@ -6,9 +6,9 @@ export class GenerateImageListResponse {
   private style: string;
   private prompt: string;
   private images: ImageResponse[];
-  private generateId: number;
+  private generateId: string;
 
-  constructor(style: string, prompt: string, generateId: number) {
+  constructor(style: string, prompt: string, generateId: string) {
     this.style = style;
     this.prompt = prompt;
     this.images = [];
@@ -19,7 +19,7 @@ export class GenerateImageListResponse {
     this.images.push(image_response);
   }
 
-  public getGenerateId(): number {
+  public getGenerateId(): string {
     return this.generateId;
   }
 

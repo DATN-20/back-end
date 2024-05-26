@@ -3,6 +3,9 @@ import { ComfyUIConfig } from '@infrastructure/config/ComfyUIConfig';
 import { BaseSocketClient } from '@infrastructure/socket/BaseSocketClient';
 import { v4 as uuidv4 } from 'uuid';
 import { OutputPropertyWebSocket } from './ComfyUIConstant';
+import { GenerationStatus } from '@core/common/enum/GenerationStatus';
+import { GenerationService } from '@core/module/generation/GenerationService';
+import { Injectable } from '@nestjs/common';
 
 export enum ComfyUITypeMessageSocket {
   EXECUTING = 'executing',
@@ -10,11 +13,13 @@ export enum ComfyUITypeMessageSocket {
   EXECUTED = 'executed',
 }
 
+@Injectable()
 export class ComfyUISokcet extends BaseSocketClient {
   private clientId: string;
+  private generationService: GenerationService;
+  private isSkipStatus: boolean = false;
 
-  constructor() {
-    const client_id = uuidv4();
+  constructor(generation_service: GenerationService, client_id: string = uuidv4()) {
     super(
       ComfyUIConfig.COMFYUI_NAME,
       `${EnvironmentConverter.convertWebSocketInSuitableEnvironment(
@@ -22,6 +27,11 @@ export class ComfyUISokcet extends BaseSocketClient {
       )}/ws?clientId=${client_id}`,
     );
     this.clientId = client_id;
+    this.generationService = generation_service;
+  }
+
+  public skipStatus(): void {
+    this.isSkipStatus = true;
   }
 
   public getClientId(): string {
@@ -36,9 +46,25 @@ export class ComfyUISokcet extends BaseSocketClient {
     this.webSocket.on('message', message => {
       const { type, data } = JSON.parse(message.toString('utf-8'));
 
-      if (type === ComfyUITypeMessageSocket.EXECUTED && data.prompt_id === prompt_id) {
-        const output_data = data.output[property];
-        callback(output_data);
+      if (data.prompt_id === prompt_id) {
+        switch (type) {
+          case ComfyUITypeMessageSocket.EXECUTED:
+            const output_data = data.output[property];
+            callback(output_data);
+            break;
+          case ComfyUITypeMessageSocket.EXECUTING:
+          case ComfyUITypeMessageSocket.PROGRESS:
+            if (this.generationService && !this.isSkipStatus) {
+              this.generationService.handleChangeStatusOfGeneration(
+                this.clientId,
+                GenerationStatus.PROCESSING,
+              );
+            }
+
+            break;
+          default:
+            break;
+        }
       }
     });
   }

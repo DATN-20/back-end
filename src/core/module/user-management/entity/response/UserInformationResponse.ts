@@ -24,7 +24,7 @@ export class UserInformationResponse {
 
   public toJson(): UserInformationResponseJson {
     return {
-      user: UserProfileResponse.convertToResponseFromUserEntity(this.user).toJson(),
+      user: UserProfileResponse.convertFromEntity(this.user).toJson(),
       locked_information: LockedUserResponse.convertFromLockedUserEntity(
         this.lockedInformation,
       ).toJson(),

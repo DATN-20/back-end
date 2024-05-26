@@ -73,7 +73,11 @@ export class AuthService {
   }
 
   async handleActiveUserFromMail(token: string): Promise<void> {
-    const user_payload = await this.jwtUtil.verify<CreateUserPayload>(token, JwtType.MAIL_SIGN_UP);
+    const user_payload = this.jwtUtil.verify<CreateUserPayload>(token, JwtType.MAIL_SIGN_UP);
+
+    if (!user_payload) {
+      throw new Exception(AuthError.INVALID_VERIFY_TOKEN);
+    }
 
     const hashed_password = await this.hashService.hash(user_payload.password);
     await this.userRepository.create({
@@ -116,11 +120,21 @@ export class AuthService {
 
   async handleChangePassword(token: string, new_password: string): Promise<void> {
     const payload = this.jwtUtil.verify<TokenPayload>(token, JwtType.FORGET_PASSWORD);
+
+    if (!payload) {
+      throw new Exception(AuthError.INVALID_VERIFY_TOKEN);
+    }
+
     await this.userRepository.updatePassword(payload.id, new_password);
   }
 
   async handleRefreshToken(token: string): Promise<SignInResponse> {
     const payload = this.jwtUtil.verify<TokenPayload>(token, JwtType.REFRESH);
+
+    if (!payload) {
+      throw new Exception(AuthError.INVALID_VERIFY_TOKEN);
+    }
+
     let matched_user = await this.userRepository.getById(payload.id);
 
     if (matched_user.refeshToken !== token) {
@@ -150,16 +164,17 @@ export class AuthService {
     return SignInResponse.convertFromUser(matched_user);
   }
 
-  async handleLockedUser(user_id: number): Promise<void> {
+  async handleLockedUser(user_id: number): Promise<boolean> {
     const matched_locked_user = await this.lockedUserRepository.getByUserId(user_id);
 
     if (!matched_locked_user) {
-      return;
+      return false;
     }
 
     const current_date = new Date();
     if (matched_locked_user.expiredAt < current_date) {
       await this.lockedUserRepository.delete(matched_locked_user.userId);
+      return true;
     } else {
       throw new Exception(LockedUserError.USER_IS_LOCKED(matched_locked_user.lockedAt));
     }

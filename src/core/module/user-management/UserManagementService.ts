@@ -98,13 +98,14 @@ export class UserManagementService {
       }
 
       return {
-        user: UserProfileResponse.convertToResponseFromUserEntity(user_information.user).toJson(),
+        user: UserProfileResponse.convertFromEntity(user_information.user).toJson(),
         locked_information: null,
       };
     });
 
     return {
-      ...pagination,
+      limit: pagination.limit ?? Number.MAX_SAFE_INTEGER,
+      page: pagination.page ?? 0,
       total: total_record,
       data: converted_users,
     };

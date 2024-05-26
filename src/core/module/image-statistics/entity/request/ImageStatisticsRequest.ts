@@ -1,12 +1,8 @@
 import { DEFAULT_ALL } from '@core/common/constant/Constant';
-import { ImageStatisticsType } from '@core/common/enum/StatisticsType';
 import { ImageFilterType } from '@core/module/image/entity/filter/ImageFilter';
 import { IsDate, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class ImageStatisticsRequest {
-  @IsOptional()
-  typeStatistics: ImageStatisticsType = ImageStatisticsType.DAY;
-
   @IsOptional()
   style: string = DEFAULT_ALL;
 
@@ -16,11 +12,11 @@ export class ImageStatisticsRequest {
   @IsOptional()
   imageType: ImageFilterType = ImageFilterType.ALL;
 
+  @IsNotEmpty()
   @IsDate()
-  @IsOptional()
   startDate: Date;
 
+  @IsNotEmpty()
   @IsDate()
-  @IsOptional()
   endDate: Date;
 }

@@ -12,6 +12,11 @@ export class DateUtil {
   public static addDate(start_date: Date, period: number, type: DateUnit): Date {
     return moment(start_date).add(period, type).toDate();
   }
+
+  public static subtractDate(start_date: Date, period: number, type: DateUnit): Date {
+    return moment(start_date).subtract(period, type).toDate();
+  }
+
   public static validateRangeDate(start_date: Date, end_date: Date): void {
     if (
       !(start_date instanceof Date) ||

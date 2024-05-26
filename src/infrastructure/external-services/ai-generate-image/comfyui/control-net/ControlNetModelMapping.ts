@@ -12,6 +12,11 @@ export class ControlNetModelMapping {
     sketch: ControlnetNameEnum.SKETCH,
     depth: ControlnetNameEnum.T2IADAPTER_DEPTH,
     color: ControlnetNameEnum.COLOR,
+    [ControlNetType.POSE_SDXL]: ControlnetNameEnum.T2IADAPTER_OPENPOSE_SDXL,
+    [ControlNetType.SKETCH_SDXL]: ControlnetNameEnum.T2IADAPTER_SKETCH_SDXL,
+    [ControlNetType.DEPTH_SDXL]: ControlnetNameEnum.T2IADAPTER_DEPTH_SDXL,
+    [ControlNetType.CANNY_SDXL]: ControlnetNameEnum.T2IADAPTER_CANNY_SDXL,
+    [ControlNetType.LINEART_SDXL]: ControlnetNameEnum.T2IADAPTER_LINEAR_SDXL,
   };
 
   private AIOProcessors = {
@@ -19,6 +24,11 @@ export class ControlNetModelMapping {
     sketch: AIOPreprocessorType.SKETCH,
     depth: AIOPreprocessorType.DEPTH,
     color: AIOPreprocessorType.COLOR,
+    [ControlNetType.POSE_SDXL]: AIOPreprocessorType.POSE,
+    [ControlNetType.SKETCH_SDXL]: AIOPreprocessorType.SKETCH,
+    [ControlNetType.DEPTH_SDXL]: AIOPreprocessorType.DEPTH,
+    [ControlNetType.CANNY_SDXL]: AIOPreprocessorType.CANNY,
+    [ControlNetType.LINEART_SDXL]: AIOPreprocessorType.LINEART,
   };
 
   getControlNet(type: ControlNetType): ControlnetNameEnum {
