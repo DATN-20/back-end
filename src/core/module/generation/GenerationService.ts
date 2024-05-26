@@ -66,7 +66,7 @@ export class GenerationService {
     return generation_response.toJson();
   }
 
-  async handleDeleteById(generation_id: string): Promise<void> {
+  async handleDeleteById(generation_id: string, is_notify: boolean = true): Promise<void> {
     const matched_generation = await this.generationRepository.getById(generation_id);
 
     if (!matched_generation) {
@@ -74,14 +74,27 @@ export class GenerationService {
     }
 
     const matched_user = await this.userRepository.getById(matched_generation.userId);
-    await this.mailService.sendMail<{ requestedAt: string }>(
-      matched_user.email,
-      MailSubject.GENERATION_CANCELED,
-      MailTemplate.GENERATION_CANCELED,
-      {
-        requestedAt: DateUtil.formatDate(matched_generation.createdAt),
-      },
-    );
+
+    if (is_notify) {
+      await this.mailService.sendMail<{ requestedAt: string }>(
+        matched_user.email,
+        MailSubject.GENERATION_CANCELED,
+        MailTemplate.GENERATION_CANCELED,
+        {
+          requestedAt: DateUtil.formatDate(matched_generation.createdAt),
+        },
+      );
+      await this.notificationRepository.create(
+        matched_user.id,
+        `Your generation at ${DateUtil.formatDate(matched_generation.createdAt)} is ${
+          matched_generation.status
+        }`,
+        'We will notify you soon if your generation is canceled!',
+        NotificationType.GENERATION,
+        'generate',
+        null,
+      );
+    }
 
     await this.generationRepository.deleteById(generation_id);
   }
