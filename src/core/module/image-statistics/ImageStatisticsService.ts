@@ -8,9 +8,9 @@ import { DateUnit } from '@core/common/enum/DateUnit';
 
 @Injectable()
 export class ImageStatisticsService {
-  public constructor(private readonly imageRepository: ImageRepository) {}
+  constructor(private readonly imageRepository: ImageRepository) {}
 
-  public async countGeneratedImages(req: ImageStatisticsRequest): Promise<AnalysisWithDateJson[]> {
+  async countGeneratedImages(req: ImageStatisticsRequest): Promise<AnalysisWithDateJson[]> {
     const filter: ImageFilter = {
       style: req.style,
       aiName: req.aiName,

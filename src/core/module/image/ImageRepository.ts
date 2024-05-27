@@ -145,9 +145,6 @@ export class ImageRepository extends BaseRepository {
       .groupBy(sql`DATE(${images.createdAt})`)
       .orderBy(sql`DATE(${images.createdAt})`);
 
-    if (result.length === 0) {
-      return 0;
-    }
-    return result[0]?.total;
+    return result.length === 0 ? 0 : result[0].total;
   }
 }
