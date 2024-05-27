@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
 
     const token = authorization && authorization.split(' ')[1];
 
-    const user_id = this.jwtUtil.verify<TokenPayload>(token, JwtType.ACCESS).id;
+    const user_id = this.jwtUtil.verify<TokenPayload>(token, JwtType.ACCESS)?.id;
     const matched_user = await this.userRepository.getById(user_id);
 
     if (!matched_user || matched_user.accessToken !== token) {

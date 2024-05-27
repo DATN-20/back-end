@@ -18,7 +18,6 @@ const ApiLogger = winston.createLogger({
     }),
   ),
   transports: [
-    new winston.transports.Console(),
     new winston.transports.File({ filename: 'api-logs/api.log' }),
     new ElasticsearchTransport({
       level: 'info',

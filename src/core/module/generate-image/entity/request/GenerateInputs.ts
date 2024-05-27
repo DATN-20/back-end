@@ -10,7 +10,7 @@ export class GenerateInputs {
   @IsNotEmpty()
   positivePrompt: string;
   @IsOptional()
-  negativePrompt: string;
+  negativePrompt: string = '';
   @IsOptional()
   width: number;
   @IsOptional()
