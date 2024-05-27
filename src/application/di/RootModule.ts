@@ -14,6 +14,7 @@ import { AIFeatureServiceModule } from '@infrastructure/external-services/ai-gen
 import { UserManagementModule } from './UserManagementModule';
 import { MyElasticsearchModule } from '@infrastructure/external-services/elasticsearch/ElasticsearchModule';
 import { LogMonitoringModule } from './LogMonitoringModule';
+import { ImageStatisticsModule } from './ImageStatisticsModule';
 import { GenerationModule } from './GenerationModule';
 import { NotificationModule } from './NotificationModule';
 import { GenerateTagModule } from './GenerateTagModule';
@@ -36,6 +37,7 @@ import { GenerateTagModule } from './GenerateTagModule';
     UserManagementModule,
     MyElasticsearchModule,
     LogMonitoringModule,
+    ImageStatisticsModule,
     GenerateTagModule,
     GenerationModule,
     NotificationModule,

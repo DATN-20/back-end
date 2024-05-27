@@ -1,8 +1,9 @@
 import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { Image, NewImage } from './entity/Image';
 import { images } from '@infrastructure/orm/schema';
-import { and, count, desc, eq, like, max, or, sql } from 'drizzle-orm';
+import { and, count, desc, eq, like, or, sql } from 'drizzle-orm';
 import { ImageType } from '@core/common/enum/ImageType';
+import { ImageFilter } from './entity/filter/ImageFilter';
 
 export class ImageRepository extends BaseRepository {
   async create(newImage: NewImage): Promise<Image> {
@@ -123,5 +124,27 @@ export class ImageRepository extends BaseRepository {
       limit: pagination.limit,
       offset: (pagination.page - 1) * pagination.limit,
     });
+  }
+
+  async countGeneratedImages(date: Date, filter: ImageFilter): Promise<number> {
+    const result = await this.database
+      .select({
+        total: sql<number>`count(*) as count`.mapWith(Number),
+      })
+      .from(images)
+      .where(
+        and(
+          filter.aiName != 'ALL' ? eq(images.aiName, filter.aiName) : sql`1=1`,
+          filter.imageType != 'ALL' ? eq(images.type, ImageType[filter.imageType]) : sql`1=1`,
+          filter.style != 'ALL' ? eq(images.style, filter.style) : sql`1=1`,
+          sql`DAY(${images.createdAt}) = ${date.getDate()} and MONTH(${images.createdAt}) = ${
+            date.getMonth() + 1
+          } and YEAR(${images.createdAt}) = ${date.getFullYear()}`,
+        ),
+      )
+      .groupBy(sql`DATE(${images.createdAt})`)
+      .orderBy(sql`DATE(${images.createdAt})`);
+
+    return result.length === 0 ? 0 : result[0].total;
   }
 }
