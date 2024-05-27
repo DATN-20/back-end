@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1716731186798" clover="3.2.0">
-  <project timestamp="1716731186798" name="All files">
-    <metrics statements="929" coveredstatements="307" conditionals="182" coveredconditionals="36" methods="226" coveredmethods="45" elements="1337" coveredelements="388" complexity="0" loc="929" ncloc="929" packages="23" files="35" classes="35"/>
+<coverage generated="1716799603932" clover="3.2.0">
+  <project timestamp="1716799603932" name="All files">
+    <metrics statements="931" coveredstatements="307" conditionals="182" coveredconditionals="36" methods="226" coveredmethods="45" elements="1339" coveredelements="388" complexity="0" loc="931" ncloc="931" packages="23" files="35" classes="35"/>
     <package name="core.common.logger">
       <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="ApiLoggerService.ts" path="/home/runner/work/back-end/back-end/src/core/common/logger/ApiLoggerService.ts">
@@ -11,7 +11,7 @@
         <line num="5" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
       </file>
     </package>
     <package name="core.common.repository">
@@ -964,9 +964,9 @@
       </file>
     </package>
     <package name="infrastructure.external-services.ai-generate-image.comfyui">
-      <metrics statements="64" coveredstatements="10" conditionals="1" coveredconditionals="0" methods="17" coveredmethods="0"/>
+      <metrics statements="66" coveredstatements="10" conditionals="1" coveredconditionals="0" methods="17" coveredmethods="0"/>
       <file name="ComfyUIService.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/ComfyUIService.ts">
-        <metrics statements="55" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="13" coveredmethods="0"/>
+        <metrics statements="57" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="13" coveredmethods="0"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
@@ -985,43 +985,45 @@
         <line num="32" count="0" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
         <line num="41" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
         <line num="44" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
         <line num="54" count="0" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
         <line num="56" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="64" count="0" type="stmt"/>
-        <line num="65" count="0" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
         <line num="66" count="0" type="stmt"/>
         <line num="67" count="0" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
         <line num="69" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
-        <line num="84" count="0" type="stmt"/>
-        <line num="91" count="0" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
-        <line num="99" count="0" type="stmt"/>
-        <line num="100" count="0" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
+        <line num="75" count="0" type="stmt"/>
+        <line num="78" count="0" type="stmt"/>
+        <line num="86" count="0" type="stmt"/>
+        <line num="93" count="0" type="stmt"/>
+        <line num="97" count="0" type="stmt"/>
+        <line num="101" count="0" type="stmt"/>
         <line num="102" count="0" type="stmt"/>
-        <line num="108" count="0" type="stmt"/>
-        <line num="112" count="0" type="stmt"/>
-        <line num="116" count="0" type="stmt"/>
-        <line num="117" count="0" type="stmt"/>
+        <line num="104" count="0" type="stmt"/>
+        <line num="110" count="0" type="stmt"/>
+        <line num="114" count="0" type="stmt"/>
+        <line num="118" count="0" type="stmt"/>
         <line num="119" count="0" type="stmt"/>
-        <line num="123" count="0" type="stmt"/>
-        <line num="126" count="0" type="stmt"/>
-        <line num="132" count="0" type="stmt"/>
-        <line num="133" count="0" type="stmt"/>
-        <line num="136" count="0" type="stmt"/>
-        <line num="137" count="0" type="stmt"/>
+        <line num="121" count="0" type="stmt"/>
+        <line num="125" count="0" type="stmt"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="134" count="0" type="stmt"/>
+        <line num="135" count="0" type="stmt"/>
+        <line num="138" count="0" type="stmt"/>
         <line num="139" count="0" type="stmt"/>
-        <line num="140" count="0" type="stmt"/>
+        <line num="141" count="0" type="stmt"/>
+        <line num="142" count="0" type="stmt"/>
       </file>
       <file name="ComfyUIUtil.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/ai-generate-image/comfyui/ComfyUIUtil.ts">
         <metrics statements="9" coveredstatements="1" conditionals="1" coveredconditionals="0" methods="4" coveredmethods="0"/>
