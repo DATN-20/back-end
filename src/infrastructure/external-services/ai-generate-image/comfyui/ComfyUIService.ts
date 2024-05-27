@@ -31,6 +31,7 @@ export class ComfyUIService
   async upscale(image_buffer: Buffer): Promise<Buffer[]> {
     const comfyui_workflow = await this.comfyUIFeature.upscaleWorkflow(image_buffer);
     const comfyui_socket = new ComfyUISokcet(this.generationService);
+    comfyui_socket.skipStatus();
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_workflow);
 
     return list_image_buffer;
@@ -39,6 +40,7 @@ export class ComfyUIService
   async removeBackground(image_buffer: Buffer): Promise<Buffer[]> {
     const comfyui_workflow = await this.comfyUIFeature.removeBackgroundWorkflow(image_buffer);
     const comfyui_socket = new ComfyUISokcet(this.generationService);
+    comfyui_socket.skipStatus();
     const list_image_buffer = await this.comfyUIApi.getImages(comfyui_socket, comfyui_workflow);
 
     return list_image_buffer;
