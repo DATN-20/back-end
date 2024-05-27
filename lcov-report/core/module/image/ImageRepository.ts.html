@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.79% </span>
+                <span class="strong">15.62% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/29</span>
+                <span class='fraction'>5/32</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/18</span>
+                <span class='fraction'>0/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.79% </span>
+                <span class="strong">15.62% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/29</span>
+                <span class='fraction'>5/32</span>
             </div>
         
             
@@ -190,10 +190,34 @@
 <a name='L125'></a><a href='#L125'>125</a>
 <a name='L126'></a><a href='#L126'>126</a>
 <a name='L127'></a><a href='#L127'>127</a>
-<a name='L128'></a><a href='#L128'>128</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -315,13 +339,36 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { Image, NewImage } from './entity/Image';
 import { images } from '@infrastructure/orm/schema';
-import { and, count, desc, eq, like, max, or, sql } from 'drizzle-orm';
+import { and, count, desc, eq, like, or, sql } from 'drizzle-orm';
 import { ImageType } from '@core/common/enum/ImageType';
+import { ImageFilter } from './entity/filter/ImageFilter';
 &nbsp;
 export class ImageRepository extends BaseRepository {
 <span class="fstat-no" title="function not covered" >  async </span>create(newImage: NewImage): Promise&lt;Image&gt; {
@@ -443,6 +490,28 @@ export class ImageRepository extends BaseRepository {
       offset: (pagination.page - 1) * pagination.limit,
     });
   }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  async </span>countGeneratedImages(date: Date, filter: ImageFilter): Promise&lt;number&gt; {
+    const result = <span class="cstat-no" title="statement not covered" >await this.database</span>
+      .select({
+        total: sql&lt;number&gt;`count(*) as count`.mapWith(Number),
+      })
+      .from(images)
+      .where(
+        and(
+          filter.aiName != 'ALL' ? eq(images.aiName, filter.aiName) : sql`1=1`,
+          filter.imageType != 'ALL' ? eq(images.type, ImageType[filter.imageType]) : sql`1=1`,
+          filter.style != 'ALL' ? eq(images.style, filter.style) : sql`1=1`,
+          sql`DAY(${images.createdAt}) = ${date.getDate()} and MONTH(${images.createdAt}) = ${
+            date.getMonth() + 1
+          } and YEAR(${images.createdAt}) = ${date.getFullYear()}`,
+        ),
+      )
+      .groupBy(sql`DATE(${images.createdAt})`)
+      .orderBy(sql`DATE(${images.createdAt})`);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return result.length === 0 ? 0 : result[0].total;</span>
+  }
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -451,7 +520,7 @@ export class ImageRepository extends BaseRepository {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-05-27T08:46:43.893Z
+                at 2024-05-27T08:59:02.669Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
