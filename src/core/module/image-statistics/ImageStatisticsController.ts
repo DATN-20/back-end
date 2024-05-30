@@ -5,7 +5,7 @@ import { ImageStatisticsRequest } from './entity/request/ImageStatisticsRequest'
 import { DateUtil } from '@core/common/util/DateUtil';
 import { AnalysisWithQueryJson } from '../user-management/entity/response/AnalysisWithDateJson';
 
-@Controller('/statistic/images')
+@Controller('/admin/statistic/images')
 @UseGuards(AdminGuard)
 export class ImageStatisticsController {
   constructor(private readonly userStatisticsService: ImageStatisticsService) {}

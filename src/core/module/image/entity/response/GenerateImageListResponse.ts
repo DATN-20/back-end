@@ -1,8 +1,9 @@
+import { IResponse } from '@core/common/interface/IResponse';
 import { GenerateImageListResponseJson } from './GenerateImageListResponseJson';
 import { ImageResponse } from './ImageResponse';
 import { ImageResponseJson } from './ImageResponseJson';
 
-export class GenerateImageListResponse {
+export class GenerateImageListResponse implements IResponse<GenerateImageListResponseJson> {
   private style: string;
   private prompt: string;
   private images: ImageResponse[];

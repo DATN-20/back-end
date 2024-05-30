@@ -3,8 +3,9 @@ import { LockedUser } from '../LockedUser';
 import { UserInformationResponseJson } from './UserInformationResponseJson';
 import { UserProfileResponse } from '@core/module/user/entity/response/UserProfileResponse';
 import { LockedUserResponse } from './LockedUserResponse';
+import { IResponse } from '@core/common/interface/IResponse';
 
-export class UserInformationResponse {
+export class UserInformationResponse implements IResponse<UserInformationResponseJson> {
   private user: User;
   private lockedInformation: LockedUser;
 

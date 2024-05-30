@@ -12,7 +12,7 @@ import { DateUtil } from '@core/common/util/DateUtil';
 import { AnalysisWithQueryJson } from './entity/response/AnalysisWithDateJson';
 import { AnalysisNewUserInRangeQuery } from './entity/request/AnalysisNewUserInRangeQuery';
 
-@Controller('/management/users')
+@Controller('/admin/management/users')
 @UseGuards(AdminGuard)
 export class UserManagementController {
   constructor(private readonly userManagementService: UserManagementService) {}

@@ -26,6 +26,7 @@ import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
 import { ImageResponseJson } from './entity/response/ImageResponseJson';
 import { DashboardImageQueryRequest } from './entity/request/DashboardImageQueryRequest';
 import { GenerateImageListResponseJson } from './entity/response/GenerateImageListResponseJson';
+import { ParamValidator } from '@core/common/util/ParamValidator';
 
 @UseGuards(AuthGuard)
 @Controller('images')
@@ -106,31 +107,31 @@ export class ImageController {
   }
 
   @Get(':imageId')
-  async getImageById(@Param('imageId') image_id: number) {
+  async getImageById(@Param('imageId', ParamValidator) image_id: number) {
     return this.imageService.handleGetImageById(image_id);
   }
 
   @Get('generate-history/:generationId')
   async getGeneratedImagesByGenerationId(
     @User() user: UserFromAuthGuard,
-    @Param('generationId') generation_id: string,
+    @Param('generationId', ParamValidator) generation_id: string,
   ): Promise<GenerateImageListResponseJson> {
     return this.imageService.handleGetGeneratedImagesByGenerationId(user.id, generation_id);
   }
 
-  @Post('/:id/image-processing')
+  @Post(':imageId/image-processing')
   async removeBackground(
     @User() user: UserFromAuthGuard,
-    @Param('id') image_id: number,
+    @Param('imageId', ParamValidator) image_id: number,
     @Body() data: ProcessImageRequest,
   ): Promise<ImageResponseJson> {
     return this.imageService.handleImageProcessing(user.id, data.processType, image_id);
   }
 
-  @Patch('visibility/:id')
+  @Patch('visibility/:imageId')
   async changeVisibility(
     @User() user: UserFromAuthGuard,
-    @Param('id') image_id: number,
+    @Param('imageId', ParamValidator) image_id: number,
   ): Promise<string> {
     await this.imageService.changeVisibilityImage(user.id, image_id);
     return ImageMessage.CHANGE_VISIBILITY_SUCCESS;
@@ -138,7 +139,7 @@ export class ImageController {
 
   @Get('user/:userId')
   async getImageByUserId(
-    @Param('userId') user_id: number,
+    @Param('userId', ParamValidator) user_id: number,
     @Query() query_data: DashboardImageQueryRequest,
   ): Promise<Promise<QueryPaginationResponse<ImageResponseJson>>> {
     return this.imageService.handleGetImagesByUserId(user_id, {

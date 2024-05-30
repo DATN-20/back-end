@@ -1,5 +1,5 @@
 import { ImageType } from '@core/common/enum/ImageType';
-import { UserResponseJson } from '@core/module/user/entity/response/UserResponseJson';
+import { UserShortProfileResponseJson } from '@core/module/user/entity/response/UserShortProfileResponseJson';
 
 export interface ImageResponseJson {
   id: number;
@@ -9,7 +9,7 @@ export interface ImageResponseJson {
   ai_name: string;
   style: string;
   created_at: Date;
-  created_user: UserResponseJson;
+  created_user: UserShortProfileResponseJson;
   is_liked: boolean;
   like_number: number;
   remove_background: string;

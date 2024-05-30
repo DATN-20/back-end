@@ -20,8 +20,9 @@ import { EditAlbumReq } from './entity/request/EditAlbumReq';
 import { ImageAlbumRequest } from '../images-album/entity/request/ImageAlbumRequest';
 import { ImageAlbumService } from '../images-album/ImageAlbumService';
 import { ImageAlbumMessage } from '@core/common/resource/message/ImageAlbumMessage';
-import { ImageAlbumResponse } from '../images-album/entity/response/ImageAlbumResponse';
-import { AlbumWithImageResponse } from './entity/response/AlbumWithImageResponse';
+import { ImageResponseJson } from '../image/entity/response/ImageResponseJson';
+import { AlbumWithImagesResponseJson } from './entity/response/AlbumWithImagesResponseJson';
+import { ParamValidator } from '@core/common/util/ParamValidator';
 
 @UseGuards(AuthGuard)
 @Controller('album')
@@ -50,36 +51,36 @@ export class AlbumController {
     return AlbumMessage.DELETE_SUCCESS;
   }
 
+  // image album controller section
+  // add image to album, remove image from album, get all images in album
+  @Get('full-info')
+  async getFullInfo(@User() user: UserFromAuthGuard): Promise<AlbumWithImagesResponseJson[]> {
+    return this.albumService.getFullInfo(user.id);
+  }
+
   @Patch(':albumId')
   @HttpCode(HttpStatus.OK)
   async editAlbum(
     @User() user: UserFromAuthGuard,
-    @Param('albumId') album_id: number,
+    @Param('albumId', ParamValidator) album_id: number,
     @Body() edit_album_req: EditAlbumReq,
   ) {
     return await this.albumService.handleEditAlbum(user.id, album_id, edit_album_req);
   }
 
-  // image album controller section
-  // add image to album, remove image from album, get all images in album
-  @Get('full-info')
-  async getFullInfo(@User() user: UserFromAuthGuard): Promise<AlbumWithImageResponse[]> {
-    return this.albumService.getFullInfo(user.id);
-  }
-
   @Post(':albumId')
   addImageToAlbum(
     @User() user: UserFromAuthGuard,
-    @Param('albumId') album_id: number,
+    @Param('albumId', ParamValidator) album_id: number,
     @Body() imageAlbumRequest: ImageAlbumRequest,
-  ): Promise<ImageAlbumResponse[]> {
+  ): Promise<ImageResponseJson[]> {
     return this.imageAlbumService.addImageToAlbum(user.id, album_id, imageAlbumRequest);
   }
 
   @Delete(':albumId')
   async removeImageFromAlbum(
     @User() user: UserFromAuthGuard,
-    @Param('albumId') album_id: number,
+    @Param('albumId', ParamValidator) album_id: number,
     @Body() image_album_request: ImageAlbumRequest,
   ): Promise<string> {
     await this.imageAlbumService.removeImageFromAlbum(user.id, album_id, image_album_request);
@@ -89,8 +90,8 @@ export class AlbumController {
   @Get(':albumId')
   getAllImagesInAlbum(
     @User() user: UserFromAuthGuard,
-    @Param('albumId') album_id: number,
-  ): Promise<ImageAlbumResponse[]> {
+    @Param('albumId', ParamValidator) album_id: number,
+  ): Promise<ImageResponseJson[]> {
     return this.imageAlbumService.getAllImagesInAlbum(user.id, album_id);
   }
 }

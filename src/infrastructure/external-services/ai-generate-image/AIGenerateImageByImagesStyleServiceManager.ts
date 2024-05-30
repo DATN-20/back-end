@@ -15,13 +15,13 @@ export class AIGenerateImageByImagesStyleServiceManager {
     };
   }
 
-  CheckAIValid(ai_name) {
+  checkAIValid(ai_name) {
     if (!(ai_name in this.aIList)) {
       throw new Exception(AIGenerateImageError.INVALID_AI_NAME);
     }
   }
 
-  async getAllAiInfo() {
+  async getAllAIInfo() {
     const result = [];
 
     for (const key in this.aIList) {
@@ -39,7 +39,7 @@ export class AIGenerateImageByImagesStyleServiceManager {
     ai_name: string,
     input_prompts: GenerateByImagesStyleInputPromts,
   ) {
-    this.CheckAIValid(ai_name);
+    this.checkAIValid(ai_name);
     return this.aIList[ai_name].generateImageByImagesStyle(input_prompts);
   }
 }

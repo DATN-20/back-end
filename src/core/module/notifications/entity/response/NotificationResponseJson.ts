@@ -1,12 +1,12 @@
 import { NotificationType } from '@core/common/enum/NotificationType';
-import { UserResponseJson } from '@core/module/user/entity/response/UserResponseJson';
+import { UserShortProfileResponseJson } from '@core/module/user/entity/response/UserShortProfileResponseJson';
 
 export interface NotifcationResponseJson {
   id: number;
   title: string;
   content: string;
   type: NotificationType;
-  user: UserResponseJson;
+  user: UserShortProfileResponseJson;
   is_read: boolean;
   reference_data: string | null;
   created_at: Date;

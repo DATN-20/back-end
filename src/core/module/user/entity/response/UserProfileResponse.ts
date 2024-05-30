@@ -1,8 +1,9 @@
+import { IResponse } from '@core/common/interface/IResponse';
 import { User } from '../User';
 import { UserProfileResponseJson } from './UserProfileResponseJson';
-import { UserResponseJson } from './UserResponseJson';
+import { UserShortProfileResponseJson } from './UserShortProfileResponseJson';
 
-export class UserProfileResponse {
+export class UserProfileResponse implements IResponse<UserProfileResponseJson> {
   private id: number;
   private firstName: string;
   private lastName: string;
@@ -83,7 +84,7 @@ export class UserProfileResponse {
     };
   }
 
-  public toShortJson(): UserResponseJson {
+  public toShortJson(): UserShortProfileResponseJson {
     return {
       id: this.id,
       first_name: this.firstName,

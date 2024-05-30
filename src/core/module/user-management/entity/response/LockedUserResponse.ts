@@ -1,8 +1,9 @@
 import { LockUserType } from '@core/common/enum/LockUserType';
 import { LockedUser } from '../LockedUser';
 import { LockedUserJson } from './LockedUserJson';
+import { IResponse } from '@core/common/interface/IResponse';
 
-export class LockedUserResponse {
+export class LockedUserResponse implements IResponse<LockedUserJson> {
   private userId: number;
   private type: LockUserType;
   private lockedAt: Date;

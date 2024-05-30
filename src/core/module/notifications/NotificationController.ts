@@ -5,6 +5,7 @@ import { User } from '@core/common/decorator/UserDecorator';
 import { NotifcationResponseJson } from './entity/response/NotificationResponseJson';
 import { GetNotificationsQuery } from './entity/request/GetNotificationsQuery';
 import { NotificationMessage } from '@core/common/resource/message/NotificationMessage';
+import { ParamValidator } from '@core/common/util/ParamValidator';
 
 @Controller('notifications')
 @UseGuards(AuthGuard)
@@ -28,7 +29,7 @@ export class NotifiationController {
   @Patch(':notificationId/change-status')
   async changeStatusOfNotifcation(
     @User() user: UserFromAuthGuard,
-    @Param('notificationId') notification_id: number,
+    @Param('notificationId', ParamValidator) notification_id: number,
   ): Promise<string> {
     await this.notificationService.handleChangeStatusOfNotification(notification_id, user.id);
     return NotificationMessage.CHANGE_STATUS_SUCCESSFULLY;

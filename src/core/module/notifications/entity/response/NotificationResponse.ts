@@ -3,9 +3,9 @@ import { User } from '@core/module/user/entity/User';
 import { NotificationEntity } from '../Notification';
 import { UserProfileResponse } from '@core/module/user/entity/response/UserProfileResponse';
 import { NotifcationResponseJson } from './NotificationResponseJson';
-import { FrontEndConfig } from '@infrastructure/config/FrontEndConfig';
+import { IResponse } from '@core/common/interface/IResponse';
 
-export class NotifcationResponse {
+export class NotifcationResponse implements IResponse<NotifcationResponseJson> {
   private id: number;
   private title: string;
   private content: string;
