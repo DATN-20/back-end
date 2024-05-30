@@ -1,11 +1,19 @@
-type QueryPagination = {
-  page: number;
-  limit: number;
-};
+import { ApiProperty } from '@nestjs/swagger';
 
-type QueryPaginationResponse<T> = {
+export class QueryPagination {
+  @ApiProperty()
   page: number;
+  @ApiProperty()
   limit: number;
+}
+
+export class QueryPaginationResponse<T> {
+  @ApiProperty()
+  page: number;
+  @ApiProperty()
+  limit: number;
+  @ApiProperty()
   total: number;
+  @ApiProperty()
   data: T[];
-};
+}

@@ -1,10 +1,8 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
 export class ImageAlbumRequest {
+  @ApiProperty()
   @IsNotEmpty()
-  idImage: number[];
-
-  constructor(idImage: number[]) {
-    this.idImage = idImage;
-  }
+  imageIds: number[];
 }

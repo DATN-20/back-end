@@ -27,7 +27,10 @@ import { ImageResponseJson } from './entity/response/ImageResponseJson';
 import { DashboardImageQueryRequest } from './entity/request/DashboardImageQueryRequest';
 import { GenerateImageListResponseJson } from './entity/response/GenerateImageListResponseJson';
 import { ParamValidator } from '@core/common/util/ParamValidator';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { QueryPaginationResponse } from '@core/common/type/Pagination';
 
+@ApiTags(ImageController.name.replaceAll('Controller', ''))
 @UseGuards(AuthGuard)
 @Controller('images')
 export class ImageController {
@@ -36,6 +39,7 @@ export class ImageController {
     private readonly dashboardService: DashboardImageService,
   ) {}
 
+  @ApiResponse({ status: HttpStatus.OK, type: ImageResponseJson, isArray: true })
   @Post()
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(FilesInterceptor('files'))
@@ -46,6 +50,7 @@ export class ImageController {
     return this.imageService.handleUploadImages(user.id, files);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: String })
   @Delete()
   @HttpCode(HttpStatus.OK)
   async deleteImages(@Body() images: DeleteImageRequest): Promise<string> {
@@ -53,12 +58,14 @@ export class ImageController {
     return ImageMessage.DELETE_SUCCESS;
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: ImageResponseJson, isArray: true })
   @Get()
   @HttpCode(HttpStatus.OK)
   async getUserImages(@User() user: UserFromAuthGuard): Promise<ImageResponseJson[]> {
     return this.imageService.handleGetImagesOfUser(user.id);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: String })
   @Post('interact')
   @HttpCode(HttpStatus.OK)
   async interact(
@@ -68,6 +75,7 @@ export class ImageController {
     return this.imageService.handleInteractImage(user.id, data);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: QueryPaginationResponse<ImageResponseJson> })
   @Get('search-prompt')
   async searchPrompt(
     @Query() query_data: SearchPromptRequest,
@@ -75,6 +83,7 @@ export class ImageController {
     return this.imageService.handleSearchPrompt(query_data);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: QueryPaginationResponse<ImageResponseJson> })
   @Get('dashboard')
   async getDashboardImages(
     @Query() query_data: DashboardImageQueryRequest,
@@ -99,6 +108,7 @@ export class ImageController {
     );
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: GenerateImageListResponseJson, isArray: true })
   @Get('generate-history')
   async getGenerateHistoryImages(
     @User() user: UserFromAuthGuard,
@@ -106,11 +116,15 @@ export class ImageController {
     return this.imageService.handleGetGenerateImageHistory(user.id);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: ImageResponseJson })
   @Get(':imageId')
-  async getImageById(@Param('imageId', ParamValidator) image_id: number) {
+  async getImageById(
+    @Param('imageId', ParamValidator) image_id: number,
+  ): Promise<ImageResponseJson> {
     return this.imageService.handleGetImageById(image_id);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: GenerateImageListResponseJson })
   @Get('generate-history/:generationId')
   async getGeneratedImagesByGenerationId(
     @User() user: UserFromAuthGuard,
@@ -119,6 +133,7 @@ export class ImageController {
     return this.imageService.handleGetGeneratedImagesByGenerationId(user.id, generation_id);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: ImageResponseJson })
   @Post(':imageId/image-processing')
   async removeBackground(
     @User() user: UserFromAuthGuard,
@@ -128,6 +143,7 @@ export class ImageController {
     return this.imageService.handleImageProcessing(user.id, data.processType, image_id);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: String })
   @Patch('visibility/:imageId')
   async changeVisibility(
     @User() user: UserFromAuthGuard,
@@ -137,6 +153,7 @@ export class ImageController {
     return ImageMessage.CHANGE_VISIBILITY_SUCCESS;
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: QueryPaginationResponse<ImageResponseJson> })
   @Get('user/:userId')
   async getImageByUserId(
     @Param('userId', ParamValidator) user_id: number,

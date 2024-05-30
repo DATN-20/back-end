@@ -4,6 +4,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpStatus,
   Post,
   UploadedFiles,
   UseGuards,
@@ -18,7 +19,9 @@ import { ImageType } from '@core/common/enum/ImageType';
 import { GenerationService } from '../generation/GenerationService';
 import { GenerationResponseJson } from '../generation/entity/response/GenerationResponseJson';
 import { GenerationStatus } from '@core/common/enum/GenerationStatus';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags(GenerateImageController.name.replaceAll('Controller', ''))
 @UseGuards(AuthGuard)
 @Controller('generate-image')
 export class GenerateImageController {
@@ -27,11 +30,13 @@ export class GenerateImageController {
     private readonly generationService: GenerationService,
   ) {}
 
+  @ApiResponse({ status: HttpStatus.OK, type: Object })
   @Get('/ai-info')
-  async getAtInfo() {
+  async getAtInfo(): Promise<any> {
     return this.generateImageService.handleGetAIInfo();
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: GenerationResponseJson })
   @Post('/text-to-image')
   @UseInterceptors(FileFieldsInterceptor([{ name: 'controlNetImages', maxCount: 10 }]))
   async generateTextToImage(
@@ -66,6 +71,7 @@ export class GenerateImageController {
     return generation;
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: GenerationResponseJson })
   @Post('/image-to-image')
   @UseInterceptors(
     FileFieldsInterceptor([
@@ -105,6 +111,7 @@ export class GenerateImageController {
     return generation;
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: GenerationResponseJson })
   @Post('/image-by-images-style')
   @UseInterceptors(
     FileFieldsInterceptor([
@@ -148,8 +155,9 @@ export class GenerateImageController {
     return generation;
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: Object })
   @Get('/ai-generate-by-images-style-info')
-  async getAIGenerateByImagesStyleInfo() {
+  async getAIGenerateByImagesStyleInfo(): Promise<any> {
     return this.generateImageService.handleGetAIGenerateByImagesStyleInfo();
   }
 }

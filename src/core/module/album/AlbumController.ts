@@ -23,7 +23,10 @@ import { ImageAlbumMessage } from '@core/common/resource/message/ImageAlbumMessa
 import { ImageResponseJson } from '../image/entity/response/ImageResponseJson';
 import { AlbumWithImagesResponseJson } from './entity/response/AlbumWithImagesResponseJson';
 import { ParamValidator } from '@core/common/util/ParamValidator';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AlbumResponseJson } from './entity/response/AlbumResponseJson';
 
+@ApiTags(AlbumController.name.replaceAll('Controller', ''))
 @UseGuards(AuthGuard)
 @Controller('album')
 export class AlbumController {
@@ -32,18 +35,24 @@ export class AlbumController {
     private readonly imageAlbumService: ImageAlbumService,
   ) {}
 
+  @ApiResponse({ status: HttpStatus.OK, type: AlbumResponseJson })
   @Post()
   @HttpCode(HttpStatus.OK)
-  async createNewAlbum(@User() user: UserFromAuthGuard, @Body() create_album_req: CreateAlbumReq) {
+  async createNewAlbum(
+    @User() user: UserFromAuthGuard,
+    @Body() create_album_req: CreateAlbumReq,
+  ): Promise<AlbumResponseJson> {
     return this.albumService.handleCreateNewAlbum(user.id, create_album_req.name);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: AlbumResponseJson, isArray: true })
   @Get()
   @HttpCode(HttpStatus.OK)
-  async getAlbums(@User() user: UserFromAuthGuard) {
+  async getAlbums(@User() user: UserFromAuthGuard): Promise<AlbumResponseJson[]> {
     return this.albumService.handleViewAlbums(user.id);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: String })
   @Delete()
   @HttpCode(HttpStatus.OK)
   async deleteAlbums(@User() user: UserFromAuthGuard, @Body() delete_album_req: DeleteAlbumReq) {
@@ -53,30 +62,34 @@ export class AlbumController {
 
   // image album controller section
   // add image to album, remove image from album, get all images in album
+  @ApiResponse({ status: HttpStatus.OK, type: AlbumWithImagesResponseJson, isArray: true })
   @Get('full-info')
   async getFullInfo(@User() user: UserFromAuthGuard): Promise<AlbumWithImagesResponseJson[]> {
     return this.albumService.getFullInfo(user.id);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: AlbumResponseJson })
   @Patch(':albumId')
   @HttpCode(HttpStatus.OK)
   async editAlbum(
     @User() user: UserFromAuthGuard,
     @Param('albumId', ParamValidator) album_id: number,
     @Body() edit_album_req: EditAlbumReq,
-  ) {
+  ): Promise<AlbumResponseJson> {
     return await this.albumService.handleEditAlbum(user.id, album_id, edit_album_req);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: AlbumResponseJson, isArray: true })
   @Post(':albumId')
   addImageToAlbum(
     @User() user: UserFromAuthGuard,
     @Param('albumId', ParamValidator) album_id: number,
-    @Body() imageAlbumRequest: ImageAlbumRequest,
+    @Body() image_album_request: ImageAlbumRequest,
   ): Promise<ImageResponseJson[]> {
-    return this.imageAlbumService.addImageToAlbum(user.id, album_id, imageAlbumRequest);
+    return this.imageAlbumService.addImageToAlbum(user.id, album_id, image_album_request);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: String })
   @Delete(':albumId')
   async removeImageFromAlbum(
     @User() user: UserFromAuthGuard,
@@ -87,6 +100,7 @@ export class AlbumController {
     return ImageAlbumMessage.DELETE_SUCCESS;
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: AlbumResponseJson, isArray: true })
   @Get(':albumId')
   getAllImagesInAlbum(
     @User() user: UserFromAuthGuard,

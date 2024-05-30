@@ -6,6 +6,7 @@ import { Logger, ValidationError, ValidationPipe } from '@nestjs/common';
 import { Exception } from '@core/common/exception/Exception';
 import { ErrorBaseSystem } from '@core/common/resource/error/ErrorBase';
 import { ExceptionFilterGlobal } from '@core/common/exception-filter/ExceptionFilterGlobal';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 export class ServerApplication {
   private readonly host: string = ApiServerConfig.HOST;
@@ -35,6 +36,16 @@ export class ServerApplication {
         },
       }),
     );
+
+    const config = new DocumentBuilder()
+      .setTitle('ĐỒ ÁN TỐT NGHIỆP API')
+      .setDescription('Đồ án tốt nghiệp: Docs API')
+      .setVersion('1.0')
+      .addBearerAuth()
+      .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api-docs', app, document);
+
     app.useGlobalFilters(new ExceptionFilterGlobal());
     await app
       .listen(this.port, this.host)
