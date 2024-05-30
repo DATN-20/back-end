@@ -17,6 +17,7 @@ import { MyElasticsearchService } from '@infrastructure/external-services/elasti
 import { AnalysisWithDateJson } from './entity/response/AnalysisWithDateJson';
 import { DateUtil } from '@core/common/util/DateUtil';
 import { DateUnit } from '@core/common/enum/DateUnit';
+import { QueryPagination, QueryPaginationResponse } from '@core/common/type/Pagination';
 
 @Injectable()
 export class UserManagementService {

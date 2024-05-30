@@ -19,9 +19,10 @@ import { ImageType } from '@core/common/enum/ImageType';
 import { GenerationService } from '../generation/GenerationService';
 import { GenerationResponseJson } from '../generation/entity/response/GenerationResponseJson';
 import { GenerationStatus } from '@core/common/enum/GenerationStatus';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags(GenerateImageController.name.replaceAll('Controller', ''))
+@ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller('generate-image')
 export class GenerateImageController {

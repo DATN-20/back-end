@@ -3,12 +3,12 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class InteractImageRequest {
-  @ApiProperty()
+  @ApiProperty({ type: Number })
   @IsNotEmpty()
   @IsNumber()
   imageId: number;
 
-  @ApiProperty({ default: InteractionType.LIKE })
+  @ApiProperty({ default: InteractionType.LIKE, enum: InteractionType })
   @IsEnum(InteractionType)
   type: InteractionType;
 }

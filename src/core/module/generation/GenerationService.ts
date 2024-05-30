@@ -41,6 +41,10 @@ export class GenerationService {
   ): Promise<GenerationResponseJson> {
     const generation = await this.generationRepository.getById(generation_id);
 
+    if (!generation) {
+      throw new Exception(GenerationError.GENERATION_NOT_FOUND);
+    }
+
     if (generation.userId !== user_id) {
       throw new Exception(GenerationError.FORBIDDEN_VIEW_GENERATION);
     }

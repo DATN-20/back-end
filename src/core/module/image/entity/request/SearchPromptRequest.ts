@@ -7,17 +7,17 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, Min } from 'class-validator';
 
 export class SearchPromptRequest {
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsNotEmpty()
   query: string;
 
-  @ApiProperty({ default: PAGINATION_MIN_PAGE })
+  @ApiProperty({ default: PAGINATION_MIN_PAGE, type: Number })
   @IsOptional()
   @IsNumber()
   @Min(PAGINATION_MIN_PAGE)
   page: number = PAGINATION_MIN_PAGE;
 
-  @ApiProperty({ default: PAGINATION_MAX_LIMIT })
+  @ApiProperty({ default: PAGINATION_MAX_LIMIT, type: Number })
   @IsOptional()
   @IsNotEmpty()
   @IsNumber()

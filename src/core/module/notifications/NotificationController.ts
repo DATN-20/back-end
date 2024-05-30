@@ -15,9 +15,10 @@ import { NotifcationResponseJson } from './entity/response/NotificationResponseJ
 import { GetNotificationsQuery } from './entity/request/GetNotificationsQuery';
 import { NotificationMessage } from '@core/common/resource/message/NotificationMessage';
 import { ParamValidator } from '@core/common/util/ParamValidator';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags(NotifiationController.name.replaceAll('Controller', ''))
+@ApiBearerAuth()
 @Controller('notifications')
 @UseGuards(AuthGuard)
 export class NotifiationController {

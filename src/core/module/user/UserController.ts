@@ -19,9 +19,10 @@ import { UseInterceptors } from '@nestjs/common/decorators/core/use-interceptors
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserProfileResponseJson } from './entity/response/UserProfileResponseJson';
 import { ParamValidator } from '@core/common/util/ParamValidator';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags, ApiBody, ApiConsumes } from '@nestjs/swagger';
 
 @ApiTags(UserController.name.replaceAll('Controller', ''))
+@ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller('users')
 export class UserController {
@@ -61,6 +62,18 @@ export class UserController {
   }
 
   @ApiResponse({ status: HttpStatus.OK, type: String })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @Post('me/avatar')
   @UseInterceptors(FileInterceptor('file'))
   async updateAvatar(
@@ -69,7 +82,20 @@ export class UserController {
   ): Promise<string> {
     return this.userService.handleUpdateAvatar(user.id, file);
   }
+
   @ApiResponse({ status: HttpStatus.OK, type: String })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @UseInterceptors(FileInterceptor('file'))
   @Post('me/background')
   async updateBackground(

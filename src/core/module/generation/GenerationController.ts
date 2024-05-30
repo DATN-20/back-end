@@ -4,9 +4,10 @@ import { User } from '@core/common/decorator/UserDecorator';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { GenerationResponseJson } from './entity/response/GenerationResponseJson';
 import { ParamValidator } from '@core/common/util/ParamValidator';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags(GenerationController.name.replaceAll('Controller', ''))
+@ApiBearerAuth()
 @Controller('generations')
 @UseGuards(AuthGuard)
 export class GenerationController {

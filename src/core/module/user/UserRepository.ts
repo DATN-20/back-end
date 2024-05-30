@@ -5,6 +5,7 @@ import { count, eq, sql } from 'drizzle-orm';
 import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
 import { UserRole } from '@core/common/enum/UserRole';
+import { QueryPagination } from '@core/common/type/Pagination';
 
 export class UserRepository extends BaseRepository {
   async create(user: {

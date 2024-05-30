@@ -3,7 +3,7 @@ import { ProcessType } from '../ProcessType';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class ProcessImageRequest {
-  @ApiProperty({ default: ProcessType.UPSCALE })
+  @ApiProperty({ default: ProcessType.UPSCALE, enum: ProcessType })
   @IsNotEmpty()
   @IsEnum(ProcessType)
   processType: ProcessType;

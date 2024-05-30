@@ -6,6 +6,6 @@ export class GenerateImageListResponseJson {
   style: string;
   @ApiProperty()
   prompt: string;
-  @ApiProperty()
+  @ApiProperty({ type: ImageResponseJson, isArray: true })
   images: ImageResponseJson[];
 }

@@ -1,3 +1,4 @@
+import { Social } from '@core/common/type/Social';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserProfileResponseJson {
@@ -13,7 +14,7 @@ export class UserProfileResponseJson {
   address: string;
   @ApiProperty()
   description: string;
-  @ApiProperty()
+  @ApiProperty({ type: Social, isArray: true })
   socials: Social[];
   @ApiProperty()
   alias_name: string;

@@ -23,12 +23,13 @@ import { ImageAlbumMessage } from '@core/common/resource/message/ImageAlbumMessa
 import { ImageResponseJson } from '../image/entity/response/ImageResponseJson';
 import { AlbumWithImagesResponseJson } from './entity/response/AlbumWithImagesResponseJson';
 import { ParamValidator } from '@core/common/util/ParamValidator';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AlbumResponseJson } from './entity/response/AlbumResponseJson';
 
 @ApiTags(AlbumController.name.replaceAll('Controller', ''))
+@ApiBearerAuth()
 @UseGuards(AuthGuard)
-@Controller('album')
+@Controller('albums')
 export class AlbumController {
   public constructor(
     private readonly albumService: AlbumService,
@@ -60,8 +61,6 @@ export class AlbumController {
     return AlbumMessage.DELETE_SUCCESS;
   }
 
-  // image album controller section
-  // add image to album, remove image from album, get all images in album
   @ApiResponse({ status: HttpStatus.OK, type: AlbumWithImagesResponseJson, isArray: true })
   @Get('full-info')
   async getFullInfo(@User() user: UserFromAuthGuard): Promise<AlbumWithImagesResponseJson[]> {
@@ -79,18 +78,8 @@ export class AlbumController {
     return await this.albumService.handleEditAlbum(user.id, album_id, edit_album_req);
   }
 
-  @ApiResponse({ status: HttpStatus.OK, type: AlbumResponseJson, isArray: true })
-  @Post(':albumId')
-  addImageToAlbum(
-    @User() user: UserFromAuthGuard,
-    @Param('albumId', ParamValidator) album_id: number,
-    @Body() image_album_request: ImageAlbumRequest,
-  ): Promise<ImageResponseJson[]> {
-    return this.imageAlbumService.addImageToAlbum(user.id, album_id, image_album_request);
-  }
-
   @ApiResponse({ status: HttpStatus.OK, type: String })
-  @Delete(':albumId')
+  @Delete(':albumId/images')
   async removeImageFromAlbum(
     @User() user: UserFromAuthGuard,
     @Param('albumId', ParamValidator) album_id: number,
@@ -101,11 +90,21 @@ export class AlbumController {
   }
 
   @ApiResponse({ status: HttpStatus.OK, type: AlbumResponseJson, isArray: true })
-  @Get(':albumId')
+  @Get(':albumId/images')
   getAllImagesInAlbum(
     @User() user: UserFromAuthGuard,
     @Param('albumId', ParamValidator) album_id: number,
   ): Promise<ImageResponseJson[]> {
     return this.imageAlbumService.getAllImagesInAlbum(user.id, album_id);
+  }
+
+  @ApiResponse({ status: HttpStatus.OK, type: AlbumResponseJson, isArray: true })
+  @Post('/:albumId/images')
+  addImageToAlbum(
+    @User() user: UserFromAuthGuard,
+    @Param('albumId', ParamValidator) album_id: number,
+    @Body() image_album_request: ImageAlbumRequest,
+  ): Promise<ImageResponseJson[]> {
+    return this.imageAlbumService.addImageToAlbum(user.id, album_id, image_album_request);
   }
 }

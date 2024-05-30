@@ -4,6 +4,7 @@ import { images } from '@infrastructure/orm/schema';
 import { and, count, desc, eq, like, or, sql } from 'drizzle-orm';
 import { ImageType } from '@core/common/enum/ImageType';
 import { ImageFilter } from './entity/filter/ImageFilter';
+import { QueryPagination } from '@core/common/type/Pagination';
 
 export class ImageRepository extends BaseRepository {
   async create(newImage: NewImage): Promise<Image> {

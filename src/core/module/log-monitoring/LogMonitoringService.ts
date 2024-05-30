@@ -2,6 +2,7 @@ import { MyElasticsearchService } from '@infrastructure/external-services/elasti
 import { Injectable } from '@nestjs/common';
 import { LogMonitoringJson } from './entity/LogMonitoringJson';
 import { AcceptanceEndpoint } from '@core/common/enum/AcceptanceEndpoint';
+import { QueryPagination, QueryPaginationResponse } from '@core/common/type/Pagination';
 
 @Injectable()
 export class LogMonitoringService {

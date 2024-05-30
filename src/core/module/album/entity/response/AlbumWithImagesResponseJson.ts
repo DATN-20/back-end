@@ -5,6 +5,6 @@ import { ApiProperty } from '@nestjs/swagger';
 export class AlbumWithImagesResponseJson {
   @ApiProperty({ type: AlbumResponseJson })
   album: AlbumResponseJson;
-  @ApiProperty({ type: Array<ImageResponseJson> })
+  @ApiProperty({ type: ImageResponseJson, isArray: true })
   images: ImageResponseJson[];
 }

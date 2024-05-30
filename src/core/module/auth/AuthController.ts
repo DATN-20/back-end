@@ -20,7 +20,7 @@ import { ForgetPasswordRequest } from './entity/request/ForgetPasswordRequest';
 import { ChangePasswordRequest } from './entity/request/ChangePasswordRequest';
 import { RefreshTokenRequest } from './entity/request/RefreshTokenRequest';
 import { SignInResponseJson } from './entity/response/SignInResponseJson';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags(AuthController.name.replaceAll('Controller', ''))
 @Controller('auth')
@@ -54,6 +54,7 @@ export class AuthController {
     return AuthMessage.SIGN_UP_SUCCESSFULLY;
   }
 
+  @ApiBearerAuth()
   @ApiResponse({ status: HttpStatus.OK, type: String })
   @Post('signout')
   @UseGuards(AuthGuard)

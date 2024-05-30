@@ -27,10 +27,11 @@ import { ImageResponseJson } from './entity/response/ImageResponseJson';
 import { DashboardImageQueryRequest } from './entity/request/DashboardImageQueryRequest';
 import { GenerateImageListResponseJson } from './entity/response/GenerateImageListResponseJson';
 import { ParamValidator } from '@core/common/util/ParamValidator';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { QueryPaginationResponse } from '@core/common/type/Pagination';
+import { ApiBearerAuth, ApiResponse, ApiTags, ApiConsumes, ApiBody } from '@nestjs/swagger';
 
 @ApiTags(ImageController.name.replaceAll('Controller', ''))
+@ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller('images')
 export class ImageController {
@@ -40,6 +41,21 @@ export class ImageController {
   ) {}
 
   @ApiResponse({ status: HttpStatus.OK, type: ImageResponseJson, isArray: true })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        files: {
+          type: 'array',
+          items: {
+            type: 'string',
+            format: 'binary',
+          },
+        },
+      },
+    },
+  })
   @Post()
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(FilesInterceptor('files'))

@@ -2,6 +2,7 @@ import { IResponse } from '@core/common/interface/IResponse';
 import { User } from '../User';
 import { UserProfileResponseJson } from './UserProfileResponseJson';
 import { UserShortProfileResponseJson } from './UserShortProfileResponseJson';
+import { Social } from '@core/common/type/Social';
 
 export class UserProfileResponse implements IResponse<UserProfileResponseJson> {
   private id: number;

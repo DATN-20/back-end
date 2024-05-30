@@ -4,9 +4,10 @@ import { ImageStatisticsService } from './ImageStatisticsService';
 import { ImageStatisticsRequest } from './entity/request/ImageStatisticsRequest';
 import { DateUtil } from '@core/common/util/DateUtil';
 import { AnalysisWithQueryJson } from '../user-management/entity/response/AnalysisWithDateJson';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags(ImageStatisticsController.name.replaceAll('Controller', ''))
+@ApiBearerAuth()
 @Controller('/admin/statistic/images')
 @UseGuards(AdminGuard)
 export class ImageStatisticsController {

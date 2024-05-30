@@ -1,8 +1,11 @@
+import { TrimValidator } from '@core/common/decorator/TrimValidator';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class EditAlbumReq {
   @ApiProperty()
-  @IsOptional()
+  @TrimValidator()
+  @IsNotEmpty()
+  @IsString()
   name: string;
 }

@@ -12,9 +12,10 @@ import { DateUtil } from '@core/common/util/DateUtil';
 import { AnalysisWithQueryJson } from './entity/response/AnalysisWithDateJson';
 import { AnalysisNewUserInRangeQuery } from './entity/request/AnalysisNewUserInRangeQuery';
 import { QueryPaginationResponse } from '@core/common/type/Pagination';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags(UserManagementController.name.replaceAll('Controller', ''))
+@ApiBearerAuth()
 @Controller('/admin/management/users')
 @UseGuards(AdminGuard)
 export class UserManagementController {

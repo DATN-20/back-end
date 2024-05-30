@@ -25,7 +25,7 @@ export class CreateNewUserRequest {
   @Length(AuthConstant.MIN_LENGTH_PASSWORD)
   password: string;
 
-  @ApiProperty()
+  @ApiProperty({ enum: UserRole, default: UserRole.ARTIST })
   @IsOptional()
   @IsEnum(UserRole)
   role: UserRole;

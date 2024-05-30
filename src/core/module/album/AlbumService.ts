@@ -102,16 +102,20 @@ export class AlbumService {
   ): Promise<AlbumWithImagesResponseJson[]> {
     const albums = await this.albumRepository.getByUserId(user_id);
     const albums_with_images_response: AlbumWithImagesResponseJson[] = [];
-    const albums_response = this.arrayAlbumsToAlbumResponseJson(albums);
+    const albums_response = await this.arrayAlbumsToAlbumResponseJson(albums);
 
-    albums.forEach(async (album, index) => {
-      const images = await this.imageAlbumService.getAllImagesInAlbum(user_id, album.id, is_guest);
+    for (let index = 0; index < albums.length; index++) {
+      const images = await this.imageAlbumService.getAllImagesInAlbum(
+        user_id,
+        albums[index].id,
+        is_guest,
+      );
 
       albums_with_images_response.push({
         album: albums_response[index],
         images,
       });
-    });
+    }
 
     return albums_with_images_response;
   }
