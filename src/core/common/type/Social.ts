@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class SignInResponseJson {
+export class Social {
   @ApiProperty()
-  access_token: string;
+  social_name: string;
   @ApiProperty()
-  refresh_token: string;
+  social_link: string;
 }

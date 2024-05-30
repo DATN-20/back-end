@@ -1,18 +1,32 @@
 import { ImageType } from '@core/common/enum/ImageType';
-import { UserResponseJson } from '@core/module/user/entity/response/UserResponseJson';
+import { UserShortProfileResponseJson } from '@core/module/user/entity/response/UserShortProfileResponseJson';
+import { ApiProperty } from '@nestjs/swagger';
 
-export interface ImageResponseJson {
+export class ImageResponseJson {
+  @ApiProperty()
   id: number;
+  @ApiProperty()
   url: string;
+  @ApiProperty()
   type: ImageType;
+  @ApiProperty()
   prompt: string;
+  @ApiProperty()
   ai_name: string;
+  @ApiProperty()
   style: string;
+  @ApiProperty()
   created_at: Date;
-  created_user: UserResponseJson;
+  @ApiProperty()
+  created_user: UserShortProfileResponseJson;
+  @ApiProperty()
   is_liked: boolean;
+  @ApiProperty()
   like_number: number;
+  @ApiProperty()
   remove_background: string;
+  @ApiProperty()
   upscale: string;
+  @ApiProperty()
   visibility: boolean;
 }

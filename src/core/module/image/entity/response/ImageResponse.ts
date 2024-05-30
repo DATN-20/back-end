@@ -2,9 +2,10 @@ import { ImageType } from '@core/common/enum/ImageType';
 import { Image } from '../Image';
 import { User } from '@core/module/user/entity/User';
 import { ImageResponseJson } from './ImageResponseJson';
-import { UserResponseJson } from '@core/module/user/entity/response/UserResponseJson';
+import { UserShortProfileResponseJson } from '@core/module/user/entity/response/UserShortProfileResponseJson';
+import { IResponse } from '@core/common/interface/IResponse';
 
-export class ImageResponse {
+export class ImageResponse implements IResponse<ImageResponseJson> {
   private id: number;
   private userId: number;
   private url: string;
@@ -41,7 +42,7 @@ export class ImageResponse {
     return new ImageResponse(image);
   }
 
-  public createdUserInfo(): UserResponseJson {
+  public createdUserInfo(): UserShortProfileResponseJson {
     if (this.createdUser) {
       return {
         id: this.createdUser.id,

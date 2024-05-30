@@ -1,13 +1,18 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Query } from '@nestjs/common';
 import { LogMonitoringService } from './LogMonitoringService';
 import { GetLogsQuery } from './entity/request/GetLogsQuery';
 import { LogMonitoringJson } from './entity/LogMonitoringJson';
 import { DateUtil } from '@core/common/util/DateUtil';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { QueryPaginationResponse } from '@core/common/type/Pagination';
 
-@Controller('/management/logging')
+@ApiTags(LogMonitoringController.name.replaceAll('Controller', ''))
+@ApiBearerAuth()
+@Controller('/admin/management/logging')
 export class LogMonitoringController {
   constructor(private readonly logMonitoringService: LogMonitoringService) {}
 
+  @ApiResponse({ status: HttpStatus.OK, type: QueryPaginationResponse<LogMonitoringJson> })
   @Get('api')
   async getLogs(
     @Query() query_data: GetLogsQuery,

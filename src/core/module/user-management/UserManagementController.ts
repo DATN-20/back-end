@@ -1,5 +1,5 @@
 import { AdminGuard } from '@core/common/guard/AdminGuard';
-import { Body, Controller, Get, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { UserManagementService } from './UserManagementService';
 import { LockUserRequest } from './entity/request/LockUserRequest';
 import { UnlockUserRequest } from './entity/request/UnlockUserRequest';
@@ -11,12 +11,20 @@ import { GetApiRequestTimesOfUserQuery } from './entity/request/GetApiRequestTim
 import { DateUtil } from '@core/common/util/DateUtil';
 import { AnalysisWithQueryJson } from './entity/response/AnalysisWithDateJson';
 import { AnalysisNewUserInRangeQuery } from './entity/request/AnalysisNewUserInRangeQuery';
+import { QueryPaginationResponse } from '@core/common/type/Pagination';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@Controller('/management/users')
+@ApiTags(UserManagementController.name.replaceAll('Controller', ''))
+@ApiBearerAuth()
+@Controller('/admin/management/users')
 @UseGuards(AdminGuard)
 export class UserManagementController {
   constructor(private readonly userManagementService: UserManagementService) {}
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: QueryPaginationResponse<UserInformationResponseJson>,
+  })
   @Get()
   async getAllUser(
     @Query() query_data: GetUsersQueryRequest,
@@ -27,11 +35,13 @@ export class UserManagementController {
     });
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: LockedUserJson })
   @Post('lock')
   async lockUser(@Body() data: LockUserRequest): Promise<LockedUserJson> {
     return this.userManagementService.handleLockUser(data);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: String })
   @Patch('unlock')
   async unlockUser(@Body() data: UnlockUserRequest): Promise<string> {
     await this.userManagementService.handleUnlockUser(data.lockedUserId);
@@ -42,6 +52,7 @@ export class UserManagementController {
     );
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: AnalysisWithQueryJson })
   @Get('analysis/new-user')
   async analysisNewUserInRange(
     @Query() query_data: AnalysisNewUserInRangeQuery,
@@ -60,6 +71,7 @@ export class UserManagementController {
     };
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: AnalysisWithQueryJson })
   @Get('api-request-times')
   async getApiRequestTimesOfUser(
     @Query() query_data: GetApiRequestTimesOfUserQuery,

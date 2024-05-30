@@ -1,7 +1,8 @@
 import { User } from '@core/module/user/entity/User';
 import { SignInResponseJson } from './SignInResponseJson';
+import { IResponse } from '@core/common/interface/IResponse';
 
-export class SignInResponse {
+export class SignInResponse implements IResponse<SignInResponseJson> {
   private accessToken: string;
   private refreshToken: string;
 

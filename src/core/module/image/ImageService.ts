@@ -18,6 +18,7 @@ import { GenerateByImagesStyleInputs } from '../generate-image/entity/request/Ge
 import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
 import { ImageResponseJson } from './entity/response/ImageResponseJson';
 import { GenerateImageListResponseJson } from './entity/response/GenerateImageListResponseJson';
+import { QueryPagination, QueryPaginationResponse } from '@core/common/type/Pagination';
 
 @Injectable()
 export class ImageService {
@@ -58,9 +59,13 @@ export class ImageService {
     }
   }
 
-  async handleDeleteImages(imageIds: number[]): Promise<void> {
-    for (const id of imageIds) {
-      this.handleDeleteImage(id);
+  async handleDeleteImages(image_ids: number[]): Promise<void> {
+    for (const id of image_ids) {
+      if (isNaN(id)) {
+        throw new Exception(ImageError.IMAGE_NOT_FOUND);
+      }
+
+      await this.handleDeleteImage(id);
     }
   }
 

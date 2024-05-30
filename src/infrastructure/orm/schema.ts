@@ -15,6 +15,7 @@ import {
 } from 'drizzle-orm/mysql-core';
 import { GenerationStatus } from '@core/common/enum/GenerationStatus';
 import { NotificationType } from '@core/common/enum/NotificationType';
+import { Social } from '@core/common/type/Social';
 
 export const users = mysqlTable('users', {
   id: int('id').primaryKey().autoincrement(),

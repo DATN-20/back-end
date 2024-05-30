@@ -12,6 +12,7 @@ export class GenerateTagService {
     if (image_buffer === undefined) {
       throw new Exception(AIGenerateTagError.IMAGE_IS_REQUIRED);
     }
+
     const tag = await this.aIFeatureServiceManager.generateTagByImage(
       AI_FOR_GENERATE_TAG,
       image_buffer,

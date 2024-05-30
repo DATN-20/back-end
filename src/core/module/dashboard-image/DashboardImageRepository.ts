@@ -6,6 +6,7 @@ import { Injectable } from '@nestjs/common';
 import { Image } from '../image/entity/Image';
 import { ImageFilter, ImageFilterType } from '../image/entity/filter/ImageFilter';
 import { ImageType } from '@core/common/enum/ImageType';
+import { QueryPagination } from '@core/common/type/Pagination';
 
 @Injectable()
 export class DashboardImageRepository extends BaseRepository {

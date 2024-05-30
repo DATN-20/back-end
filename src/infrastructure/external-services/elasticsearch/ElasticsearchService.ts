@@ -1,4 +1,5 @@
 import { AcceptanceEndpoint } from '@core/common/enum/AcceptanceEndpoint';
+import { QueryPagination } from '@core/common/type/Pagination';
 import { DateUtil } from '@core/common/util/DateUtil';
 import { LogMonitoringJson } from '@core/module/log-monitoring/entity/LogMonitoringJson';
 import { Injectable } from '@nestjs/common';

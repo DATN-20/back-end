@@ -15,11 +15,17 @@ export class GenerateImageService {
     private imageService: ImageService,
   ) {}
 
-  async handleGenerateTextToImg(user_id: number, generate_inputs: GenerateInputs) {
-    const input_promts = ConverterUtil.convertGenerateInputsToInputPromts(generate_inputs, user_id);
+  async handleGenerateTextToImg(
+    user_id: number,
+    generate_inputs: GenerateInputs,
+  ): Promise<string[]> {
+    const input_prompts = ConverterUtil.convertGenerateInputsToInputPromts(
+      generate_inputs,
+      user_id,
+    );
     const list_image_buffer = await this.aIGenerateImageServiceManger.generateTextToImage(
       generate_inputs.aiName,
-      input_promts,
+      input_prompts,
     );
 
     const list_image_response = await this.imageService.handleCreateGenerateImages(
@@ -33,11 +39,17 @@ export class GenerateImageService {
     return result;
   }
 
-  async handleGenerateImageToImage(user_id: number, generate_inputs: GenerateInputs) {
-    const input_promts = ConverterUtil.convertGenerateInputsToInputPromts(generate_inputs, user_id);
+  async handleGenerateImageToImage(
+    user_id: number,
+    generate_inputs: GenerateInputs,
+  ): Promise<string[]> {
+    const input_prompts = ConverterUtil.convertGenerateInputsToInputPromts(
+      generate_inputs,
+      user_id,
+    );
     const list_image_buffer = await this.aIGenerateImageServiceManger.generateImageToImage(
       generate_inputs.aiName,
-      input_promts,
+      input_prompts,
     );
     const list_image_response = await this.imageService.handleCreateGenerateImages(
       user_id,
@@ -50,15 +62,15 @@ export class GenerateImageService {
     return result;
   }
 
-  async handleGetAIInfo() {
-    return this.aIGenerateImageServiceManger.getAllAiInfo();
+  async handleGetAIInfo(): Promise<any> {
+    return this.aIGenerateImageServiceManger.getAllAIInfo();
   }
 
   async handleGenerateImageByImagesStyle(
     user_id: number,
     generate_inputs: GenerateByImagesStyleInputs,
-  ) {
-    const input_promts =
+  ): Promise<string[]> {
+    const input_prompts =
       ConverterUtil.convertGenerateByImagesStyleInputsToGenerateByImagesStyleInputPromts(
         generate_inputs,
         user_id,
@@ -67,7 +79,7 @@ export class GenerateImageService {
     const list_image_buffer =
       await this.aIGenerateImageByImagesStyleServiceManager.generateImageByImagesStyle(
         generate_inputs.aiName,
-        input_promts,
+        input_prompts,
       );
     const list_image_response = await this.imageService.handleCreateGenerateImagesByImagesStyle(
       user_id,
@@ -80,7 +92,7 @@ export class GenerateImageService {
     return result;
   }
 
-  async handleGetAIGenerateByImagesStyleInfo() {
-    return this.aIGenerateImageByImagesStyleServiceManager.getAllAiInfo();
+  async handleGetAIGenerateByImagesStyleInfo(): Promise<any> {
+    return this.aIGenerateImageByImagesStyleServiceManager.getAllAIInfo();
   }
 }

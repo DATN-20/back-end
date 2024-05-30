@@ -20,11 +20,14 @@ import { ForgetPasswordRequest } from './entity/request/ForgetPasswordRequest';
 import { ChangePasswordRequest } from './entity/request/ChangePasswordRequest';
 import { RefreshTokenRequest } from './entity/request/RefreshTokenRequest';
 import { SignInResponseJson } from './entity/response/SignInResponseJson';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags(AuthController.name.replaceAll('Controller', ''))
 @Controller('auth')
 export class AuthController {
   public constructor(private readonly authService: AuthService) {}
 
+  @ApiResponse({ status: HttpStatus.OK, type: String })
   @Post('signup')
   @HttpCode(HttpStatus.OK)
   async signUp(@Body() body: CreateNewUserRequest): Promise<string> {
@@ -33,6 +36,7 @@ export class AuthController {
     return AuthMessage.SIGN_UP_SEND_MAIL_SUCCESSFULLY;
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: SignInResponseJson })
   @Post('signin')
   @HttpCode(HttpStatus.OK)
   async signIn(@Body() body: LoginUserRequest): Promise<SignInResponseJson> {
@@ -41,6 +45,7 @@ export class AuthController {
     return result.toJson();
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: String })
   @Get('signup/verify')
   @HttpCode(HttpStatus.OK)
   async verifySignUp(@Query('token') token: string): Promise<string> {
@@ -49,6 +54,8 @@ export class AuthController {
     return AuthMessage.SIGN_UP_SUCCESSFULLY;
   }
 
+  @ApiBearerAuth()
+  @ApiResponse({ status: HttpStatus.OK, type: String })
   @Post('signout')
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
@@ -58,6 +65,7 @@ export class AuthController {
     return AuthMessage.SIGN_OUT_SUCCESSFULLY;
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: String })
   @Post('forget-password')
   @HttpCode(HttpStatus.OK)
   async forgetPassword(@Body() body: ForgetPasswordRequest): Promise<string> {
@@ -66,6 +74,7 @@ export class AuthController {
     return AuthMessage.SEND_MAIL_VERIFY_FORGET_PASSWORD_SUCCESSFULLY;
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: String })
   @Post('forget-password/change-password')
   @HttpCode(HttpStatus.OK)
   async changePassword(
@@ -77,6 +86,7 @@ export class AuthController {
     return AuthMessage.CHANGE_PASSWORD_SUCCESSFULLY;
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: SignInResponseJson })
   @Post('refresh-token')
   @HttpCode(HttpStatus.OK)
   async refreshToken(@Body() body: RefreshTokenRequest): Promise<SignInResponseJson> {

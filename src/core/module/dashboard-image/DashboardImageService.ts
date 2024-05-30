@@ -7,6 +7,7 @@ import { UserRepository } from '../user/UserRepository';
 import { Image } from '../image/entity/Image';
 import { ImageResponseJson } from '../image/entity/response/ImageResponseJson';
 import { ImageFilter } from '../image/entity/filter/ImageFilter';
+import { QueryPagination, QueryPaginationResponse } from '@core/common/type/Pagination';
 
 @Injectable()
 export class DashboardImageService {
