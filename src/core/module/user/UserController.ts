@@ -31,7 +31,7 @@ export class UserController {
   @ApiResponse({ status: HttpStatus.OK, type: UserProfileResponseJson })
   @Get('me')
   async getLoggedInUserProfile(@User() user: UserFromAuthGuard): Promise<UserProfileResponseJson> {
-    return this.userService.handleGetLoggedInUserProfile(user.id);
+    return this.userService.handleGetUserProfileById(user.id);
   }
 
   @ApiResponse({ status: HttpStatus.OK, type: UserProfileResponseJson })

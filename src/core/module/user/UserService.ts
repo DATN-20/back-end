@@ -26,12 +26,6 @@ export class UserService {
     return matched_user;
   }
 
-  async handleGetLoggedInUserProfile(user_id: number): Promise<UserProfileResponseJson> {
-    const matched_user = await this.handleGetExistedUser(user_id);
-
-    return UserProfileResponse.convertFromEntity(matched_user).toJson();
-  }
-
   async handleUpdateProfile(
     user_id: number,
     profile: ProfileRequest,

@@ -6,6 +6,7 @@ import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
 import { UserRole } from '@core/common/enum/UserRole';
 import { QueryPagination } from '@core/common/type/Pagination';
+import { Social } from '@core/common/type/Social';
 
 export class UserRepository extends BaseRepository {
   async create(user: {
@@ -21,9 +22,23 @@ export class UserRepository extends BaseRepository {
   }
 
   async getById(id: number): Promise<User> {
-    return this.database.query.users.findFirst({
+    const user = await this.database.query.users.findFirst({
       where: (users, { eq }) => eq(users.id, id),
     });
+    user.socials ??= [];
+
+    // when social only has one it not return array object, it only return object social
+    // so this code will modify the returned data to array object in case user.socials is only one
+    if (!user.socials.length) {
+      user.socials = [
+        {
+          social_link: user.socials['social_link'],
+          social_name: user.socials['social_name'],
+        },
+      ];
+    }
+
+    return user;
   }
 
   async getByEmail(email: string): Promise<User> {
@@ -70,6 +85,7 @@ export class UserRepository extends BaseRepository {
       })
       .where(eq(users.id, id));
   }
+
   async updateProfile(id: number, profile: ProfileRequest): Promise<void> {
     await this.database
       .update(users)

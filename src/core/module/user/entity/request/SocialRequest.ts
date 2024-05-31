@@ -1,5 +1,6 @@
+import { TrimValidator } from '@core/common/decorator/TrimValidator';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUrl, ValidateIf } from 'class-validator';
 
 export class SocialRequest {
   @ApiProperty()
@@ -9,5 +10,8 @@ export class SocialRequest {
 
   @ApiProperty({ default: '' })
   @IsOptional()
+  @TrimValidator()
+  @ValidateIf(req => req.socialLink !== '')
+  @IsUrl()
   socialLink: string = '';
 }
