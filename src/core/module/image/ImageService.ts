@@ -61,10 +61,6 @@ export class ImageService {
 
   async handleDeleteImages(image_ids: number[]): Promise<void> {
     for (const id of image_ids) {
-      if (isNaN(id)) {
-        throw new Exception(ImageError.IMAGE_NOT_FOUND);
-      }
-
       await this.handleDeleteImage(id);
     }
   }

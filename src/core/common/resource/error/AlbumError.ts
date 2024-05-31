@@ -22,13 +22,19 @@ export class AlbumError {
 
   public static DUPLICATE_IMAGE: ErrorBase = {
     error_code: '05004',
-    message: 'Image already exists',
+    message: 'Image already exists in this album',
     status_code: HttpStatus.BAD_REQUEST,
   };
 
   public static IMAGE_NOT_EXITS: ErrorBase = {
     error_code: '05005',
     message: 'Image does not exists',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
+
+  public static ALBUM_NOT_INCLUDE_IMAGE: ErrorBase = {
+    error_code: '05006',
+    message: 'Album do not includes image',
     status_code: HttpStatus.BAD_REQUEST,
   };
 }
