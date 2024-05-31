@@ -58,7 +58,7 @@ describe('UserService', () => {
     it('should throw USER_NOT_FOUND exception', async () => {
       jest.spyOn(userRepository, 'getById').mockReturnValue(null);
 
-      await expect(userService.handleGetLoggedInUserProfile(1)).rejects.toThrowError(
+      await expect(userService.handleGetExistedUser(1)).rejects.toThrowError(
         new Exception(UserError.USER_NOT_FOUND),
       );
     });
@@ -67,16 +67,6 @@ describe('UserService', () => {
       jest.spyOn(userRepository, 'getById').mockResolvedValue(USER_ENTITY);
 
       await expect(userService.handleGetExistedUser(1)).resolves.toEqual(USER_ENTITY);
-    });
-  });
-
-  describe('handleGetLoggedInUserProfile', () => {
-    it('should return user profile', async () => {
-      jest.spyOn(userRepository, 'getById').mockResolvedValue(USER_ENTITY);
-
-      await expect(userService.handleGetLoggedInUserProfile(1)).resolves.toEqual(
-        UserProfileResponse.convertFromEntity(USER_ENTITY).toJson(),
-      );
     });
   });
 
