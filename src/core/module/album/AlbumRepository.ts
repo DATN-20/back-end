@@ -28,7 +28,13 @@ export class AlbumRepository extends BaseRepository {
 
   async update(id: number, edited_data: Partial<NewAlbum>) {
     edited_data.updatedAt = new Date();
-    await this.database.update(albums).set(edited_data).where(eq(albums.id, id));
+    await this.database
+      .update(albums)
+      .set({
+        name: edited_data.name,
+        updatedAt: new Date(),
+      })
+      .where(eq(albums.id, id));
 
     return await this.getById(id);
   }

@@ -1,6 +1,5 @@
 import { DateUnit } from '@core/common/enum/DateUnit';
 import { Exception } from '@core/common/exception/Exception';
-import { AuthError } from '@core/common/resource/error/AuthError';
 import { DateUtil } from '@core/common/util/DateUtil';
 import { BcryptHash } from '@core/common/util/hash/BcryptHash';
 import { JwtUtil } from '@core/common/util/jwt/JwtUtil';

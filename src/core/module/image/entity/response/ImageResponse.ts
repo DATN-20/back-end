@@ -6,6 +6,24 @@ import { UserShortProfileResponseJson } from '@core/module/user/entity/response/
 import { IResponse } from '@core/common/interface/IResponse';
 
 export class ImageResponse implements IResponse<ImageResponseJson> {
+  static ImageResponse(image_1: {
+    id: number;
+    createdAt: Date;
+    userId: number;
+    url: string;
+    type: ImageType;
+    prompt: string;
+    aiName: string;
+    style: string;
+    additionInfo: string;
+    visibility: boolean;
+    storageId: string;
+    generateId: string;
+    removeBackground: string;
+    upscale: string;
+  }): ImageResponseJson {
+    throw new Error('Method not implemented.');
+  }
   private id: number;
   private userId: number;
   private url: string;

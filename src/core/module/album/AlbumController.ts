@@ -64,7 +64,7 @@ export class AlbumController {
   @ApiResponse({ status: HttpStatus.OK, type: AlbumWithImagesResponseJson, isArray: true })
   @Get('full-info')
   async getFullInfo(@User() user: UserFromAuthGuard): Promise<AlbumWithImagesResponseJson[]> {
-    return this.albumService.getFullInfo(user.id);
+    return this.albumService.handleGetFullInfo(user.id);
   }
 
   @ApiResponse({ status: HttpStatus.OK, type: AlbumResponseJson })

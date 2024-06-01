@@ -3,7 +3,6 @@ import { IMockEntity } from './IMockEntity';
 import { RandomString } from '../utils/RandomString';
 import { ImageType } from '@core/common/enum/ImageType';
 import { ComfyUIInfo } from '@infrastructure/external-services/ai-generate-image/comfyui/info/ComfyUIInfo';
-import { RandomNumber } from '../utils/RandomNumber';
 
 export class ImageMock implements IMockEntity<Image> {
   mockArray(length: number): Image[] {

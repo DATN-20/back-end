@@ -9,7 +9,6 @@ import { Exception } from '@core/common/exception/Exception';
 import { ImageAlbumService } from '../images-album/ImageAlbumService';
 import { AlbumResponseJson } from './entity/response/AlbumResponseJson';
 import { AlbumWithImagesResponseJson } from './entity/response/AlbumWithImagesResponseJson';
-import { ImageResponse } from '../image/entity/response/ImageResponse';
 
 @Injectable()
 export class AlbumService {
@@ -25,22 +24,25 @@ export class AlbumService {
       name: name,
       userId: user_id,
     };
-    const create_album = await this.albumRepository.create(new_album);
-    const album = await this.albumRepository.getById(create_album.id);
 
-    return this.albumToAlbumResponseJson(album);
+    const created_album = await this.albumRepository.create(new_album);
+
+    return this.albumToAlbumResponseJson(created_album);
   }
 
   async handleDeleteAlbums(user_id: number, album_ids: number[]): Promise<void> {
-    for (let i = 0; i < album_ids.length; i++) {
-      await this.handleDeleteAlbum(user_id, album_ids[i]);
+    for (const album_id of album_ids) {
+      await this.isAlbumOfUser(user_id, album_id);
+    }
+
+    for (const album_id of album_ids) {
+      await this.albumRepository.deleteById(album_id);
     }
   }
 
   async handleDeleteAlbum(user_id: number, album_id: number): Promise<void> {
-    if (await this.isAlbumOfUser(user_id, album_id)) {
-      await this.albumRepository.deleteById(album_id);
-    }
+    await this.isAlbumOfUser(user_id, album_id);
+    await this.albumRepository.deleteById(album_id);
   }
 
   async handleEditAlbum(
@@ -48,18 +50,14 @@ export class AlbumService {
     album_id: number,
     edit_album_req: EditAlbumReq,
   ): Promise<AlbumResponseJson> {
-    if (!edit_album_req || Object.keys(edit_album_req).length === 0) {
-      throw new Exception(AlbumError.BAD_EDIT_REQUEST);
-    }
-
     await this.isAlbumOfUser(user_id, album_id);
     const edited_album = await this.albumRepository.update(album_id, edit_album_req);
 
     return this.albumToAlbumResponseJson(edited_album);
   }
 
-  async handleViewAlbums(user_id: number) {
-    const albums: Album[] = await this.albumRepository.getByUserId(user_id);
+  async handleViewAlbums(user_id: number): Promise<AlbumResponseJson[]> {
+    const albums = await this.albumRepository.getByUserId(user_id);
     return this.arrayAlbumsToAlbumResponseJson(albums);
   }
 
@@ -96,7 +94,7 @@ export class AlbumService {
     });
   }
 
-  async getFullInfo(
+  async handleGetFullInfo(
     user_id: number,
     is_guest: boolean = false,
   ): Promise<AlbumWithImagesResponseJson[]> {

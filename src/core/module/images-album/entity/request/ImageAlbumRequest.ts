@@ -20,6 +20,8 @@ export class ImageAlbumRequest {
           };
           throw new Exception(ErrorBaseSystem.DYNAMIC_ENTITY_VALIDATION_ERROR(error));
         }
+
+        return id;
       });
     }
 
