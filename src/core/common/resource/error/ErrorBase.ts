@@ -36,6 +36,11 @@ export class ErrorBaseSystem {
   };
   public static FORBIDDEN_RESOURCE: ErrorBase = {
     error_code: '00006',
+    message: 'You do not have permission to access this resource!',
+    status_code: HttpStatus.FORBIDDEN,
+  };
+  public static FORBIDDEN_ACCESS_API: ErrorBase = {
+    error_code: '00006',
     message: 'You do not have permission to access this API!',
     status_code: HttpStatus.FORBIDDEN,
   };

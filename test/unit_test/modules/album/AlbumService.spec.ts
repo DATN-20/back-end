@@ -246,7 +246,6 @@ describe(AlbumService.name, () => {
         .spyOn(AlbumService.prototype as any, 'albumToAlbumResponseJson')
         .mockResolvedValue(album_response_json);
       const actual_result = await albumService['albumToAlbumResponseJson'](album_entity);
-      console.log(actual_result);
       expect(actual_result).toEqual(album_response_json);
     });
   });

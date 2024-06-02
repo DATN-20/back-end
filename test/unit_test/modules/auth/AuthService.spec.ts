@@ -1,4 +1,5 @@
 import { DateUnit } from '@core/common/enum/DateUnit';
+import { UserRole } from '@core/common/enum/UserRole';
 import { Exception } from '@core/common/exception/Exception';
 import { DateUtil } from '@core/common/util/DateUtil';
 import { BcryptHash } from '@core/common/util/hash/BcryptHash';
@@ -111,7 +112,7 @@ describe(AuthService.name, () => {
       jest.spyOn(userRepository, 'updateToken').mockResolvedValue(user);
 
       await expect(authService.handleSignIn(loginUserRequest)).resolves.toEqual(
-        SignInResponse.convertFromUser(user),
+        SignInResponse.convertFromUser(user).toJson(),
       );
     });
   });
@@ -184,6 +185,7 @@ describe(AuthService.name, () => {
     it('should update password if token is valid', async () => {
       jest.spyOn(jwtUtil, 'verify').mockReturnValue({
         id: RandomNumber.randomNumber(),
+        role: UserRole.ARTIST,
       });
 
       await authService.handleChangePassword(token, email);
@@ -206,6 +208,7 @@ describe(AuthService.name, () => {
       const user = userEntityMock.mock();
       jest.spyOn(jwtUtil, 'verify').mockReturnValue({
         id: user.id,
+        role: user.role,
       });
       jest.spyOn(userRepository, 'getById').mockResolvedValue(user);
 
@@ -216,12 +219,13 @@ describe(AuthService.name, () => {
       const user = userEntityMock.mock();
       jest.spyOn(jwtUtil, 'verify').mockReturnValue({
         id: user.id,
+        role: user.role,
       });
       jest.spyOn(userRepository, 'getById').mockResolvedValue(user);
       jest.spyOn(userRepository, 'updateToken').mockResolvedValue(user);
 
       await expect(authService.handleRefreshToken(user.refeshToken)).resolves.toEqual(
-        SignInResponse.convertFromUser(user),
+        SignInResponse.convertFromUser(user).toJson(),
       );
     });
   });

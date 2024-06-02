@@ -22,8 +22,13 @@ export class AuthGuard implements CanActivate {
 
     const token = authorization && authorization.split(' ')[1];
 
-    const user_id = this.jwtUtil.verify<TokenPayload>(token, JwtType.ACCESS)?.id;
-    const matched_user = await this.userRepository.getById(user_id);
+    const payload: TokenPayload = this.jwtUtil.verify<TokenPayload>(token, JwtType.ACCESS);
+
+    if (!payload) {
+      throw new Exception(ErrorBaseSystem.UNAUTHORIZE_TOKEN);
+    }
+
+    const matched_user = await this.userRepository.getById(payload.id);
 
     if (!matched_user || matched_user.accessToken !== token) {
       throw new Exception(ErrorBaseSystem.UNAUTHORIZE_TOKEN);
@@ -32,7 +37,8 @@ export class AuthGuard implements CanActivate {
     const locked_user = await this.lockedUserRepository.getByUserId(matched_user.id);
     if (!locked_user) {
       request.user = {
-        id: user_id,
+        id: payload.id,
+        role: payload.role,
       };
 
       return true;
@@ -47,7 +53,8 @@ export class AuthGuard implements CanActivate {
     }
 
     request.user = {
-      id: user_id,
+      id: payload.id,
+      role: payload.role,
     };
 
     return true;

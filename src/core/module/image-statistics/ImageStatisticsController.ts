@@ -5,11 +5,12 @@ import { ImageStatisticsRequest } from './entity/request/ImageStatisticsRequest'
 import { DateUtil } from '@core/common/util/DateUtil';
 import { AnalysisWithQueryJson } from '../user-management/entity/response/AnalysisWithDateJson';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@core/common/guard/AuthGuard';
 
 @ApiTags(ImageStatisticsController.name.replaceAll('Controller', ''))
 @ApiBearerAuth()
 @Controller('/admin/statistic/images')
-@UseGuards(AdminGuard)
+@UseGuards(AuthGuard, AdminGuard)
 export class ImageStatisticsController {
   constructor(private readonly userStatisticsService: ImageStatisticsService) {}
 

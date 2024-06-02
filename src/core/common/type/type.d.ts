@@ -1,3 +1,0 @@
-type UserFromAuthGuard = {
-  id: number;
-};

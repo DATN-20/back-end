@@ -13,11 +13,12 @@ import { AnalysisWithQueryJson } from './entity/response/AnalysisWithDateJson';
 import { AnalysisNewUserInRangeQuery } from './entity/request/AnalysisNewUserInRangeQuery';
 import { QueryPaginationResponse } from '@core/common/type/Pagination';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@core/common/guard/AuthGuard';
 
 @ApiTags(UserManagementController.name.replaceAll('Controller', ''))
 @ApiBearerAuth()
 @Controller('/admin/management/users')
-@UseGuards(AdminGuard)
+@UseGuards(AuthGuard, AdminGuard)
 export class UserManagementController {
   constructor(private readonly userManagementService: UserManagementService) {}
 

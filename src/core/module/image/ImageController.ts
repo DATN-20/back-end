@@ -29,6 +29,7 @@ import { GenerateImageListResponseJson } from './entity/response/GenerateImageLi
 import { ParamValidator } from '@core/common/util/ParamValidator';
 import { QueryPaginationResponse } from '@core/common/type/Pagination';
 import { ApiBearerAuth, ApiResponse, ApiTags, ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { UserFromAuthGuard } from '@core/common/type/UserFromAuthGuard';
 
 @ApiTags(ImageController.name.replaceAll('Controller', ''))
 @ApiBearerAuth()

@@ -20,6 +20,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { UserProfileResponseJson } from './entity/response/UserProfileResponseJson';
 import { ParamValidator } from '@core/common/util/ParamValidator';
 import { ApiBearerAuth, ApiResponse, ApiTags, ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { UserFromAuthGuard } from '@core/common/type/UserFromAuthGuard';
 
 @ApiTags(UserController.name.replaceAll('Controller', ''))
 @ApiBearerAuth()

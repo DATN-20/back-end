@@ -40,9 +40,7 @@ export class AuthController {
   @Post('signin')
   @HttpCode(HttpStatus.OK)
   async signIn(@Body() body: LoginUserRequest): Promise<SignInResponseJson> {
-    const result = await this.authService.handleSignIn(body);
-
-    return result.toJson();
+    return this.authService.handleSignIn(body);
   }
 
   @ApiResponse({ status: HttpStatus.OK, type: String })
@@ -90,8 +88,6 @@ export class AuthController {
   @Post('refresh-token')
   @HttpCode(HttpStatus.OK)
   async refreshToken(@Body() body: RefreshTokenRequest): Promise<SignInResponseJson> {
-    const result = await this.authService.handleRefreshToken(body.token);
-
-    return result.toJson();
+    return this.authService.handleRefreshToken(body.token);
   }
 }

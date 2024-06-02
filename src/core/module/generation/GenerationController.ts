@@ -5,6 +5,7 @@ import { AuthGuard } from '@core/common/guard/AuthGuard';
 import { GenerationResponseJson } from './entity/response/GenerationResponseJson';
 import { ParamValidator } from '@core/common/util/ParamValidator';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UserFromAuthGuard } from '@core/common/type/UserFromAuthGuard';
 
 @ApiTags(GenerationController.name.replaceAll('Controller', ''))
 @ApiBearerAuth()

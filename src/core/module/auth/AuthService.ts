@@ -13,6 +13,7 @@ import { MailSubject } from '@core/common/enum/MailSubject';
 import { FrontEndConfig } from '@infrastructure/config/FrontEndConfig';
 import { LockedUserRepository } from '../user-management/repositories/LockedUserRepository';
 import { LockedUserError } from '@core/common/resource/error/LockedUserError';
+import { SignInResponseJson } from './entity/response/SignInResponseJson';
 
 @Injectable()
 export class AuthService {
@@ -40,7 +41,7 @@ export class AuthService {
     );
   }
 
-  async handleSignIn(data: LoginUserRequest): Promise<SignInResponse> {
+  async handleSignIn(data: LoginUserRequest): Promise<SignInResponseJson> {
     let user = await this.userRepository.getByEmail(data.email);
 
     if (!user) {
@@ -58,18 +59,21 @@ export class AuthService {
     const access_token = this.jwtUtil.signToken<TokenPayload>(
       {
         id: user.id,
+        role: user.role,
       },
       JwtType.ACCESS,
     );
     const refresh_token = this.jwtUtil.signToken<TokenPayload>(
       {
         id: user.id,
+        role: user.role,
       },
       JwtType.REFRESH,
     );
+
     user = await this.userRepository.updateToken(user.id, access_token, refresh_token);
 
-    return SignInResponse.convertFromUser(user);
+    return SignInResponse.convertFromUser(user).toJson();
   }
 
   async handleActiveUserFromMail(token: string): Promise<void> {
@@ -102,6 +106,7 @@ export class AuthService {
     const token_forget_password = this.jwtUtil.signToken<TokenPayload>(
       {
         id: matched_user.id,
+        role: matched_user.role,
       },
       JwtType.FORGET_PASSWORD,
     );
@@ -128,7 +133,7 @@ export class AuthService {
     await this.userRepository.updatePassword(payload.id, new_password);
   }
 
-  async handleRefreshToken(token: string): Promise<SignInResponse> {
+  async handleRefreshToken(token: string): Promise<SignInResponseJson> {
     const payload = this.jwtUtil.verify<TokenPayload>(token, JwtType.REFRESH);
 
     if (!payload) {
@@ -146,12 +151,14 @@ export class AuthService {
     const access_token = await this.jwtUtil.signToken<TokenPayload>(
       {
         id: matched_user.id,
+        role: matched_user.role,
       },
       JwtType.ACCESS,
     );
     const refresh_token = await this.jwtUtil.signToken<TokenPayload>(
       {
         id: matched_user.id,
+        role: matched_user.role,
       },
       JwtType.REFRESH,
     );
@@ -161,7 +168,7 @@ export class AuthService {
       refresh_token,
     );
 
-    return SignInResponse.convertFromUser(matched_user);
+    return SignInResponse.convertFromUser(matched_user).toJson();
   }
 
   async handleLockedUser(user_id: number): Promise<boolean> {

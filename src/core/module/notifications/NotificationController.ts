@@ -16,6 +16,7 @@ import { GetNotificationsQuery } from './entity/request/GetNotificationsQuery';
 import { NotificationMessage } from '@core/common/resource/message/NotificationMessage';
 import { ParamValidator } from '@core/common/util/ParamValidator';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UserFromAuthGuard } from '@core/common/type/UserFromAuthGuard';
 
 @ApiTags(NotifiationController.name.replaceAll('Controller', ''))
 @ApiBearerAuth()

@@ -25,6 +25,7 @@ import { AlbumWithImagesResponseJson } from './entity/response/AlbumWithImagesRe
 import { ParamValidator } from '@core/common/util/ParamValidator';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AlbumResponseJson } from './entity/response/AlbumResponseJson';
+import { UserFromAuthGuard } from '@core/common/type/UserFromAuthGuard';
 
 @ApiTags(AlbumController.name.replaceAll('Controller', ''))
 @ApiBearerAuth()
