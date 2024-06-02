@@ -245,7 +245,14 @@
 <a name='L180'></a><a href='#L180'>180</a>
 <a name='L181'></a><a href='#L181'>181</a>
 <a name='L182'></a><a href='#L182'>182</a>
-<a name='L183'></a><a href='#L183'>183</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -260,6 +267,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -308,7 +316,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -347,6 +358,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -396,7 +408,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -442,6 +456,7 @@ import { MailSubject } from '@core/common/enum/MailSubject';
 import { FrontEndConfig } from '@infrastructure/config/FrontEndConfig';
 import { LockedUserRepository } from '../user-management/repositories/LockedUserRepository';
 import { LockedUserError } from '@core/common/resource/error/LockedUserError';
+import { SignInResponseJson } from './entity/response/SignInResponseJson';
 &nbsp;
 @Injectable()
 export class AuthService {
@@ -469,7 +484,7 @@ export class AuthService {
     );
   }
 &nbsp;
-  async handleSignIn(data: LoginUserRequest): Promise&lt;SignInResponse&gt; {
+  async handleSignIn(data: LoginUserRequest): Promise&lt;SignInResponseJson&gt; {
     let user = await this.userRepository.getByEmail(data.email);
 &nbsp;
     if (!user) {
@@ -487,18 +502,21 @@ export class AuthService {
     const access_token = this.jwtUtil.signToken&lt;TokenPayload&gt;(
       {
         id: user.id,
+        role: user.role,
       },
       JwtType.ACCESS,
     );
     const refresh_token = this.jwtUtil.signToken&lt;TokenPayload&gt;(
       {
         id: user.id,
+        role: user.role,
       },
       JwtType.REFRESH,
     );
+&nbsp;
     user = await this.userRepository.updateToken(user.id, access_token, refresh_token);
 &nbsp;
-    return SignInResponse.convertFromUser(user);
+    return SignInResponse.convertFromUser(user).toJson();
   }
 &nbsp;
   async handleActiveUserFromMail(token: string): Promise&lt;void&gt; {
@@ -531,6 +549,7 @@ export class AuthService {
     const token_forget_password = this.jwtUtil.signToken&lt;TokenPayload&gt;(
       {
         id: matched_user.id,
+        role: matched_user.role,
       },
       JwtType.FORGET_PASSWORD,
     );
@@ -557,7 +576,7 @@ export class AuthService {
     await this.userRepository.updatePassword(payload.id, new_password);
   }
 &nbsp;
-  async handleRefreshToken(token: string): Promise&lt;SignInResponse&gt; {
+  async handleRefreshToken(token: string): Promise&lt;SignInResponseJson&gt; {
     const payload = this.jwtUtil.verify&lt;TokenPayload&gt;(token, JwtType.REFRESH);
 &nbsp;
     if (!payload) {
@@ -575,12 +594,14 @@ export class AuthService {
     const access_token = await this.jwtUtil.signToken&lt;TokenPayload&gt;(
       {
         id: matched_user.id,
+        role: matched_user.role,
       },
       JwtType.ACCESS,
     );
     const refresh_token = await this.jwtUtil.signToken&lt;TokenPayload&gt;(
       {
         id: matched_user.id,
+        role: matched_user.role,
       },
       JwtType.REFRESH,
     );
@@ -590,7 +611,7 @@ export class AuthService {
       refresh_token,
     );
 &nbsp;
-    return SignInResponse.convertFromUser(matched_user);
+    return SignInResponse.convertFromUser(matched_user).toJson();
   }
 &nbsp;
   async handleLockedUser(user_id: number): Promise&lt;boolean&gt; {
@@ -616,7 +637,7 @@ export class AuthService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-06-01T07:02:44.007Z
+                at 2024-06-02T04:16:27.036Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
