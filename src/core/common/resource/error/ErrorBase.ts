@@ -70,7 +70,7 @@ export class ErrorBaseSystem {
 
     return {
       error_code: '00009',
-      message: `Too many requests have been made to this endpoint. You only have a maximum of ${bucket_size} request times. Now, it's out of times! Requests will reset at the end of the day (${reste_date}).`,
+      message: `Too many requests have been made to this endpoint. You only have a maximum of ${bucket_size} request times. Now, it's out of times! Requests will reset at ${reste_date}.`,
       status_code: HttpStatus.TOO_MANY_REQUESTS,
     };
   };

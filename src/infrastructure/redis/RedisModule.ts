@@ -10,8 +10,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       provide: REDIS_CLIENT,
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        const redisUrl = configService.get<string>('REDIS_URL');
-        const client = createClient({ url: redisUrl });
+        const redis_url = configService.get<string>('REDIS_URL');
+        const client = createClient({ url: redis_url });
         await client.connect();
         return client;
       },
