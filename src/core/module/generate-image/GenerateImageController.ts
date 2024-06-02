@@ -21,6 +21,11 @@ import { GenerationResponseJson } from '../generation/entity/response/Generation
 import { GenerationStatus } from '@core/common/enum/GenerationStatus';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserFromAuthGuard } from '@core/common/type/UserFromAuthGuard';
+import { ApplyRateLimiter } from '@core/common/decorator/RateLimiterDecorator';
+import {
+  MAXIMUM_TOKENS_GENERATION_PERDAY,
+  REFILL_RATE,
+} from '@core/common/constant/RateLimiterConstant';
 
 @ApiTags(GenerateImageController.name.replaceAll('Controller', ''))
 @ApiBearerAuth()
@@ -40,6 +45,7 @@ export class GenerateImageController {
 
   @ApiResponse({ status: HttpStatus.OK, type: GenerationResponseJson })
   @Post('/text-to-image')
+  @ApplyRateLimiter({ maxTokens: MAXIMUM_TOKENS_GENERATION_PERDAY, refillRate: REFILL_RATE })
   @UseInterceptors(FileFieldsInterceptor([{ name: 'controlNetImages', maxCount: 10 }]))
   async generateTextToImage(
     @User() user: UserFromAuthGuard,
@@ -75,6 +81,7 @@ export class GenerateImageController {
 
   @ApiResponse({ status: HttpStatus.OK, type: GenerationResponseJson })
   @Post('/image-to-image')
+  @ApplyRateLimiter({ maxTokens: MAXIMUM_TOKENS_GENERATION_PERDAY, refillRate: REFILL_RATE })
   @UseInterceptors(
     FileFieldsInterceptor([
       { name: 'image', maxCount: 1 },
@@ -115,6 +122,7 @@ export class GenerateImageController {
 
   @ApiResponse({ status: HttpStatus.OK, type: GenerationResponseJson })
   @Post('/image-by-images-style')
+  @ApplyRateLimiter({ maxTokens: MAXIMUM_TOKENS_GENERATION_PERDAY, refillRate: REFILL_RATE })
   @UseInterceptors(
     FileFieldsInterceptor([
       { name: 'imageToUnclipsImages', maxCount: 10 },

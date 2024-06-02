@@ -3,6 +3,7 @@ import { DateUnit } from '../enum/DateUnit';
 import { Exception } from '../exception/Exception';
 import { ErrorBaseSystem } from '../resource/error/ErrorBase';
 import { UserManagementError } from '../resource/error/UserManagementError';
+import { Moment } from 'moment';
 
 export class DateUtil {
   public static formatDate(date: Date, pattern: string = 'DD-MM-YYYY HH:mm:ss'): string {
@@ -30,5 +31,9 @@ export class DateUtil {
     if (end_date < start_date) {
       throw new Exception(UserManagementError.END_DATE_LESS_THAN_START_DATE);
     }
+  }
+
+  public static endDate(): Moment {
+    return moment().endOf('day');
   }
 }

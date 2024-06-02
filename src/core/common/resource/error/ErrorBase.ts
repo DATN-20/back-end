@@ -1,3 +1,4 @@
+import { DateUtil } from '@core/common/util/DateUtil';
 import { HttpStatus, ValidationError } from '@nestjs/common';
 
 export type ErrorBase = {
@@ -52,11 +53,25 @@ export class ErrorBaseSystem {
       raw_input: error.target,
     };
   };
+
   public static INVALID_PARAM = (field: string): ErrorBase => {
     return {
       error_code: '00008',
       message: `${field} is invalid!`,
       status_code: HttpStatus.BAD_REQUEST,
+    };
+  };
+
+  public static TOO_MANY_REQUEST_TO_ENDPOINT = (
+    bucket_size: number,
+    expired_at: Date,
+  ): ErrorBase => {
+    const reste_date = DateUtil.formatDate(expired_at);
+
+    return {
+      error_code: '00009',
+      message: `Too many requests have been made to this endpoint. You only have a maximum of ${bucket_size} request times. Now, it's out of times! Requests will reset at the end of the day (${reste_date}).`,
+      status_code: HttpStatus.TOO_MANY_REQUESTS,
     };
   };
 }

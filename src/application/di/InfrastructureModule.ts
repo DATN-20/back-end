@@ -3,6 +3,7 @@ import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtUtil } from '@core/common/util/jwt/JwtUtil';
+import { RedisModule } from '@infrastructure/redis/RedisModule';
 
 @Global()
 @Module({
@@ -16,6 +17,7 @@ import { JwtUtil } from '@core/common/util/jwt/JwtUtil';
         expiresIn: '1d',
       },
     }),
+    RedisModule,
   ],
   controllers: [],
   providers: [JwtUtil],

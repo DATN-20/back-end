@@ -18,6 +18,7 @@ import { ImageStatisticsModule } from './ImageStatisticsModule';
 import { GenerationModule } from './GenerationModule';
 import { NotificationModule } from './NotificationModule';
 import { GenerateTagModule } from './GenerateTagModule';
+import { RateLimiterModule } from './RateLimiterModule';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { GenerateTagModule } from './GenerateTagModule';
     GenerateTagModule,
     GenerationModule,
     NotificationModule,
+    RateLimiterModule,
   ],
   controllers: [],
   providers: [],
