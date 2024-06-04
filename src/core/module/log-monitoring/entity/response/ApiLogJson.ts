@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class LogMonitoringJson {
+export class ApiLogJson {
   @ApiProperty()
   user_id: number;
   @ApiProperty()

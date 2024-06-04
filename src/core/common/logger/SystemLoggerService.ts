@@ -1,18 +1,20 @@
 import * as winston from 'winston';
 import { ElasticsearchTransport } from 'winston-elasticsearch';
 import { SystemLogProperty } from './SystemLoggerProperty';
+import { LogType } from '../enum/LogType';
 
 const SystemLogger = winston.createLogger({
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.json(),
-    winston.format.printf((info: SystemLogProperty) => {
+    winston.format.printf((info: SystemLogProperty): string => {
       const logObject = {
         timestamp: info.timestamp,
         message: info.message,
         level: info.level.toUpperCase(),
         error_code: info.error_code,
         back_trace: info.back_trace,
+        log_type: info.log_type,
       };
       return JSON.stringify(logObject);
     }),
@@ -20,7 +22,7 @@ const SystemLogger = winston.createLogger({
   transports: [
     new winston.transports.File({ filename: 'logs/system.log' }),
     new ElasticsearchTransport({
-      level: 'info',
+      level: 'error',
       clientOpts: { node: process.env.ELASTICSEARCH_URL },
     }),
   ],
