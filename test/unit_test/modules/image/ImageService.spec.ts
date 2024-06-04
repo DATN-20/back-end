@@ -188,7 +188,7 @@ describe(ImageService.name, () => {
   });
 
   describe('handleCreateGenerateImage', () => {
-    it('should return image reponse json', async () => {
+    it('should return image response json', async () => {
       const image_entity = imageEntityMock.mock();
       const image = SINGLE_FILE_MOCK;
       const image_upload_result = {
