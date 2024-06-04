@@ -64,4 +64,9 @@ export class ErrorBaseSystem {
     message: 'Image is required!',
     status_code: HttpStatus.BAD_REQUEST,
   };
+  public static CANNOT_CONVERT_TO_BUFFER_FROM_URL: ErrorBase = {
+    error_code: '00010',
+    message: 'Can not convert to buffer from url!',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
 }
