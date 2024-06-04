@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { Exception } from '../exception/Exception';
 import { EnvironmentType } from '../enum/EvironmentType';
 import SystemLogger from '../logger/SystemLoggerService';
+import { LogType } from '../enum/LogType';
 
 @Global()
 @Catch(Exception)
@@ -16,6 +17,7 @@ export class ExceptionFilterGlobal implements ExceptionFilter {
     SystemLogger.error(error.message, {
       error_code: error.error_code,
       back_trace: exception.stack,
+      log_type: LogType.SYSTEM,
     });
 
     if (process.env.NODE_ENV === EnvironmentType.PRODUCTION) {
