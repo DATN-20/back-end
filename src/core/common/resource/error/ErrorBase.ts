@@ -59,4 +59,9 @@ export class ErrorBaseSystem {
       status_code: HttpStatus.BAD_REQUEST,
     };
   };
+  public static REQUIRED_IMAGE: ErrorBase = {
+    error_code: '00009',
+    message: 'Image is required!',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
 }

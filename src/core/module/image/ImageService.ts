@@ -19,6 +19,7 @@ import { SearchPromptRequest } from './entity/request/SearchPromptRequest';
 import { ImageResponseJson } from './entity/response/ImageResponseJson';
 import { GenerateImageListResponseJson } from './entity/response/GenerateImageListResponseJson';
 import { QueryPagination, QueryPaginationResponse } from '@core/common/type/Pagination';
+import { ErrorBaseSystem } from '@core/common/resource/error/ErrorBase';
 
 @Injectable()
 export class ImageService {
@@ -325,6 +326,40 @@ export class ImageService {
     );
 
     return image_response;
+  }
+
+  async handleImageProcessingWithUploadedImage(
+    process_type: ProcessType,
+    image_buffer: Buffer,
+  ): Promise<string> {
+    if (!image_buffer) {
+      throw new Exception(ErrorBaseSystem.REQUIRED_IMAGE);
+    }
+
+    if (!Object.values(ProcessType).includes(process_type)) {
+      throw new Exception(ImageError.INVALID_PROCESS_TYPE);
+    }
+
+    let images_result_from_comfyui: Buffer[];
+    switch (process_type) {
+      case ProcessType.REMOVE_BACKGROUND:
+        images_result_from_comfyui = await this.aiFeatureService.removeBackground(
+          'comfyUI',
+          image_buffer,
+        );
+        break;
+      case ProcessType.UPSCALE:
+        images_result_from_comfyui = await this.aiFeatureService.upscale('comfyUI', image_buffer);
+        break;
+      default:
+        throw new Exception(ImageError.INVALID_PROCESS_TYPE);
+    }
+
+    const uploaded_image = await this.imageStorageService.uploadImageWithBuffer(
+      images_result_from_comfyui[0],
+    );
+
+    return uploaded_image.url;
   }
 
   async handleUpdatePropertycorrespondingOfImage(

@@ -52,7 +52,6 @@ export class GenerateImageController {
       api_endpoint: '/generate-image/text-to-image',
     });
     generate_inputs.isUpscale ??= false;
-    generate_inputs.controlNets ??= [];
     generate_inputs.controlNetImages = data_images?.controlNetImages;
 
     const generation = await this.generationService.handleCreateGenerationForUser(user.id);

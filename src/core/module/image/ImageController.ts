@@ -14,7 +14,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ImageService } from './ImageService';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { User } from '@core/common/decorator/UserDecorator';
 import { DeleteImageRequest } from './entity/request/DeleteImageRequest';
 import { AuthGuard } from '@core/common/guard/AuthGuard';
@@ -133,6 +133,28 @@ export class ImageController {
     return this.imageService.handleGetGenerateImageHistory(user.id);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, type: String })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        image: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @Post('image-processing')
+  @UseInterceptors(FileInterceptor('image'))
+  async imageProcessingWithUploadedImage(
+    @Body() data: ProcessImageRequest,
+    @UploadedFiles() image: Express.Multer.File,
+  ): Promise<string> {
+    return this.imageService.handleImageProcessingWithUploadedImage(data.processType, image.buffer);
+  }
+
   @ApiResponse({ status: HttpStatus.OK, type: ImageResponseJson })
   @Get(':imageId')
   async getImageById(
@@ -152,10 +174,12 @@ export class ImageController {
 
   @ApiResponse({ status: HttpStatus.OK, type: ImageResponseJson })
   @Post(':imageId/image-processing')
-  async removeBackground(
+  @UseInterceptors(FileInterceptor('image'))
+  async imageProcessingWithExistedImage(
     @User() user: UserFromAuthGuard,
     @Param('imageId', ParamValidator) image_id: number,
     @Body() data: ProcessImageRequest,
+    @UploadedFiles() image: Express.Multer.File,
   ): Promise<ImageResponseJson> {
     return this.imageService.handleImageProcessing(user.id, data.processType, image_id);
   }
