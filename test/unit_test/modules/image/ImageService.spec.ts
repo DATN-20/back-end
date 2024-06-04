@@ -15,6 +15,7 @@ import { InteractImageRequest } from '@core/module/image/entity/request/Interact
 import { InteractionType } from '@core/common/enum/InteractionType';
 import { ImageMessage } from '@core/common/resource/message/ImageMessage';
 import { ImageInteractionMock } from '@unittest/core/mock-entity/ImageInteractionMock';
+import { ImageType } from '@core/common/enum/ImageType';
 
 describe(ImageService.name, () => {
   let imageService: ImageService;
@@ -183,6 +184,50 @@ describe(ImageService.name, () => {
       await expect(imageService.handleInteractImage(1, interactImageRequest)).resolves.toEqual(
         ImageMessage.INTERACTION_IMAGE(interactImageRequest.type, true),
       );
+    });
+  });
+
+  describe('handleCreateGenerateImage', () => {
+    it('should return image reponse json', async () => {
+      const image_entity = imageEntityMock.mock();
+      const image = SINGLE_FILE_MOCK;
+      const image_upload_result = {
+        url: 'https://sdasdas.com/1.jpeg',
+        id: '1',
+      };
+      jest
+        .spyOn(imageStorageService, 'uploadImageWithBuffer')
+        .mockResolvedValue(image_upload_result);
+      jest.spyOn(imageRepository, 'create').mockResolvedValue(image_entity);
+      const actual_result = await imageService.handleCreateGenerateImage(
+        1,
+        image.buffer,
+        ImageType.UPLOADED,
+        {
+          aiName: '',
+          style: '',
+          positivePrompt: '',
+          negativePrompt: '',
+          width: 0,
+          height: 0,
+          numberOfImage: 0,
+          seed: 0,
+          steps: 0,
+          sampleMethos: '',
+          cfg: 0,
+          image: undefined,
+          noise: 0,
+          isUpscale: false,
+          generationId: '',
+          controlNetImages: [],
+          controlnetImageStrengths: [],
+          controlnetIsPreprocessors: [],
+          controlNetTypes: [],
+        },
+        'abc',
+      );
+
+      expect(actual_result).toEqual(ImageResponse.convertFromImage(image_entity));
     });
   });
 });
