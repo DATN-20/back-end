@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1717472877016" clover="3.2.0">
-  <project timestamp="1717472877016" name="All files">
-    <metrics statements="972" coveredstatements="368" conditionals="195" coveredconditionals="39" methods="229" coveredmethods="53" elements="1396" coveredelements="460" complexity="0" loc="972" ncloc="972" packages="24" files="37" classes="37"/>
+<coverage generated="1717513711543" clover="3.2.0">
+  <project timestamp="1717513711543" name="All files">
+    <metrics statements="982" coveredstatements="368" conditionals="195" coveredconditionals="39" methods="232" coveredmethods="53" elements="1409" coveredelements="460" complexity="0" loc="982" ncloc="982" packages="24" files="37" classes="37"/>
     <package name="core.common.logger">
       <metrics statements="12" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="ApiLoggerService.ts" path="/home/runner/work/back-end/back-end/src/core/common/logger/ApiLoggerService.ts">
         <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
       </file>
       <file name="SystemLoggerService.ts" path="/home/runner/work/back-end/back-end/src/core/common/logger/SystemLoggerService.ts">
         <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
       </file>
     </package>
     <package name="core.common.repository">
@@ -788,15 +788,17 @@
       </file>
     </package>
     <package name="core.module.log-monitoring">
-      <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
       <file name="LogMonitoringService.ts" path="/home/runner/work/back-end/back-end/src/core/module/log-monitoring/LogMonitoringService.ts">
-        <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
       </file>
     </package>
     <package name="core.module.notifications">
@@ -1089,26 +1091,34 @@
       </file>
     </package>
     <package name="infrastructure.external-services.elasticsearch">
-      <metrics statements="17" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="4" coveredmethods="0"/>
+      <metrics statements="25" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="6" coveredmethods="0"/>
       <file name="ElasticsearchService.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/elasticsearch/ElasticsearchService.ts">
-        <metrics statements="17" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="4" coveredmethods="0"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
+        <metrics statements="25" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="6" coveredmethods="0"/>
+        <line num="2" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="50" count="0" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="78" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="79" count="0" type="stmt"/>
-        <line num="82" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="91" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="92" count="0" type="stmt"/>
         <line num="95" count="0" type="stmt"/>
-        <line num="106" count="0" type="stmt"/>
-        <line num="107" count="0" type="stmt"/>
         <line num="108" count="0" type="stmt"/>
-        <line num="118" count="0" type="stmt"/>
+        <line num="119" count="0" type="stmt"/>
+        <line num="120" count="0" type="stmt"/>
+        <line num="121" count="0" type="stmt"/>
+        <line num="131" count="0" type="stmt"/>
+        <line num="139" count="0" type="stmt"/>
+        <line num="158" count="0" type="stmt"/>
+        <line num="171" count="0" type="stmt"/>
+        <line num="182" count="0" type="stmt"/>
+        <line num="183" count="0" type="stmt"/>
+        <line num="184" count="0" type="stmt"/>
+        <line num="194" count="0" type="stmt"/>
       </file>
     </package>
     <package name="infrastructure.external-services.image-storage.cloudinary">
