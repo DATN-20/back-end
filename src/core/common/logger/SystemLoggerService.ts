@@ -20,7 +20,7 @@ const SystemLogger = winston.createLogger({
     }),
   ),
   transports: [
-    new winston.transports.File({ filename: 'logs/system.log' }),
+    new winston.transports.File({ filename: 'logs/system.json' }),
     new ElasticsearchTransport({
       level: 'error',
       clientOpts: { node: process.env.ELASTICSEARCH_URL },

@@ -18,6 +18,7 @@ import { ImageStatisticsModule } from './ImageStatisticsModule';
 import { GenerationModule } from './GenerationModule';
 import { NotificationModule } from './NotificationModule';
 import { GenerateTagModule } from './GenerateTagModule';
+import { ScheduleJobModule } from './ScheduleJobModule';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { GenerateTagModule } from './GenerateTagModule';
     GenerateTagModule,
     GenerationModule,
     NotificationModule,
+    ScheduleJobModule,
   ],
   controllers: [],
   providers: [],
