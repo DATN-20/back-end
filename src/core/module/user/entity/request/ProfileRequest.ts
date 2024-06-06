@@ -65,7 +65,7 @@ export class ProfileRequest {
 
   @ApiProperty()
   @IsOptional()
-  @ValidateIf(req => req.socials.lengt > 0)
+  @ValidateIf(req => req.socials.length > 0)
   @IsArray()
   @Type(() => SocialRequest)
   @ValidateNested({ each: true })
