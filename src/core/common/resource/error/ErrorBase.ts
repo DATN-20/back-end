@@ -45,9 +45,18 @@ export class ErrorBaseSystem {
     status_code: HttpStatus.FORBIDDEN,
   };
   public static DYNAMIC_ENTITY_VALIDATION_ERROR = (error: ValidationError): ErrorBase => {
+    let error_message = '';
+    if (error['constraints']) {
+      error_message = Object.values(error.constraints).join('\n');
+    }
+
+    if (!error['constraints'] && error['children'] && error.children.length > 0) {
+      error_message = Object.values(error.children[0].children[0].constraints).join('\n');
+    }
+
     return {
       error_code: '00007',
-      message: Object.values(error.constraints).join('/n'),
+      message: error_message,
       status_code: HttpStatus.BAD_REQUEST,
       raw_input: error.target,
     };

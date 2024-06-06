@@ -64,10 +64,11 @@ export class ProfileRequest {
   description: string;
 
   @ApiProperty()
+  @IsOptional()
+  @ValidateIf(req => req.description !== '')
   @IsArray()
   @Type(() => SocialRequest)
   @ValidateNested({ each: true })
-  @IsOptional()
   socials: SocialRequest[] = [];
 
   public static updateFields(profile: ProfileRequest, user: User) {

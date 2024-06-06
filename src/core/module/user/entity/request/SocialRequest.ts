@@ -4,6 +4,7 @@ import { IsNotEmpty, IsOptional, IsString, IsUrl, ValidateIf } from 'class-valid
 
 export class SocialRequest {
   @ApiProperty()
+  @TrimValidator()
   @IsNotEmpty()
   @IsString()
   socialName: string;
