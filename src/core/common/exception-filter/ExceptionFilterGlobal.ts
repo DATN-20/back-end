@@ -1,9 +1,9 @@
 import { ExceptionFilter, Catch, ArgumentsHost, Global } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Exception } from '../exception/Exception';
-import { EnvironmentType } from '../enum/EvironmentType';
 import SystemLogger from '../logger/SystemLoggerService';
 import { LogType } from '../enum/LogType';
+import { EnvironmentUtil } from '../util/EnvironmentUtil';
 
 @Global()
 @Catch(Exception)
@@ -20,18 +20,18 @@ export class ExceptionFilterGlobal implements ExceptionFilter {
       log_type: LogType.SYSTEM,
     });
 
-    if (process.env.NODE_ENV === EnvironmentType.PRODUCTION) {
-      response.status(error.status_code).json({
-        error_code: error.error_code,
-        message: error.message,
-        status_code: error.status_code,
-      });
-    } else {
+    if (EnvironmentUtil.isDevMode()) {
       response.status(error.status_code).json({
         ...error,
         timestamp: new Date().toISOString(),
         path: request.url,
         back_trace: exception.stack,
+      });
+    } else {
+      response.status(error.status_code).json({
+        error_code: error.error_code,
+        message: error.message,
+        status_code: error.status_code,
       });
     }
   }

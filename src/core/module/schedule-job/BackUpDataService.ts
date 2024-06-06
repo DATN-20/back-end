@@ -1,5 +1,6 @@
 import SystemLogger from '@core/common/logger/SystemLoggerService';
 import { ErrorBaseSystem } from '@core/common/resource/error/ErrorBase';
+import { EnvironmentUtil } from '@core/common/util/EnvironmentUtil';
 import { DatabaseConfig } from '@infrastructure/config/DatabaseConfig';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
@@ -38,6 +39,10 @@ export class BackUpDataService implements OnModuleInit {
   }
 
   onModuleInit() {
+    if (EnvironmentUtil.isDevMode()) {
+      return;
+    }
+
     this.execute();
   }
 }
