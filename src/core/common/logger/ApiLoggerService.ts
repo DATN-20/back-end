@@ -20,7 +20,7 @@ const ApiLogger = winston.createLogger({
     }),
   ),
   transports: [
-    new winston.transports.File({ filename: 'logs/api.json' }),
+    new winston.transports.File({ filename: 'logs/api.log' }),
     new ElasticsearchTransport({
       level: 'info',
       clientOpts: { node: process.env.ELASTICSEARCH_URL },
