@@ -1,38 +1,66 @@
-import { IsArray, IsOptional, IsString, ValidateNested, isArray } from 'class-validator';
+import {
+  IsArray,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+  MinLength,
+  ValidateIf,
+  ValidateNested,
+} from 'class-validator';
 import { SocialRequest } from './SocialRequest';
 import { User } from '../User';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { TrimValidator } from '@core/common/decorator/TrimValidator';
+import { MININUM_STRING } from '@core/common/constant/Constant';
 
 export class ProfileRequest {
   @ApiProperty()
   @IsOptional()
+  @TrimValidator()
+  @ValidateIf(req => req.firstName !== '')
   @IsString()
+  @MinLength(MININUM_STRING)
   firstName: string;
 
   @ApiProperty()
   @IsOptional()
+  @TrimValidator()
+  @ValidateIf(req => req.aliasName !== '')
   @IsString()
+  @MinLength(MININUM_STRING)
   aliasName: string;
 
   @ApiProperty()
   @IsOptional()
+  @TrimValidator()
+  @ValidateIf(req => req.lastName !== '')
   @IsString()
+  @MinLength(MININUM_STRING)
   lastName: string;
 
   @ApiProperty()
   @IsOptional()
-  @IsString()
+  @TrimValidator()
+  @ValidateIf(req => req.phone !== '')
+  @IsPhoneNumber('VN')
+  @MinLength(MININUM_STRING)
   phone: string;
 
   @ApiProperty()
   @IsOptional()
+  @TrimValidator()
+  @ValidateIf(req => req.address !== '')
   @IsString()
+  @MinLength(MININUM_STRING)
   address: string;
 
   @ApiProperty()
   @IsOptional()
+  @TrimValidator()
+  @ValidateIf(req => req.description !== '')
   @IsString()
+  @MinLength(MININUM_STRING)
   description: string;
 
   @ApiProperty()
