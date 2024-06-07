@@ -47,14 +47,14 @@ export class ComfyUIApi {
     image_type = 'input',
     overwrite = false,
   ): Promise<ComfyUIUploadImageResponse> {
-    const form_request = new FormData();
-    form_request.append('image', buffer, {
-      filename: file_name,
-    });
-    form_request.append('type', image_type);
-    form_request.append('overwrite', String(overwrite).toLowerCase());
-
     try {
+      const form_request = new FormData();
+      form_request.append('image', Buffer.from(buffer), {
+        filename: file_name,
+      });
+      form_request.append('type', image_type);
+      form_request.append('overwrite', String(overwrite).toLowerCase());
+
       const response = await this.httpService.axiosRef.post(
         `${EnvironmentConverter.convertUrlInSuitableEnvironment(
           ComfyUIConfig.COMFYUI_URL,

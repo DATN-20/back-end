@@ -2,8 +2,6 @@ import { AIGenerateImageServiceManger } from '@infrastructure/external-services/
 import { Injectable } from '@nestjs/common';
 import { GenerateInputs } from './entity/request/GenerateInputs';
 import { ConverterUtil } from '@core/common/util/converter/ConverterUtil';
-import { ImageService } from '../image/ImageService';
-import { ImageType } from '@core/common/enum/ImageType';
 import { AIGenerateImageByImagesStyleServiceManager } from '@infrastructure/external-services/ai-generate-image/AIGenerateImageByImagesStyleServiceManager';
 import { GenerateByImagesStyleInputs } from './entity/request/GenerateImageByImagesStyleInputs';
 
@@ -12,13 +10,12 @@ export class GenerateImageService {
   constructor(
     private aIGenerateImageServiceManger: AIGenerateImageServiceManger,
     private aIGenerateImageByImagesStyleServiceManager: AIGenerateImageByImagesStyleServiceManager,
-    private imageService: ImageService,
   ) {}
 
   async handleGenerateTextToImg(
     user_id: number,
     generate_inputs: GenerateInputs,
-  ): Promise<string[]> {
+  ): Promise<Buffer[]> {
     const input_prompts = ConverterUtil.convertGenerateInputsToInputPromts(
       generate_inputs,
       user_id,
@@ -28,21 +25,13 @@ export class GenerateImageService {
       input_prompts,
     );
 
-    const list_image_response = await this.imageService.handleCreateGenerateImages(
-      user_id,
-      list_image_buffer,
-      ImageType.TEXT_TO_IMG,
-      generate_inputs,
-    );
-
-    const result = list_image_response.map(image => image.getUrl());
-    return result;
+    return list_image_buffer;
   }
 
   async handleGenerateImageToImage(
     user_id: number,
     generate_inputs: GenerateInputs,
-  ): Promise<string[]> {
+  ): Promise<Buffer[]> {
     const input_prompts = ConverterUtil.convertGenerateInputsToInputPromts(
       generate_inputs,
       user_id,
@@ -51,15 +40,8 @@ export class GenerateImageService {
       generate_inputs.aiName,
       input_prompts,
     );
-    const list_image_response = await this.imageService.handleCreateGenerateImages(
-      user_id,
-      list_image_buffer,
-      ImageType.TEXT_TO_IMG,
-      generate_inputs,
-    );
 
-    const result = list_image_response.map(image => image.getUrl());
-    return result;
+    return list_image_buffer;
   }
 
   async handleGetAIInfo(): Promise<any> {
@@ -69,7 +51,7 @@ export class GenerateImageService {
   async handleGenerateImageByImagesStyle(
     user_id: number,
     generate_inputs: GenerateByImagesStyleInputs,
-  ): Promise<string[]> {
+  ): Promise<Buffer[]> {
     const input_prompts =
       ConverterUtil.convertGenerateByImagesStyleInputsToGenerateByImagesStyleInputPromts(
         generate_inputs,
@@ -81,15 +63,8 @@ export class GenerateImageService {
         generate_inputs.aiName,
         input_prompts,
       );
-    const list_image_response = await this.imageService.handleCreateGenerateImagesByImagesStyle(
-      user_id,
-      list_image_buffer,
-      ImageType.IMG_BY_IMAGES_STYLE,
-      generate_inputs,
-    );
 
-    const result = list_image_response.map(image => image.getUrl());
-    return result;
+    return list_image_buffer;
   }
 
   async handleGetAIGenerateByImagesStyleInfo(): Promise<any> {

@@ -14,11 +14,9 @@ import { GenerateInputs } from './entity/request/GenerateInputs';
 import { GenerateImageService } from './GenerateImageService';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { GenerateByImagesStyleInputs } from './entity/request/GenerateImageByImagesStyleInputs';
-import ApiLogger from '@core/common/logger/ApiLoggerService';
 import { ImageType } from '@core/common/enum/ImageType';
 import { GenerationService } from '../generation/GenerationService';
 import { GenerationResponseJson } from '../generation/entity/response/GenerationResponseJson';
-import { GenerationStatus } from '@core/common/enum/GenerationStatus';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserFromAuthGuard } from '@core/common/type/UserFromAuthGuard';
 import { ApplyRateLimiter } from '@core/common/decorator/RateLimiterDecorator';
@@ -26,9 +24,10 @@ import {
   MAXIMUM_TOKENS_GENERATION_PERDAY,
   REFILL_RATE,
 } from '@core/common/constant/RateLimiterConstant';
-import SystemLogger from '@core/common/logger/SystemLoggerService';
-import { ErrorBaseSystem } from '@core/common/resource/error/ErrorBase';
-import { LogType } from '@core/common/enum/LogType';
+import { GENERATIONS_CHANNEL } from '@infrastructure/message-queue/QueueNameConstant';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
+import { GenerationPriority } from '@core/common/enum/GenerationPriority';
 
 @ApiTags(GenerateImageController.name.replaceAll('Controller', ''))
 @ApiBearerAuth()
@@ -38,6 +37,7 @@ export class GenerateImageController {
   constructor(
     private readonly generateImageService: GenerateImageService,
     private readonly generationService: GenerationService,
+    @InjectQueue(GENERATIONS_CHANNEL) private generationQueue: Queue,
   ) {}
 
   @ApiResponse({ status: HttpStatus.OK, type: Object })
@@ -62,26 +62,19 @@ export class GenerateImageController {
     const generation = await this.generationService.handleCreateGenerationForUser(user.id);
     generate_inputs.generationId = generation.id;
 
-    this.generateImageService
-      .handleGenerateTextToImg(user.id, generate_inputs)
-      .then(async () => {
-        ApiLogger.info(ImageType.TEXT_TO_IMG, {
-          user_id: user.id,
-          api_endpoint: '/generate-image/text-to-image',
-          log_type: LogType.API,
-        });
-        await this.generationService.handleChangeStatusOfGeneration(
-          generation.id,
-          GenerationStatus.FINISHED,
-        );
-      })
-      .catch(async (error: any) => {
-        SystemLogger.error(error.message, {
-          error_code: ErrorBaseSystem.INTERNAL_SERVER_ERROR.error_code,
-          back_trace: error.trace,
-        });
-        await this.generationService.handleDeleteById(generation.id);
-      });
+    await this.generationQueue.add(
+      {
+        userId: user.id,
+        generateInputs: generate_inputs,
+        type: ImageType.TEXT_TO_IMG,
+        endpoint: '/generate-image/text-to-image',
+      },
+      {
+        priority: GenerationPriority.GENERATION,
+        removeOnComplete: true,
+        removeOnFail: true,
+      },
+    );
 
     return generation;
   }
@@ -102,32 +95,26 @@ export class GenerateImageController {
     @Body() generate_inputs: GenerateInputs,
   ): Promise<GenerationResponseJson> {
     generate_inputs.isUpscale ??= false;
-    generate_inputs.image = data_images.image ? data_images.image[0] : null;
-    generate_inputs.controlNetImages = data_images.controlNetImages;
+    generate_inputs.image =
+      data_images.image && data_images.image.length > 0 ? data_images.image[0] : null;
+    generate_inputs.controlNetImages = data_images?.controlNetImages;
 
     const generation = await this.generationService.handleCreateGenerationForUser(user.id);
     generate_inputs.generationId = generation.id;
 
-    this.generateImageService
-      .handleGenerateImageToImage(user.id, generate_inputs)
-      .then(async () => {
-        ApiLogger.info(ImageType.IMG_TO_IMG, {
-          user_id: user.id,
-          api_endpoint: '/generate-image/image-to-image',
-          log_type: LogType.API,
-        });
-        await this.generationService.handleChangeStatusOfGeneration(
-          generation.id,
-          GenerationStatus.FINISHED,
-        );
-      })
-      .catch(async (error: any) => {
-        SystemLogger.error(error.message, {
-          error_code: ErrorBaseSystem.INTERNAL_SERVER_ERROR.error_code,
-          back_trace: error.trace,
-        });
-        await this.generationService.handleDeleteById(generation.id);
-      });
+    await this.generationQueue.add(
+      {
+        userId: user.id,
+        generateInputs: generate_inputs,
+        type: ImageType.IMG_TO_IMG,
+        endpoint: '/generate-image/image-to-image',
+      },
+      {
+        priority: GenerationPriority.GENERATION,
+        removeOnComplete: true,
+        removeOnFail: true,
+      },
+    );
 
     return generation;
   }
@@ -158,26 +145,19 @@ export class GenerateImageController {
     const generation = await this.generationService.handleCreateGenerationForUser(user.id);
     generate_inputs.generationId = generation.id;
 
-    this.generateImageService
-      .handleGenerateImageByImagesStyle(user.id, generate_inputs)
-      .then(async () => {
-        ApiLogger.info(ImageType.IMG_BY_IMAGES_STYLE, {
-          user_id: user.id,
-          api_endpoint: '/generate-image/image-by-images-style',
-          log_type: LogType.API,
-        });
-        await this.generationService.handleChangeStatusOfGeneration(
-          generation.id,
-          GenerationStatus.FINISHED,
-        );
-      })
-      .catch(async (error: any) => {
-        SystemLogger.error(error.message, {
-          error_code: ErrorBaseSystem.INTERNAL_SERVER_ERROR.error_code,
-          back_trace: error.trace,
-        });
-        await this.generationService.handleDeleteById(generation.id);
-      });
+    await this.generationQueue.add(
+      {
+        userId: user.id,
+        generateInputs: generate_inputs,
+        type: ImageType.IMG_BY_IMAGES_STYLE,
+        endpoint: '/generate-image/image-by-images-style',
+      },
+      {
+        priority: GenerationPriority.GENERATION,
+        removeOnComplete: true,
+        removeOnFail: true,
+      },
+    );
 
     return generation;
   }

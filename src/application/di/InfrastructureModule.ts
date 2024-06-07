@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtUtil } from '@core/common/util/jwt/JwtUtil';
 import { RedisModule } from '@infrastructure/redis/RedisModule';
+import { MessageQueueModule } from '@infrastructure/message-queue/MessageQueueModule';
 
 @Global()
 @Module({
@@ -18,6 +19,7 @@ import { RedisModule } from '@infrastructure/redis/RedisModule';
       },
     }),
     RedisModule,
+    MessageQueueModule,
   ],
   controllers: [],
   providers: [JwtUtil],
