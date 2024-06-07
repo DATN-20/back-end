@@ -45,9 +45,6 @@ export class GenerateInputs {
   noise: number;
   @ApiProperty()
   @IsOptional()
-  controlNets: InputControlnet[];
-  @ApiProperty()
-  @IsOptional()
   isUpscale: boolean;
   @ApiProperty()
   @IsOptional()
@@ -55,13 +52,13 @@ export class GenerateInputs {
   @ApiProperty()
   @IsOptional()
   controlNetImages: Express.Multer.File[];
-  @ApiProperty()
+  @ApiProperty({ type: Number, isArray: true })
   @IsOptional()
   controlnetImageStrengths: number[];
-  @ApiProperty()
+  @ApiProperty({ type: String, isArray: true })
   @IsOptional()
   controlnetIsPreprocessors: string[];
-  @ApiProperty()
+  @ApiProperty({ enum: ControlNetType, isArray: true })
   @IsOptional()
   controlNetTypes: ControlNetType[];
 }

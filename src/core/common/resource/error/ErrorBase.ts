@@ -46,9 +46,18 @@ export class ErrorBaseSystem {
     status_code: HttpStatus.FORBIDDEN,
   };
   public static DYNAMIC_ENTITY_VALIDATION_ERROR = (error: ValidationError): ErrorBase => {
+    let error_message = '';
+    if (error['constraints']) {
+      error_message = Object.values(error.constraints).join('\n');
+    }
+
+    if (!error['constraints'] && error['children'] && error.children.length > 0) {
+      error_message = Object.values(error.children[0].children[0].constraints).join('\n');
+    }
+
     return {
       error_code: '00007',
-      message: Object.values(error.constraints).join('/n'),
+      message: error_message,
       status_code: HttpStatus.BAD_REQUEST,
       raw_input: error.target,
     };
@@ -73,5 +82,17 @@ export class ErrorBaseSystem {
       message: `Too many requests have been made to this endpoint. You only have a maximum of ${bucket_size} request times. Now, it's out of times! Requests will reset at ${reste_date}.`,
       status_code: HttpStatus.TOO_MANY_REQUESTS,
     };
+  };
+
+  public static REQUIRED_IMAGE: ErrorBase = {
+    error_code: '00009',
+    message: 'Image is required!',
+    status_code: HttpStatus.BAD_REQUEST,
+  };
+
+  public static CANNOT_CONVERT_TO_BUFFER_FROM_URL: ErrorBase = {
+    error_code: '00010',
+    message: 'Can not convert to buffer from url!',
+    status_code: HttpStatus.BAD_REQUEST,
   };
 }

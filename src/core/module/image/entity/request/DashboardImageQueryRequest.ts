@@ -9,7 +9,7 @@ import { ImageFilterType } from '../filter/ImageFilter';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class DashboardImageQueryRequest {
-  @ApiProperty()
+  @ApiProperty({ enum: DashboardImageType, default: DashboardImageType.TOPLIKED })
   @IsNotEmpty()
   @IsEnum(DashboardImageType)
   type: DashboardImageType;
@@ -34,7 +34,7 @@ export class DashboardImageQueryRequest {
   @IsOptional()
   aiName: string = DEFAULT_ALL;
 
-  @ApiProperty({ default: ImageFilterType.ALL })
+  @ApiProperty({ default: ImageFilterType.ALL, enum: ImageFilterType })
   @IsOptional()
   imageType: ImageFilterType = ImageFilterType.ALL;
 }

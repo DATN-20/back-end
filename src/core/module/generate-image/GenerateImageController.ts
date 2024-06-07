@@ -26,6 +26,9 @@ import {
   MAXIMUM_TOKENS_GENERATION_PERDAY,
   REFILL_RATE,
 } from '@core/common/constant/RateLimiterConstant';
+import SystemLogger from '@core/common/logger/SystemLoggerService';
+import { ErrorBaseSystem } from '@core/common/resource/error/ErrorBase';
+import { LogType } from '@core/common/enum/LogType';
 
 @ApiTags(GenerateImageController.name.replaceAll('Controller', ''))
 @ApiBearerAuth()
@@ -53,12 +56,7 @@ export class GenerateImageController {
     data_images: { controlNetImages?: Express.Multer.File[] },
     @Body() generate_inputs: GenerateInputs,
   ): Promise<GenerationResponseJson> {
-    ApiLogger.info(ImageType.TEXT_TO_IMG, {
-      user_id: user.id,
-      api_endpoint: '/generate-image/text-to-image',
-    });
     generate_inputs.isUpscale ??= false;
-    generate_inputs.controlNets ??= [];
     generate_inputs.controlNetImages = data_images?.controlNetImages;
 
     const generation = await this.generationService.handleCreateGenerationForUser(user.id);
@@ -67,12 +65,21 @@ export class GenerateImageController {
     this.generateImageService
       .handleGenerateTextToImg(user.id, generate_inputs)
       .then(async () => {
+        ApiLogger.info(ImageType.TEXT_TO_IMG, {
+          user_id: user.id,
+          api_endpoint: '/generate-image/text-to-image',
+          log_type: LogType.API,
+        });
         await this.generationService.handleChangeStatusOfGeneration(
           generation.id,
           GenerationStatus.FINISHED,
         );
       })
-      .catch(async (_error: any) => {
+      .catch(async (error: any) => {
+        SystemLogger.error(error.message, {
+          error_code: ErrorBaseSystem.INTERNAL_SERVER_ERROR.error_code,
+          back_trace: error.trace,
+        });
         await this.generationService.handleDeleteById(generation.id);
       });
 
@@ -94,10 +101,6 @@ export class GenerateImageController {
     data_images: { image: Express.Multer.File[]; controlNetImages?: Express.Multer.File[] },
     @Body() generate_inputs: GenerateInputs,
   ): Promise<GenerationResponseJson> {
-    ApiLogger.info(ImageType.IMG_TO_IMG, {
-      user_id: user.id,
-      api_endpoint: '/generate-image/image-to-image',
-    });
     generate_inputs.isUpscale ??= false;
     generate_inputs.image = data_images.image ? data_images.image[0] : null;
     generate_inputs.controlNetImages = data_images.controlNetImages;
@@ -108,12 +111,21 @@ export class GenerateImageController {
     this.generateImageService
       .handleGenerateImageToImage(user.id, generate_inputs)
       .then(async () => {
+        ApiLogger.info(ImageType.IMG_TO_IMG, {
+          user_id: user.id,
+          api_endpoint: '/generate-image/image-to-image',
+          log_type: LogType.API,
+        });
         await this.generationService.handleChangeStatusOfGeneration(
           generation.id,
           GenerationStatus.FINISHED,
         );
       })
-      .catch(async (_error: any) => {
+      .catch(async (error: any) => {
+        SystemLogger.error(error.message, {
+          error_code: ErrorBaseSystem.INTERNAL_SERVER_ERROR.error_code,
+          back_trace: error.trace,
+        });
         await this.generationService.handleDeleteById(generation.id);
       });
 
@@ -140,10 +152,6 @@ export class GenerateImageController {
       controlNetImages: Express.Multer.File[];
     },
   ): Promise<GenerationResponseJson> {
-    ApiLogger.info(ImageType.IMG_BY_IMAGES_STYLE, {
-      user_id: user.id,
-      api_endpoint: '/generate-image/image-by-images-style',
-    });
     //generate_inputs.imageToUnclipsImages = files.imageToUnclipsImages;
     generate_inputs.imageForIpadapters = files.imageForIpadapter;
     generate_inputs.controlNetImages = files.controlNetImages;
@@ -153,12 +161,21 @@ export class GenerateImageController {
     this.generateImageService
       .handleGenerateImageByImagesStyle(user.id, generate_inputs)
       .then(async () => {
+        ApiLogger.info(ImageType.IMG_BY_IMAGES_STYLE, {
+          user_id: user.id,
+          api_endpoint: '/generate-image/image-by-images-style',
+          log_type: LogType.API,
+        });
         await this.generationService.handleChangeStatusOfGeneration(
           generation.id,
           GenerationStatus.FINISHED,
         );
       })
-      .catch(async (_error: any) => {
+      .catch(async (error: any) => {
+        SystemLogger.error(error.message, {
+          error_code: ErrorBaseSystem.INTERNAL_SERVER_ERROR.error_code,
+          back_trace: error.trace,
+        });
         await this.generationService.handleDeleteById(generation.id);
       });
 

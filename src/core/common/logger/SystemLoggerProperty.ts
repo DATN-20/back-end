@@ -1,10 +1,10 @@
 import { LogType } from '../enum/LogType';
 
-export interface ApiLogProperty {
+export interface SystemLogProperty {
   timestamp: string;
   message: string;
   level: string;
-  user_id: number;
-  api_endpoint: string;
+  error_code: string;
+  back_trace: string;
   log_type: LogType;
 }
