@@ -9,6 +9,7 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFile,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -150,7 +151,7 @@ export class ImageController {
   @UseInterceptors(FileInterceptor('image'))
   async imageProcessingWithUploadedImage(
     @Body() data: ProcessImageRequest,
-    @UploadedFiles() image: Express.Multer.File,
+    @UploadedFile() image: Express.Multer.File,
   ): Promise<string> {
     return this.imageService.handleImageProcessingWithUploadedImage(data.processType, image.buffer);
   }
