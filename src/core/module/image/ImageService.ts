@@ -121,7 +121,7 @@ export class ImageService {
     user_id: number,
     list_image_buffer: Buffer[],
     image_type: ImageType,
-    prompt: GenerateInputs,
+    prompts: GenerateInputs,
   ) {
     const result: ImageResponse[] = [];
 
@@ -130,8 +130,8 @@ export class ImageService {
         user_id,
         image_buffer,
         image_type,
-        prompt,
-        prompt.generationId,
+        prompts,
+        prompts.generationId,
       );
 
       result.push(image_response);
