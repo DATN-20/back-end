@@ -16,9 +16,7 @@ import { MININUM_STRING } from '@core/common/constant/Constant';
 
 export class ProfileRequest {
   @ApiProperty()
-  @IsOptional()
   @TrimValidator()
-  @ValidateIf(req => req.firstName !== '')
   @IsString()
   @MinLength(MININUM_STRING)
   firstName: string;
@@ -32,9 +30,7 @@ export class ProfileRequest {
   aliasName: string;
 
   @ApiProperty()
-  @IsOptional()
   @TrimValidator()
-  @ValidateIf(req => req.lastName !== '')
   @IsString()
   @MinLength(MININUM_STRING)
   lastName: string;

@@ -26,19 +26,23 @@ export class ComfyUIApi {
   }
 
   async getImage(filename: string, folder_type: string, subfolder = ''): Promise<Buffer> {
-    const { data } = await this.httpService.axiosRef.get(
-      `${EnvironmentConverter.convertUrlInSuitableEnvironment(ComfyUIConfig.COMFYUI_URL)}/view`,
-      {
-        params: {
-          filename,
-          subfolder,
-          type: folder_type,
+    try {
+      const { data } = await this.httpService.axiosRef.get(
+        `${EnvironmentConverter.convertUrlInSuitableEnvironment(ComfyUIConfig.COMFYUI_URL)}/view`,
+        {
+          params: {
+            filename,
+            subfolder,
+            type: folder_type,
+          },
+          responseType: 'arraybuffer',
         },
-        responseType: 'arraybuffer',
-      },
-    );
+      );
 
-    return data;
+      return data;
+    } catch (error) {
+      throw new Exception(AIGenerateImageError.COMFYUI_ERROR);
+    }
   }
 
   async uploadImage(
@@ -93,6 +97,8 @@ export class ComfyUIApi {
           }
 
           resolve(list_image_buffer);
+
+          reject(AIGenerateImageError.COMFYUI_ERROR);
         },
       );
     });
@@ -107,6 +113,8 @@ export class ComfyUIApi {
         OutputPropertyWebSocket.TAGS,
         async output_tags => {
           resolve(output_tags[0]);
+
+          reject(AIGenerateImageError.COMFYUI_ERROR);
         },
       );
     });
