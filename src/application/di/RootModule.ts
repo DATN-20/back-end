@@ -19,6 +19,7 @@ import { GenerationModule } from './GenerationModule';
 import { NotificationModule } from './NotificationModule';
 import { GenerateTagModule } from './GenerateTagModule';
 import { RateLimiterModule } from './RateLimiterModule';
+import { ScheduleJobModule } from './ScheduleJobModule';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { RateLimiterModule } from './RateLimiterModule';
     GenerationModule,
     NotificationModule,
     RateLimiterModule,
+    ScheduleJobModule,
   ],
   controllers: [],
   providers: [],

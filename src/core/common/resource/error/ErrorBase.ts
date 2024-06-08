@@ -95,4 +95,9 @@ export class ErrorBaseSystem {
     message: 'Can not convert to buffer from url!',
     status_code: HttpStatus.BAD_REQUEST,
   };
+  public static FAILED_BACKUP_DATA: ErrorBase = {
+    error_code: '00011',
+    message: 'Fail to backup data!',
+    status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+  };
 }
