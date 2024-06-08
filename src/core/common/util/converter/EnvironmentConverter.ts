@@ -1,8 +1,9 @@
 import { EnvironmentType } from '@core/common/enum/EvironmentType';
+import { EnvironmentUtil } from '../EnvironmentUtil';
 
 export class EnvironmentConverter {
   public static convertUrlInSuitableEnvironment(url: string): string {
-    if (process.env.NODE_ENV === EnvironmentType.DEVELOPMENT) {
+    if (EnvironmentUtil.isDevMode()) {
       return `http://${url}`;
     }
 
@@ -10,7 +11,7 @@ export class EnvironmentConverter {
   }
 
   public static convertWebSocketInSuitableEnvironment(url: string): string {
-    if (process.env.NODE_ENV === EnvironmentType.DEVELOPMENT) {
+    if (EnvironmentUtil.isDevMode()) {
       return `ws://${url}`;
     }
 
