@@ -30,10 +30,8 @@ export class RateLimiter {
   async execute(): Promise<Exception | void> {
     await this.init();
     const remain_size = await this.storage.decrement(this.user, this.endpoint);
-
     if (remain_size < 0) {
       const expired_at = await this.storage.getExpiredAt(this.user, this.endpoint);
-
       return new Exception(
         ErrorBaseSystem.TOO_MANY_REQUEST_TO_ENDPOINT(this.bucketSize, expired_at),
       );

@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { RootModule } from './di/RootModule';
 import { ApiServerConfig } from '@infrastructure/config/ApiServerConfig';
@@ -7,6 +7,8 @@ import { Exception } from '@core/common/exception/Exception';
 import { ErrorBaseSystem } from '@core/common/resource/error/ErrorBase';
 import { ExceptionFilterGlobal } from '@core/common/exception-filter/ExceptionFilterGlobal';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { RateLimiterGuard } from '@core/common/guard/RateLimiterGuard';
+import { RedisRateLimiterStorage } from '@core/common/rate-limter/RedisRateLimiterStorage';
 
 export class ServerApplication {
   private readonly host: string = ApiServerConfig.HOST;
@@ -37,6 +39,10 @@ export class ServerApplication {
       }),
     );
 
+    const reflector = app.get(Reflector);
+    const redisRateLimiterStorage = app.get(RedisRateLimiterStorage);
+    app.useGlobalGuards(new RateLimiterGuard(reflector, redisRateLimiterStorage));
+
     const config = new DocumentBuilder()
       .setTitle('ĐỒ ÁN TỐT NGHIỆP API')
       .setDescription('Đồ án tốt nghiệp: Docs API')
@@ -47,6 +53,7 @@ export class ServerApplication {
     SwaggerModule.setup('api-docs', app, document);
 
     app.useGlobalFilters(new ExceptionFilterGlobal());
+
     await app
       .listen(this.port, this.host)
       .then(() => this.logger.log(`Server is listening in port ${this.port}`));

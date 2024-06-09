@@ -1,4 +1,4 @@
 type RateLimiterUser = {
   ipAddress: string;
-  userId: number;
+  userId?: number;
 };

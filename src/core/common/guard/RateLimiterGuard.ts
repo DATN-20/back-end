@@ -5,6 +5,12 @@ import { RateLimiter } from '../rate-limter/RateLimiter';
 import { UserFromAuthGuard } from '../type/UserFromAuthGuard';
 import { RATE_LIMITER_PROPS, RateLimiterProps } from '../decorator/RateLimiterDecorator';
 import { Exception } from '../exception/Exception';
+import { EnvironmentUtil } from '../util/EnvironmentUtil';
+
+const DEFAULT_RATE_LIMITER_PROPS: RateLimiterProps = {
+  maxTokens: 5,
+  refillRate: 1,
+};
 
 @Injectable()
 export class RateLimiterGuard {
@@ -14,26 +20,25 @@ export class RateLimiterGuard {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const endpoint = request.url;
-    let ip_address = request.ip || request.connection.remoteAddress;
-
-    if (ip_address === '::1') {
-      ip_address = '127.0.0.1';
+    if (EnvironmentUtil.isDevMode()) {
+      return true;
     }
 
+    const request = context.switchToHttp().getRequest();
+    const endpoint = request.url;
+    const ip_address = request.ip || request.connection.remoteAddress;
+
     const user = request.user as UserFromAuthGuard;
-    const rate_limiter_props: RateLimiterProps = this.reflector.get(
-      RATE_LIMITER_PROPS,
-      context.getHandler(),
-    );
+    const rate_limiter_props: RateLimiterProps =
+      this.reflector.get(RATE_LIMITER_PROPS, context.getHandler()) ?? DEFAULT_RATE_LIMITER_PROPS;
+
     const rate_limiter = new RateLimiter(
       this.redisRateLimiterStorage,
       rate_limiter_props.maxTokens,
       rate_limiter_props.refillRate,
       {
         ipAddress: ip_address,
-        userId: user.id,
+        userId: user?.id ?? null,
       },
       endpoint,
     );
