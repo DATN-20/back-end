@@ -79,7 +79,7 @@ export class ImageService {
 
   async handleGetImagesOfUser(userId: number): Promise<ImageResponseJson[]> {
     try {
-      const images = await this.imageRepository.getByUserId(userId);
+      const images = await this.imageRepository.getByUserId(userId, true, true);
       const result: ImageResponseJson[] = images.map(image =>
         ImageResponse.convertFromImage(image).toJson(),
       );

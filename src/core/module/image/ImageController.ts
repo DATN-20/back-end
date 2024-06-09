@@ -9,6 +9,7 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFile,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -30,6 +31,7 @@ import { ParamValidator } from '@core/common/util/ParamValidator';
 import { QueryPaginationResponse } from '@core/common/type/Pagination';
 import { ApiBearerAuth, ApiResponse, ApiTags, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { UserFromAuthGuard } from '@core/common/type/UserFromAuthGuard';
+import { ProcessType } from './entity/ProcessType';
 
 @ApiTags(ImageController.name.replaceAll('Controller', ''))
 @ApiBearerAuth()
@@ -143,14 +145,20 @@ export class ImageController {
           type: 'string',
           format: 'binary',
         },
+        processType: {
+          type: 'string',
+          enum: Object.values(ProcessType),
+          default: ProcessType.UPSCALE,
+        },
       },
+      required: ['image', 'processType'],
     },
   })
   @Post('image-processing')
   @UseInterceptors(FileInterceptor('image'))
   async imageProcessingWithUploadedImage(
     @Body() data: ProcessImageRequest,
-    @UploadedFiles() image: Express.Multer.File,
+    @UploadedFile() image: Express.Multer.File,
   ): Promise<string> {
     return this.imageService.handleImageProcessingWithUploadedImage(data.processType, image.buffer);
   }
