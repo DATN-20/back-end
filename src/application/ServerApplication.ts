@@ -9,6 +9,8 @@ import { ExceptionFilterGlobal } from '@core/common/exception-filter/ExceptionFi
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { RateLimiterGuard } from '@core/common/guard/RateLimiterGuard';
 import { RedisRateLimiterStorage } from '@core/common/rate-limter/RedisRateLimiterStorage';
+import { TransactionInterceptor } from '@core/common/interceptor/TransactionInterceptor';
+import { BaseRepository } from '@core/common/repository/BaseRepository';
 
 export class ServerApplication {
   private readonly host: string = ApiServerConfig.HOST;
@@ -38,6 +40,8 @@ export class ServerApplication {
         },
       }),
     );
+    const database = app.get(BaseRepository);
+    app.useGlobalInterceptors(new TransactionInterceptor(database));
 
     const reflector = app.get(Reflector);
     const redisRateLimiterStorage = app.get(RedisRateLimiterStorage);

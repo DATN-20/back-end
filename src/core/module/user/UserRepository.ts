@@ -6,7 +6,6 @@ import { SocialRequest } from './entity/request/SocialRequest';
 import { ProfileRequest } from './entity/request/ProfileRequest';
 import { UserRole } from '@core/common/enum/UserRole';
 import { QueryPagination } from '@core/common/type/Pagination';
-import { Social } from '@core/common/type/Social';
 
 export class UserRepository extends BaseRepository {
   async create(user: {

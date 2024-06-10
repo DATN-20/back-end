@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtUtil } from '@core/common/util/jwt/JwtUtil';
 import { RedisModule } from '@infrastructure/redis/RedisModule';
 import { MessageQueueModule } from '@infrastructure/message-queue/MessageQueueModule';
+import { BaseRepository } from '@core/common/repository/BaseRepository';
 
 @Global()
 @Module({
@@ -22,7 +23,7 @@ import { MessageQueueModule } from '@infrastructure/message-queue/MessageQueueMo
     MessageQueueModule,
   ],
   controllers: [],
-  providers: [JwtUtil],
-  exports: [JwtUtil],
+  providers: [JwtUtil, BaseRepository],
+  exports: [JwtUtil, BaseRepository],
 })
 export class InfrastructureModule {}
