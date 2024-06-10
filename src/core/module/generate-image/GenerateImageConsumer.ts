@@ -22,7 +22,7 @@ interface JobData {
 }
 
 @Processor(GENERATIONS_CHANNEL)
-export class GenerateImageConsumer implements IConsumer<JobData, Buffer[]> {
+export class GenerateImageConsumer implements IConsumer<JobData, void> {
   constructor(
     private readonly imageService: ImageService,
     private readonly generationService: GenerationService,
@@ -30,26 +30,42 @@ export class GenerateImageConsumer implements IConsumer<JobData, Buffer[]> {
   ) {}
 
   @Process()
-  async process(job: Job<JobData>): Promise<Buffer[]> {
+  async process(job: Job<JobData>): Promise<void> {
+    let array_buffer = [];
     if (job.data.generateInputs instanceof GenerateByImagesStyleInputs) {
-      return this.generateImageService.handleGenerateImageByImagesStyle(
+      array_buffer = await this.generateImageService.handleGenerateImageByImagesStyle(
         job.data.userId,
         job.data.generateInputs,
       );
+      await this.imageService.handleCreateGenerateImagesByImagesStyle(
+        job.data.userId,
+        array_buffer,
+        job.data.type,
+        job.data.generateInputs,
+      );
+      return;
     }
 
     switch (job.data.type) {
       case ImageType.TEXT_TO_IMG:
-        return this.generateImageService.handleGenerateTextToImg(
+        array_buffer = await this.generateImageService.handleGenerateTextToImg(
           job.data.userId,
           job.data.generateInputs,
         );
+        break;
       case ImageType.IMG_TO_IMG:
-        return this.generateImageService.handleGenerateImageToImage(
+        array_buffer = await this.generateImageService.handleGenerateImageToImage(
           job.data.userId,
           job.data.generateInputs,
         );
     }
+
+    await this.imageService.handleCreateGenerateImages(
+      job.data.userId,
+      array_buffer,
+      job.data.type,
+      job.data.generateInputs,
+    );
   }
 
   @OnQueueFailed()
@@ -65,27 +81,11 @@ export class GenerateImageConsumer implements IConsumer<JobData, Buffer[]> {
   }
 
   @OnQueueCompleted()
-  async onCompleted(job: Job<JobData>, result: Buffer[]): Promise<void> {
+  async onCompleted(job: Job<JobData>, result: void): Promise<void> {
     await this.generationService.handleChangeStatusOfGeneration(
       job.data.generateInputs.generationId,
       GenerationStatus.FINISHED,
     );
-
-    if (job.data.generateInputs instanceof GenerateByImagesStyleInputs) {
-      await this.imageService.handleCreateGenerateImagesByImagesStyle(
-        job.data.userId,
-        result,
-        job.data.type,
-        job.data.generateInputs,
-      );
-    } else {
-      await this.imageService.handleCreateGenerateImages(
-        job.data.userId,
-        result,
-        job.data.type,
-        job.data.generateInputs,
-      );
-    }
 
     ApiLogger.info(job.data.type, {
       user_id: job.data.userId,

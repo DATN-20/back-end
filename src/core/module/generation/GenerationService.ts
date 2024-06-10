@@ -17,6 +17,7 @@ import { FrontEndConfig } from '@infrastructure/config/FrontEndConfig';
 import { DateUtil } from '@core/common/util/DateUtil';
 import { NotificationRepository } from '../notifications/NotificationRepository';
 import { NotificationType } from '@core/common/enum/NotificationType';
+import { NotificationGateway } from '@infrastructure/socket/NotificationGataway';
 
 @Injectable()
 export class GenerationService {
@@ -25,6 +26,7 @@ export class GenerationService {
     private readonly mailService: MailService,
     private readonly userRepository: UserRepository,
     private readonly notificationRepository: NotificationRepository,
+    private readonly notificationGateway: NotificationGateway,
   ) {}
 
   async handleGetGenerationsOfUser(user_id: number): Promise<GenerationResponseJson[]> {
@@ -80,23 +82,26 @@ export class GenerationService {
     const matched_user = await this.userRepository.getById(matched_generation.userId);
 
     if (is_notify) {
-      await this.mailService.sendMail<{ requestedAt: string }>(
+      const notification = await this.notificationRepository.create(
+        matched_user.id,
+        `Your generation at ${DateUtil.formatDate(matched_generation.createdAt)} is ${
+          GenerationStatus.CANCELED
+        }`,
+        `We regret to inform you that there was an error processing your generation request at ${matched_generation.createdAt}. Unfortunately, the generation process has been canceled due to some reasons!`,
+        NotificationType.GENERATION,
+        'generate',
+        null,
+      );
+
+      this.notificationGateway.handleSendNotification(notification);
+
+      this.mailService.sendMail<{ requestedAt: string }>(
         matched_user.email,
         MailSubject.GENERATION_CANCELED,
         MailTemplate.GENERATION_CANCELED,
         {
           requestedAt: DateUtil.formatDate(matched_generation.createdAt),
         },
-      );
-      await this.notificationRepository.create(
-        matched_user.id,
-        `Your generation at ${DateUtil.formatDate(matched_generation.createdAt)} is ${
-          matched_generation.status
-        }`,
-        'We will notify you soon if your generation is canceled!',
-        NotificationType.GENERATION,
-        'generate',
-        null,
       );
     }
 
@@ -123,8 +128,8 @@ export class GenerationService {
     const matched_user = await this.userRepository.getById(matched_generation.userId);
     const updated_generation = await this.generationRepository.updateStatus(generation_id, status);
 
-    await this.handleSendMailAndUpdate(matched_user, updated_generation);
-    await this.handleSendNotificationAndUpdate(matched_user, updated_generation);
+    this.handleSendNotificationAndUpdate(matched_user, updated_generation);
+    this.handleSendMailAndUpdate(matched_user, updated_generation);
 
     if (status === GenerationStatus.FINISHED) {
       await this.generationRepository.deleteById(updated_generation.id);
@@ -152,10 +157,10 @@ export class GenerationService {
   async handleSendNotificationAndUpdate(user: User, generation: Generation): Promise<void> {
     const content =
       generation.status === GenerationStatus.PROCESSING
-        ? 'We will notify you soon if your generation is finished!'
+        ? 'We will notify you soon if your generation is finished or canceled!'
         : 'Click to view the result of your generation!';
 
-    await this.notificationRepository.create(
+    const notification = await this.notificationRepository.create(
       user.id,
       `Your generation at ${DateUtil.formatDate(generation.createdAt)} is ${generation.status}`,
       content,
@@ -163,6 +168,7 @@ export class GenerationService {
       'generate',
       generation.status === GenerationStatus.FINISHED ? generation.id : null,
     );
+    this.notificationGateway.handleSendNotification(notification);
 
     await this.generationRepository.updateIsNotification(generation.id, true);
   }
