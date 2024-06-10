@@ -3,6 +3,7 @@ import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtUtil } from '@core/common/util/jwt/JwtUtil';
+import { BaseRepository } from '@core/common/repository/BaseRepository';
 
 @Global()
 @Module({
@@ -18,7 +19,7 @@ import { JwtUtil } from '@core/common/util/jwt/JwtUtil';
     }),
   ],
   controllers: [],
-  providers: [JwtUtil],
-  exports: [JwtUtil],
+  providers: [JwtUtil, BaseRepository],
+  exports: [JwtUtil, BaseRepository],
 })
 export class InfrastructureModule {}

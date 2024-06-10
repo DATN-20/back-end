@@ -7,6 +7,8 @@ import { Exception } from '@core/common/exception/Exception';
 import { ErrorBaseSystem } from '@core/common/resource/error/ErrorBase';
 import { ExceptionFilterGlobal } from '@core/common/exception-filter/ExceptionFilterGlobal';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { TransactionInterceptor } from '@core/common/interceptor/TransactionInterceptor';
+import { BaseRepository } from '@core/common/repository/BaseRepository';
 
 export class ServerApplication {
   private readonly host: string = ApiServerConfig.HOST;
@@ -36,6 +38,8 @@ export class ServerApplication {
         },
       }),
     );
+    const database = app.get(BaseRepository);
+    app.useGlobalInterceptors(new TransactionInterceptor(database));
 
     const config = new DocumentBuilder()
       .setTitle('ĐỒ ÁN TỐT NGHIỆP API')
