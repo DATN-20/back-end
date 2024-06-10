@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.41% </span>
+                <span class="strong">98.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>62/63</span>
+                <span class='fraction'>66/67</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.36% </span>
+                <span class="strong">98.46% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>60/61</span>
+                <span class='fraction'>64/65</span>
             </div>
         
             
@@ -232,7 +232,13 @@
 <a name='L167'></a><a href='#L167'>167</a>
 <a name='L168'></a><a href='#L168'>168</a>
 <a name='L169'></a><a href='#L169'>169</a>
-<a name='L170'></a><a href='#L170'>170</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -251,10 +257,12 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -322,9 +330,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -397,6 +408,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -420,6 +432,7 @@ import { FrontEndConfig } from '@infrastructure/config/FrontEndConfig';
 import { DateUtil } from '@core/common/util/DateUtil';
 import { NotificationRepository } from '../notifications/NotificationRepository';
 import { NotificationType } from '@core/common/enum/NotificationType';
+import { NotificationGateway } from '@infrastructure/socket/NotificationGataway';
 &nbsp;
 @Injectable()
 export class GenerationService {
@@ -428,6 +441,7 @@ export class GenerationService {
     private readonly mailService: MailService,
     private readonly userRepository: UserRepository,
     private readonly notificationRepository: NotificationRepository,
+    private readonly notificationGateway: NotificationGateway,
   ) {}
 &nbsp;
   async handleGetGenerationsOfUser(user_id: number): Promise&lt;GenerationResponseJson[]&gt; {
@@ -483,23 +497,26 @@ export class GenerationService {
     const matched_user = await this.userRepository.getById(matched_generation.userId);
 &nbsp;
     if (is_notify) {
-      await this.mailService.sendMail&lt;{ requestedAt: string }&gt;(
+      const notification = await this.notificationRepository.create(
+        matched_user.id,
+        `Your generation at ${DateUtil.formatDate(matched_generation.createdAt)} is ${
+          GenerationStatus.CANCELED
+        }`,
+        `We regret to inform you that there was an error processing your generation request at ${matched_generation.createdAt}. Unfortunately, the generation process has been canceled due to some reasons!`,
+        NotificationType.GENERATION,
+        'generate',
+        null,
+      );
+&nbsp;
+      this.notificationGateway.handleSendNotification(notification);
+&nbsp;
+      this.mailService.sendMail&lt;{ requestedAt: string }&gt;(
         matched_user.email,
         MailSubject.GENERATION_CANCELED,
         MailTemplate.GENERATION_CANCELED,
         {
           requestedAt: DateUtil.formatDate(matched_generation.createdAt),
         },
-      );
-      await this.notificationRepository.create(
-        matched_user.id,
-        `Your generation at ${DateUtil.formatDate(matched_generation.createdAt)} is ${
-          matched_generation.status
-        }`,
-        'We will notify you soon if your generation is canceled!',
-        NotificationType.GENERATION,
-        'generate',
-        null,
       );
     }
 &nbsp;
@@ -526,8 +543,8 @@ export class GenerationService {
     const matched_user = await this.userRepository.getById(matched_generation.userId);
     const updated_generation = await this.generationRepository.updateStatus(generation_id, status);
 &nbsp;
-    await this.handleSendMailAndUpdate(matched_user, updated_generation);
-    await this.handleSendNotificationAndUpdate(matched_user, updated_generation);
+    this.handleSendNotificationAndUpdate(matched_user, updated_generation);
+    this.handleSendMailAndUpdate(matched_user, updated_generation);
 &nbsp;
     if (status === GenerationStatus.FINISHED) {
       await this.generationRepository.deleteById(updated_generation.id);
@@ -555,10 +572,10 @@ export class GenerationService {
   async handleSendNotificationAndUpdate(user: User, generation: Generation): Promise&lt;void&gt; {
     const content =
       generation.status === GenerationStatus.PROCESSING
-        ? <span class="branch-0 cbranch-no" title="branch not covered" >'We will notify you soon if your generation is finished!'</span>
+        ? <span class="branch-0 cbranch-no" title="branch not covered" >'We will notify you soon if your generation is finished or canceled!'</span>
         : 'Click to view the result of your generation!';
 &nbsp;
-    await this.notificationRepository.create(
+    const notification = await this.notificationRepository.create(
       user.id,
       `Your generation at ${DateUtil.formatDate(generation.createdAt)} is ${generation.status}`,
       content,
@@ -566,6 +583,7 @@ export class GenerationService {
       'generate',
       generation.status === GenerationStatus.FINISHED ? <span class="branch-0 cbranch-no" title="branch not covered" >generation.id </span>: null,
     );
+    this.notificationGateway.handleSendNotification(notification);
 &nbsp;
     await this.generationRepository.updateIsNotification(generation.id, true);
   }
@@ -577,7 +595,7 @@ export class GenerationService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-06-10T04:48:43.295Z
+                at 2024-06-10T12:26:45.310Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
