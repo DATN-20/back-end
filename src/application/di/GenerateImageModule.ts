@@ -9,6 +9,9 @@ import { UserModule } from './UserModule';
 import { ImageModule } from './ImageModule';
 import { AIGenerateImageByImagesStyleModule } from '@infrastructure/external-services/ai-generate-image/AIGenerateImageByImagesStyleModule';
 import { GenerationModule } from './GenerationModule';
+import { BullModule } from '@nestjs/bull';
+import { GENERATIONS_CHANNEL } from '@infrastructure/message-queue/QueueNameConstant';
+import { GenerateImageConsumer } from '@core/module/generate-image/GenerateImageConsumer';
 
 @Module({
   imports: [
@@ -19,9 +22,12 @@ import { GenerationModule } from './GenerationModule';
     ImageModule,
     AIGenerateImageByImagesStyleModule,
     GenerationModule,
+    BullModule.registerQueue({
+      name: GENERATIONS_CHANNEL,
+    }),
   ],
-  providers: [JwtUtil, GenerateImageService],
   controllers: [GenerateImageController],
+  providers: [JwtUtil, GenerateImageService, GenerateImageConsumer],
   exports: [],
 })
 export class GenerateImageModule {}

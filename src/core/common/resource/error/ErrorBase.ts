@@ -1,3 +1,4 @@
+import { DateUtil } from '@core/common/util/DateUtil';
 import { HttpStatus, ValidationError } from '@nestjs/common';
 
 export type ErrorBase = {
@@ -61,6 +62,7 @@ export class ErrorBaseSystem {
       raw_input: error.target,
     };
   };
+
   public static INVALID_PARAM = (field: string): ErrorBase => {
     return {
       error_code: '00008',
@@ -68,11 +70,26 @@ export class ErrorBaseSystem {
       status_code: HttpStatus.BAD_REQUEST,
     };
   };
+
+  public static TOO_MANY_REQUEST_TO_ENDPOINT = (
+    bucket_size: number,
+    expired_at: Date,
+  ): ErrorBase => {
+    const reste_date = DateUtil.formatDate(expired_at);
+
+    return {
+      error_code: '00009',
+      message: `Too many requests have been made to this endpoint. You only have a maximum of ${bucket_size} request times. Now, it's out of times! Requests will reset at ${reste_date}.`,
+      status_code: HttpStatus.TOO_MANY_REQUESTS,
+    };
+  };
+
   public static REQUIRED_IMAGE: ErrorBase = {
     error_code: '00009',
     message: 'Image is required!',
     status_code: HttpStatus.BAD_REQUEST,
   };
+
   public static CANNOT_CONVERT_TO_BUFFER_FROM_URL: ErrorBase = {
     error_code: '00010',
     message: 'Can not convert to buffer from url!',

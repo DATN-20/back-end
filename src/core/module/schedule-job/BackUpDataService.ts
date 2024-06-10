@@ -8,15 +8,15 @@ import { exec } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
+const FOLDER_NAME_DATA_BACKUP = 'backup-data';
+
 @Injectable()
 export class BackUpDataService implements OnModuleInit {
   private readonly logger = new Logger(BackUpDataService.name);
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async execute(): Promise<void> {
-    this.logger.log('Processing the backup data...');
-
-    const backup_dir = path.resolve(process.cwd(), 'backup-data');
+    const backup_dir = path.resolve(process.cwd(), FOLDER_NAME_DATA_BACKUP);
     if (!fs.existsSync(backup_dir)) {
       fs.mkdirSync(backup_dir);
     }
@@ -33,8 +33,6 @@ export class BackUpDataService implements OnModuleInit {
         });
         return;
       }
-
-      this.logger.log('Backup process completed successfully');
     });
   }
 

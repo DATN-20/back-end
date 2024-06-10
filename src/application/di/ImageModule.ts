@@ -1,4 +1,3 @@
-import { JwtUtil } from '@core/common/util/jwt/JwtUtil';
 import { ImageController } from '@core/module/image/ImageController';
 import { ImageRepository } from '@core/module/image/ImageRepository';
 import { ImageService } from '@core/module/image/ImageService';

@@ -68,7 +68,7 @@ export const images = mysqlTable('images', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   url: text('url').notNull(),
-  type: mysqlEnum('role', [
+  type: mysqlEnum('type', [
     ImageType.UPLOADED,
     ImageType.IMG_TO_IMG,
     ImageType.TEXT_TO_IMG,

@@ -6,6 +6,8 @@ import { GenerationService } from '@core/module/generation/GenerationService';
 import { NotificationRepository } from '@core/module/notifications/NotificationRepository';
 import { UserRepository } from '@core/module/user/UserRepository';
 import { MailService } from '@infrastructure/external-services/mail/MailService';
+import { NotificationGateway } from '@infrastructure/socket/NotificationGataway';
+import { MockNotificationGateway } from '@unittest/core/mock-di/internal/gateways/NotificationGatewayMock';
 import { MockGenerationRepository } from '@unittest/core/mock-di/internal/repositories/GenerationRepositoryMock';
 import { MockNotificationRepository } from '@unittest/core/mock-di/internal/repositories/NotificationRepositoryMock';
 import { MockUserRepository } from '@unittest/core/mock-di/internal/repositories/UserRepositoryMock';
@@ -23,9 +25,11 @@ describe(GenerationService.name, () => {
   let notificationRepository: NotificationRepository;
   let generationEntityMock: GenerationMock;
   let userEntityMock: UserMock;
+  let notificationGateway: NotificationGateway;
 
   beforeAll(() => {
     mailService = MockMailService as MailService;
+    notificationGateway = MockNotificationGateway as NotificationGateway;
     userRepository = MockUserRepository as UserRepository;
     notificationRepository = MockNotificationRepository as NotificationRepository;
     generationRepository = MockGenerationRepository as GenerationRepository;
@@ -35,6 +39,7 @@ describe(GenerationService.name, () => {
       mailService,
       userRepository,
       notificationRepository,
+      notificationGateway,
     );
     generationEntityMock = new GenerationMock();
     userEntityMock = new UserMock();

@@ -182,12 +182,10 @@ export class ImageController {
 
   @ApiResponse({ status: HttpStatus.OK, type: ImageResponseJson })
   @Post(':imageId/image-processing')
-  @UseInterceptors(FileInterceptor('image'))
   async imageProcessingWithExistedImage(
     @User() user: UserFromAuthGuard,
     @Param('imageId', ParamValidator) image_id: number,
     @Body() data: ProcessImageRequest,
-    @UploadedFiles() image: Express.Multer.File,
   ): Promise<ImageResponseJson> {
     return this.imageService.handleImageProcessing(user.id, data.processType, image_id);
   }

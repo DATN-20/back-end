@@ -18,7 +18,9 @@ import { ImageStatisticsModule } from './ImageStatisticsModule';
 import { GenerationModule } from './GenerationModule';
 import { NotificationModule } from './NotificationModule';
 import { GenerateTagModule } from './GenerateTagModule';
+import { RateLimiterModule } from './RateLimiterModule';
 import { ScheduleJobModule } from './ScheduleJobModule';
+import { SocketModule } from '@infrastructure/socket/SocketModule';
 
 @Module({
   imports: [
@@ -42,7 +44,9 @@ import { ScheduleJobModule } from './ScheduleJobModule';
     GenerateTagModule,
     GenerationModule,
     NotificationModule,
+    RateLimiterModule,
     ScheduleJobModule,
+    SocketModule,
   ],
   controllers: [],
   providers: [],
