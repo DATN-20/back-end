@@ -4,15 +4,17 @@ import { Exception } from '../exception/Exception';
 import SystemLogger from '../logger/SystemLoggerService';
 import { LogType } from '../enum/LogType';
 import { EnvironmentUtil } from '../util/EnvironmentUtil';
+import { ErrorBaseSystem } from '../resource/error/ErrorBase';
 
 @Global()
-@Catch(Exception)
+@Catch(Error)
 export class ExceptionFilterGlobal implements ExceptionFilter {
-  catch(exception: Exception, host: ArgumentsHost) {
+  catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    const error = exception.error;
+    const error =
+      exception instanceof Exception ? exception.error : ErrorBaseSystem.INTERNAL_SERVER_ERROR;
 
     SystemLogger.error(error.message, {
       error_code: error.error_code,
