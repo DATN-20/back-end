@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>72/72</span>
+                <span class='fraction'>77/77</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>70/70</span>
+                <span class='fraction'>75/75</span>
             </div>
         
             
@@ -252,7 +252,15 @@
 <a name='L187'></a><a href='#L187'>187</a>
 <a name='L188'></a><a href='#L188'>188</a>
 <a name='L189'></a><a href='#L189'>189</a>
-<a name='L190'></a><a href='#L190'>190</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -268,6 +276,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -364,7 +373,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -378,11 +386,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -457,6 +473,7 @@ import { FrontEndConfig } from '@infrastructure/config/FrontEndConfig';
 import { LockedUserRepository } from '../user-management/repositories/LockedUserRepository';
 import { LockedUserError } from '@core/common/resource/error/LockedUserError';
 import { SignInResponseJson } from './entity/response/SignInResponseJson';
+import { UserError } from '@core/common/resource/error/UserError';
 &nbsp;
 @Injectable()
 export class AuthService {
@@ -549,7 +566,6 @@ export class AuthService {
     const token_forget_password = this.jwtUtil.signToken&lt;TokenPayload&gt;(
       {
         id: matched_user.id,
-        role: matched_user.role,
       },
       JwtType.FORGET_PASSWORD,
     );
@@ -573,7 +589,15 @@ export class AuthService {
       throw new Exception(AuthError.INVALID_VERIFY_TOKEN);
     }
 &nbsp;
-    await this.userRepository.updatePassword(payload.id, new_password);
+    const matched_user = await this.userRepository.getById(payload.id);
+&nbsp;
+    if (!matched_user) {
+      throw new Exception(UserError.USER_NOT_FOUND);
+    }
+&nbsp;
+    const hashed_password = await this.hashService.hash(new_password);
+&nbsp;
+    await this.userRepository.updatePassword(matched_user.id, hashed_password);
   }
 &nbsp;
   async handleRefreshToken(token: string): Promise&lt;SignInResponseJson&gt; {
@@ -637,7 +661,7 @@ export class AuthService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-06-10T12:26:45.310Z
+                at 2024-06-12T17:11:25.948Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
