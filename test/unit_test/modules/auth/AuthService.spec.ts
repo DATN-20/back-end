@@ -169,15 +169,15 @@ describe(AuthService.name, () => {
 
   describe('handleChangePassword', () => {
     let token: string;
-    let email: string;
+    let password: string;
     beforeAll(() => {
       token = RandomString.randomString();
-      email = RandomString.randomString();
+      password = RandomString.randomString();
     });
 
     it('should throw INVALID_VERIFY_TOKEN exception', async () => {
       jest.spyOn(jwtUtil, 'verify').mockReturnValue(null);
-      await expect(authService.handleChangePassword(token, email)).rejects.toBeInstanceOf(
+      await expect(authService.handleChangePassword(token, password)).rejects.toBeInstanceOf(
         Exception,
       );
     });
@@ -187,9 +187,22 @@ describe(AuthService.name, () => {
         id: RandomNumber.randomNumber(),
         role: UserRole.ARTIST,
       });
+      jest.spyOn(userRepository, 'getById').mockResolvedValue(userEntityMock.mock());
 
-      await authService.handleChangePassword(token, email);
+      await authService.handleChangePassword(token, password);
       expect(userRepository.updatePassword).toBeCalledTimes(1);
+    });
+
+    it('should throw USER_NOT_FOUND exception', async () => {
+      jest.spyOn(jwtUtil, 'verify').mockReturnValue({
+        id: RandomNumber.randomNumber(),
+        role: UserRole.ARTIST,
+      });
+      jest.spyOn(userRepository, 'getById').mockResolvedValue(null);
+
+      await expect(authService.handleChangePassword(token, password)).rejects.toBeInstanceOf(
+        Exception,
+      );
     });
   });
 
