@@ -75,11 +75,8 @@ export class AuthController {
   @ApiResponse({ status: HttpStatus.OK, type: String })
   @Post('forget-password/change-password')
   @HttpCode(HttpStatus.OK)
-  async changePassword(
-    @Body() body: ChangePasswordRequest,
-    @Param('token') token: string,
-  ): Promise<string> {
-    await this.authService.handleChangePassword(token, body.password);
+  async changePassword(@Body() data: ChangePasswordRequest): Promise<string> {
+    await this.authService.handleChangePassword(data.token, data.password);
 
     return AuthMessage.CHANGE_PASSWORD_SUCCESSFULLY;
   }

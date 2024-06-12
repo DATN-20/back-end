@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 
 export interface TokenPayload {
   id: number;
-  role: UserRole;
+  role?: UserRole;
 }
 
 export interface CreateUserPayload {

@@ -14,6 +14,7 @@ import { FrontEndConfig } from '@infrastructure/config/FrontEndConfig';
 import { LockedUserRepository } from '../user-management/repositories/LockedUserRepository';
 import { LockedUserError } from '@core/common/resource/error/LockedUserError';
 import { SignInResponseJson } from './entity/response/SignInResponseJson';
+import { UserError } from '@core/common/resource/error/UserError';
 
 @Injectable()
 export class AuthService {
@@ -106,7 +107,6 @@ export class AuthService {
     const token_forget_password = this.jwtUtil.signToken<TokenPayload>(
       {
         id: matched_user.id,
-        role: matched_user.role,
       },
       JwtType.FORGET_PASSWORD,
     );
@@ -130,7 +130,15 @@ export class AuthService {
       throw new Exception(AuthError.INVALID_VERIFY_TOKEN);
     }
 
-    await this.userRepository.updatePassword(payload.id, new_password);
+    const matched_user = await this.userRepository.getById(payload.id);
+
+    if (!matched_user) {
+      throw new Exception(UserError.USER_NOT_FOUND);
+    }
+
+    const hashed_password = await this.hashService.hash(new_password);
+
+    await this.userRepository.updatePassword(matched_user.id, hashed_password);
   }
 
   async handleRefreshToken(token: string): Promise<SignInResponseJson> {
