@@ -24,6 +24,11 @@ export class UserRepository extends BaseRepository {
     const user = await this.database.query.users.findFirst({
       where: (users, { eq }) => eq(users.id, id),
     });
+
+    if (!user) {
+      return null;
+    }
+
     user.socials ??= [];
 
     // when social only has one it not return array object, it only return object social

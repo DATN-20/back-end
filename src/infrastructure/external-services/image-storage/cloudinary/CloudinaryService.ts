@@ -18,13 +18,13 @@ export class CloudinaryService implements IImageStorageService {
   }
 
   async uploadImages(imagesUpload: ImagesUpload): Promise<ImageUploadResult[]> {
-    const uploadResults: ImageUploadResult[] = [];
+    const upload_result: ImageUploadResult[] = [];
     for (const image of imagesUpload.images) {
       const result = await this.uploadImageWithBuffer(image.buffer);
-      uploadResults.push(result);
+      upload_result.push(result);
     }
 
-    return uploadResults;
+    return upload_result;
   }
 
   async deleteImage(imageDelete: ImageDelete): Promise<void> {
@@ -38,19 +38,21 @@ export class CloudinaryService implements IImageStorageService {
 
   public async uploadImageWithBuffer(image_buffer: Buffer): Promise<ImageUploadResult> {
     try {
-      const uploadResult = await new Promise<UploadApiResponse | UploadApiErrorResponse>(
-        resolve => {
-          cloudinary.uploader
-            .upload_stream((_error, uploadResult) => {
-              return resolve(uploadResult);
-            })
-            .end(image_buffer);
+      const upload_result = await new Promise<UploadApiResponse | UploadApiErrorResponse>(
+        (resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream({ timeout: 120000 }, (error, result) => {
+            if (error) {
+              return reject(error);
+            }
+            resolve(result);
+          });
+          stream.end(image_buffer);
         },
       );
 
       return {
-        url: uploadResult.secure_url,
-        id: uploadResult.public_id,
+        url: upload_result.secure_url,
+        id: upload_result.public_id,
       };
     } catch (error) {
       throw new Exception(ImageError.FAIL_TO_UPLOAD_IMAGE);

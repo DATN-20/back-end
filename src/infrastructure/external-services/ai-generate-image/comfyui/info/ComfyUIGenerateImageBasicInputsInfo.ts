@@ -8,6 +8,7 @@ import { ComfyUIControlNetInfo } from '../control-net/ComfyUIControlNetInfo';
 export class ComfyUIGenerateImageBasicInputsInfo {
   private styleChoices: { [key: string]: string } = {
     anime: 'v1-5-pruned-emaonly.ckpt',
+    animev2: 'Anything-ink.safetensors',
   };
 
   private styleName = 'Style';
