@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1718212285997" clover="3.2.0">
-  <project timestamp="1718212285997" name="All files">
-    <metrics statements="1015" coveredstatements="381" conditionals="199" coveredconditionals="40" methods="239" coveredmethods="54" elements="1453" coveredelements="475" complexity="0" loc="1015" ncloc="1015" packages="25" files="39" classes="39"/>
+<coverage generated="1718360973433" clover="3.2.0">
+  <project timestamp="1718360973433" name="All files">
+    <metrics statements="1020" coveredstatements="381" conditionals="201" coveredconditionals="40" methods="239" coveredmethods="54" elements="1460" coveredelements="475" complexity="0" loc="1020" ncloc="1020" packages="25" files="39" classes="39"/>
     <package name="core.common.logger">
       <metrics statements="12" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="ApiLoggerService.ts" path="/home/runner/work/back-end/back-end/src/core/common/logger/ApiLoggerService.ts">
@@ -884,9 +884,9 @@
       </file>
     </package>
     <package name="core.module.user">
-      <metrics statements="66" coveredstatements="40" conditionals="5" coveredconditionals="1" methods="21" coveredmethods="7"/>
+      <metrics statements="68" coveredstatements="40" conditionals="6" coveredconditionals="1" methods="21" coveredmethods="7"/>
       <file name="UserRepository.ts" path="/home/runner/work/back-end/back-end/src/core/module/user/UserRepository.ts">
-        <metrics statements="28" coveredstatements="4" conditionals="4" coveredconditionals="0" methods="13" coveredmethods="0"/>
+        <metrics statements="30" coveredstatements="4" conditionals="5" coveredconditionals="0" methods="13" coveredmethods="0"/>
         <line num="1" count="5" type="stmt"/>
         <line num="2" count="5" type="stmt"/>
         <line num="4" count="5" type="stmt"/>
@@ -895,26 +895,28 @@
         <line num="20" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="31" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="28" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="29" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
+        <line num="36" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="37" count="0" type="stmt"/>
         <line num="45" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="63" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="79" count="0" type="stmt"/>
-        <line num="89" count="0" type="stmt"/>
-        <line num="105" count="0" type="stmt"/>
-        <line num="115" count="0" type="stmt"/>
-        <line num="125" count="0" type="stmt"/>
-        <line num="133" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="134" count="0" type="stmt"/>
-        <line num="137" count="0" type="stmt"/>
-        <line num="141" count="0" type="stmt"/>
-        <line num="150" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="72" count="0" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="94" count="0" type="stmt"/>
+        <line num="110" count="0" type="stmt"/>
+        <line num="120" count="0" type="stmt"/>
+        <line num="130" count="0" type="stmt"/>
+        <line num="138" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="139" count="0" type="stmt"/>
+        <line num="142" count="0" type="stmt"/>
+        <line num="146" count="0" type="stmt"/>
+        <line num="155" count="0" type="stmt"/>
       </file>
       <file name="UserService.ts" path="/home/runner/work/back-end/back-end/src/core/module/user/UserService.ts">
         <metrics statements="38" coveredstatements="36" conditionals="1" coveredconditionals="1" methods="8" coveredmethods="7"/>
@@ -1164,9 +1166,9 @@
       </file>
     </package>
     <package name="infrastructure.external-services.image-storage.cloudinary">
-      <metrics statements="23" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
+      <metrics statements="26" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="6" coveredmethods="0"/>
       <file name="CloudinaryService.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/image-storage/cloudinary/CloudinaryService.ts">
-        <metrics statements="23" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
+        <metrics statements="26" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
@@ -1187,9 +1189,12 @@
         <line num="40" count="0" type="stmt"/>
         <line num="41" count="0" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
+        <line num="44" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="45" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
       </file>
     </package>
     <package name="infrastructure.external-services.mail">

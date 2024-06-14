@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/25</span>
+                <span class='fraction'>0/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/23</span>
+                <span class='fraction'>0/26</span>
             </div>
         
             
@@ -122,7 +122,9 @@
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -165,10 +167,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -201,13 +205,13 @@ export class <span class="cstat-no" title="statement not covered" ><span class="
   }
 &nbsp;
 <span class="fstat-no" title="function not covered" >  async </span>uploadImages(imagesUpload: ImagesUpload): Promise&lt;ImageUploadResult[]&gt; {
-    const uploadResults: ImageUploadResult[] = <span class="cstat-no" title="statement not covered" >[];</span>
+    const upload_result: ImageUploadResult[] = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >    for (const image of imagesUpload.images) {</span>
       const result = <span class="cstat-no" title="statement not covered" >await this.uploadImageWithBuffer(image.buffer);</span>
-<span class="cstat-no" title="statement not covered" >      uploadResults.push(result);</span>
+<span class="cstat-no" title="statement not covered" >      upload_result.push(result);</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return uploadResults;</span>
+<span class="cstat-no" title="statement not covered" >    return upload_result;</span>
   }
 &nbsp;
 <span class="fstat-no" title="function not covered" >  async </span>deleteImage(imageDelete: ImageDelete): Promise&lt;void&gt; {
@@ -221,19 +225,21 @@ export class <span class="cstat-no" title="statement not covered" ><span class="
 &nbsp;
   public <span class="fstat-no" title="function not covered" >async </span>uploadImageWithBuffer(image_buffer: Buffer): Promise&lt;ImageUploadResult&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
-      const uploadResult = <span class="cstat-no" title="statement not covered" >await new Promise&lt;UploadApiResponse | UploadApiErrorResponse&gt;(</span>
-<span class="fstat-no" title="function not covered" >        resolve </span>=&gt; {
-<span class="cstat-no" title="statement not covered" >          cloudinary.uploader</span>
-            .upload_stream(<span class="fstat-no" title="function not covered" >(_</span>error, uploadResult) =&gt; {
-<span class="cstat-no" title="statement not covered" >              return resolve(uploadResult);</span>
-            })
-            .end(image_buffer);
+      const upload_result = <span class="cstat-no" title="statement not covered" >await new Promise&lt;UploadApiResponse | UploadApiErrorResponse&gt;(</span>
+<span class="fstat-no" title="function not covered" >        (r</span>esolve, reject) =&gt; {
+          const stream = <span class="cstat-no" title="statement not covered" >cloudinary.uploader.upload_stream({ timeout: 120000 }, <span class="fstat-no" title="function not covered" >(e</span>rror, result) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (error) {</span>
+<span class="cstat-no" title="statement not covered" >              return reject(error);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            resolve(result);</span>
+          });
+<span class="cstat-no" title="statement not covered" >          stream.end(image_buffer);</span>
         },
       );
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      return {</span>
-        url: uploadResult.secure_url,
-        id: uploadResult.public_id,
+        url: upload_result.secure_url,
+        id: upload_result.public_id,
       };
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      throw new Exception(ImageError.FAIL_TO_UPLOAD_IMAGE);</span>
@@ -247,7 +253,7 @@ export class <span class="cstat-no" title="statement not covered" ><span class="
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-06-12T17:11:25.948Z
+                at 2024-06-14T10:29:33.385Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
