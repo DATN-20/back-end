@@ -27,7 +27,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            miraijr/mangahay-be
+            miraijr/artist_be
           tags: |
             type=ref,event=branch
             type=ref,event=pr
