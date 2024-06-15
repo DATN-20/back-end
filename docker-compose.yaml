@@ -1,0 +1,93 @@
+version: '3.9'
+
+services:
+  backend:
+    build: .
+    # image: miraijr/artist-be:main
+    container_name: artist_be
+    env_file:
+      - .docker.env
+    ports:
+      - 3000:3000
+      - 3001:3001
+    depends_on:
+      - redis
+      - mysql
+
+  redis:
+    container_name: redis_cache
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/var/lib/redis/artist_be/data
+
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: artist
+      MYSQL_USER: artist_database_191
+      MYSQL_PASSWORD: datn191*11
+      MYSQL_ROOT_PASSWORD: datn191*11root
+    ports:
+      - '3307:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+      # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  elasticsearch:
+    image: elasticsearch:7.16.2
+    container_name: elasticsearch
+    restart: always
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data/
+    environment:
+      ES_JAVA_OPTS: '-Xmx256m -Xms256m'
+      discovery.type: single-node
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    networks:
+      - elk
+
+  logstash:
+    image: logstash:7.16.2
+    container_name: logstash
+    restart: always
+    volumes:
+      - ./logstash/:/logstash_dir
+    command: logstash -f /logstash_dir/logstash.conf
+    depends_on:
+      - elasticsearch
+    ports:
+      - '9600:9600'
+    environment:
+      LS_JAVA_OPTS: '-Xmx256m -Xms256m'
+    networks:
+      - elk
+
+  kibana:
+    image: kibana:7.16.2
+    container_name: kibana
+    restart: always
+    ports:
+      - '5601:5601'
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
+volumes:
+  redis:
+    driver: local
+  mysql-data:
+    driver: local
+  elastic_data:
+    driver: local
+
+networks:
+  elk:

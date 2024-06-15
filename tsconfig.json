@@ -17,6 +17,8 @@
       "@unittest/*": ["test/unit_test/*"],
     },
     "incremental": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
