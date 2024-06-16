@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1718506835872" clover="3.2.0">
-  <project timestamp="1718506835872" name="All files">
-    <metrics statements="1020" coveredstatements="381" conditionals="201" coveredconditionals="40" methods="239" coveredmethods="54" elements="1460" coveredelements="475" complexity="0" loc="1020" ncloc="1020" packages="25" files="39" classes="39"/>
+<coverage generated="1718507679885" clover="3.2.0">
+  <project timestamp="1718507679886" name="All files">
+    <metrics statements="1019" coveredstatements="381" conditionals="201" coveredconditionals="40" methods="239" coveredmethods="54" elements="1459" coveredelements="475" complexity="0" loc="1019" ncloc="1019" packages="25" files="39" classes="39"/>
     <package name="core.common.logger">
       <metrics statements="12" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="ApiLoggerService.ts" path="/home/runner/work/back-end/back-end/src/core/common/logger/ApiLoggerService.ts">
@@ -17,10 +17,10 @@
         <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
       </file>
     </package>
     <package name="core.common.repository">
@@ -1166,9 +1166,9 @@
       </file>
     </package>
     <package name="infrastructure.external-services.image-storage.cloudinary">
-      <metrics statements="26" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="6" coveredmethods="0"/>
+      <metrics statements="25" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="6" coveredmethods="0"/>
       <file name="CloudinaryService.ts" path="/home/runner/work/back-end/back-end/src/infrastructure/external-services/image-storage/cloudinary/CloudinaryService.ts">
-        <metrics statements="26" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="6" coveredmethods="0"/>
+        <metrics statements="25" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
@@ -1185,16 +1185,15 @@
         <line num="31" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
         <line num="40" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="44" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="43" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
       </file>
     </package>
     <package name="infrastructure.external-services.mail">
