@@ -35,7 +35,7 @@ services:
       - '3307:3306'
     volumes:
       - mysql-data:/var/lib/mysql
-      # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./deploy/script.sql:/docker-entrypoint-initdb.d/init.sql
 
   elasticsearch:
     image: elasticsearch:7.16.2

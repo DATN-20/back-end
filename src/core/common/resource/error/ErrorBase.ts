@@ -70,20 +70,6 @@ export class ErrorBaseSystem {
       status_code: HttpStatus.BAD_REQUEST,
     };
   };
-
-  public static TOO_MANY_REQUEST_TO_ENDPOINT = (
-    bucket_size: number,
-    expired_at: Date,
-  ): ErrorBase => {
-    const reste_date = DateUtil.formatDate(expired_at);
-
-    return {
-      error_code: '00009',
-      message: `Too many requests have been made to this endpoint. You only have a maximum of ${bucket_size} request times. Now, it's out of times! Requests will reset at ${reste_date}.`,
-      status_code: HttpStatus.TOO_MANY_REQUESTS,
-    };
-  };
-
   public static REQUIRED_IMAGE: ErrorBase = {
     error_code: '00009',
     message: 'Image is required!',
@@ -99,5 +85,17 @@ export class ErrorBaseSystem {
     error_code: '00011',
     message: 'Fail to backup data!',
     status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+  };
+  public static TOO_MANY_REQUEST_TO_ENDPOINT = (
+    bucket_size: number,
+    expired_at: Date,
+  ): ErrorBase => {
+    const reste_date = DateUtil.formatDate(expired_at);
+
+    return {
+      error_code: '00012',
+      message: `Too many requests have been made to this endpoint. You only have a maximum of ${bucket_size} request times. Now, it's out of times! Requests will reset at ${reste_date}.`,
+      status_code: HttpStatus.TOO_MANY_REQUESTS,
+    };
   };
 }

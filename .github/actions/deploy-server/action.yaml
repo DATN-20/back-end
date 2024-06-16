@@ -34,4 +34,18 @@ runs:
         docker rmi miraijr/artist_be:main || true
 
         docker compose up -d
+        docker exec -it artist_be bash
+        echo '#!/usr/bin/expect -f
+          set timeout -1
+          spawn npm run push-to-db
+          expect {
+              "Yes, I want to execute all statements" {
+                  send "\033\[B"  ;
+                  send "\r"       ;
+                  exp_continue
+              }
+              eof
+        }' > push-to-db.exp
+        chmod +x push-to-db.exp
+        ./push-to-db.exp
         

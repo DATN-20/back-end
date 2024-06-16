@@ -9,7 +9,6 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { isArray, IsString } from 'class-validator';
 import Redis from 'ioredis';
 import { Server, Socket } from 'socket.io';
 
@@ -53,13 +52,16 @@ export class BaseSocketServer implements OnGatewayConnection, OnGatewayDisconnec
     }
 
     token = token.toString();
-    const payload: TokenPayload = this.jwtUtil.verify<TokenPayload>(token, JwtType.ACCESS);
+    try {
+      const payload: TokenPayload = this.jwtUtil.verify<TokenPayload>(token, JwtType.ACCESS);
 
-    if (!payload || payload.id.toString() !== user_id) {
+      if (!payload || payload.id.toString() !== user_id) {
+        throw new Error('Invalid token');
+      }
+
+      await this.redis.set(`sockets:${user_id}`, client.id);
+    } catch (error) {
       client.disconnect();
-      return;
     }
-
-    await this.redis.set(`sockets:${user_id}`, client.id);
   }
 }
