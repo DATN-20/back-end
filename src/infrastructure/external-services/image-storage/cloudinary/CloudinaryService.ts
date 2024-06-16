@@ -31,7 +31,6 @@ export class CloudinaryService implements IImageStorageService {
     try {
       await cloudinary.uploader.destroy(imageDelete.storageIds);
     } catch (error) {
-      this.logger.error('Failed to delete images:', error);
       throw new Exception(ImageError.FAIL_TO_DELETE_IMAGE);
     }
   }

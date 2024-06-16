@@ -1,7 +1,6 @@
 import * as winston from 'winston';
 import { ElasticsearchTransport } from 'winston-elasticsearch';
 import { SystemLogProperty } from './SystemLoggerProperty';
-import { LogType } from '../enum/LogType';
 
 const SystemLogger = winston.createLogger({
   format: winston.format.combine(

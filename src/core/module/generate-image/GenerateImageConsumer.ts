@@ -70,7 +70,6 @@ export class GenerateImageConsumer implements IConsumer<JobData, void> {
 
   @OnQueueFailed()
   async onFailed(job: Job<JobData>, error: any): Promise<void> {
-    console.log(error);
     SystemLogger.error(error.message, {
       error_code: ErrorBaseSystem.INTERNAL_SERVER_ERROR.error_code,
       back_trace: error.trace,
