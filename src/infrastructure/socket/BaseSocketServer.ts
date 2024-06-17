@@ -15,7 +15,11 @@ import { Server, Socket } from 'socket.io';
 const SOCKET_PORT = 3001;
 
 @WebSocketGateway(SOCKET_PORT, {
-  cors: !EnvironmentUtil.isDevMode(),
+  cors: {
+    origin: EnvironmentUtil.isDevMode()
+      ? '*'
+      : ['https://mangahay.top', 'https://api.mangahay.top'],
+  },
 })
 export class BaseSocketServer implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
   private logger: Logger;
