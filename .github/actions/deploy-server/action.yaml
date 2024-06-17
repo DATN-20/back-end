@@ -28,6 +28,8 @@ runs:
       key: ${{ inputs.ssh-private-key }}
       port: ${{ inputs.ssh-port }}
       script: |
+        sudo apt-get update
+        sudo apt-get install expect
         cd /artist_project/back_end
         docker stop artist_be || true
         docker rm artist_be || true
