@@ -28,26 +28,31 @@ runs:
       key: ${{ inputs.ssh-private-key }}
       port: ${{ inputs.ssh-port }}
       script: |
-        sudo apt-get update
-        sudo apt-get install expect
         cd /artist_project/back_end
         docker stop artist_be || true
         docker rm artist_be || true
         docker rmi miraijr/artist_be:main || true
 
         docker compose up -d
-        docker exec -it artist_be bash
+        # Wait for a few seconds to let the container start
+        sleep 10  # Adjust the sleep duration as needed
+
+        # Execute commands inside the container
+        docker exec -it artist_be bash << EOF
+        # This starts a bash session inside the container
+        EOF
+
         echo '#!/usr/bin/expect -f
-          set timeout -1
-          spawn npm run push-to-db
-          expect {
-              "Yes, I want to execute all statements" {
-                  send "\033\[B"  ;
-                  send "\r"       ;
-                  exp_continue
-              }
-              eof
+        set timeout -1
+        spawn npm run push-to-db
+        expect {
+            "Yes, I want to execute all statements" {
+                send "\033\[B\r"
+                exp_continue
+            }
+            eof
         }' > push-to-db.exp
+
         chmod +x push-to-db.exp
         ./push-to-db.exp
         
