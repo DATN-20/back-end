@@ -38,30 +38,35 @@ runs:
         sleep 10  # Adjust the sleep duration as needed
 
         # Execute commands inside the container
-        docker exec -it artist_be bash << EOF
-        # This starts a bash session inside the container
+        #!/bin/bash
+
+        # Start a bash session inside the container and execute commands
+        docker exec -i artist_be bash << 'EOF'
+            # Commands inside the container
+            apt-get update
+            apt-get install -y expect
+
+            # Wait for a few seconds if necessary
+            sleep 10
+
+            npm -v
+            sleep 1
+
+            # Create and execute the expect script
+            echo '#!/usr/bin/expect -f
+            set timeout -1
+            spawn npm run push-to-db
+            expect {
+                "Yes, I want to execute all statements" {
+                    send "\033\[B\r"
+                    exp_continue
+                }
+                eof
+            }' > push-to-db.exp
+
+            chmod +x push-to-db.exp
+            ./push-to-db.exp
+            sleep 1
         EOF
-        apt-get update
-        apt-get install -y expect
 
-        sleep 10
-
-        npm -v
-        sleep 1
-
-        echo '#!/usr/bin/expect -f
-        set timeout -1
-        spawn npm run push-to-db
-        expect {
-            "Yes, I want to execute all statements" {
-                send "\033\[B\r"
-                exp_continue
-            }
-            eof
-        }' > push-to-db.exp
-        sleep 1
-
-        chmod +x push-to-db.exp
-        ./push-to-db.exp
-        sleep 1
         
