@@ -43,9 +43,11 @@ runs:
         EOF
         apt-get update
         apt-get install -y expect
-        EOF
 
         sleep 10
+
+        npm -v
+        sleep 1
 
         echo '#!/usr/bin/expect -f
         set timeout -1
@@ -57,9 +59,9 @@ runs:
             }
             eof
         }' > push-to-db.exp
-        EOF
+        sleep 1
 
         chmod +x push-to-db.exp
         ./push-to-db.exp
-        EOF
+        sleep 1
         
