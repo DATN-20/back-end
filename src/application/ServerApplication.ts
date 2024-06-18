@@ -11,6 +11,8 @@ import { RateLimiterGuard } from '@core/common/guard/RateLimiterGuard';
 import { RedisRateLimiterStorage } from '@core/common/rate-limter/RedisRateLimiterStorage';
 import { TransactionInterceptor } from '@core/common/interceptor/TransactionInterceptor';
 import { BaseRepository } from '@core/common/repository/BaseRepository';
+import EventEmitter from 'events';
+import { EnvironmentUtil } from '@core/common/util/EnvironmentUtil';
 
 export class ServerApplication {
   private readonly host: string = ApiServerConfig.HOST;
@@ -23,7 +25,7 @@ export class ServerApplication {
     );
     app.setGlobalPrefix('api/v1');
     app.enableCors({
-      origin: '*',
+      origin: EnvironmentUtil.isDevMode() ? '*' : ['https://mangahay.top'],
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       preflightContinue: false,
       optionsSuccessStatus: 204,
@@ -57,6 +59,8 @@ export class ServerApplication {
     SwaggerModule.setup('api-docs', app, document);
 
     app.useGlobalFilters(new ExceptionFilterGlobal());
+
+    EventEmitter.defaultMaxListeners = Infinity;
 
     await app
       .listen(this.port, this.host)
