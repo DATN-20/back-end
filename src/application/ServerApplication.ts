@@ -14,6 +14,8 @@ import { BaseRepository } from '@core/common/repository/BaseRepository';
 import EventEmitter from 'events';
 import { EnvironmentUtil } from '@core/common/util/EnvironmentUtil';
 
+EventEmitter.defaultMaxListeners = Infinity;
+
 export class ServerApplication {
   private readonly host: string = ApiServerConfig.HOST;
   private readonly port: number = ApiServerConfig.PORT;
@@ -59,8 +61,6 @@ export class ServerApplication {
     SwaggerModule.setup('api-docs', app, document);
 
     app.useGlobalFilters(new ExceptionFilterGlobal());
-
-    EventEmitter.defaultMaxListeners = 1000;
 
     await app
       .listen(this.port, this.host)
