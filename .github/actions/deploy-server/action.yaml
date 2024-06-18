@@ -2,71 +2,69 @@ name: SSH to server ubuntu and remove container and image
 description: SSH to server ubuntu and remove container and image
 
 inputs:
-  ssh-private-key: 
+  ssh-private-key:
     description: SSH private key to access
     required: true
-  ssh-username: 
+  ssh-username:
     description: Username for SSH connection
     required: true
-    default: "root"
-  ssh-host: 
+    default: 'root'
+  ssh-host:
     description: IPv4 address of server
     required: true
   ssh-port:
     description: Port for SSH connection
     required: true
-    default: "22"
+    default: '22'
 
 runs:
- using: composite
- steps:
-  - name: SSH to server ubuntu and remove container and image
-    uses: appleboy/ssh-action@v1.0.3
-    with:
-      host: ${{ inputs.ssh-host }}
-      username: ${{ inputs.ssh-username }}
-      key: ${{ inputs.ssh-private-key }}
-      port: ${{ inputs.ssh-port }}
-      script: |
-        cd /artist_project/back_end
-        docker stop artist_be || true
-        docker rm artist_be || true
-        docker rmi miraijr/artist_be:main || true
+  using: composite
+  steps:
+    - name: SSH to server ubuntu and remove container and image
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ inputs.ssh-host }}
+        username: ${{ inputs.ssh-username }}
+        key: ${{ inputs.ssh-private-key }}
+        port: ${{ inputs.ssh-port }}
+        script: |
+          cd /artist_project/back_end
+          docker stop artist_be || true
+          docker rm artist_be || true
+          docker rmi miraijr/artist_be:main || true
 
-        docker compose up -d
-        # Wait for a few seconds to let the container start
-        sleep 10  # Adjust the sleep duration as needed
+          docker compose up -d
+          # Wait for a few seconds to let the container start
+          sleep 30  # Adjust the sleep duration as needed
 
-        # Execute commands inside the container
-        #!/bin/bash
+          # Execute commands inside the container
+          #!/bin/bash
 
-        # Start a bash session inside the container and execute commands
-        docker exec -i artist_be bash << 'EOF'
-            # Commands inside the container
-            apt-get update
-            apt-get install -y expect
+          # Start a bash session inside the container and execute commands
+          docker exec -i artist_be bash << 'EOF'
+              # Commands inside the container
+              apt-get update
+              apt-get install -y expect
 
-            # Wait for a few seconds if necessary
-            sleep 10
+              # Wait for a few seconds if necessary
+              sleep 10
 
-            npm -v
-            sleep 1
+              npm -v
+              sleep 1
 
-            # Create and execute the expect script
-            echo '#!/usr/bin/expect -f
-            set timeout -1
-            spawn npm run push-to-db
-            expect {
-                "Yes, I want to execute all statements" {
-                    send "\033\[B\r"
-                    exp_continue
-                }
-                eof
-            }' > push-to-db.exp
+              # Create and execute the expect script
+              echo '#!/usr/bin/expect -f
+              set timeout -1
+              spawn npm run push-to-db
+              expect {
+                  "Yes, I want to execute all statements" {
+                      send "\033\[B\r"
+                      exp_continue
+                  }
+                  eof
+              }' > push-to-db.exp
 
-            chmod +x push-to-db.exp
-            ./push-to-db.exp
-            sleep 1
-        EOF
-
-        
+              chmod +x push-to-db.exp
+              ./push-to-db.exp
+              sleep 1
+          EOF
