@@ -60,7 +60,7 @@ export class ServerApplication {
 
     app.useGlobalFilters(new ExceptionFilterGlobal());
 
-    EventEmitter.defaultMaxListeners = Infinity;
+    EventEmitter.defaultMaxListeners = 1000;
 
     await app
       .listen(this.port, this.host)
