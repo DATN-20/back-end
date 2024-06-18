@@ -47,6 +47,7 @@ export class BaseSocketServer implements OnGatewayConnection, OnGatewayDisconnec
   }
 
   async handleConnection(client: Socket, ...args: any[]): Promise<void> {
+    client.setMaxListeners(1000);
     let user_id = client.handshake.query?.userId as string | null;
     let token = client.handshake.query?.token as string | null;
 
