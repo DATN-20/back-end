@@ -62,7 +62,7 @@ export class GenerateImageController {
     const generation = await this.generationService.handleCreateGenerationForUser(user.id);
     generate_inputs.generationId = generation.id;
 
-    this.generationQueue.add(
+    await this.generationQueue.add(
       {
         userId: user.id,
         generateInputs: generate_inputs,
@@ -102,7 +102,7 @@ export class GenerateImageController {
     const generation = await this.generationService.handleCreateGenerationForUser(user.id);
     generate_inputs.generationId = generation.id;
 
-    this.generationQueue.add(
+    await this.generationQueue.add(
       {
         userId: user.id,
         generateInputs: generate_inputs,
@@ -145,7 +145,7 @@ export class GenerateImageController {
     const generation = await this.generationService.handleCreateGenerationForUser(user.id);
     generate_inputs.generationId = generation.id;
 
-    this.generationQueue.add(
+    await this.generationQueue.add(
       {
         userId: user.id,
         generateInputs: generate_inputs,

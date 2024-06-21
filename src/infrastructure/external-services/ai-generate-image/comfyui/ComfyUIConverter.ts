@@ -5,14 +5,14 @@ import { InputPromts } from '../type/InputPrompts';
 import { ComfyUIFeature } from './ComfyUIFeature';
 import { GenerateByImagesStyleInputPromts } from '../type/GenerateByImagesStyleInputPromts';
 import { ComfyUIUtil } from './ComfyUIUtil';
-import { FileUtil } from '@core/common/util/FileUtil';
+import * as path from 'path';
 
 @Injectable()
 export class ComfyUIConverter {
   constructor(private readonly comfyUIFeature: ComfyUIFeature) {}
 
   async convertToComfyUIPromptText2Img(input_prompts: InputPromts): Promise<any> {
-    const workflow_data = fs.readFileSync(COMFYUI_JSON_FILE_PATH + 'text2img.json', {
+    const workflow_data = fs.readFileSync(COMFYUI_JSON_FILE_PATH + 'text2Img.json', {
       encoding: 'utf-8',
     });
     let workflow = JSON.parse(workflow_data);
