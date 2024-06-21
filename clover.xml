@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1718942817731" clover="3.2.0">
-  <project timestamp="1718942817731" name="All files">
-    <metrics statements="1019" coveredstatements="381" conditionals="201" coveredconditionals="40" methods="239" coveredmethods="54" elements="1459" coveredelements="475" complexity="0" loc="1019" ncloc="1019" packages="25" files="39" classes="39"/>
+<coverage generated="1718965409016" clover="3.2.0">
+  <project timestamp="1718965409016" name="All files">
+    <metrics statements="1022" coveredstatements="387" conditionals="203" coveredconditionals="42" methods="239" coveredmethods="54" elements="1464" coveredelements="483" complexity="0" loc="1022" ncloc="1022" packages="25" files="39" classes="39"/>
     <package name="core.common.logger">
-      <metrics statements="12" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <metrics statements="14" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="ApiLoggerService.ts" path="/home/runner/work/back-end/back-end/src/core/common/logger/ApiLoggerService.ts">
-        <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
       </file>
       <file name="SystemLoggerService.ts" path="/home/runner/work/back-end/back-end/src/core/common/logger/SystemLoggerService.ts">
-        <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
+        <metrics statements="7" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
       </file>
     </package>
     <package name="core.common.repository">
@@ -60,7 +62,7 @@
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
-        <line num="5" count="2" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
       </file>
       <file name="FileUtil.ts" path="/home/runner/work/back-end/back-end/src/core/common/util/FileUtil.ts">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
@@ -422,7 +424,7 @@
       </file>
     </package>
     <package name="core.module.generation">
-      <metrics statements="78" coveredstatements="68" conditionals="19" coveredconditionals="14" methods="16" coveredmethods="9"/>
+      <metrics statements="79" coveredstatements="69" conditionals="21" coveredconditionals="16" methods="16" coveredmethods="9"/>
       <file name="GenerationRepository.ts" path="/home/runner/work/back-end/back-end/src/core/module/generation/GenerationRepository.ts">
         <metrics statements="13" coveredstatements="4" conditionals="1" coveredconditionals="0" methods="7" coveredmethods="0"/>
         <line num="2" count="2" type="stmt"/>
@@ -440,7 +442,7 @@
         <line num="63" count="0" type="stmt"/>
       </file>
       <file name="GenerationService.ts" path="/home/runner/work/back-end/back-end/src/core/module/generation/GenerationService.ts">
-        <metrics statements="65" coveredstatements="64" conditionals="18" coveredconditionals="14" methods="9" coveredmethods="9"/>
+        <metrics statements="66" coveredstatements="65" conditionals="20" coveredconditionals="16" methods="9" coveredmethods="9"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
@@ -458,54 +460,55 @@
         <line num="18" count="2" type="stmt"/>
         <line num="19" count="2" type="stmt"/>
         <line num="20" count="2" type="stmt"/>
-        <line num="23" count="2" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
         <line num="26" count="1" type="stmt"/>
         <line num="27" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
-        <line num="33" count="1" type="stmt"/>
-        <line num="35" count="1" type="stmt"/>
-        <line num="36" count="5" type="stmt"/>
-        <line num="44" count="2" type="stmt"/>
-        <line num="46" count="2" type="cond" truecount="0" falsecount="1"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="50" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="51" count="1" type="stmt"/>
-        <line num="54" count="1" type="stmt"/>
-        <line num="58" count="2" type="stmt"/>
-        <line num="60" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="61" count="1" type="stmt"/>
-        <line num="64" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="37" count="5" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="47" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="51" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="59" count="2" type="stmt"/>
+        <line num="61" count="2" type="cond" truecount="3" falsecount="0"/>
+        <line num="62" count="1" type="stmt"/>
         <line num="65" count="1" type="stmt"/>
-        <line num="70" count="1" type="stmt"/>
-        <line num="72" count="1" type="stmt"/>
-        <line num="76" count="2" type="stmt"/>
-        <line num="78" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="79" count="1" type="stmt"/>
-        <line num="82" count="1" type="stmt"/>
-        <line num="84" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="85" count="1" type="stmt"/>
-        <line num="96" count="1" type="stmt"/>
-        <line num="98" count="1" type="stmt"/>
-        <line num="108" count="1" type="stmt"/>
-        <line num="115" count="4" type="stmt"/>
-        <line num="116" count="4" type="cond" truecount="1" falsecount="0"/>
-        <line num="117" count="1" type="stmt"/>
-        <line num="120" count="3" type="cond" truecount="1" falsecount="0"/>
-        <line num="125" count="1" type="stmt"/>
-        <line num="128" count="2" type="stmt"/>
-        <line num="129" count="2" type="stmt"/>
+        <line num="66" count="1" type="stmt"/>
+        <line num="71" count="1" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="77" count="2" type="stmt"/>
+        <line num="79" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="80" count="1" type="stmt"/>
+        <line num="83" count="1" type="stmt"/>
+        <line num="85" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="86" count="1" type="stmt"/>
+        <line num="97" count="1" type="stmt"/>
+        <line num="99" count="1" type="stmt"/>
+        <line num="109" count="1" type="stmt"/>
+        <line num="116" count="4" type="stmt"/>
+        <line num="118" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="119" count="1" type="stmt"/>
+        <line num="122" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="127" count="1" type="stmt"/>
+        <line num="130" count="2" type="stmt"/>
         <line num="131" count="2" type="stmt"/>
-        <line num="132" count="2" type="stmt"/>
-        <line num="134" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="135" count="1" type="stmt"/>
-        <line num="140" count="1" type="stmt"/>
-        <line num="154" count="1" type="stmt"/>
-        <line num="159" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="163" count="1" type="stmt"/>
-        <line num="171" count="1" type="stmt"/>
+        <line num="133" count="2" type="stmt"/>
+        <line num="134" count="2" type="stmt"/>
+        <line num="136" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="137" count="1" type="stmt"/>
+        <line num="142" count="1" type="stmt"/>
+        <line num="156" count="1" type="stmt"/>
+        <line num="161" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="165" count="1" type="stmt"/>
         <line num="173" count="1" type="stmt"/>
+        <line num="175" count="1" type="stmt"/>
       </file>
     </package>
     <package name="core.module.image">
