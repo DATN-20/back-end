@@ -12,6 +12,7 @@ import { RedisRateLimiterStorage } from '@core/common/rate-limter/RedisRateLimit
 import { TransactionInterceptor } from '@core/common/interceptor/TransactionInterceptor';
 import { BaseRepository } from '@core/common/repository/BaseRepository';
 import { EnvironmentUtil } from '@core/common/util/EnvironmentUtil';
+require('events').EventEmitter.defaultMaxListeners = Infinity;
 
 export class ServerApplication {
   private readonly host: string = ApiServerConfig.HOST;
