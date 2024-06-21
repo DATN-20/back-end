@@ -18,6 +18,7 @@ import { DateUtil } from '@core/common/util/DateUtil';
 import { NotificationRepository } from '../notifications/NotificationRepository';
 import { NotificationType } from '@core/common/enum/NotificationType';
 import { NotificationGateway } from '@infrastructure/socket/NotificationGataway';
+import { EnvironmentUtil } from '@core/common/util/EnvironmentUtil';
 
 @Injectable()
 export class GenerationService {
@@ -57,7 +58,7 @@ export class GenerationService {
   async handleCreateGenerationForUser(user_id: number): Promise<GenerationResponseJson> {
     const generations = await this.generationRepository.getByUserId(user_id);
 
-    if (generations.length >= MAXIMUM_THE_NUMBER_OF_GENERATIONS) {
+    if (!EnvironmentUtil.isDevMode() && generations.length >= MAXIMUM_THE_NUMBER_OF_GENERATIONS) {
       throw new Exception(GenerationError.REACH_TO_MAXIMUM_TIMES);
     }
 
@@ -113,6 +114,7 @@ export class GenerationService {
     status: GenerationStatus,
   ): Promise<void> {
     const matched_generation = await this.generationRepository.getById(generation_id);
+
     if (!matched_generation) {
       throw new Exception(GenerationError.GENERATION_NOT_FOUND);
     }
