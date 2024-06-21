@@ -1,7 +1,7 @@
 import * as winston from 'winston';
 import { ApiLogProperty } from './ApiLoggerProperty';
 import { ElasticsearchTransport } from 'winston-elasticsearch';
-import { LogType } from '../enum/LogType';
+import { ElasticSearchConfig } from '@infrastructure/config/ElasticSearchConfig';
 
 const ApiLogger = winston.createLogger({
   format: winston.format.combine(
@@ -23,7 +23,7 @@ const ApiLogger = winston.createLogger({
     new winston.transports.File({ filename: 'logs/api.log' }),
     new ElasticsearchTransport({
       level: 'info',
-      clientOpts: { node: process.env.ELASTICSEARCH_URL },
+      clientOpts: { node: ElasticSearchConfig.ELASTICSEARCH_URL },
     }),
   ],
 });

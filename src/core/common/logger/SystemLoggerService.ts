@@ -1,6 +1,7 @@
 import * as winston from 'winston';
 import { ElasticsearchTransport } from 'winston-elasticsearch';
 import { SystemLogProperty } from './SystemLoggerProperty';
+import { ElasticSearchConfig } from '@infrastructure/config/ElasticSearchConfig';
 
 const SystemLogger = winston.createLogger({
   format: winston.format.combine(
@@ -22,7 +23,7 @@ const SystemLogger = winston.createLogger({
     new winston.transports.File({ filename: 'logs/system.log' }),
     new ElasticsearchTransport({
       level: 'error',
-      clientOpts: { node: process.env.ELASTICSEARCH_URL },
+      clientOpts: { node: ElasticSearchConfig.ELASTICSEARCH_URL },
     }),
   ],
 });
