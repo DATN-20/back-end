@@ -11,7 +11,7 @@ import { SocketModule } from '@infrastructure/socket/SocketModule';
 @Global()
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true }),
     DrizzleModule,
     JwtModule.register({
       global: true,
