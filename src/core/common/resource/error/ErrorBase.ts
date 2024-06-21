@@ -7,6 +7,7 @@ export type ErrorBase = {
   status_code: HttpStatus;
   error?: any;
   raw_input?: any;
+  back_trace?: any;
 };
 
 export class ErrorBaseSystem {

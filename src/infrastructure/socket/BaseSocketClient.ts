@@ -1,7 +1,9 @@
+import SystemLogger from '@core/common/logger/SystemLoggerService';
+import { SocketError } from '@core/common/resource/error/SocketError';
 import { Logger } from '@nestjs/common';
 import * as WebSocket from 'ws';
 
-type ConnectionError = Error | WebSocket.ErrorEvent | WebSocket.CloseEvent;
+export type ConnectionError = Error | WebSocket.ErrorEvent | WebSocket.CloseEvent | AggregateError;
 
 export class BaseSocketClient {
   protected webSocket: WebSocket;
@@ -14,12 +16,11 @@ export class BaseSocketClient {
   }
 
   private connect(): void {
-    this.webSocket.on('open', () => {
-      this.logger.log('Connected to websocket server');
-    });
-
-    this.webSocket.on('connect_error', (error: ConnectionError) => {
-      this.logger.error('Connection error:', error);
+    this.webSocket.on('error', (error: ConnectionError) => {
+      SystemLogger.error(error.toString(), {
+        error_code: SocketError.SOCKET_CANNOT_CONNECT.error_code,
+        back_trace: null,
+      });
     });
   }
 

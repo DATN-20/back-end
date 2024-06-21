@@ -58,6 +58,7 @@ export class GenerateImageConsumer implements IConsumer<JobData, void> {
           job.data.userId,
           job.data.generateInputs,
         );
+        break;
     }
 
     await this.imageService.handleCreateGenerateImages(
@@ -70,17 +71,28 @@ export class GenerateImageConsumer implements IConsumer<JobData, void> {
 
   @OnQueueFailed()
   async onFailed(job: Job<JobData>, error: any): Promise<void> {
+    if (!job) {
+      return;
+    }
+
     SystemLogger.error(error.message, {
       error_code: ErrorBaseSystem.INTERNAL_SERVER_ERROR.error_code,
       back_trace: error.trace,
     });
-    await this.generationService.handleDeleteById(job.data.generateInputs.generationId);
+
+    if (job?.data) {
+      await this.generationService.handleDeleteById(job.data.generateInputs.generationId);
+    }
 
     job.remove();
   }
 
   @OnQueueCompleted()
   async onCompleted(job: Job<JobData>, result: void): Promise<void> {
+    if (!job) {
+      return;
+    }
+
     await this.generationService.handleChangeStatusOfGeneration(
       job.data.generateInputs.generationId,
       GenerationStatus.FINISHED,
