@@ -1,41 +1,42 @@
 {
-  "%%upscale_model_loader_id%%": {
-      "inputs": {
-          "model_name": "%%upscale_model_loader_model_name%%"
-      },
-      "class_type": "UpscaleModelLoader",
-      "_meta": {
-        "title": "UpscaleModelLoader_Upscale"
-      }
-  },
-  "%%image_upscale_with_model_id%%": {
-      "inputs": {
-          "upscale_model": [
-              "%%upscale_model_loader_id%%",
-              0
-          ],
-          "image": [
-              "%%load_image_id%%",
-              0
-          ]
-      },
-      "class_type": "ImageUpscaleWithModel",
-      "_meta": {
-        "title": "ImageUpscaleWithModel_Upscale"
-      }
-  },
-  "%%load_image_id%%": {
-      "inputs": {
-          "image": "%%load_image_filename%%",
-          "upload": "image"
-      },
-      "class_type": "LoadImage",
-      "_meta": {
-        "title": "LoadImage_Upscale"
-      }
-  },
-  "%%save_image_id%%": {
+    "%%upscale_model_loader_id%%": {
         "inputs": {
+            "model_name": "%%upscale_model_loader_model_name%%"
+        },
+        "class_type": "UpscaleModelLoader",
+        "_meta": {
+            "title": "UpscaleModelLoader_Upscale"
+        }
+    },
+    "%%image_upscale_with_model_id%%": {
+        "inputs": {
+            "upscale_model": [
+                "%%upscale_model_loader_id%%",
+                0
+            ],
+            "image": [
+                "%%load_image_id%%",
+                0
+            ]
+        },
+        "class_type": "ImageUpscaleWithModel",
+        "_meta": {
+            "title": "ImageUpscaleWithModel_Upscale"
+        }
+    },
+    "%%load_image_id%%": {
+        "inputs": {
+            "image": "%%load_image_filename%%",
+            "upload": "image"
+        },
+        "class_type": "LoadImage",
+        "_meta": {
+            "title": "LoadImage_Upscale"
+        }
+    },
+    "%%save_image_id%%": {
+        "inputs": {
+            "dpi": "300",
             "output_path": "",
             "filename_prefix": "%%save_image_filename%%",
             "filename_delimiter": "_",
@@ -45,6 +46,7 @@
             "quality": 100,
             "lossless_webp": "false",
             "overwrite_mode": "false",
+            "optimize_image": "true",
             "show_history": "false",
             "show_history_by_prefix": "true",
             "embed_workflow": "true",
@@ -57,6 +59,6 @@
         "class_type": "Image Save",
         "_meta": {
             "title": "SaveImage_Upscale"
-          }
+        }
     }
 }
