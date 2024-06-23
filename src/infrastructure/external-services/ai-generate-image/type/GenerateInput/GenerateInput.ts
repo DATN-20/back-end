@@ -9,6 +9,7 @@ export abstract class GenerateInput {
     this.name = name;
     this.default = default_value;
     this.inputPropertyName = input_property_name;
+    this.desc = desc;
   }
 
   additionInfo(): any {}

@@ -57,7 +57,7 @@ export class ComfyUIConverter {
     workflow['3']['inputs']['text'] = input_prompts.negativePrompt;
     workflow['10']['inputs']['width'] = input_prompts.width;
     workflow['10']['inputs']['height'] = input_prompts.height;
-    workflow['12']['inputs']['batch_size'] = input_prompts.numberOfImage;
+    workflow['12']['inputs']['amount'] = input_prompts.numberOfImage;
     if (input_prompts.seed != null) {
       workflow['4']['inputs']['seed'] = input_prompts.seed;
     } else {

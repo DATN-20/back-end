@@ -12,7 +12,7 @@ export class ComfyUIGenerateImageBasicInputsInfo {
   };
 
   private styleName = 'Style';
-  private styleDesc = '';
+  private styleDesc = 'Choose a style to generate images.';
   private styleDefault = this.styleChoices.anime;
   private styleInputPropertyName = 'style';
 
