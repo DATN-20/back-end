@@ -32,16 +32,17 @@ export class GenerateImageConsumer implements IConsumer<JobData, void> {
   @Process()
   async process(job: Job<JobData>): Promise<void> {
     let array_buffer = [];
-    if (job.data.generateInputs instanceof GenerateByImagesStyleInputs) {
+
+    if (job.data.type === ImageType.IMG_BY_IMAGES_STYLE) {
       array_buffer = await this.generateImageService.handleGenerateImageByImagesStyle(
         job.data.userId,
-        job.data.generateInputs,
+        job.data.generateInputs as GenerateByImagesStyleInputs,
       );
       await this.imageService.handleCreateGenerateImagesByImagesStyle(
         job.data.userId,
         array_buffer,
         job.data.type,
-        job.data.generateInputs,
+        job.data.generateInputs as GenerateByImagesStyleInputs,
       );
       return;
     }
@@ -50,13 +51,13 @@ export class GenerateImageConsumer implements IConsumer<JobData, void> {
       case ImageType.TEXT_TO_IMG:
         array_buffer = await this.generateImageService.handleGenerateTextToImg(
           job.data.userId,
-          job.data.generateInputs,
+          job.data.generateInputs as GenerateInputs,
         );
         break;
       case ImageType.IMG_TO_IMG:
         array_buffer = await this.generateImageService.handleGenerateImageToImage(
           job.data.userId,
-          job.data.generateInputs,
+          job.data.generateInputs as GenerateInputs,
         );
         break;
     }
@@ -65,7 +66,7 @@ export class GenerateImageConsumer implements IConsumer<JobData, void> {
       job.data.userId,
       array_buffer,
       job.data.type,
-      job.data.generateInputs,
+      job.data.generateInputs as GenerateInputs,
     );
   }
 
