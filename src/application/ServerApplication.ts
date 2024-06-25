@@ -25,8 +25,7 @@ export class ServerApplication {
     );
     app.setGlobalPrefix('api/v1');
     app.enableCors({
-      // origin: EnvironmentUtil.isDevMode() ? '*' : 'https://mangahay.top',
-      origin: '*',
+      origin: EnvironmentUtil.isDevMode() ? '*' : 'https://mangahay.top',
       methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
       preflightContinue: false,
       optionsSuccessStatus: 204,
