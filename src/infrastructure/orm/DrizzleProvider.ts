@@ -16,6 +16,8 @@ export const dizzleProvider = [
         password: DatabaseConfig.DATABASE_PASSWORD,
         port: DatabaseConfig.DATABASE_PORT,
         charset: 'utf8mb4',
+        keepAliveInitialDelay: 100000,
+        enableKeepAlive: true,
       });
 
       const db = drizzle(connection, { schema, mode: 'default' });

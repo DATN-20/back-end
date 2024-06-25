@@ -26,6 +26,7 @@ export class TransactionInterceptor implements NestInterceptor {
           });
 
           await this.database.rollBackTransaction();
+          await this.database.releaseTransaction();
         },
       }),
     );
