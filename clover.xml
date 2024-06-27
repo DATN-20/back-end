@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1719415868184" clover="3.2.0">
-  <project timestamp="1719415868184" name="All files">
+<coverage generated="1719453421901" clover="3.2.0">
+  <project timestamp="1719453421901" name="All files">
     <metrics statements="1022" coveredstatements="387" conditionals="203" coveredconditionals="42" methods="239" coveredmethods="54" elements="1464" coveredelements="483" complexity="0" loc="1022" ncloc="1022" packages="25" files="39" classes="39"/>
     <package name="core.common.logger">
       <metrics statements="14" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
@@ -16,13 +16,13 @@
       </file>
       <file name="SystemLoggerService.ts" path="/home/runner/work/back-end/back-end/src/core/common/logger/SystemLoggerService.ts">
         <metrics statements="7" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
+        <line num="1" count="6" type="stmt"/>
+        <line num="2" count="6" type="stmt"/>
+        <line num="4" count="6" type="stmt"/>
+        <line num="6" count="6" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
+        <line num="31" count="6" type="stmt"/>
       </file>
     </package>
     <package name="core.common.repository">
