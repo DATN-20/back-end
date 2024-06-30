@@ -29,7 +29,13 @@ runs:
         port: ${{ inputs.ssh-port }}
         script: |
           cd /artist_project/back_end
-          docker stop artist_be || true
+
+          # stop container if it is running
+          if [ "$(docker ps -q -f name=artist_be)" ]; then
+            docker stop artist_be || true
+          fi
+
+          # remove container and image
           docker rm artist_be || true
           docker rmi miraijr/artist_be:main || true
 
