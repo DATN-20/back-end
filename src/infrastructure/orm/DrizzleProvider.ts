@@ -5,6 +5,7 @@ import { DatabaseConfig } from '@infrastructure/config/DatabaseConfig';
 import SystemLogger from '@core/common/logger/SystemLoggerService';
 import { DatabaseError } from '@core/common/resource/error/DatabaseError';
 import { LogType } from '@core/common/enum/LogType';
+import { sql } from 'drizzle-orm';
 
 export const DrizzleAsyncProvider = 'drizzleProvider';
 
@@ -45,6 +46,7 @@ export const drizzleProvider = [
       const connection = await createDbConnection();
       const db = drizzle(connection, { schema, mode: 'default' });
 
+      await db.execute(sql`SET GLOBAL wait_timeout = 28800, GLOBAL interactive_timeout = 28800;`);
       return db;
     },
     exports: [DrizzleAsyncProvider],
