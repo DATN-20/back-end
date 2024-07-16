@@ -4,6 +4,7 @@ WORKDIR /artist_be
 
 RUN apt-get update && apt-get install -y \
   build-essential \
+  apt-get install -y git curl libmcrypt-dev default-mysql-client \ 
   python-is-python3 \
   && rm -rf /var/lib/apt/lists/*
 
