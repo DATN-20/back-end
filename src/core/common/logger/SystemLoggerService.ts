@@ -2,6 +2,9 @@ import * as winston from 'winston';
 import { ElasticsearchTransport } from 'winston-elasticsearch';
 import { SystemLogProperty } from './SystemLoggerProperty';
 import { ElasticSearchConfig } from '@infrastructure/config/ElasticSearchConfig';
+import { Logger } from '@nestjs/common';
+
+const logger = new Logger('ApiLogger');
 
 const SystemLogger = winston.createLogger({
   format: winston.format.combine(
@@ -26,6 +29,10 @@ const SystemLogger = winston.createLogger({
       clientOpts: { node: ElasticSearchConfig.ELASTICSEARCH_URL },
     }),
   ],
+});
+
+SystemLogger.on('error', err => {
+  logger.error('Winston Elasticsearch transport error:', err);
 });
 
 export default SystemLogger;
