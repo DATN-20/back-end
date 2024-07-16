@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1721105518031" clover="3.2.0">
-  <project timestamp="1721105518031" name="All files">
-    <metrics statements="1023" coveredstatements="387" conditionals="203" coveredconditionals="42" methods="239" coveredmethods="54" elements="1465" coveredelements="483" complexity="0" loc="1023" ncloc="1023" packages="25" files="39" classes="39"/>
+<coverage generated="1721111753989" clover="3.2.0">
+  <project timestamp="1721111753989" name="All files">
+    <metrics statements="1031" coveredstatements="390" conditionals="203" coveredconditionals="42" methods="241" coveredmethods="54" elements="1475" coveredelements="486" complexity="0" loc="1031" ncloc="1031" packages="25" files="39" classes="39"/>
     <package name="core.common.logger">
-      <metrics statements="14" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <metrics statements="22" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
       <file name="ApiLoggerService.ts" path="/home/runner/work/back-end/back-end/src/core/common/logger/ApiLoggerService.ts">
-        <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
       </file>
       <file name="SystemLoggerService.ts" path="/home/runner/work/back-end/back-end/src/core/common/logger/SystemLoggerService.ts">
-        <metrics statements="7" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="11" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="6" type="stmt"/>
         <line num="2" count="6" type="stmt"/>
         <line num="4" count="6" type="stmt"/>
-        <line num="6" count="6" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="31" count="6" type="stmt"/>
+        <line num="5" count="6" type="stmt"/>
+        <line num="7" count="6" type="stmt"/>
+        <line num="9" count="6" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="34" count="6" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="38" count="6" type="stmt"/>
       </file>
     </package>
     <package name="core.common.repository">
