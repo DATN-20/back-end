@@ -9,5 +9,7 @@ export class DatabaseConfig {
   public static readonly DATABASE_PASSWORD: string = get('DATABASE_PASSWORD')
     .default('1234')
     .asString();
+  public static readonly DATABASE_USER_ROOT: string = 'root';
+  public static readonly DATABASE_PASSWORD_ROOT: string = 'datn191*11root';
   public static readonly DATABASE_NAME: string = get('DATABASE_NAME').default('artist').asString();
 }

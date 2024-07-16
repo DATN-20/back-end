@@ -13,6 +13,7 @@ import { LogType } from '@core/common/enum/LogType';
 import { GENERATIONS_CHANNEL } from '@infrastructure/message-queue/QueueNameConstant';
 import { GenerateImageService } from './GenerateImageService';
 import { GenerateByImagesStyleInputs } from './entity/request/GenerateImageByImagesStyleInputs';
+import { Logger } from '@nestjs/common';
 
 interface JobData {
   userId: number;
@@ -23,11 +24,14 @@ interface JobData {
 
 @Processor(GENERATIONS_CHANNEL)
 export class GenerateImageConsumer implements IConsumer<JobData, void> {
+  private logger: Logger;
   constructor(
     private readonly imageService: ImageService,
     private readonly generationService: GenerationService,
     private readonly generateImageService: GenerateImageService,
-  ) {}
+  ) {
+    this.logger = new Logger(GenerateImageConsumer.name);
+  }
 
   @Process()
   async process(job: Job<JobData>): Promise<void> {
@@ -82,7 +86,15 @@ export class GenerateImageConsumer implements IConsumer<JobData, void> {
     });
 
     if (job?.data) {
-      await this.generationService.handleDeleteById(job.data.generateInputs.generationId);
+      try {
+        await this.generationService.handleDeleteById(job.data.generateInputs.generationId);
+      } catch (error) {
+        SystemLogger.error(error?.message, {
+          error_code: error?.error_code,
+          back_trace: error?.stack,
+          log_type: LogType.SYSTEM,
+        });
+      }
     }
 
     job.remove();
@@ -94,17 +106,24 @@ export class GenerateImageConsumer implements IConsumer<JobData, void> {
       return;
     }
 
-    await this.generationService.handleChangeStatusOfGeneration(
-      job.data.generateInputs.generationId,
-      GenerationStatus.FINISHED,
-    );
-
-    ApiLogger.info(job.data.type, {
-      user_id: job.data.userId,
-      api_endpoint: job.data.endpoint,
-      log_type: LogType.API,
-    });
-
-    job.remove();
+    try {
+      await this.generationService.handleChangeStatusOfGeneration(
+        job.data.generateInputs.generationId,
+        GenerationStatus.FINISHED,
+      );
+      ApiLogger.info(job.data.type, {
+        user_id: job.data.userId,
+        api_endpoint: job.data.endpoint,
+        log_type: LogType.API,
+      });
+    } catch (error) {
+      SystemLogger.error(error?.message, {
+        error_code: error?.error_code,
+        back_trace: error?.stack,
+        log_type: LogType.SYSTEM,
+      });
+    } finally {
+      job.remove();
+    }
   }
 }
