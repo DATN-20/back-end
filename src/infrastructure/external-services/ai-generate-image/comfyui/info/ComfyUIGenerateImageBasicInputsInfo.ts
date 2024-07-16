@@ -8,14 +8,14 @@ import { ComfyUIControlNetInfo } from '../control-net/ComfyUIControlNetInfo';
 export class ComfyUIGenerateImageBasicInputsInfo {
   private styleChoices: { [key: string]: string } = {
     Base: 'v1-5-pruned-emaonly.ckpt',
-    Anime: 'Anything-ink.safetensors',
+    Anime: 'counterfeitV30_v30.safetensors',
     Cartoon: 'toonyou_beta6.safetensors',
     Realistic: 'majicmixRealistic_v7.safetensors',
   };
 
   private styleName = 'Style';
   private styleDesc = 'Choose a style to generate images.';
-  private styleDefault = this.styleChoices.anime;
+  private styleDefault = this.styleChoices.Base;
   private styleInputPropertyName = 'style';
 
   private positivePrompDesc =
