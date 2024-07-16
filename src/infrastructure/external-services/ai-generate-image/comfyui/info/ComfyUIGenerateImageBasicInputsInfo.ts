@@ -7,8 +7,10 @@ import { ComfyUIControlNetInfo } from '../control-net/ComfyUIControlNetInfo';
 
 export class ComfyUIGenerateImageBasicInputsInfo {
   private styleChoices: { [key: string]: string } = {
-    anime: 'v1-5-pruned-emaonly.ckpt',
-    animev2: 'Anything-ink.safetensors',
+    Base: 'v1-5-pruned-emaonly.ckpt',
+    Anime: 'Anything-ink.safetensors',
+    Cartoon: 'toonyou_beta6.safetensors',
+    Realistic: 'majicmixRealistic_v7.safetensors',
   };
 
   private styleName = 'Style';
@@ -16,12 +18,13 @@ export class ComfyUIGenerateImageBasicInputsInfo {
   private styleDefault = this.styleChoices.anime;
   private styleInputPropertyName = 'style';
 
-  private positivePrompDesc = '';
+  private positivePrompDesc =
+    'Describe the elements or scene you want in the image. Be specific for better results.';
   private positivePrompName = 'Positive Prompt';
   private positivePrompPropertyName = 'positivePrompt';
 
   private negativePrompName = 'Negative Prompt';
-  private negativePrompDesc = '';
+  private negativePrompDesc = 'Specify elements or aspects you want to avoid in the image.';
   private negativePrompPropertyName = 'negativePrompt';
 
   private widthName = 'Width';
@@ -41,7 +44,7 @@ export class ComfyUIGenerateImageBasicInputsInfo {
   private heightInputPropertyName = 'height';
 
   private sizeName = 'Number of Image';
-  private sizeDesc = '';
+  private sizeDesc = 'Number of image you want to generate.';
   private sizeMin = 1;
   private sizeMax = 4;
   private sizeDefault = 1;
@@ -53,7 +56,8 @@ export class ComfyUIGenerateImageBasicInputsInfo {
   private seedInputPropertyName = 'seed';
 
   private stepsName = 'Steps';
-  private stepsDesc = '';
+  private stepsDesc =
+    'Set the number of iterations for generating the image. More steps can improve detail but take longer.';
   private stepMin = 1;
   private stepMax = 50;
   private stepDefault = 20;
@@ -62,14 +66,18 @@ export class ComfyUIGenerateImageBasicInputsInfo {
 
   private samplerChoices: { [key: string]: string } = {
     Euler: 'euler',
+    DPM_fast: 'dpm_fast',
+    Euler_A: 'euler_ancestral',
   };
-  private samplerDesc = '';
+  private samplerDesc =
+    'Choose the algorithm used to generate the image. Different methods can affect the style and quality.';
   private samplerName = 'Sampling Method';
   private samplerDefault = this.samplerChoices.Euler;
   private sampleMethosInputPropertyName = 'sampleMethos';
 
   private cfgName = 'CFG';
-  private cfgDesc = '';
+  private cfgDesc =
+    'Adjust the strength of guidance for the prompt. Higher values can make the image more closely match the prompt.';
   private cfgMin = 1;
   private cfgMax = 30;
   private cfgDefault = 8;
@@ -77,7 +85,8 @@ export class ComfyUIGenerateImageBasicInputsInfo {
   private cfgInputPropertyName = 'cfg';
 
   private noiseName = 'Noise';
-  private noiseDesc = '';
+  private noiseDesc =
+    'Only effect when generate with image. Control the level of randomness in the image generation. Higher noise can add more variation and creativity';
   private noiseMin = 0;
   private noiseMax = 1;
   private noiseDefault = 0.75;
