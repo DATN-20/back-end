@@ -15,7 +15,7 @@ export class ComfyUIGenerateImageBasicInputsInfo {
 
   private styleName = 'Style';
   private styleDesc = 'Choose a style to generate images.';
-  private styleDefault = this.styleChoices.anime;
+  private styleDefault = this.styleChoices.Base;
   private styleInputPropertyName = 'style';
 
   private positivePrompDesc =
