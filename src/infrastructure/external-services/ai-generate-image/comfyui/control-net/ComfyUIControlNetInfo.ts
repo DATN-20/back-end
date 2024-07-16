@@ -12,7 +12,7 @@ export const CONTROL_NET_DEFAULT_STRENGTH = 1;
 export class ComfyUIControlNetInfo {
   private controlNetStrengthName = 'Strength';
   private controlNetStrengthDesc =
-    ' This sets the influence strength of the prompt. The larger the number, the closer it is to the description of the prompt..';
+    "Adjust the intensity of ControlNet's influence on the image generation. Higher values provide stronger control over structure and composition.";
   private controlNetStrengthMin = 0;
   private controlNetStrengthMax = 2;
   private controlNetStrengthDefault = CONTROL_NET_DEFAULT_STRENGTH;
@@ -29,7 +29,8 @@ export class ComfyUIControlNetInfo {
   );
 
   private controlNetTypeName = 'Type ControlNet';
-  private controlNetTypeDesc = 'This is type of controlnet.';
+  private controlNetTypeDesc =
+    'Select the type of ControlNet model to use for guiding the image generation process.';
   private controlNetTypeChoices: { [key: string]: string } = {
     pose: ControlNetType.POSE,
     depth: ControlNetType.DEPTH,
@@ -58,7 +59,7 @@ export class ComfyUIControlNetInfo {
   );
 
   private controlNetImageInputName = 'Image';
-  private controlNetImageDesc = '';
+  private controlNetImageDesc = 'Image use for controlnet.';
   private controlNetImageDefault = null;
   private controlNetImageInputPropertyName = 'controlNetImages';
   public controlNetImageInput = new ImageInput(
@@ -69,7 +70,8 @@ export class ComfyUIControlNetInfo {
   );
 
   private controlNetInputName = 'Apply ControlNet';
-  private controlNetDesc = '';
+  private controlNetDesc =
+    "Enable to apply ControlNet, a technique for precise control over the generated image's structure and composition.";
   private controlNetInputPropertyName = 'controlNets';
   private controlNetInputProps = [
     this.controlNetTypeInput,
