@@ -22,7 +22,7 @@ export class BackUpDataService implements OnModuleInit {
     }
 
     const backup_file = path.join(backup_dir, `backup_${Date.now()}.sql`);
-    const command = `docker exec mysql mysqldump -u ${DatabaseConfig.DATABASE_USER_ROOT} -p${DatabaseConfig.DATABASE_PASSWORD_ROOT} ${DatabaseConfig.DATABASE_NAME} > ${backup_file}`;
+    const command = `mysqldump -u ${DatabaseConfig.DATABASE_USER_ROOT} -p${DatabaseConfig.DATABASE_PASSWORD_ROOT} -h ${DatabaseConfig.DATABASE_HOST} -P ${DatabaseConfig.DATABASE_PORT} ${DatabaseConfig.DATABASE_NAME} > ${backup_file}`;
 
     exec(command, (error, _stdout, _stderr) => {
       if (error) {
