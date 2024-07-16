@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1721058610384" clover="3.2.0">
-  <project timestamp="1721058610384" name="All files">
-    <metrics statements="1022" coveredstatements="387" conditionals="203" coveredconditionals="42" methods="239" coveredmethods="54" elements="1464" coveredelements="483" complexity="0" loc="1022" ncloc="1022" packages="25" files="39" classes="39"/>
+<coverage generated="1721098477061" clover="3.2.0">
+  <project timestamp="1721098477061" name="All files">
+    <metrics statements="1023" coveredstatements="387" conditionals="203" coveredconditionals="42" methods="239" coveredmethods="54" elements="1465" coveredelements="483" complexity="0" loc="1023" ncloc="1023" packages="25" files="39" classes="39"/>
     <package name="core.common.logger">
       <metrics statements="14" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="ApiLoggerService.ts" path="/home/runner/work/back-end/back-end/src/core/common/logger/ApiLoggerService.ts">
@@ -857,9 +857,9 @@
       </file>
     </package>
     <package name="core.module.schedule-job">
-      <metrics statements="24" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="4" coveredmethods="0"/>
+      <metrics statements="25" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="4" coveredmethods="0"/>
       <file name="BackUpDataService.ts" path="/home/runner/work/back-end/back-end/src/core/module/schedule-job/BackUpDataService.ts">
-        <metrics statements="24" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <metrics statements="25" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
@@ -877,13 +877,14 @@
         <line num="20" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="21" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="40" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="39" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
       </file>
     </package>
     <package name="core.module.user">
