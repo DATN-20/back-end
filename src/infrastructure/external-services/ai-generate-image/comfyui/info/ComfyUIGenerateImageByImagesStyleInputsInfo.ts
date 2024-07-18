@@ -8,12 +8,13 @@ import { TextInput } from '../../type/GenerateInput/TextInput';
 import { ComfyUIControlNetForIpadapterInfo } from '../control-net/ComfyUIControlNetForIpadapterInfo';
 
 export class ComfyUIGenerateImageByImagesStyleInputsInfo {
-  private positivePrompDesc = '';
+  private positivePrompDesc =
+    'Describe the elements or scene you want in the image. Be specific for better results.';
   private positivePrompName = 'Positive Prompt';
   private positivePrompPropertyName = 'positivePrompt';
 
   private negativePrompName = 'Negative Prompt';
-  private negativePrompDesc = '';
+  private negativePrompDesc = 'Specify elements or aspects you want to avoid in the image.';
   private negativePrompPropertyName = 'negativePrompt';
 
   private widthName = 'Width';
@@ -33,7 +34,7 @@ export class ComfyUIGenerateImageByImagesStyleInputsInfo {
   private heightInputPropertyName = 'height';
 
   private sizeName = 'Number of Image';
-  private sizeDesc = '';
+  private sizeDesc = 'Number of image you want to generate.';
   private sizeMin = 1;
   private sizeMax = 4;
   private sizeDefault = 1;
@@ -45,7 +46,8 @@ export class ComfyUIGenerateImageByImagesStyleInputsInfo {
   private seedInputPropertyName = 'seed';
 
   private stepsName = 'Steps';
-  private stepsDesc = '';
+  private stepsDesc =
+    'Set the number of iterations for generating the image. More steps can improve detail but take longer.';
   private stepMin = 1;
   private stepMax = 50;
   private stepDefault = 20;
@@ -54,14 +56,17 @@ export class ComfyUIGenerateImageByImagesStyleInputsInfo {
 
   private samplerChoices: { [key: string]: string } = {
     Dpmpp_2m: 'dpmpp_2m',
+    Dpmpp_2s_a: 'dpmpp_2s_ancestral',
   };
-  private samplerDesc = '';
+  private samplerDesc =
+    'Choose the algorithm used to generate the image. Different methods can affect the style and quality.';
   private samplerName = 'Sampling Method';
   private samplerDefault = this.samplerChoices.Dpmpp_2m;
   private sampleMethosInputPropertyName = 'sampleMethos';
 
   private cfgName = 'CFG';
-  private cfgDesc = '';
+  private cfgDesc =
+    'Adjust the strength of guidance for the prompt. Higher values can make the image more closely match the prompt.';
   private cfgMin = 1;
   private cfgMax = 30;
   private cfgDefault = 8;

@@ -2,6 +2,9 @@ import * as winston from 'winston';
 import { ApiLogProperty } from './ApiLoggerProperty';
 import { ElasticsearchTransport } from 'winston-elasticsearch';
 import { ElasticSearchConfig } from '@infrastructure/config/ElasticSearchConfig';
+import { Logger } from '@nestjs/common';
+
+const logger = new Logger('ApiLogger');
 
 const ApiLogger = winston.createLogger({
   format: winston.format.combine(
@@ -26,6 +29,10 @@ const ApiLogger = winston.createLogger({
       clientOpts: { node: ElasticSearchConfig.ELASTICSEARCH_URL },
     }),
   ],
+});
+
+ApiLogger.on('error', err => {
+  logger.error('Winston Elasticsearch transport error:', err);
 });
 
 export default ApiLogger;
