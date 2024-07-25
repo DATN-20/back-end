@@ -54,14 +54,18 @@ export class ComfyUISokcet extends BaseSocketClient {
             break;
           case ComfyUITypeMessageSocket.EXECUTING:
           case ComfyUITypeMessageSocket.PROGRESS:
-            if (this.generationService && !this.isSkipStatus) {
-              this.generationService.handleChangeStatusOfGeneration(
-                this.clientId,
-                GenerationStatus.PROCESSING,
-              );
+            try {
+              if (this.generationService && !this.isSkipStatus) {
+                this.generationService.handleChangeStatusOfGeneration(
+                  this.clientId,
+                  GenerationStatus.PROCESSING,
+                );
+              }
+            } catch (error) {
+              this.logger.error(error);
+            } finally {
+              break;
             }
-
-            break;
           default:
             break;
         }
