@@ -1,4 +1,4 @@
-import mysql from 'mysql2/promise';
+import { createPool } from 'mysql2/promise';
 import { drizzle, MySql2Database } from 'drizzle-orm/mysql2';
 import * as schema from './schema';
 import { DatabaseConfig } from '@infrastructure/config/DatabaseConfig';
@@ -9,7 +9,7 @@ export const drizzleProvider = [
   {
     provide: DrizzleAsyncProvider,
     useFactory: async (): Promise<MySql2Database<typeof schema>> => {
-      const poolConnection = mysql.createPool({
+      const poolConnection = createPool({
         host: DatabaseConfig.DATABASE_HOST,
         user: DatabaseConfig.DATABASE_USER,
         database: DatabaseConfig.DATABASE_NAME,
