@@ -159,7 +159,7 @@ export class GenerationService {
   async handleSendNotificationAndUpdate(user: User, generation: Generation): Promise<void> {
     const content =
       generation.status === GenerationStatus.PROCESSING
-        ? 'We will notify you soon if your generation is finished or canceled!'
+        ? 'The process typically completes within 30 seconds to 1 minute under normal circumstances. However, in some special cases, it may take longer.'
         : 'Click to view the result of your generation!';
 
     const notification = await this.notificationRepository.create(

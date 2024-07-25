@@ -86,19 +86,21 @@ export class ComfyUIApi {
         async output_images => {
           const list_image_buffer = [];
 
-          for (const image_data of output_images) {
-            const image_buffer = await this.getImage(
-              image_data.filename,
-              image_data.type,
-              image_data.subfolder,
-            );
+          try {
+            for (const image_data of output_images) {
+              const image_buffer = await this.getImage(
+                image_data.filename,
+                image_data.type,
+                image_data.subfolder,
+              );
 
-            list_image_buffer.push(image_buffer);
+              list_image_buffer.push(image_buffer);
+            }
+
+            resolve(list_image_buffer);
+          } catch (error) {
+            reject(AIGenerateImageError.COMFYUI_ERROR);
           }
-
-          resolve(list_image_buffer);
-
-          reject(AIGenerateImageError.COMFYUI_ERROR);
         },
       );
     });
